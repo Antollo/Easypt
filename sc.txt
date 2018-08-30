@@ -1,0 +1,16 @@
+#	easypt -file ../../sc.txt		#
+
+var y;
+var n;
+y.=("yes"), n.=("no");
+if (1,{
+	errorOut(y);
+}, {
+	errorOut(n);
+});
+var str.=("Hello world!");
+errorOut(str.begin().get());
+var it.=(str.begin());
+it.++();
+it.++();
+errorOut(it.get());
