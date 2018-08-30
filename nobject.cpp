@@ -118,7 +118,7 @@ object::objectPtr object::debugTree(int indentation)
 {
     std::string spaces(indentation * 4, ' ');
     IO::console<<spaces<<"Name:       "<<(std::string)myName<<"\n";
-    IO::console<<spaces<<"Location:   "<<std::to_string((int)this)<<"\n";
+    IO::console<<spaces<<"Location:   "<<std::to_string((intptr_t)this)<<"\n";
     IO::console<<spaces<<"Parent:     "<<((parent != nullptr)?(std::string)parent->getName():"")<<"\n";
     if (signatures.size())
     {

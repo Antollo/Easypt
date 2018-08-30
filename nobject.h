@@ -10,6 +10,8 @@
 #include <vector>
 #include <unordered_set>
 #include <iostream>
+#include <cstdint>
+
 class object;
 typedef std::shared_ptr<object> objectPtr;
 typedef std::vector<objectPtr> argsContainer;

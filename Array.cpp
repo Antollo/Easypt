@@ -1,3 +1,3 @@
-#include "array.h"
+#include "Array.h"
 
 //TODO implement array
