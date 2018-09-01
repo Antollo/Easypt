@@ -21,7 +21,9 @@ object::objectPtr String (object::objectPtr obj, object::argsContainer& args)
 //String methods
 object::objectPtr StringToString (object::objectPtr obj, object::argsContainer& args)
 {
-    return obj->getParent()->copy();
+    object::objectPtr ret = obj->READ(name("String"), true)->CALL();
+    ret->getValue() = obj->getParent()->getValue();
+    return ret;
 }
 object::objectPtr StringToInt (object::objectPtr obj, object::argsContainer& args)
 {
@@ -96,9 +98,13 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
             int index = std::any_cast<int>(args[0]->READ(name("toInt"))->CALL()->getValue());
             if (index >= 0 && index < std::any_cast<std::string>(obj->getParent()->getValue()).size())
             {
-                object::objectPtr ret = obj->READ(name("String"), true)->CALL();
-                ret->getValue() = std::string(1, std::any_cast<std::string>(obj->getParent()->getValue()).at(index));
+
+                object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
+                ret->getValue() = (*std::any_cast<std::string>(&obj->getParent()->getValue())).begin() + index;
                 return ret;
+                //object::objectPtr ret = obj->READ(name("String"), true)->CALL();
+                //ret->getValue() = std::string(1, std::any_cast<std::string>(obj->getParent()->getValue()).at(index));
+                //return ret;
             }
             else
             {
@@ -140,12 +146,14 @@ object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& 
     ret->addChild(obj->READ(name("--"))->copy());
     ret->addChild(obj->READ(name("get"))->copy());
     ret->addChild(obj->READ(name("=="))->copy());
+    ret->addChild(obj->READ(name("="))->copy());
     ret->getValue() = std::string::iterator();
     return ret;
 }
 //StringIterator methods
 object::objectPtr StringIteratorIncrement (object::objectPtr obj, object::argsContainer& args)
 {
+    //obj->getParent()->getValue() = ++std::any_cast<std::string::iterator>(obj->getParent()->getValue());
     (*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()))++;
     return obj->getParent();
 }
@@ -164,12 +172,28 @@ object::objectPtr StringIteratorEqualOperator (object::objectPtr obj, object::ar
 {
     if (args.size() == 1)
     {
-        bool firstComparison = ((obj->getParent()->getSignatures() == args[0]->getSignatures()) && (obj->getParent()->getChildren() == args[0]->getChildren()));
+        bool firstComparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
         if (firstComparison)
             firstComparison = (std::any_cast<std::string::iterator>(args[0]->getValue()) == std::any_cast<std::string::iterator>(obj->getParent()->getValue()));
         object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
         ret->getValue() = firstComparison;
         return ret;
+    }
+    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr StringIteratorAssignOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("Basic")))
+        {
+            (*(*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()))) = std::any_cast<std::string>(args[0]->READ(name("toString"))->CALL()->getValue())[0];
+            return obj->getParent();
+        }
+        else
+        {
+            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
+        }
     }
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }

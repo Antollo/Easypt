@@ -3,14 +3,22 @@
 var y;
 var n;
 y.=("yes"), n.=("no");
-if (1,{
-	errorOut(y);
-}, {
-	errorOut(n);
-});
 var str.=("Hello world!");
-errorOut(str.begin().get());
+str[2].=("M");
+errorOut(str[2].get());
+if (y.==("yes").!(), 
+{
+	errorOut("bad");
+},{
+	errorOut("good");
+});
+
+var condition.<-(1.toBoolean());
 var it.=(str.begin());
-it.++();
-it.++();
-errorOut(it.get());
+for({Root}, condition,Null, {
+	errorOut(it.get());
+	it.++();
+	if ( it.==(str.end()), {
+		condition.!();
+	})
+});

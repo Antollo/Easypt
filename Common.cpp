@@ -9,7 +9,7 @@ object::objectPtr parse (object::objectPtr obj, object::argsContainer& args)
         {
             std::string source = std::any_cast<std::string>(args[0]->getValue());
             object::objectPtr ret = obj->READ(name("BlockCallable"), true)->CALL();
-            parser par(source.c_str(), source.size() - 1, object::Root);
+            parser par(source.c_str(), source.size() - 1, object::getRoot());
             ret->getValue() = par.parse();
             return ret;
 
@@ -27,6 +27,8 @@ object::objectPtr errorOut (object::objectPtr obj, object::argsContainer& args)
             IO::errorOut << std::any_cast<std::string>(arg->getValue());
         if (arg->getValue().type().hash_code() == typeid(int).hash_code())
             IO::errorOut << std::any_cast<int>(arg->getValue());
+        if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
+            IO::errorOut << std::any_cast<bool>(arg->getValue());
     };
     return obj->READ(name("Null"), true)->CALL();
 }

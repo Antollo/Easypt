@@ -14,6 +14,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
     try
     {
         Root->addChild(std::make_shared<object>(Object, name("Object"))
+            ->addChild(std::make_shared<object>(assignOperator, name("=")))
             ->addChild(std::make_shared<object>(instanceOf, name("instanceOf")))
             ->addChild(std::make_shared<object>(merge, name("merge")))
             ->addChild(std::make_shared<object>(getParent, name("getParent")))
@@ -62,6 +63,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(std::make_shared<object>(StringIteratorDecrement, name("--")))
             ->addChild(std::make_shared<object>(StringIteratorGet, name("get")))
             ->addChild(std::make_shared<object>(StringIteratorEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(StringIteratorAssignOperator, name("=")))
         );
 
         Root->addChild(std::make_shared<object>(Int, name("Int"))
@@ -73,11 +75,12 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
         );
 
         Root->addChild(std::make_shared<object>(Boolean, name("Boolean"))
-            ->addChild(std::make_shared<object>(nullptr, name("toString")))
-            ->addChild(std::make_shared<object>(nullptr, name("toInt")))
-            ->addChild(std::make_shared<object>(nullptr, name("toDouble")))
-            ->addChild(std::make_shared<object>(nullptr, name("toBoolean")))
-            ->addChild(std::make_shared<object>(nullptr, name("==")))
+            ->addChild(std::make_shared<object>(BooleanToString, name("toString")))
+            ->addChild(std::make_shared<object>(BooleanToInt, name("toInt")))
+            ->addChild(std::make_shared<object>(BooleanToDouble, name("toDouble")))
+            ->addChild(std::make_shared<object>(BooleanToBoolean, name("toBoolean")))
+            ->addChild(std::make_shared<object>(BooleanEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(BooleanNegateOperator, name("!")))
         );
 
         Root->addChild(std::make_shared<object>(BlockCallable, name("BlockCallable"))

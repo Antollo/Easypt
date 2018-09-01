@@ -16,7 +16,6 @@ class object;
 typedef std::shared_ptr<object> objectPtr;
 typedef std::vector<objectPtr> argsContainer;
 
-objectPtr assignOperator (objectPtr obj, argsContainer& args);
 objectPtr moveOperator (objectPtr obj, argsContainer& args);
 
 class object : public std::enable_shared_from_this<object>
@@ -53,7 +52,7 @@ class object : public std::enable_shared_from_this<object>
             children[child->getName()] = child;
             child->setParent(this);
             if (value.type().hash_code() != typeid(nativeFunctionType).hash_code())
-                child->addChild(assignOperator->copy())->addChild(moveOperator->copy());
+                child->addChild(moveOperator->copy());
             return shared_from_this();
         }
         childrenType& getChildren() { return children; }
@@ -75,25 +74,32 @@ class object : public std::enable_shared_from_this<object>
                 copyOfThis->addChild(child.second->copy());
             return copyOfThis;
         }
+        objectPtr fixChildren()
+        {
+            for(auto& child : children)
+                addChild(child.second->fixChildren());
+            return shared_from_this();
+        }
 
         objectPtr debugTree(int indentation);
         static void initialize(objectPtr newRoot)
         {
             Root = newRoot;
-            assignOperator = std::make_shared<object>(::assignOperator, name("="));
             moveOperator = std::make_shared<object>(::moveOperator, name("<-"));
         }
-        static void release() { Root.reset(); assignOperator.reset(); moveOperator.reset(); }
-        static objectPtr Root;
+        static void release() { Root.reset(); moveOperator.reset(); }
+        static objectPtr getRoot() { return Root; }
     private:
+        static objectPtr Root;
         static int objectCounter;
-        static objectPtr assignOperator;
         static objectPtr moveOperator;
 
         std::any value;
         childrenType children;
         object* parent;
         name myName;
+        //Longest name in this project:
+        objectPtr* pointerToPointerToMeFromWhichIWasAccessed;
         signaturesContainer signatures;
 };
 

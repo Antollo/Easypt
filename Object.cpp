@@ -5,6 +5,7 @@ object::objectPtr Object (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = std::make_shared<object>();
     ret->addSignature(obj->getName());
+    ret->addChild(obj->READ(name("="))->copy());
     ret->addChild(obj->READ(name("instanceOf"))->copy());
     ret->addChild(obj->READ(name("merge"))->copy());
     ret->addChild(obj->READ(name("getParent"))->copy());
@@ -14,6 +15,21 @@ object::objectPtr Object (object::objectPtr obj, object::argsContainer& args)
     return ret;
 }
 //Object methods
+object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        object::objectPtr tempCopy = args[0]->copy();
+        tempCopy->getName() = obj->getParent()->getName();
+        *(obj->getParent()) = *(args[0]->copy());
+        return obj->getParent()->fixChildren();
+    }
+        //return obj->getParent()->getParent()->getChildren()[obj->getParent()->getName()] = args[0];
+    else
+    {
+        throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    }
+}
 object::objectPtr merge (object::objectPtr obj, object::argsContainer& args)
 {
     for(auto& arg : args)
@@ -37,7 +53,7 @@ object::objectPtr equalOperator (object::objectPtr obj, object::argsContainer& a
 {
     if (args.size() == 1)
     {
-        bool firstComparison = ((obj->getParent()->getSignatures() == args[0]->getSignatures()) && (obj->getParent()->getChildren() == args[0]->getChildren()));
+        bool firstComparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
         object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
         ret->getValue() = firstComparison;
         return ret;

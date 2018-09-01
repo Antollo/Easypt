@@ -3,12 +3,11 @@
 //#define DEBUG
 
 int object::objectCounter = 0;
-object::objectPtr object::assignOperator;
 object::objectPtr object::moveOperator;
 object::objectPtr object::Root;
 
 object::object(std::any newValue, name newName)
-    :value(newValue), myName(newName), parent(nullptr)
+    :value(newValue), myName(newName), parent(nullptr), pointerToPointerToMeFromWhichIWasAccessed(nullptr)
 {
     #if defined(DEBUG)
     std::cout<<" CREATE "<<getFullNameString()<<std::endl;
@@ -55,7 +54,6 @@ object::objectPtr object::READCALL(object::objectPtr arg)
     if (children.count(name("readOperator")))
         return children[name("readOperator")]->CALL(arg);
     throw(exception("Object ", getFullNameString(), " has no readOperator"));
-    return std::make_shared<object>();
 }
 
 object::objectPtr object::CALL(object::argsContainer& args)
@@ -143,15 +141,6 @@ object::objectPtr object::debugTree(int indentation)
     return shared_from_this();
 }
 
-object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-        return obj->getParent()->getParent()->getChildren()[obj->getParent()->getName()] = args[0];
-    else
-    {
-        throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-    }
-}
 
 object::objectPtr moveOperator (object::objectPtr obj, object::argsContainer& args)
 {

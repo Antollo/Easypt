@@ -4,6 +4,7 @@
 #include "nobject.h"
 
 object::objectPtr Object (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr assignOperator (objectPtr obj, argsContainer& args);
 object::objectPtr merge (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr destructor (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr copy (object::objectPtr obj, object::argsContainer& args);

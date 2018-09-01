@@ -95,7 +95,7 @@ std::list<expression> parser::parse()
                 #if defined(DEBUG)
                 std::cout<<">call <"<<std::string(source + iterator + 1, temp - iterator - 1)<<">\n";
                 #endif
-                parser internal(source + iterator + 1, temp - iterator - 2, Root);
+                parser internal(source + iterator + 1, temp - iterator - 1, Root);
                 expressions.back().push_back(std::make_shared<call>(internal.parse()));
                 iterator = temp + 1;
                 break;
@@ -134,7 +134,7 @@ std::list<expression> parser::parse()
                 if (!Root->hasChild(name(std::string(source + iterator, temp - iterator + 1))))
                 {
                     object::objectPtr str = parser::Root->READ(name("BlockCallable"), true)->CALL();
-                    parser internal(source + iterator + 1, temp - iterator - 2, Root);
+                    parser internal(source + iterator + 1, temp - iterator - 1, Root);
                     str->getValue() = internal.parse();
                     str->getName() = name(std::string(source + iterator, temp - iterator + 1));
                     Root->addChild(str);
@@ -177,7 +177,7 @@ std::list<expression> parser::parse()
                 bool dotEncountered = false, minusEncountered = false;
                 temp = iterator;
                 while (temp < last && (std::isdigit(source[temp])
-                    || (source[temp] == '.' && dotEncountered == false)
+                    || (source[temp] == '.' && dotEncountered == false && temp+1 <= last && std::isdigit(source[temp+1]))
                     || (source[temp] == '-' && minusEncountered == false)))
                 {
                     if (source[temp] == '.') dotEncountered = true;

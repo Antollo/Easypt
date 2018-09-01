@@ -19,5 +19,6 @@ object::objectPtr StringIteratorIncrement (object::objectPtr obj, object::argsCo
 object::objectPtr StringIteratorDecrement (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringIteratorGet (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringIteratorEqualOperator (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr StringIteratorAssignOperator (object::objectPtr obj, object::argsContainer& args);
 
 #endif
