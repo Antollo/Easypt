@@ -91,14 +91,27 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(std::make_shared<object>(BlockCallableEqualOperator, name("==")))
         );
 
+        Root->addChild(std::make_shared<object>(Array, name("Array"))
+            ->addChild(std::make_shared<object>(ArrayBegin, name("begin")))
+            ->addChild(std::make_shared<object>(ArrayEnd, name("end")))
+            ->addChild(std::make_shared<object>(ArrayReadOperator, name("readOperator")))
+            ->addChild(std::make_shared<object>(ArraySize, name("size")))
+            ->addChild(std::make_shared<object>(ArrayEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(ArrayPushBack, name("pushBack")))
+        );
+
+        Root->addChild(std::make_shared<object>(ArrayIterator, name("ArrayIterator"))
+            ->addChild(std::make_shared<object>(ArrayIteratorIncrement, name("++")))
+            ->addChild(std::make_shared<object>(ArrayIteratorDecrement, name("--")))
+            ->addChild(std::make_shared<object>(ArrayIteratorGet, name("get")))
+            ->addChild(std::make_shared<object>(ArrayIteratorEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(ArrayIteratorAssignOperator, name("=")))
+        );
+
         Root->addChild(std::make_shared<object>(parse, name("parse"))
         );
 
-        //object::argsType args (0, object::objectPtr());
-        //object::objectPtr O = std::make_shared<object>(F, object::objectPtr(), name("Root"));
-        //Parser(Root, args);
-        // O->CALL(args);
-        //Root->READ(name("abc"), true);
+        Root->addChild(Root->READ(name("Array"))->CALL()->setName("launchArgs"));
     }
     catch (exception& e)
     {

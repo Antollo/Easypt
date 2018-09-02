@@ -121,7 +121,7 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
 object::objectPtr StringSize (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
-    ret->getValue() = std::any_cast<std::string>(obj->getParent()->getValue()).size();
+    ret->getValue() = (int) std::any_cast<std::string>(obj->getParent()->getValue()).size();
     return ret;
 }
 object::objectPtr StringEqualOperator (object::objectPtr obj, object::argsContainer& args)

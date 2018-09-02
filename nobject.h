@@ -61,8 +61,10 @@ class object : public std::enable_shared_from_this<object>
         objectPtr getParent(bool throwing = true);
         void setParent(object* newParent) { parent = newParent; }
         name& getName() { return myName; }
+        objectPtr setName(name newName) { myName = newName; return shared_from_this(); }
         std::string getFullNameString() { if(parent != nullptr) return parent->getFullNameString() + std::string(".") + (std::string)getName(); return (std::string)getName(); }
         std::any& getValue() { return value; }
+        objectPtr setValue(std::any newValue) { value = newValue; return shared_from_this(); }
         void addSignature(name signature) { signatures.insert(signature); }
         bool hasSignature(name signature) { return signatures.count(signature); }
         signaturesContainer& getSignatures() { return signatures; }

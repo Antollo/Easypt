@@ -22,3 +22,18 @@ for({Root}, condition,Null, {
 		condition.!();
 	})
 });
+
+var arr.=(Array());
+arr.pushBack("heh");
+arr.pushBack("huh");
+errorOut(arr.size());
+errorOut(arr[0].get());
+errorOut(launchArgs[0].get());
+errorOut(launchArgs[1].get());
+
+var func.=({
+errorOut(args[0].get());
+args[0].debugTree();
+});
+
+func("func");

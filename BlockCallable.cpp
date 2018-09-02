@@ -66,12 +66,13 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
 }
 object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::argsContainer& args)
 {
-    //TODO make args array
     //TODO return something
     std::list<expression> expressions = std::any_cast<std::list<expression>>(obj->getParent()->getValue());
     object::objectPtr parent = obj->getParent();
+    parent->addChild(obj->READ(name("Array"), true)->CALL()->setValue(args)->setName("args"));
+
     for(const expression& exp : expressions)
-        evaluateExpression(exp, parent);//->debugTree(0);
+        evaluateExpression(exp, parent);
     return obj->READ(name("Null"), true)->CALL();
 }
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args)

@@ -66,5 +66,5 @@ object::objectPtr debugTree (object::objectPtr obj, object::argsContainer& args)
         obj->getParent()->debugTree(0);
     else
         obj->debugTree(0);
-    return obj;
+    return obj->getParent();
 }

@@ -24,9 +24,13 @@ int main(int argc, char** argv)
             std::getline(sourceFile, source, (char)EOF);
             sourceFile.close();
         }
-        if (std::strcmp(argv[i], "-entryPoint") == 0 && i != argc-1)
+        else if (std::strcmp(argv[i], "-entryPoint") == 0 && i != argc-1)
         {
             entryPoint = argv[++i];
+        }
+        else
+        {
+            RootWithFather.second->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(RootWithFather.second->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
         }
     }
     try
@@ -44,18 +48,6 @@ int main(int argc, char** argv)
         //TODO BlockCallable should change its name itself
         entryPointBlockCallable->getName() = "EntryPointBlockCallable";
         entryPointBlockCallable->CALL();
-
-        //x->debugTree(0);
-        //object::objectPtr a = RootWithFather.first->READ(name("Root"))->READ(name("xyz"))->READCALL(RootWithFather.first->READ(name("Root"))->READ(name("1")))->debugTree(0);
-        //RootWithFather.first->debugTree(0);
-        //object::objectPtr a = RootWithFather.first->READ(name("Root"))->READ(name("String"))->CALL();
-        //a->getValue() = std::string("100000");
-        //a->READ(name("toInt"))->CALL();
-        //RootWithFather.first->READ(name("Root"))->READ(name("String"))->CALL()->debugTree(0);
-        //RootWithFather.first->debugTree(0);//READ(name("Root"))->CALL()->READ(name("="))->CALL()->END();
-        //object::objectPtr lol = std::make_shared<object>(std::string("lol"), name("lol"));
-        //lol->READ(name("Root"), true);
-        //std::cout<< (*(Root->READ(name("Null"))->CALL()) == *(Root->READ(name("Null"))->CALL()));
     }
     catch (exception& e)
     {

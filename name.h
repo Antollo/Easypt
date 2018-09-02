@@ -3,7 +3,40 @@
 
 #include <memory>
 #include <map>
-//TODO remove std::string and use something faster
+#include <cstring>
+/*class fastString
+{
+public:
+    fastString()
+    : value(nullptr) {};
+    fastString(const char* newValue)
+    : fastString(newValue, std::strlen(newValue)) {};
+    fastString(const char* newValue, size_t size)
+    {
+        if (size == 0) throw ("problem here");
+        value = new char [size];
+        std::strncpy(value, newValue, size);
+    }
+    ~fastString()
+    {
+    	delete [] value;
+    }
+    bool operator == (const fastString& another) const
+    {
+    	return  std::strcmp(value, another.value) == 0;
+    }
+    bool operator < (const fastString& another) const
+    {
+    	return  std::strcmp(value, another.value) < 0;
+    }
+    operator std::string() const
+    {
+        return std::string(value);
+    }
+private:
+    char* value;
+};*/
+
 class name
 {
 public:
