@@ -5,10 +5,10 @@ object::objectPtr Basic (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("toString"))->copy());
-    ret->addChild(obj->READ(name("toInt"))->copy());
-    ret->addChild(obj->READ(name("toDouble"))->copy());
-    ret->addChild(obj->READ(name("toBoolean"))->copy());
+    #if defined(DEBUG)
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
+    #endif
     return ret;
 };
 //Iterable constructor
@@ -16,8 +16,10 @@ object::objectPtr Iterable (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("begin"))->copy());
-    ret->addChild(obj->READ(name("end"))->copy());
+    #if defined(DEBUG)
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
+    #endif
     return ret;
 };
 //Iterator constructor
@@ -25,9 +27,10 @@ object::objectPtr Iterator (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("++"))->copy());
-    ret->addChild(obj->READ(name("--"))->copy());
-    ret->addChild(obj->READ(name("get"))->copy());
+    #if defined(DEBUG)
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
+    #endif
     return ret;
 };
 //Container constructor
@@ -35,7 +38,9 @@ object::objectPtr Container (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Iterable"), true)->CALL();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("readOperator"))->copy());
-    ret->addChild(obj->READ(name("size"))->copy());
+    #if defined(DEBUG)
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
+    #endif
     return ret;
 };

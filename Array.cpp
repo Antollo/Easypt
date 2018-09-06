@@ -5,12 +5,8 @@ object::objectPtr Array (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Container"), true)->CALL();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("begin"))->copy());
-    ret->addChild(obj->READ(name("end"))->copy());
-    ret->addChild(obj->READ(name("readOperator"))->copy());
-    ret->addChild(obj->READ(name("size"))->copy());
-    ret->addChild(obj->READ(name("=="))->copy());
-    ret->addChild(obj->READ(name("pushBack"))->copy());
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
     ret->getValue() = std::vector<object::objectPtr>();
     return ret;
 }
@@ -87,11 +83,8 @@ object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& a
 {
     object::objectPtr ret = obj->READ(name("Iterator"), true)->CALL();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("++"))->copy());
-    ret->addChild(obj->READ(name("--"))->copy());
-    ret->addChild(obj->READ(name("get"))->copy());
-    ret->addChild(obj->READ(name("=="))->copy());
-    ret->addChild(obj->READ(name("="))->copy());
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
     ret->getValue() = std::string::iterator();
     return ret;
 }

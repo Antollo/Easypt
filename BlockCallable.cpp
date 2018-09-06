@@ -28,14 +28,6 @@ object::objectPtr BlockCallableEqualOperator (object::objectPtr obj, object::arg
     }
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-/*enum type {call, read, readcall};
-
-    virtual std::list<expression>& getExpressionList() = 0;
-    virtual name& getName() = 0;
-    virtual bool& getForceCreate() = 0;
-    virtual bool& getSearchInParent() = 0;
-    virtual expression& getExpression() = 0;
-    virtual type getType() = 0;*/
 object::objectPtr evaluateExpression(const expression& exp, object::objectPtr parent)
 {
     object::objectPtr temp = parent;
@@ -73,7 +65,7 @@ object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::args
 
     for(const expression& exp : expressions)
         evaluateExpression(exp, parent);
-    return obj->READ(name("Null"), true)->CALL();
+    return obj->getParent()->READ(name("return"), false, true);
 }
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args)
 {
@@ -103,13 +95,13 @@ object::objectPtr BlockCallableFor (object::objectPtr obj, object::argsContainer
 {
     if (args.size() == 4)
     {
-        args[0]->CALL();
+        //args[0]->CALL();
         if (!args[1]->hasSignature(name("Basic")))
             throw(exception("First argument is not Basic in ", obj->getFullNameString()));
         while (std::any_cast<bool>(args[1]->READ(name("toBoolean"))->CALL()->getValue()))
         {
             args[3]->callWithParent(obj);
-            args[2]->callWithParent(obj);
+            args[2]->CALL();
             if (!args[1]->hasSignature(name("Basic")))
                 throw(exception("First argument is not Basic in ", obj->getFullNameString()));
         }

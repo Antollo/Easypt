@@ -6,9 +6,6 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
     object::initialize(Root);
     object::objectPtr dot = std::make_shared<object>(nullptr, name("."))->addChild(Root);
 
-    Root->addChild(std::make_shared<object>(Null, name("Null"))
-        ->addChild(std::make_shared<object>(instanceOf, name("instanceOf")))
-    );
     Root->addChild(std::make_shared<object>(errorOut, name("errorOut")));
     //Exception handling ready, here the fun starts
     try
@@ -19,7 +16,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(std::make_shared<object>(merge, name("merge")))
             ->addChild(std::make_shared<object>(getParent, name("getParent")))
             ->addChild(std::make_shared<object>(copy, name("copy")))
-            ->addChild(std::make_shared<object>(equalOperator, name("==")))
+            ->addChild(std::make_shared<object>(equalTypeOperator, name("===")))
             ->addChild(std::make_shared<object>(debugTree, name("debugTree")))
         );
 
@@ -55,14 +52,16 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(std::make_shared<object>(StringEnd, name("end")))
             ->addChild(std::make_shared<object>(StringReadOperator, name("readOperator")))
             ->addChild(std::make_shared<object>(StringSize, name("size")))
-            ->addChild(std::make_shared<object>(StringEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(T2BOperator<std::string, std::equal_to, typeNames::String>, name("==")))
+            ->addChild(std::make_shared<object>(T2TOperator<std::string, std::plus, typeNames::String>, name("+")))
         );
 
         Root->addChild(std::make_shared<object>(StringIterator, name("StringIterator"))
-            ->addChild(std::make_shared<object>(StringIteratorIncrement, name("++")))
+            //->addChild(std::make_shared<object>(StringIteratorIncrement, name("++")))
+            ->addChild(std::make_shared<object>(VMethod<std::string::iterator, std::string::iterator& (std::string::iterator::*)(), std::string::iterator::operator++>, name("++")))
             ->addChild(std::make_shared<object>(StringIteratorDecrement, name("--")))
             ->addChild(std::make_shared<object>(StringIteratorGet, name("get")))
-            ->addChild(std::make_shared<object>(StringIteratorEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(T2BOperator<std::string::iterator, std::equal_to, typeNames::StringIterator>, name("==")))
             ->addChild(std::make_shared<object>(StringIteratorAssignOperator, name("=")))
         );
 
@@ -71,7 +70,12 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(std::make_shared<object>(IntToInt, name("toInt")))
             ->addChild(std::make_shared<object>(IntToDouble, name("toDouble")))
             ->addChild(std::make_shared<object>(IntToBoolean, name("toBoolean")))
-            ->addChild(std::make_shared<object>(IntEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(T2BOperator<int, std::equal_to, typeNames::Int>, name("==")))
+            ->addChild(std::make_shared<object>(T2TOperator<int, std::plus, typeNames::Int>, name("+")))
+            ->addChild(std::make_shared<object>(T2TOperator<int, std::minus, typeNames::Int>, name("-")))
+            ->addChild(std::make_shared<object>(T2TOperator<int, std::multiplies, typeNames::Int>, name("*")))
+            ->addChild(std::make_shared<object>(T2TOperator<int, std::divides, typeNames::Int>, name("/")))
+            ->addChild(std::make_shared<object>(T2TOperator<int, std::modulus, typeNames::Int>, name("%")))
         );
 
         Root->addChild(std::make_shared<object>(Boolean, name("Boolean"))
@@ -79,8 +83,8 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(std::make_shared<object>(BooleanToInt, name("toInt")))
             ->addChild(std::make_shared<object>(BooleanToDouble, name("toDouble")))
             ->addChild(std::make_shared<object>(BooleanToBoolean, name("toBoolean")))
-            ->addChild(std::make_shared<object>(BooleanEqualOperator, name("==")))
-            ->addChild(std::make_shared<object>(BooleanNegateOperator, name("!")))
+            ->addChild(std::make_shared<object>(T2BOperator<bool, std::equal_to, typeNames::Boolean>, name("==")))
+            ->addChild(std::make_shared<object>(T1TOperator<bool, std::logical_not, typeNames::Boolean>, name("!")))
         );
 
         Root->addChild(std::make_shared<object>(BlockCallable, name("BlockCallable"))
@@ -88,7 +92,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(std::make_shared<object>(nullptr, name("while")))
             ->addChild(std::make_shared<object>(BlockCallableFor, name("for")))
             ->addChild(std::make_shared<object>(BlockCallableCallOperator, name("callOperator")))
-            ->addChild(std::make_shared<object>(BlockCallableEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(T2BOperator< std::list<expression>, std::equal_to, typeNames::BlockCallable>, name("==")))
         );
 
         Root->addChild(std::make_shared<object>(Array, name("Array"))
@@ -96,7 +100,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(std::make_shared<object>(ArrayEnd, name("end")))
             ->addChild(std::make_shared<object>(ArrayReadOperator, name("readOperator")))
             ->addChild(std::make_shared<object>(ArraySize, name("size")))
-            ->addChild(std::make_shared<object>(ArrayEqualOperator, name("==")))
+            ->addChild(std::make_shared<object>(T2BOperator< std::vector<object>, std::equal_to, typeNames::Array>, name("==")))
             ->addChild(std::make_shared<object>(ArrayPushBack, name("pushBack")))
         );
 

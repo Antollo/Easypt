@@ -9,7 +9,8 @@ object::objectPtr merge (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr destructor (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr copy (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr getParent (object::objectPtr obj, object::argsContainer& args);
-object::objectPtr equalOperator (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr equalTypeOperator (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr debugTree (object::objectPtr obj, object::argsContainer& args);
 
 #endif

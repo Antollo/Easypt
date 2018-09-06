@@ -30,23 +30,20 @@ object::objectPtr errorOut (object::objectPtr obj, object::argsContainer& args)
         if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
             IO::errorOut << std::any_cast<bool>(arg->getValue());
     };
-    return obj->READ(name("Null"), true)->CALL();
+    return obj->READ(name("Object"), true)->CALL();
 }
-//Null and Object method instanceOf
-object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args)
+
+object::objectPtr WrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args)
 {
-    bool isInstanceOf = true;
-    for(auto& arg : args)
-        isInstanceOf = isInstanceOf && obj->hasSignature(arg->getName());
-    object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-    ret->getValue() = std::any(isInstanceOf);
-    return ret;
+    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-//Null constructor
-object::objectPtr Null (object::objectPtr obj, object::argsContainer& args)
-{
-    object::objectPtr ret = std::make_shared<object>(nullptr, "null");
-    ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("instanceOf"))->copy());
-    return ret;
-}
+
+const char typeNames::Object[] = "Object";
+const char typeNames::String[] = "String";
+const char typeNames::StringIterator[] = "StringIterator";
+const char typeNames::Int[] = "Int";
+const char typeNames::Boolean[] = "Boolean";
+const char typeNames::Double[] = "Double";
+const char typeNames::Array[] = "Array";
+const char typeNames::ArrayIterator[] = "ArrayIterator";
+const char typeNames::BlockCallable[] = "BlockCallable";

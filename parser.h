@@ -91,6 +91,9 @@ class parser
             case '<':
             case '>':
             case ':':
+            case '*':
+            case '%':
+            case '/':
             case '!':
                 return true;
                 break;

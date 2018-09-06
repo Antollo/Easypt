@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <iostream>
 #include <cstdint>
+#include <functional>
 
 class object;
 typedef std::shared_ptr<object> objectPtr;

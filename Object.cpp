@@ -5,13 +5,8 @@ object::objectPtr Object (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = std::make_shared<object>();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("="))->copy());
-    ret->addChild(obj->READ(name("instanceOf"))->copy());
-    ret->addChild(obj->READ(name("merge"))->copy());
-    ret->addChild(obj->READ(name("getParent"))->copy());
-    ret->addChild(obj->READ(name("copy"))->copy());
-    ret->addChild(obj->READ(name("=="))->copy());
-    ret->addChild(obj->READ(name("debugTree"))->copy());
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
     return ret;
 }
 //Object methods
@@ -49,14 +44,21 @@ object::objectPtr getParent (object::objectPtr obj, object::argsContainer& args)
 {
     return obj->getParent()->getParent();
 }
-object::objectPtr equalOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args)
+{
+    bool isInstanceOf = true;
+    for(auto& arg : args)
+        isInstanceOf = isInstanceOf && obj->hasSignature(arg->getName());
+    object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
+    ret->getValue() = std::any(isInstanceOf);
+    return ret;
+}
+object::objectPtr equalTypeOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
     {
         bool firstComparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
-        object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-        ret->getValue() = firstComparison;
-        return ret;
+        return obj->READ(name("Boolean"), true)->CALL()->setValue(firstComparison);
     }
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }

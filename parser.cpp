@@ -93,10 +93,18 @@ std::list<expression> parser::parse()
             {
                 temp = findNext(')');
                 #if defined(DEBUG)
-                std::cout<<">call <"<<std::string(source + iterator + 1, temp - iterator - 1)<<">\n";
+                std::cout<<">call <"<<std::string(source + iterator + 1, temp - iterator - 1)<<"> "<<temp - iterator - 1<<"\n";
                 #endif
-                parser internal(source + iterator + 1, temp - iterator - 1, Root);
-                expressions.back().push_back(std::make_shared<call>(internal.parse()));
+                if(temp - iterator - 1)
+                {
+                    parser internal(source + iterator + 1, temp - iterator - 1, Root);
+                    expressions.back().push_back(std::make_shared<call>(internal.parse()));
+                }
+                else
+                {
+                    expressions.back().push_back(std::make_shared<call>(std::list<expression>()));
+                }
+
                 iterator = temp + 1;
                 break;
             }
@@ -195,7 +203,7 @@ std::list<expression> parser::parse()
                     }
                     else
                     {
-                        num = parser::Root->READ(name("Null"), true)->CALL();
+                        num = parser::Root->READ(name("Object"), true)->CALL();
                         //object::objectPtr num = parser::Root->READ(name("Double"), true)->CALL();
                         //num->getValue() = std::atof(source + iterator);
                         //num->getName() = name(std::string(source + iterator, temp - iterator));

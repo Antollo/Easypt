@@ -1,12 +1,11 @@
 #	easypt -file ../../sc.txt		#
-
 var y;
 var n;
 y.=("yes"), n.=("no");
 var str.=("Hello world!");
 str[2].=("M");
 errorOut(str[2].get());
-if (y.==("yes").!(), 
+if (y.==("yes"), 
 {
 	errorOut("bad");
 },{
@@ -14,12 +13,10 @@ if (y.==("yes").!(),
 });
 
 var condition.<-(1.toBoolean());
-var it.=(str.begin());
-for({Root}, condition,Null, {
+for(var it.=(str.begin()), condition, it.++, {
 	errorOut(it.get());
-	it.++();
 	if ( it.==(str.end()), {
-		condition.!();
+		condition.=(condition.!());
 	})
 });
 
@@ -33,7 +30,6 @@ errorOut(launchArgs[1].get());
 
 var func.=({
 errorOut(args[0].get());
-args[0].debugTree();
 });
 
-func("func");
+func("func".+("tion"));

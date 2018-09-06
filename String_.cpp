@@ -6,15 +6,8 @@ object::objectPtr String (object::objectPtr obj, object::argsContainer& args)
     object::objectPtr ret = obj->READ(name("Basic"), true)->CALL();
     ret->READ(name("merge"))->CALL(obj->READ(name("Container"), true)->CALL());
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("toString"))->copy());
-    ret->addChild(obj->READ(name("toInt"))->copy());
-    ret->addChild(obj->READ(name("toDouble"))->copy());
-    ret->addChild(obj->READ(name("toBoolean"))->copy());
-    ret->addChild(obj->READ(name("begin"))->copy());
-    ret->addChild(obj->READ(name("end"))->copy());
-    ret->addChild(obj->READ(name("readOperator"))->copy());
-    ret->addChild(obj->READ(name("size"))->copy());
-    ret->addChild(obj->READ(name("=="))->copy());
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
     ret->getValue() = std::string();
     return ret;
 }
@@ -142,11 +135,8 @@ object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& 
 {
     object::objectPtr ret = obj->READ(name("Iterator"), true)->CALL();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("++"))->copy());
-    ret->addChild(obj->READ(name("--"))->copy());
-    ret->addChild(obj->READ(name("get"))->copy());
-    ret->addChild(obj->READ(name("=="))->copy());
-    ret->addChild(obj->READ(name("="))->copy());
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
     ret->getValue() = std::string::iterator();
     return ret;
 }
