@@ -53,12 +53,21 @@ object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args
     ret->getValue() = std::any(isInstanceOf);
     return ret;
 }
-object::objectPtr equalTypeOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr equalSignaturesTypeOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
     {
-        bool firstComparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
-        return obj->READ(name("Boolean"), true)->CALL()->setValue(firstComparison);
+        bool comparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
+        return obj->READ(name("Boolean"), true)->CALL()->setValue(comparison);
+    }
+    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr equalInternalTypeOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        bool comparison = (obj->getParent()->getValue().type().hash_code() == args[0]->getValue().type().hash_code());
+        return obj->READ(name("Boolean"), true)->CALL()->setValue(comparison);
     }
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }

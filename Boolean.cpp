@@ -35,21 +35,3 @@ object::objectPtr BooleanToBoolean (object::objectPtr obj, object::argsContainer
     ret->getValue() = obj->getParent()->getValue();
     return ret;
 }
-object::objectPtr BooleanEqualOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-    {
-        bool firstComparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
-        if (firstComparison)
-            firstComparison = (std::any_cast<bool>(args[0]->getValue()) == std::any_cast<bool>(obj->getParent()->getValue()));
-        object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-        ret->getValue() = firstComparison;
-        return ret;
-    }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-}
-object::objectPtr BooleanNegateOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    obj->getParent()->getValue() = !(std::any_cast<bool>(obj->getParent()->getValue()));
-    return obj->getParent();
-}

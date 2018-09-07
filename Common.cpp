@@ -47,3 +47,13 @@ const char typeNames::Double[] = "Double";
 const char typeNames::Array[] = "Array";
 const char typeNames::ArrayIterator[] = "ArrayIterator";
 const char typeNames::BlockCallable[] = "BlockCallable";
+
+bool isTrue()
+{
+    return true;
+}
+
+bool isTrue(bool first)
+{
+    return first;
+}

@@ -9,6 +9,19 @@ object::objectPtr parse (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr errorOut (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr WrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args);
 
+namespace typeNames
+{
+    extern const char Object[];
+    extern const char String[];
+    extern const char StringIterator[];
+    extern const char Int[];
+    extern const char Boolean[];
+    extern const char Double[];
+    extern const char Array[];
+    extern const char ArrayIterator[];
+    extern const char BlockCallable[];
+}
+
 //Templated functions
 template<class T, template<class> class OP, const char* STR>
 object::objectPtr T2TOperator (object::objectPtr obj, object::argsContainer& args)
@@ -52,20 +65,15 @@ object::objectPtr T1TOperator (object::objectPtr obj, object::argsContainer& arg
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-namespace typeNames
-{
-extern const char Object[];
-extern const char String[];
-extern const char StringIterator[];
-extern const char Int[];
-extern const char Boolean[];
-extern const char Double[];
-extern const char Array[];
-extern const char ArrayIterator[];
-extern const char BlockCallable[];
-}
-
 //Template for everything
+bool isTrue();
+bool isTrue(bool first);
+
+template<class... Args>
+bool isTrue(bool first, Args... args)
+{
+    return first && isTrue(args...);
+}
 
 template<int... Is>
 struct seq { };
@@ -79,13 +87,25 @@ struct gen_seq<0, Is...> : seq<Is...> { };
 template<class V, class R, class... Args, int... Is>
 R callMethod(V* value, R (V::*f)(Args...), object::argsContainer& args, seq<Is...>)
 {
-    return (value->*f)(*std::any_cast<Args>(&args[Is]->getValue())...);
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(Args).hash_code())...))
+        return (value->*f)(*std::any_cast<Args>(&args[Is]->getValue())...);
+    throw(exception("Wrong types of arguments"));
+}
+
+template<class V, class R, class... Args, int... Is>
+R callMethod(V* value, R (V::*f)(Args...) const, object::argsContainer& args, seq<Is...>)
+{
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(Args).hash_code())...))
+        return (value->*f)(*std::any_cast<Args>(&args[Is]->getValue())...);
+    throw(exception("Wrong types of arguments"));
 }
 
 template<class R, class... Args, int... Is>
 R callFunction(R (*f)(Args...), object::argsContainer& args, seq<Is...>)
 {
-    return f(*std::any_cast<Args>(&args[Is]->getValue())...);
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(Args).hash_code())...))
+        return f(*std::any_cast<Args>(&args[Is]->getValue())...);
+    throw(exception("Wrong types of arguments"));
 }
 
 template<class V, class S, S f, class R, const char* typeName,  class... Args>
@@ -119,10 +139,9 @@ template<Ftype... F>
 object::objectPtr FunctionChooser (object::objectPtr obj, object::argsContainer& args)
 {
     Ftype functions[sizeof...(F)] = {F...};
-    if (args.size() >=0 && args.size() < sizeof...(F))
+    if (args.size() < sizeof...(F))
         return functions[args.size()](obj, args);
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-//template object::objectPtr T2TOperator<std::string, std::plus, typeNames::String>(object::objectPtr obj, object::argsContainer& args);
 #endif

@@ -9,9 +9,9 @@ object::objectPtr object::Root;
 object::object(std::any newValue, name newName)
     :value(newValue), myName(newName), parent(nullptr), pointerToPointerToMeFromWhichIWasAccessed(nullptr)
 {
-    #if defined(DEBUG)
+#if defined(DEBUG)
     std::cout<<" CREATE "<<getFullNameString()<<std::endl;
-    #endif
+#endif
     objectCounter++;
     if (value.type().hash_code() == typeid(nativeFunctionType).hash_code())
     {
@@ -22,56 +22,76 @@ object::object(std::any newValue, name newName)
 
 object::objectPtr object::READ(name objectName, bool searchInParent, bool forceCreate)
 {
-    #if defined(DEBUG)
+#if defined(DEBUG)
     std::cout<<" READ "<<(std::string)objectName + std::string(" in ") + getFullNameString()<<std::endl;
-    #endif
-    if (children.count(objectName))
-        return children[objectName];
-    if (forceCreate)
+#endif
+    try
     {
-        object::objectPtr newChild = READ(name("Object"), true)->CALL();
-        newChild->getName() = objectName;
-        addChild(newChild);
-        return newChild;
+        if (children.count(objectName))
+            return children[objectName];
+        if (forceCreate)
+        {
+            object::objectPtr newChild = READ(name("Object"), true)->CALL();
+            newChild->getName() = objectName;
+            addChild(newChild);
+            return newChild;
+        }
+        if (searchInParent && parent != nullptr)
+            return parent->READ(objectName, true);
+        if (searchInParent)
+        {
+            if (!hasChild(name("Root")))
+                return Root->READ(objectName);
+        }
+        throw(exception("Cannot find ", objectName, " in ", getFullNameString()));
+        return std::make_shared<object>();
     }
-    if (searchInParent && parent != nullptr)
-        return parent->READ(objectName, true);
-    if (searchInParent)
+    catch(exception& e)
     {
-        if (!hasChild(name("Root")))
-            return Root->READ(objectName);
+        throw(exception("Error at: ", getFullNameString(), "\n", e.what()));
     }
-    throw(exception("Cannot find ", objectName, " in ", getFullNameString()));
-    return std::make_shared<object>();
-
 }
 
 object::objectPtr object::READCALL(object::objectPtr arg)
 {
-    #if defined(DEBUG)
+#if defined(DEBUG)
     std::cout<<" READCALL "<<arg->getFullNameString() + std::string(" in ") + getFullNameString()<<std::endl;
-    #endif
-    if (children.count(name("readOperator")))
-        return children[name("readOperator")]->CALL(arg);
-    throw(exception("Object ", getFullNameString(), " has no readOperator"));
+#endif
+    try
+    {
+        if (children.count(name("readOperator")))
+            return children[name("readOperator")]->CALL(arg);
+        throw(exception("Object ", getFullNameString(), " has no readOperator"));
+    }
+    catch(exception& e)
+    {
+        throw(exception("Error at: ", getFullNameString(), "\n", e.what()));
+    }
 }
 
 object::objectPtr object::CALL(object::argsContainer& args)
 {
-    #if defined(DEBUG)
+#if defined(DEBUG)
     std::cout << " CALL in " << getFullNameString() << std::endl;
-    #endif
-    if (hasSignature("NativeCallable"))
+#endif
+    try
     {
-        nativeFunctionType f = std::any_cast<nativeFunctionType>(value);
-        return f(shared_from_this(), args);
+        if (hasSignature("NativeCallable"))
+        {
+            nativeFunctionType f = std::any_cast<nativeFunctionType>(value);
+            return f(shared_from_this(), args);
+        }
+        if (children.count(name("callOperator")))
+            return children[name("callOperator")]->CALL(args);
+        exception e = exception(std::string("Object ") + getFullNameString() + std::string(" is neither Callable nor NativeCallable."));
+        throw(e);
+        throw(exception("Object ", getFullNameString(), " has no readOperator"));
+        return std::make_shared<object>();
     }
-    if (children.count(name("callOperator")))
-        return children[name("callOperator")]->CALL(args);
-    exception e = exception(std::string("Object ") + getFullNameString() + std::string(" is neither Callable nor NativeCallable."));
-    throw(e);
-    throw(exception("Object ", getFullNameString(), " has no readOperator"));
-    return std::make_shared<object>();
+    catch(exception& e)
+    {
+        throw(exception("Error at: ", getFullNameString(), "\n", e.what()));
+    }
 }
 
 object::objectPtr object::CALL(object::objectPtr arg)
@@ -88,9 +108,9 @@ object::objectPtr object::CALL()
 
 object::~object()
 {
-    #if defined(DEBUG)
+#if defined(DEBUG)
     std::cout<<" DESTROY "<<getFullNameString()<<std::endl;
-    #endif
+#endif
     //~ Must not use his parent. Parent is already dead!
     for(auto& child : children)
     {

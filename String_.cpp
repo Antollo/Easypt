@@ -69,18 +69,6 @@ object::objectPtr StringToBoolean (object::objectPtr obj, object::argsContainer&
     }
     return ret;
 }
-object::objectPtr StringBegin (object::objectPtr obj, object::argsContainer& args)
-{
-    object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
-    ret->getValue() = (*std::any_cast<std::string>(&obj->getParent()->getValue())).begin();
-    return ret;
-}
-object::objectPtr StringEnd (object::objectPtr obj, object::argsContainer& args)
-{
-    object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
-    ret->getValue() = (*std::any_cast<std::string>(&obj->getParent()->getValue())).end();
-    return ret;
-}
 object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContainer& args)
 {
 
@@ -111,25 +99,6 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
     }
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr StringSize (object::objectPtr obj, object::argsContainer& args)
-{
-    object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
-    ret->getValue() = (int) std::any_cast<std::string>(obj->getParent()->getValue()).size();
-    return ret;
-}
-object::objectPtr StringEqualOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-    {
-        bool firstComparison = ((obj->getParent()->getSignatures() == args[0]->getSignatures()) && (obj->getParent()->getChildren() == args[0]->getChildren()));
-        if (firstComparison)
-            firstComparison = (std::any_cast<std::string>(args[0]->getValue()) == std::any_cast<std::string>(obj->getParent()->getValue()));
-        object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-        ret->getValue() = firstComparison;
-        return ret;
-    }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-}
 //StringIterator constructor
 object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& args)
 {
@@ -141,35 +110,11 @@ object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& 
     return ret;
 }
 //StringIterator methods
-object::objectPtr StringIteratorIncrement (object::objectPtr obj, object::argsContainer& args)
-{
-    //obj->getParent()->getValue() = ++std::any_cast<std::string::iterator>(obj->getParent()->getValue());
-    (*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()))++;
-    return obj->getParent();
-}
-object::objectPtr StringIteratorDecrement (object::objectPtr obj, object::argsContainer& args)
-{
-    (*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()))--;
-    return obj->getParent();
-}
 object::objectPtr StringIteratorGet (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("String"), true)->CALL();
     ret->getValue() = std::string(1, *(std::any_cast<std::string::iterator>(obj->getParent()->getValue())));
     return ret;
-}
-object::objectPtr StringIteratorEqualOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-    {
-        bool firstComparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
-        if (firstComparison)
-            firstComparison = (std::any_cast<std::string::iterator>(args[0]->getValue()) == std::any_cast<std::string::iterator>(obj->getParent()->getValue()));
-        object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-        ret->getValue() = firstComparison;
-        return ret;
-    }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr StringIteratorAssignOperator (object::objectPtr obj, object::argsContainer& args)
 {

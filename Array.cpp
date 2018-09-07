@@ -11,18 +11,6 @@ object::objectPtr Array (object::objectPtr obj, object::argsContainer& args)
     return ret;
 }
 //Array methods
-object::objectPtr ArrayBegin (object::objectPtr obj, object::argsContainer& args)
-{
-    object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
-    ret->getValue() = (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).begin();
-    return ret;
-}
-object::objectPtr ArrayEnd (object::objectPtr obj, object::argsContainer& args)
-{
-    object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
-    ret->getValue() = (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).end();
-    return ret;
-}
 object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContainer& args)
 {
 
@@ -50,25 +38,6 @@ object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContaine
     }
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr ArraySize (object::objectPtr obj, object::argsContainer& args)
-{
-    object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
-    ret->getValue() = (int) std::any_cast<std::vector<object::objectPtr>>(obj->getParent()->getValue()).size();
-    return ret;
-}
-object::objectPtr ArrayEqualOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-    {
-        bool firstComparison = ((obj->getParent()->getSignatures() == args[0]->getSignatures()) && (obj->getParent()->getChildren() == args[0]->getChildren()));
-        if (firstComparison)
-            firstComparison = (std::any_cast<std::vector<object::objectPtr>>(args[0]->getValue()) == std::any_cast<std::vector<object::objectPtr>>(obj->getParent()->getValue()));
-        object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-        ret->getValue() = firstComparison;
-        return ret;
-    }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-}
 object::objectPtr ArrayPushBack (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
@@ -89,33 +58,9 @@ object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& a
     return ret;
 }
 //ArrayIterator methods
-object::objectPtr ArrayIteratorIncrement (object::objectPtr obj, object::argsContainer& args)
-{
-    //obj->getParent()->getValue() = ++std::any_cast<std::string::iterator>(obj->getParent()->getValue());
-    (*std::any_cast<std::vector<object::objectPtr>::iterator>(&obj->getParent()->getValue()))++;
-    return obj->getParent();
-}
-object::objectPtr ArrayIteratorDecrement (object::objectPtr obj, object::argsContainer& args)
-{
-    (*std::any_cast<std::vector<object::objectPtr>::iterator>(&obj->getParent()->getValue()))--;
-    return obj->getParent();
-}
 object::objectPtr ArrayIteratorGet (object::objectPtr obj, object::argsContainer& args)
 {
     return *(std::any_cast<std::vector<object::objectPtr>::iterator>(obj->getParent()->getValue()));
-}
-object::objectPtr ArrayIteratorEqualOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-    {
-        bool firstComparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
-        if (firstComparison)
-            firstComparison = (std::any_cast<std::vector<object::objectPtr>::iterator>(args[0]->getValue()) == std::any_cast<std::vector<object::objectPtr>::iterator>(obj->getParent()->getValue()));
-        object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-        ret->getValue() = firstComparison;
-        return ret;
-    }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr ArrayIteratorAssignOperator (object::objectPtr obj, object::argsContainer& args)
 {

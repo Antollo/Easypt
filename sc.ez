@@ -1,9 +1,10 @@
-#	easypt -file ../../sc.txt		#
+#	easypt -file ../../sc.ez		#
 var y;
 var n;
 y.=("yes"), n.=("no");
 var str.=("Hello world!");
 str[2].=("M");
+errorOut(str.size());
 errorOut(str[2].get());
 if (y.==("yes"), 
 {
