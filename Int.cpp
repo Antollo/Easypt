@@ -5,11 +5,8 @@ object::objectPtr Int (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Basic"), true)->CALL();
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("toString"))->copy());
-    ret->addChild(obj->READ(name("toInt"))->copy());
-    ret->addChild(obj->READ(name("toDouble"))->copy());
-    ret->addChild(obj->READ(name("toBoolean"))->copy());
-    ret->addChild(obj->READ(name("=="))->copy());
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
     ret->getValue() = 0;
     return ret;
 }

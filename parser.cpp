@@ -203,10 +203,9 @@ std::list<expression> parser::parse()
                     }
                     else
                     {
-                        num = parser::Root->READ(name("Object"), true)->CALL();
-                        //object::objectPtr num = parser::Root->READ(name("Double"), true)->CALL();
-                        //num->getValue() = std::atof(source + iterator);
-                        //num->getName() = name(std::string(source + iterator, temp - iterator));
+                        num = parser::Root->READ(name("Double"), true)->CALL();
+                        num->getValue() = std::atof(source + iterator);
+                        num->getName() = name(std::string(source + iterator, temp - iterator));
                     }
                     Root->addChild(num);
                 }

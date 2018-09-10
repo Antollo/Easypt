@@ -84,27 +84,37 @@ struct gen_seq : gen_seq<N - 1, N - 1, Is...> { };
 template<int... Is>
 struct gen_seq<0, Is...> : seq<Is...> { };
 
+template<class T>
+struct guess_type
+{
+	typedef typename std::conditional<
+	std::is_integral<T>::value, int,
+		typename std::conditional<std::is_floating_point<T>::value, double,T>::type
+	>::type type;
+};
+
+
 template<class V, class R, class... Args, int... Is>
 R callMethod(V* value, R (V::*f)(Args...), object::argsContainer& args, seq<Is...>)
 {
-    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(Args).hash_code())...))
-        return (value->*f)(*std::any_cast<Args>(&args[Is]->getValue())...);
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
+        return (value->*f)(*std::any_cast<typename guess_type<Args>::type>(&args[Is]->getValue())...);
     throw(exception("Wrong types of arguments"));
 }
 
 template<class V, class R, class... Args, int... Is>
 R callMethod(V* value, R (V::*f)(Args...) const, object::argsContainer& args, seq<Is...>)
 {
-    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(Args).hash_code())...))
-        return (value->*f)(*std::any_cast<Args>(&args[Is]->getValue())...);
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
+        return (value->*f)(*std::any_cast<typename guess_type<Args>::type>(&args[Is]->getValue())...);
     throw(exception("Wrong types of arguments"));
 }
 
 template<class R, class... Args, int... Is>
 R callFunction(R (*f)(Args...), object::argsContainer& args, seq<Is...>)
 {
-    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(Args).hash_code())...))
-        return f(*std::any_cast<Args>(&args[Is]->getValue())...);
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
+        return f(*std::any_cast<typename guess_type<Args>::type>(&args[Is]->getValue())...);
     throw(exception("Wrong types of arguments"));
 }
 
@@ -142,6 +152,20 @@ object::objectPtr FunctionChooser (object::objectPtr obj, object::argsContainer&
     if (args.size() < sizeof...(F))
         return functions[args.size()](obj, args);
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+
+//Additional template functions
+template <class T>
+object::objectPtr increment (object::objectPtr obj, object::argsContainer& args)
+{
+    (*std::any_cast<T>(&obj->getParent()->getValue()))++;
+    return obj->getParent();
+}
+template <class T>
+object::objectPtr decrement (object::objectPtr obj, object::argsContainer& args)
+{
+    (*std::any_cast<T>(&obj->getParent()->getValue()))--;
+    return obj->getParent();
 }
 
 #endif

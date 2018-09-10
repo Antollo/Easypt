@@ -1,0 +1,32 @@
+{
+    "name": "easypt",
+    "displayName": "Easypt",
+    "description": "Easypt programming language basic support.",
+    "version": "1.0.0",
+    "publisher": "Antollo",
+    "engines": {
+        "vscode": "^1.26.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "easypt",
+            "aliases": ["easypt", "Easypt"],
+            "extensions": [".ez"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "easypt",
+            "scopeName": "source.easypt",
+            "path": "./syntaxes/easypt.tmLanguage.json"
+        }],
+        "snippets": [
+            {
+                "language": "easypt",
+                "path": "./snippets/easypt.json"
+            }
+        ]
+    }
+}

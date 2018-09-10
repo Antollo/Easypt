@@ -19,6 +19,7 @@ namespace IO
     public:
         _errorOut& operator<< (const std::string& text);
         _errorOut& operator<< (const int& number);
+        _errorOut& operator<< (const double& number);
     };
     extern _errorOut errorOut;
 };

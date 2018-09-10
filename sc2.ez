@@ -1,0 +1,14 @@
+
+var str.=("Hello world!");
+
+for(var it.=(str.begin()).!=, str.end(), it.++, {
+	errorOut(it.get());
+});
+
+
+
+var arr.=(Array());
+arr.pushBack(1, 7, 3.14, "abc", "defgh");
+for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+    errorOut(it.get());
+});

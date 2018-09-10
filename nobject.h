@@ -61,6 +61,7 @@ class object : public std::enable_shared_from_this<object>
         void removeChild(name childName) { children.erase(children.find(childName)); }
         objectPtr getParent(bool throwing = true);
         void setParent(object* newParent) { parent = newParent; }
+        objectPtr setParent(objectPtr newParent) { setParent(newParent.get()); return shared_from_this(); }
         name& getName() { return myName; }
         objectPtr setName(name newName) { myName = newName; return shared_from_this(); }
         std::string getFullNameString() { if(parent != nullptr) return parent->getFullNameString() + std::string(".") + (std::string)getName(); return (std::string)getName(); }

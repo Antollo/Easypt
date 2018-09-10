@@ -1,0 +1,59 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "easypt",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#literals"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#punctuation"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.easypt",
+				"match": "\\b(if|while|for|var)\\b"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.easypt",
+			"begin": "\"",
+			"end": "\"",
+			"patterns":[]
+		},
+		"comments": {
+			"name": "comment.easypt",
+			"begin": "#",
+			"end": "#",
+			"patterns":[]
+		},
+		"punctuation":
+		{
+			"patterns":[
+				{
+					"name": "markup.bold.easypt",
+					"match": "[;]"
+				}
+			]
+		},
+		"literals": {
+			"patterns":[
+				{
+					"name": "constant.numeric.easypt",
+					"match": "[-]?[0-9]+([.][0-9]+)?"
+				}
+			]
+		}
+	},
+	"scopeName": "source.easypt"
+}

@@ -1,0 +1,21 @@
+{
+    "Insert ordered list": {
+        "prefix": "ordered list",
+        "body": [
+            "1. ${first}",
+            "2. ${second}",
+            "3. ${third}",
+            "$0"
+        ],
+        "description": "Insertdd ordered list"
+    },
+    "For_Loop": {
+        "prefix": "for",
+        "body": [
+          "for (const ${2:element} of ${1:array}) {",
+          "\t$0",
+          "}"
+        ],
+        "description": "For Loop"
+    }
+}

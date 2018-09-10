@@ -1,25 +1,29 @@
 #	easypt -file ../../sc.ez		#
+#Root.debugTree();#
 var y;
 var n;
 y.=("yes"), n.=("no");
 var str.=("Hello world!");
-str[2].=("M");
+str[2].=("L");
+
 errorOut(str.size());
 errorOut(str[2].get());
-if (y.==("yes"), 
+
+if (y.!=("yes"), 
 {
 	errorOut("bad");
 },{
 	errorOut("good");
 });
 
-var condition.<-(1.toBoolean());
-for(var it.=(str.begin()), condition, it.++, {
+for(var it.=(str.begin()).!=, str.end(), it.++, {
 	errorOut(it.get());
-	if ( it.==(str.end()), {
-		condition.=(condition.!());
-	})
 });
+
+for(var it.=(5).<, 12, it.++, {
+	errorOut(it);
+});
+
 
 var arr.=(Array());
 arr.pushBack("heh");
@@ -27,10 +31,9 @@ arr.pushBack("huh");
 errorOut(arr.size());
 errorOut(arr[0].get());
 errorOut(launchArgs[0].get());
-errorOut(launchArgs[1].get());
 
 var func.=({
-errorOut(args[0].get());
+errorOut(args[0].get()); 
 });
 
 func("func".+("tion"));

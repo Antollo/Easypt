@@ -14,9 +14,7 @@ object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& 
 {
     if (args.size() == 1)
     {
-        object::objectPtr tempCopy = args[0]->copy();
-        tempCopy->getName() = obj->getParent()->getName();
-        *(obj->getParent()) = *(args[0]->copy());
+        *(obj->getParent()) = *(args[0]->copy()->setName(obj->getParent()->getName())->setParent(obj->getParent()->getParent(false)));
         return obj->getParent()->fixChildren();
     }
         //return obj->getParent()->getParent()->getChildren()[obj->getParent()->getName()] = args[0];
@@ -52,6 +50,23 @@ object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args
     object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
     ret->getValue() = std::any(isInstanceOf);
     return ret;
+}
+object::objectPtr notEqualOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        return obj->getParent()->READ(name("=="))->CALL(args[0])->READ(name("!"))->CALL();
+    }
+    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr equalReferenceTypeOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        bool comparison = (obj->getParent() == args[0]);
+        return obj->READ(name("Boolean"), true)->CALL()->setValue(comparison);
+    }
+    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr equalSignaturesTypeOperator (object::objectPtr obj, object::argsContainer& args)
 {

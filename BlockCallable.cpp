@@ -58,13 +58,14 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
 }
 object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::argsContainer& args)
 {
-    //TODO return something
     std::list<expression> expressions = std::any_cast<std::list<expression>>(obj->getParent()->getValue());
     object::objectPtr parent = obj->getParent();
     parent->addChild(obj->READ(name("Array"), true)->CALL()->setValue(args)->setName("args"));
 
     for(const expression& exp : expressions)
         evaluateExpression(exp, parent);
+    if (obj->getParent()->hasChild(name("return")))
+        return obj->getParent()->READ(name("return"));
     return obj->getParent()->READ(name("return"), false, true);
 }
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args)
@@ -95,18 +96,31 @@ object::objectPtr BlockCallableFor (object::objectPtr obj, object::argsContainer
 {
     if (args.size() == 4)
     {
-        //args[0]->CALL();
-        if (!args[1]->hasSignature(name("Basic")))
-            throw(exception("First argument is not Basic in ", obj->getFullNameString()));
-        while (std::any_cast<bool>(args[1]->READ(name("toBoolean"))->CALL()->getValue()))
+        object::objectPtr Root = obj->READ(name("Root"),true);
+        while (std::any_cast<bool>(args[0]->CALL(args[1])->READ(name("toBoolean"))->CALL()->getValue()))
         {
             args[3]->callWithParent(obj);
-            args[2]->CALL();
-            if (!args[1]->hasSignature(name("Basic")))
+
+            if (args[2]->getParent() == Root) args[2]->callWithParent(obj);
+            else args[2]->CALL();
+        }
+        return args[3];
+    }
+    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr BlockCallableWhile (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 2)
+    {
+        if (!args[0]->hasSignature(name("Basic")))
+            throw(exception("First argument is not Basic in ", obj->getFullNameString()));
+        while (std::any_cast<bool>(args[0]->READ(name("toBoolean"))->CALL()->getValue()))
+        {
+            args[1]->callWithParent(obj);
+            if (!args[0]->hasSignature(name("Basic")))
                 throw(exception("First argument is not Basic in ", obj->getFullNameString()));
         }
         return args[1];
     }
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-//object::objectPtr BlockCallableWhile (object::objectPtr obj, object::argsContainer& args);

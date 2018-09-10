@@ -24,5 +24,11 @@ IO::_errorOut& IO::_errorOut::operator<< (const int& number)
     return *this;
 };
 
+IO::_errorOut& IO::_errorOut::operator<< (const double& number)
+{
+    std::cerr<<number<<std::endl;
+    return *this;
+};
+
 IO::_console IO::console;
 IO::_errorOut IO::errorOut;

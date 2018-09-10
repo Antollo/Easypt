@@ -29,6 +29,8 @@ object::objectPtr errorOut (object::objectPtr obj, object::argsContainer& args)
             IO::errorOut << std::any_cast<int>(arg->getValue());
         if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
             IO::errorOut << std::any_cast<bool>(arg->getValue());
+        if (arg->getValue().type().hash_code() == typeid(double).hash_code())
+            IO::errorOut << std::any_cast<double>(arg->getValue());
     };
     return obj->READ(name("Object"), true)->CALL();
 }

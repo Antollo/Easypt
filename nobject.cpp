@@ -27,8 +27,6 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
 #endif
     try
     {
-        if (children.count(objectName))
-            return children[objectName];
         if (forceCreate)
         {
             object::objectPtr newChild = READ(name("Object"), true)->CALL();
@@ -36,12 +34,14 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
             addChild(newChild);
             return newChild;
         }
+        if (children.count(objectName))
+            return children[objectName];
         if (searchInParent && parent != nullptr)
             return parent->READ(objectName, true);
         if (searchInParent)
         {
             if (!hasChild(name("Root")))
-                return Root->READ(objectName);
+                return Root->READ(objectName, true);
         }
         throw(exception("Cannot find ", objectName, " in ", getFullNameString()));
         return std::make_shared<object>();
@@ -83,7 +83,7 @@ object::objectPtr object::CALL(object::argsContainer& args)
         }
         if (children.count(name("callOperator")))
             return children[name("callOperator")]->CALL(args);
-        exception e = exception(std::string("Object ") + getFullNameString() + std::string(" is neither Callable nor NativeCallable."));
+        exception e = exception(std::string("Object ") + getFullNameString() + std::string(" is neither BlockCallable nor NativeCallable."));
         throw(e);
         throw(exception("Object ", getFullNameString(), " has no readOperator"));
         return std::make_shared<object>();
@@ -116,8 +116,8 @@ object::~object()
     {
         child.second->setParent(nullptr);
     }
-    if(hasChild(name("~")))
-        READ(name("~"))->CALL();
+    if(hasChild(name("~~")))
+        READ(name("~~"))->CALL();
 }
 
 object::objectPtr object::getParent(bool throwing)

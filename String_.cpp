@@ -74,9 +74,9 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
 
     if (args.size() == 1)
     {
-        if (args[0]->hasSignature(name("Basic")))
+        if (args[0]->hasSignature(name("Int")))
         {
-            int index = std::any_cast<int>(args[0]->READ(name("toInt"))->CALL()->getValue());
+            int index = std::any_cast<int>(args[0]->getValue());
             if (index >= 0 && index < std::any_cast<std::string>(obj->getParent()->getValue()).size())
             {
 

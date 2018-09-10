@@ -1,7 +1,7 @@
 #include "Array.h"
 
 //Array constructor
-object::objectPtr Array (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr Array0 (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Container"), true)->CALL();
     ret->addSignature(obj->getName());
@@ -10,15 +10,53 @@ object::objectPtr Array (object::objectPtr obj, object::argsContainer& args)
     ret->getValue() = std::vector<object::objectPtr>();
     return ret;
 }
+object::objectPtr Array1 (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("Int")))
+        {
+            object::objectPtr ret = Array0(obj, args), object = obj->READ(name("Object"), true)->CALL();
+            (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
+            for(object::objectPtr& el : (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())))
+                el = object->copy();
+            return ret;
+        }
+        else
+        {
+            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
+        }
+    }
+    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr Array2 (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 2)
+    {
+        if (args[0]->hasSignature(name("Int")))
+        {
+            object::objectPtr ret = Array0(obj, args), object = args[1];
+            (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
+            for(object::objectPtr& el : (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())))
+                el = object->copy();
+            return ret;
+        }
+        else
+        {
+            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
+        }
+    }
+    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
 //Array methods
 object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContainer& args)
 {
 
     if (args.size() == 1)
     {
-        if (args[0]->hasSignature(name("Basic")))
+        if (args[0]->hasSignature(name("Int")))
         {
-            int index = std::any_cast<int>(args[0]->READ(name("toInt"))->CALL()->getValue());
+            int index = std::any_cast<int>(args[0]->getValue());
             if (index >= 0 && index < std::any_cast<std::vector<object::objectPtr>>(obj->getParent()->getValue()).size())
             {
 
@@ -40,12 +78,9 @@ object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContaine
 }
 object::objectPtr ArrayPushBack (object::objectPtr obj, object::argsContainer& args)
 {
-    if (args.size() == 1)
-    {
-        (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).push_back(args[0]);
-        return obj->getParent();
-    }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    for (auto& el : args)
+        (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).push_back(el);
+    return obj->getParent();
 }
 //ArrayIterator constructor
 object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& args)
@@ -66,15 +101,9 @@ object::objectPtr ArrayIteratorAssignOperator (object::objectPtr obj, object::ar
 {
     if (args.size() == 1)
     {
-        if (args[0]->hasSignature(name("Basic")))
-        {
-            (*(*std::any_cast<std::vector<object::objectPtr>::iterator>(&obj->getParent()->getValue()))) = args[0];
-            return obj->getParent();
-        }
-        else
-        {
-            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
-        }
+        (*(*std::any_cast<std::vector<object::objectPtr>::iterator>(&obj->getParent()->getValue()))) = args[0];
+        return obj->getParent();
+
     }
     throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
