@@ -28,7 +28,9 @@ add_executable(easypt ${SOURCES})
 add_library(console SHARED library/console/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp)
 add_library(system SHARED library/system/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp)
 
-if(LINUX)
-message("LINUX GCC :3")
+message(${CMAKE_SYSTEM})
+
+IF("${CMAKE_SYSTEM}" MATCHES "Linux")
+message("LINUX :3")
 target_link_libraries(easypt dl)
 endif()
