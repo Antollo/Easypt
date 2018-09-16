@@ -14,14 +14,14 @@ namespace IO
     };
     extern _console console;
 
-    class _errorOut
+    class _basicOut
     {
     public:
-        _errorOut& operator<< (const std::string& text);
-        _errorOut& operator<< (const int& number);
-        _errorOut& operator<< (const double& number);
+        _basicOut& operator<< (const std::string& text);
+        _basicOut& operator<< (const int& number);
+        _basicOut& operator<< (const double& number);
     };
-    extern _errorOut errorOut;
+    extern _basicOut basicOut;
 };
 
 #endif // IO_H

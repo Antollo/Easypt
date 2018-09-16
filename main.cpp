@@ -8,7 +8,6 @@
 #pragma message ("Debug mode on")
 #endif
 #include "prepareTree.h"
-#include <fstream>
 #include <string>
 
 int main(int argc, char** argv)
@@ -17,11 +16,13 @@ int main(int argc, char** argv)
     name::initialize();
     std::pair<object::objectPtr, object::objectPtr> RootWithFather = prepareTree();
     std::string source, entryPoint;
+    std::list<std::string> fileNames;
     for(int i=0; i<argc; i++)
     {
         if (std::strcmp(argv[i], "-file") == 0 && i != argc-1)
         {
-            std::ifstream sourceFile(argv[++i]);
+            fileNames.push_back(std::string(argv[++i]));
+            std::ifstream sourceFile(argv[i]);
             std::getline(sourceFile, source, (char)EOF);
             sourceFile.close();
         }
@@ -36,12 +37,10 @@ int main(int argc, char** argv)
     }
     try
     {
-        object::objectPtr sourceString = RootWithFather.second->READ(name("String"))->CALL();
-        sourceString->getValue() = source;
-        object::objectPtr sourceBlockCallable = RootWithFather.second->READ(name("parse"))->CALL(sourceString);
-        //TODO BlockCallable should change its name itself
-        sourceBlockCallable->getName() = "SourceBlockCallable";
-        sourceBlockCallable->CALL();
+        for(auto& fileName : fileNames)
+        {
+            object::objectPtr sourceBlockCallable = RootWithFather.second->READ(name("import"))->CALL(RootWithFather.second->READ(name("String"))->CALL()->setValue(fileName));
+        }
 
         object::objectPtr entryPointString = RootWithFather.second->READ(name("String"))->CALL();
         entryPointString->getValue() = entryPoint;
@@ -52,11 +51,15 @@ int main(int argc, char** argv)
     }
     catch (exception& e)
     {
-        RootWithFather.second->READ(name("errorOut"))->CALL(std::make_shared<object>(std::string(e.what()), name("exception")));
+        RootWithFather.second->READ(name("basicOut"))->CALL(constructObject(RootWithFather.second, "String", e.getMessage()));
     }
     catch (std::exception& e)
     {
-        RootWithFather.second->READ(name("errorOut"))->CALL(std::make_shared<object>("Unknown exception: " + std::string(e.what()), name("exception")));
+        RootWithFather.second->READ(name("basicOut"))->CALL(constructObject(RootWithFather.second, "String", "Unknown exception: " + std::string(e.what())));
+    }
+    catch (object::objectPtr& e)
+    {
+        RootWithFather.second->READ(name("basicOut"))->CALL(e);
     }
     object::release();
     return 0;

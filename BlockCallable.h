@@ -11,5 +11,7 @@ object::objectPtr BlockCallableEqualOperator (object::objectPtr obj, object::arg
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr BlockCallableFor (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr BlockCallableWhile (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr BlockCallableThrow (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr BlockCallableTry (object::objectPtr obj, object::argsContainer& args);
 
 #endif // BLOCKCALLABLE_H

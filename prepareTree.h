@@ -1,6 +1,7 @@
 #ifndef PREPARETREE_H
 #define PREPARETREE_H
 
+#include "Core.h"
 #include "Common.h"
 #include "nobject.h"
 #include "String_.h"

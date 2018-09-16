@@ -10,5 +10,5 @@ You’ll learn how to write Easypt scripts!
 6. Types
 7. Standard library
 8. More on types 
-9. Exceptions
+9. Files, exceptions and extras
  

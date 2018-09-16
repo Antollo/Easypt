@@ -28,10 +28,10 @@ public:
     call(std::list<expression> newExpressionList)
         : expressionList(newExpressionList) {};
     std::list<expression>& getExpressionList() { return expressionList; }
-    name& getName() { throw(exception("Error in parser.")); }
-    bool& getForceCreate() { throw(exception("Error in parser.")); }
-    bool& getSearchInParent() { throw(exception("Error in parser.")); }
-    expression& getExpression() { throw(exception("Error in parser.")); }
+    name& getName() { throw(Parser("Error in parser.")); }
+    bool& getForceCreate() { throw(Parser("Error in parser.")); }
+    bool& getSearchInParent() { throw(Parser("Error in parser.")); }
+    expression& getExpression() { throw(Parser("Error in parser.")); }
     type getType() { return type::call; };
 private:
     std::list<expression> expressionList;
@@ -42,11 +42,11 @@ class read : public action
 public:
     read(name newName, bool newSearchInParent, bool newForceCreate)
         : _name(newName), searchInParent(newSearchInParent), forceCreate(newForceCreate) {};
-    std::list<expression>& getExpressionList() { throw(exception("Error in parser.")); }
+    std::list<expression>& getExpressionList() { throw(Parser("Error in parser.")); }
     name& getName() { return _name; }
     bool& getForceCreate() { return forceCreate; }
     bool& getSearchInParent() { return searchInParent; }
-    expression& getExpression() { throw(exception("Error in parser.")); }
+    expression& getExpression() { throw(Parser("Error in parser.")); }
     type getType() { return type::read; };
 private:
     name _name;
@@ -58,10 +58,10 @@ class readcall : public action
 public:
     readcall(expression newExpression)
         : _expression(newExpression) {};
-    std::list<expression>& getExpressionList() { throw(exception("Error in parser.")); }
-    name& getName() { throw(exception("Error in parser.")); }
-    bool& getForceCreate() { throw(exception("Error in parser.")); }
-    bool& getSearchInParent() { throw(exception("Error in parser.")); }
+    std::list<expression>& getExpressionList() { throw(Parser("Error in parser.")); }
+    name& getName() { throw(Parser("Error in parser.")); }
+    bool& getForceCreate() { throw(Parser("Error in parser.")); }
+    bool& getSearchInParent() { throw(Parser("Error in parser.")); }
     expression& getExpression() { return _expression; }
     type getType() { return type::readcall; };
 private:

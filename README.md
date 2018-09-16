@@ -2,7 +2,7 @@
 
 ![https://ci.appveyor.com/api/projects/status/github/Antollo/Easypt?svg=true]( https://ci.appveyor.com/api/projects/status/github/Antollo/Easypt?svg=true)
 
-    errorOut("Hello world!");
+    basicOut("Hello world!");
 
 ### [See Easypt reference](https://antollo.github.io/Easypt)
 

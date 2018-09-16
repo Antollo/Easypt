@@ -3,14 +3,13 @@
 //#define DEBUG
 
 int object::objectCounter = 0;
-object::objectPtr object::moveOperator;
 object::objectPtr object::Root;
 
 object::object(std::any newValue, name newName)
     :value(newValue), myName(newName), parent(nullptr), pointerToPointerToMeFromWhichIWasAccessed(nullptr)
 {
 #if defined(DEBUG)
-    std::cout<<" CREATE "<<getFullNameString()<<std::endl;
+    std::cout<<"CREATE "<<getFullNameString()<<std::endl;
 #endif
     objectCounter++;
     if (value.type().hash_code() == typeid(nativeFunctionType).hash_code())
@@ -43,12 +42,17 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
             if (!hasChild(name("Root")))
                 return Root->READ(objectName, true);
         }
-        throw(exception("Cannot find ", objectName, " in ", getFullNameString()));
-        return std::make_shared<object>();
+        throw(NotFound("Cannot find ", objectName, " in ", getFullNameString()));
     }
     catch(exception& e)
     {
-        throw(exception("Error at: ", getFullNameString(), "\n", e.what()));
+        throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
+    }
+    catch (object::objectPtr& e)
+    {
+        if (e->getValue().type().hash_code() == typeid(std::string).hash_code())
+            e->setValue("Exception at: " + getFullNameString() + "\n" + (*std::any_cast<std::string>(&e->getValue())));
+        throw(e);
     }
 }
 
@@ -61,11 +65,17 @@ object::objectPtr object::READCALL(object::objectPtr arg)
     {
         if (children.count(name("readOperator")))
             return children[name("readOperator")]->CALL(arg);
-        throw(exception("Object ", getFullNameString(), " has no readOperator"));
+        throw(NotFound("Object ", getFullNameString(), " has no readOperator"));
     }
     catch(exception& e)
     {
-        throw(exception("Error at: ", getFullNameString(), "\n", e.what()));
+        throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
+    }
+    catch (object::objectPtr& e)
+    {
+        if (e->getValue().type().hash_code() == typeid(std::string).hash_code())
+            e->setValue("Exception at: " + getFullNameString() + "\n" + (*std::any_cast<std::string>(&e->getValue())));
+        throw(e);
     }
 }
 
@@ -83,14 +93,17 @@ object::objectPtr object::CALL(object::argsContainer& args)
         }
         if (children.count(name("callOperator")))
             return children[name("callOperator")]->CALL(args);
-        exception e = exception(std::string("Object ") + getFullNameString() + std::string(" is neither BlockCallable nor NativeCallable."));
-        throw(e);
-        throw(exception("Object ", getFullNameString(), " has no readOperator"));
-        return std::make_shared<object>();
+        throw(InvalidValue("Object ", getFullNameString(), " is neither BlockCallable nor NativeCallable."));
     }
     catch(exception& e)
     {
-        throw(exception("Error at: ", getFullNameString(), "\n", e.what()));
+        throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
+    }
+    catch (object::objectPtr& e)
+    {
+        if (e->getValue().type().hash_code() == typeid(std::string).hash_code())
+            e->setValue("Exception at: " + getFullNameString() + "\n" + (*std::any_cast<std::string>(&e->getValue())));
+        throw(e);
     }
 }
 
@@ -124,7 +137,7 @@ object::objectPtr object::getParent(bool throwing)
 {
     if(throwing && parent == nullptr)
     {
-        throw(exception("Object ", getName(), " has no parent, how sad"));
+        throw(NotFound("Object ", getName(), " has no parent, how sad"));
         return nullptr;
     }
     if (parent == nullptr)
@@ -162,7 +175,7 @@ object::objectPtr object::debugTree(int indentation)
 }
 
 
-object::objectPtr moveOperator (object::objectPtr obj, object::argsContainer& args)
+/*object::objectPtr moveOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
     {
@@ -176,4 +189,4 @@ object::objectPtr moveOperator (object::objectPtr obj, object::argsContainer& ar
         throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
     }
     return obj;
-}
+}*/

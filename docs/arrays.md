@@ -22,9 +22,9 @@ var arr.=(Array());
 
 ```c
 var arr.=(Array());
-errorOut(arr.size());
+basicOut(arr.size());
 arr.resize(5);
-errorOut(arr.size());
+basicOut(arr.size());
 ```
 
 (In example above `arr`'s elements are not initialized.)
@@ -33,11 +33,11 @@ errorOut(arr.size());
 
 ```c
 var arr.=(Array());
-errorOut(arr.size());
+basicOut(arr.size());
 arr.pushBack(3.14);
-errorOut(arr.size());
+basicOut(arr.size());
 arr.pushBack(7, "x", 0.01);
-errorOut(arr.size());
+basicOut(arr.size());
 ```
 
 ## 3. Array iterators and accessing stored references
@@ -56,7 +56,7 @@ errorOut(arr.size());
 var arr.=(Array());
 arr.pushBack(7, "x", 0.01);
 
-errorOut(arr[0].get(), arr[1].get(), arr[2].get());
+basicOut(arr[0].get(), arr[1].get(), arr[2].get());
 ```
 
 Now understand what reference is:
@@ -68,11 +68,11 @@ arr.resize(1);
 
 # Assign reference to text to arr[0], it is ArrayIterator.= #
 arr[0].=(text);
-errorOut(arr[0].get());
+basicOut(arr[0].get());
 
 # Modify text using reference stored in arr[0], it is Object.= #
 arr[0].get()=("Good morning");
-errorOut(arr[0].get(), text);
+basicOut(arr[0].get(), text);
 ```
 
 There are also `Array.begin` method equivalent to `Array[0]` and `Array.end` method equivalent to `Array[Array.size()]`. Let's try running following code:
@@ -81,17 +81,18 @@ There are also `Array.begin` method equivalent to `Array[0]` and `Array.end` met
 var arr.=(Array());
 arr.pushBack(7, "x", 0.01);
 
-errorOut(arr[10000].get());
+basicOut(arr[10000].get());
 ```
 
 Output should look like this:
 
 ```
-Error at: SourceBlockCallable
-Error at: SourceBlockCallable.callOperator
-Error at: SourceBlockCallable.arr
-Error at: SourceBlockCallable.arr.readOperator
-Out of range while calling SourceBlockCallable.arr.readOperator
+Error at: ..Root.import
+Error at: ..Root.my_file_name
+Error at: ..Root.my_file_name.callOperator
+Error at: ..Root.my_file_name.arr
+Error at: ..Root.my_file_name.arr.readOperator
+Out of range while calling ..Root.my_file_name.arr.readOperator
 ```
 This is exception, it describes what happened clearly.
 
@@ -101,13 +102,13 @@ You will learn what constructor is in following lessons, now you need to know th
 
 ```c
 var arr.=(Array(20));
-errorOut(arr.size());
+basicOut(arr.size());
 ```
 
 ```c
 var arr.=(Array(4, "some text"));
-errorOut(arr.size());
-errorOut(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
+basicOut(arr.size());
+basicOut(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
 ```
 
 ---

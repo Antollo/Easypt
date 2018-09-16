@@ -29,7 +29,7 @@ Let's begin with function literal (unnamed function):
 
 ```c
 {
-    errorOut("I am BlockCallable literal!");
+    basicOut("I am BlockCallable literal!");
 };
 ```
 
@@ -37,7 +37,7 @@ Nothing happened. We need to call it (by call operator - `()`).
 
 ```c
 {
-    errorOut("I am BlockCallable literal!");
+    basicOut("I am BlockCallable literal!");
 }();
 ```
 
@@ -47,7 +47,7 @@ Let's give our function a name;:
 
 ```js
 var fun.=({
-    errorOut("I am fun!");
+    basicOut("I am fun!");
 });
 fun();
 ```
@@ -62,7 +62,7 @@ In Easypt argumets are provided as `Array` of [references](https://en.wikipedia.
 
 ```js
 var print.=({
-    errorOut(args[0].get(), args[1].get());
+    basicOut(args[0].get(), args[1].get());
 });
 print(7, 3.14);
 ```
@@ -71,7 +71,7 @@ Try to run:
 
 ```js
 var print.=({
-    errorOut(args[0].get(), args[1].get());
+    basicOut(args[0].get(), args[1].get());
 });
 print(7);
 ```
@@ -79,13 +79,14 @@ print(7);
 You will see out of range exception:
 
 ```
-Error at: SourceBlockCallable
-Error at: SourceBlockCallable.callOperator
-Error at: print
-Error at: print.callOperator
-Error at: print.args
-Error at: print.args.readOperator
-Out of range while calling print.args.readOperator
+Error at: ..Root.import
+Error at: ..Root.my_source_file
+Error at: ..Root.my_source_file.callOperator
+Error at: ..Root.my_source_file.print
+Error at: ..Root.my_source_file.print.callOperator
+Error at: ..Root.my_source_file.print.args
+Error at: ..Root.my_source_file.print.args.readOperator
+Out of range while calling ..Root.my_source_file.print.args.readOperator
 ```
 
 But 
@@ -102,10 +103,10 @@ var myIncrement.=({
 });
 var myInt.=(5)
 myIncrement(myInt);
-errorOut(myInt);
+basicOut(myInt);
 ```
 
-Output is `6`. If you donn't want to pass a reference, you will have to use `Object`'s `copy` method:
+Output is `6`. If you don't want to pass a reference, you will have to use `Object`'s `copy` method:
 
 ```js
 var myIncrement.=({
@@ -113,12 +114,12 @@ var myIncrement.=({
 });
 var myInt.=(5)
 myIncrement(myInt.copy());
-errorOut(myInt);
+basicOut(myInt);
 ```
 
 Now output is `5`.
 
-You will learn about variable nmber of arguments while learning about loops.
+You will learn about variable number of arguments while learning about loops.
 
 ## 4. Return
 
@@ -128,7 +129,7 @@ Unlike _return statement_ in many languages `return` is variable in Easypt. `ret
 var fun.=({
     var return.=(5);
 });
-errorOut(fun());
+basicOut(fun());
 ```
 
 ## 5. Exercise "Birthday Project"
@@ -143,7 +144,7 @@ var makeGreetingsString.=({
     return.=(return.+(args[1].get()));
     return.=(return.+("!"));
 });
-errorOut(makeGreetingsString(51, "John"));
+basicOut(makeGreetingsString(51, "John"));
 ```
 
 Output:

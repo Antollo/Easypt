@@ -5,8 +5,8 @@ std::shared_ptr<std::map<std::string, int>> name::nameToCodeMap;
 
 name::name(std::string textName)
 {
-    //TODO exception
-    if (textName.size() == 0) throw ("problem here");
+
+    if (textName.size() == 0) throw(Parser("Terrible parser error"));
     if (nameToCodeMap->count(textName) == 0)
     {
         code = nameToCodeMap->size();
@@ -28,8 +28,8 @@ void name::initialize()
     nameToCodeMap = std::make_shared<std::map<std::string, int>>();
 }
 
-void name::initialize(std::shared_ptr<std::map<int, std::string>>& newCodeToNameMap, std::shared_ptr<std::map<std::string, int>>& newNameToCodeMap)
+void name::initialize(initializationPack pack)
 {
-    codeToNameMap = newCodeToNameMap;
-    nameToCodeMap = newNameToCodeMap;
+    codeToNameMap = pack.first;
+    nameToCodeMap = pack.second;
 }

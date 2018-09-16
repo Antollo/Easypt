@@ -19,7 +19,7 @@ For instance:
 ```c
 var x.=("abc");
 if (x.==("abc"), {
-    errorOut("x is equal to abc");
+    basicOut("x is equal to abc");
 });
 ```
 
@@ -39,9 +39,9 @@ For example:
 var a.=(6);
 var b.=(9);
 if (a.>(b), {
-    errorOut("a is greater than b");
+    basicOut("a is greater than b");
 }, {
-    errorOut("a is less or equal than b");
+    basicOut("a is less or equal than b");
 });
 ```
 
@@ -67,7 +67,7 @@ Example:
 var condition.=(1.toBoolean() #true# );
 var i.=(0);
 while (condition, {
-    errorOut(i.++());
+    basicOut(i.++());
     if (i.==(10), { condition.=(0.toBoolean() #false# ); });
 });
 ```
@@ -94,7 +94,7 @@ Example of `Int` based `for`:
 
 ```c
 for (var i.=(0).<, 10, i.++, {
-    errorOut(i);
+    basicOut(i);
 });
 ```
 
@@ -104,7 +104,7 @@ Example of `ArrayIterator` based `for`:
 var arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
 for (var it.=(arr.begin()).!=, arr.end(), it.++, {
-    errorOut(it.get());
+    basicOut(it.get());
 });
 ```
 
@@ -113,7 +113,7 @@ Example of `StringIterator` based `for`:
 ```c
 var str.=("Hello world!");
 for(var it.=(str.begin()).!=, str.end(), it.++, {
-    errorOut(it.get());
+    basicOut(it.get());
 });
 ```
 

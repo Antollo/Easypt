@@ -1,14 +1,26 @@
 
-var str.=("Hello world!");
 
-for(var it.=(str.begin()).!=, str.end(), it.++, {
-	errorOut(it.get());
+import("console");
+import("system");
+
+console.writeLine("za¾¢ˆ† g©˜l¥ ja¾ä");
+console.writeLine("za¾¢ˆ† g©˜l¥ ja¾ä".find("g©"));
+var x.=(console.readLine());
+# console.writeLine(x);#
+
+console.beep();
+
+try({
+    throw(OutOfRangeException("bab"));
+}, {
+    basicOut(args[0].get());
 });
 
+system.callShellCommand("cls");
+# basicOut(system.getEnvironmentVariable("PATH")); #
 
-
-var arr.=(Array());
-arr.pushBack(1, 7, 3.14, "abc", "defgh");
-for (var it.=(arr.begin()).!=, arr.end(), it.++, {
-    errorOut(it.get());
+var print.=({
+    basicOut(args[0].get());
 });
+
+print(7);

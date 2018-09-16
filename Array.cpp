@@ -24,10 +24,10 @@ object::objectPtr Array1 (object::objectPtr obj, object::argsContainer& args)
         }
         else
         {
-            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
+            throw(WrongTypeOfArgument("Argument is not Basic in ", obj->getFullNameString()));
         }
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr Array2 (object::objectPtr obj, object::argsContainer& args)
 {
@@ -43,10 +43,10 @@ object::objectPtr Array2 (object::objectPtr obj, object::argsContainer& args)
         }
         else
         {
-            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
+            throw(WrongTypeOfArgument("Argument is not Basic in ", obj->getFullNameString()));
         }
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //Array methods
 object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContainer& args)
@@ -66,15 +66,15 @@ object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContaine
             }
             else
             {
-                throw(exception("Out of range while calling ", obj->getFullNameString()));
+                throw(OutOfRange("Out of range while calling ", obj->getFullNameString()));
             }
         }
         else
         {
-            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
+            throw(WrongTypeOfArgument("Argument is not Int in ", obj->getFullNameString()));
         }
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr ArrayPushBack (object::objectPtr obj, object::argsContainer& args)
 {
@@ -105,5 +105,5 @@ object::objectPtr ArrayIteratorAssignOperator (object::objectPtr obj, object::ar
         return obj->getParent();
 
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }

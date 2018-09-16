@@ -27,11 +27,11 @@ object::objectPtr StringToInt (object::objectPtr obj, object::argsContainer& arg
     }
     catch (std::invalid_argument& e)
     {
-        throw(exception("Invalid parent value in ", obj->getFullNameString()));
+        throw(InvalidValue("Invalid parent value in ", obj->getFullNameString()));
     }
     catch (std::out_of_range& e)
     {
-        throw(exception("Out of range in ", obj->getFullNameString()));
+        throw(OutOfRange("Out of range in ", obj->getFullNameString()));
     }
     return ret;
 }
@@ -44,11 +44,11 @@ object::objectPtr StringToDouble (object::objectPtr obj, object::argsContainer& 
     }
     catch (std::invalid_argument& e)
     {
-        throw(exception("Invalid parent value in ", obj->getFullNameString()));
+        throw(InvalidValue("Invalid parent value in ", obj->getFullNameString()));
     }
     catch (std::out_of_range& e)
     {
-        throw(exception("Out of range in ", obj->getFullNameString()));
+        throw(OutOfRange("Out of range in ", obj->getFullNameString()));
     }
     return ret;
 }
@@ -57,15 +57,15 @@ object::objectPtr StringToBoolean (object::objectPtr obj, object::argsContainer&
     object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
     try
     {
-        ret->getValue() = (bool)std::any_cast<std::string>(obj->getParent()->getValue()).size();
+        ret->getValue() = (bool) std::any_cast<std::string>(obj->getParent()->getValue()).size();
     }
     catch (std::invalid_argument& e)
     {
-        throw(exception("Invalid parent value in ", obj->getFullNameString()));
+        throw(InvalidValue("Invalid parent value in ", obj->getFullNameString()));
     }
     catch (std::out_of_range& e)
     {
-        throw(exception("Out of range in ", obj->getFullNameString()));
+        throw(OutOfRange("Out of range in ", obj->getFullNameString()));
     }
     return ret;
 }
@@ -83,21 +83,18 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
                 object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
                 ret->getValue() = (*std::any_cast<std::string>(&obj->getParent()->getValue())).begin() + index;
                 return ret;
-                //object::objectPtr ret = obj->READ(name("String"), true)->CALL();
-                //ret->getValue() = std::string(1, std::any_cast<std::string>(obj->getParent()->getValue()).at(index));
-                //return ret;
             }
             else
             {
-                throw(exception("Out of range while calling ", obj->getFullNameString()));
+                throw(OutOfRange("Out of range while calling ", obj->getFullNameString()));
             }
         }
         else
         {
-            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
+            throw(WrongTypeOfArgument("Argument is not Int in ", obj->getFullNameString()));
         }
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //StringIterator constructor
 object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& args)
@@ -127,8 +124,8 @@ object::objectPtr StringIteratorAssignOperator (object::objectPtr obj, object::a
         }
         else
         {
-            throw(exception("Argument is not Basic in ", obj->getFullNameString()));
+            throw(WrongTypeOfArgument("Argument is not Basic in ", obj->getFullNameString()));
         }
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }

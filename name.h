@@ -4,6 +4,8 @@
 #include <memory>
 #include <map>
 #include <cstring>
+#include <utility>
+#include "exception.h"
 /*class fastString
 {
 public:
@@ -56,8 +58,10 @@ public:
     }
     //Why?
     //This class in dll will have own static members
+    typedef std::pair<std::shared_ptr<std::map<int, std::string>>, std::shared_ptr<std::map<std::string, int>>> initializationPack;
     static void initialize();
-    static void initialize(std::shared_ptr<std::map<int, std::string>>& newCodeToNameMap, std::shared_ptr<std::map<std::string, int>>& newNameToCodeMap);
+    static initializationPack getInitializationPack() { return std::make_pair(codeToNameMap, nameToCodeMap); }
+    static void initialize(initializationPack pack);
 
 private:
     int code;

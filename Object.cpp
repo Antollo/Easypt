@@ -3,7 +3,7 @@
 //Object constructor
 object::objectPtr Object (object::objectPtr obj, object::argsContainer& args)
 {
-    object::objectPtr ret = std::make_shared<object>();
+    object::objectPtr ret = makeObject();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
         ret->addChild(child.second->copy());
@@ -20,7 +20,7 @@ object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& 
         //return obj->getParent()->getParent()->getChildren()[obj->getParent()->getName()] = args[0];
     else
     {
-        throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+        throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
     }
 }
 object::objectPtr merge (object::objectPtr obj, object::argsContainer& args)
@@ -57,16 +57,16 @@ object::objectPtr notEqualOperator (object::objectPtr obj, object::argsContainer
     {
         return obj->getParent()->READ(name("=="))->CALL(args[0])->READ(name("!"))->CALL();
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr equalReferenceTypeOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr equalReferenceOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
     {
         bool comparison = (obj->getParent() == args[0]);
         return obj->READ(name("Boolean"), true)->CALL()->setValue(comparison);
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr equalSignaturesTypeOperator (object::objectPtr obj, object::argsContainer& args)
 {
@@ -75,7 +75,7 @@ object::objectPtr equalSignaturesTypeOperator (object::objectPtr obj, object::ar
         bool comparison = (obj->getParent()->getSignatures() == args[0]->getSignatures());
         return obj->READ(name("Boolean"), true)->CALL()->setValue(comparison);
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr equalInternalTypeOperator (object::objectPtr obj, object::argsContainer& args)
 {
@@ -84,7 +84,7 @@ object::objectPtr equalInternalTypeOperator (object::objectPtr obj, object::args
         bool comparison = (obj->getParent()->getValue().type().hash_code() == args[0]->getValue().type().hash_code());
         return obj->READ(name("Boolean"), true)->CALL()->setValue(comparison);
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr debugTree (object::objectPtr obj, object::argsContainer& args)
 {

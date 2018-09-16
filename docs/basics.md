@@ -5,7 +5,7 @@
 Create new `*.ez` source file (e.g. `source.ez`). Open it with VS Code. Create `tasks.json` as described in [prepare environment](environment.md). Paste following code to that file:
 
 ```c
-errorOut("Hello world!");
+basicOut("Hello world!");
 ```
 
 Run file with `Ctrl+Shift+B`. You wil see output in VS Code integrated terminal, something like this:
@@ -26,7 +26,7 @@ easypt -file source.ez
 
 Understand the code:
 
-- `errorOut` is function which print `Basic` (`String`, `Int`, `Double` or `Boolean`, you will learn about it later) arguments to console, each argument in new line.
+- `basicOut` is function which print `Basic` (`String`, `Int`, `Double` or `Boolean`, you will learn about it later) arguments to console, each argument in new line.
 - `"Hello world!"` is `String` literal.
 - In Easypt each statement must end with semicolon (`;`).
 
@@ -47,7 +47,7 @@ Example:
 Comment in three lines.
 #
 
-errorOut("Hello", # Comment inside statement! # "world!");
+basicOut("Hello", # Comment inside statement! # "world!");
 
 ```
 
@@ -98,25 +98,25 @@ Example:
 
 ```c
 var a.=(2.+(5));
-errorOut(a);
+basicOut(a);
 
 a.=(a.-(1));
-errorOut(a);
+basicOut(a);
 
 a.=(a.*(2));
-errorOut(a);
+basicOut(a);
 
 a.=(a./(3));
-errorOut(a);
+basicOut(a);
 
 a.=(a.%(3));
-errorOut(a);
+basicOut(a);
 
 var b.=(-70.0);
-errorOut(b);
+basicOut(b);
 
 b.=(b./(3.0));
-errorOut(b);
+basicOut(b);
 ```
 
 ## 5. Increment and decrement
@@ -130,8 +130,8 @@ Basically (for `Int` and `Double` numbers) `x.++()` is equivalent of `x.=(x.+(1)
 ```c
 var a.=(6);
 a.++();
-errorOut(a);
-errorOut(a.--());
+basicOut(a);
+basicOut(a.--());
 ```
 
 Understand the code:
@@ -146,7 +146,7 @@ The `+` method adds them together to make a new `String`.
 
 ```c
 var text.=("Hello");
-errorOut(text.+(" world!"));
+basicOut(text.+(" world!"));
 ```
 
 ---

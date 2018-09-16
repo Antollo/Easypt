@@ -6,11 +6,8 @@ object::objectPtr BlockCallable (object::objectPtr obj, object::argsContainer& a
     object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
     ret->addSignature(name("Callable"));
     ret->addSignature(obj->getName());
-    ret->addChild(obj->READ(name("for"))->copy());
-    ret->addChild(obj->READ(name("while"))->copy());
-    ret->addChild(obj->READ(name("if"))->copy());
-    ret->addChild(obj->READ(name("=="))->copy());
-    ret->addChild(obj->READ(name("callOperator"))->copy());
+    for (auto& child : obj->getChildren())
+        ret->addChild(child.second->copy());
     ret->getValue() = std::list<expression>();
     return ret;
 }
@@ -26,7 +23,7 @@ object::objectPtr BlockCallableEqualOperator (object::objectPtr obj, object::arg
         ret->getValue() = firstComparison;
         return ret;
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr evaluateExpression(const expression& exp, object::objectPtr parent)
 {
@@ -88,9 +85,9 @@ object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer&
                 return args[0];
             }
         }
-        throw(exception("First argument is not Basic in ", obj->getFullNameString()));
+        throw(WrongTypeOfArgument("First argument is not Basic in ", obj->getFullNameString()));
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr BlockCallableFor (object::objectPtr obj, object::argsContainer& args)
 {
@@ -106,21 +103,54 @@ object::objectPtr BlockCallableFor (object::objectPtr obj, object::argsContainer
         }
         return args[3];
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr BlockCallableWhile (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 2)
     {
         if (!args[0]->hasSignature(name("Basic")))
-            throw(exception("First argument is not Basic in ", obj->getFullNameString()));
+            throw(WrongTypeOfArgument("First argument is not Basic in ", obj->getFullNameString()));
         while (std::any_cast<bool>(args[0]->READ(name("toBoolean"))->CALL()->getValue()))
         {
             args[1]->callWithParent(obj);
             if (!args[0]->hasSignature(name("Basic")))
-                throw(exception("First argument is not Basic in ", obj->getFullNameString()));
+                throw(WrongTypeOfArgument("First argument is not Basic in ", obj->getFullNameString()));
         }
         return args[1];
     }
-    throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr BlockCallableThrow (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        throw(args[0]);
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr BlockCallableTry (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 2)
+    {
+        try
+        {
+            object::objectPtr ret = args[0]->callWithParent(obj);
+            return ret;
+        }
+        catch (exception& e)
+        {
+            args[1]->CALL(constructObject(obj, "String", e.getMessage()));
+        }
+        catch (std::exception& e)
+        {
+            args[1]->CALL(constructObject(obj, "String", "Unknown exception: " + std::string(e.what())));
+        }
+        catch (object::objectPtr& e)
+        {
+           args[1]->CALL(e);
+        }
+        return obj->getParent();
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }

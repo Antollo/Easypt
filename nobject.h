@@ -3,7 +3,7 @@
 
 //use c++17 any if your compiler support it.
 //#include <any>
-#include <anyImplementation/any.hpp>
+#include "anyImplementation/any.hpp"
 #include "name.h"
 #include "IO.h"
 #include "exception.h"
@@ -13,11 +13,9 @@
 #include <cstdint>
 #include <functional>
 
-class object;
-typedef std::shared_ptr<object> objectPtr;
-typedef std::vector<objectPtr> argsContainer;
 
-objectPtr moveOperator (objectPtr obj, argsContainer& args);
+#define makeObject(...) std::make_shared<object>(__VA_ARGS__)
+#define constructObject(caller, type, value) caller->READ(name(type), true)->CALL()->setValue(value)
 
 class object : public std::enable_shared_from_this<object>
 {
@@ -27,6 +25,7 @@ class object : public std::enable_shared_from_this<object>
         typedef objectPtr (*nativeFunctionType)(objectPtr, argsContainer&);
         typedef std::map<name, objectPtr> childrenType;
         typedef std::unordered_set<name> signaturesContainer;
+
 
         object(std::any newValue = nullptr, name newName = name(std::string("Anonymous") + std::to_string(objectCounter)));
         ~object();
@@ -52,8 +51,8 @@ class object : public std::enable_shared_from_this<object>
         {
             children[child->getName()] = child;
             child->setParent(this);
-            if (value.type().hash_code() != typeid(nativeFunctionType).hash_code())
-                child->addChild(moveOperator->copy());
+            /*if (value.type().hash_code() != typeid(nativeFunctionType).hash_code());
+                child->addChild(moveOperator->copy());*/
             return shared_from_this();
         }
         childrenType& getChildren() { return children; }
@@ -72,7 +71,7 @@ class object : public std::enable_shared_from_this<object>
         signaturesContainer& getSignatures() { return signatures; }
         objectPtr copy()
         {
-            objectPtr copyOfThis = std::make_shared<object>(value, myName);
+            objectPtr copyOfThis = makeObject(value, myName);
             copyOfThis->signatures = signatures;
             for(auto& child : children)
                 copyOfThis->addChild(child.second->copy());
@@ -89,14 +88,12 @@ class object : public std::enable_shared_from_this<object>
         static void initialize(objectPtr newRoot)
         {
             Root = newRoot;
-            moveOperator = std::make_shared<object>(::moveOperator, name("<-"));
         }
-        static void release() { Root.reset(); moveOperator.reset(); }
+        static void release() { Root.reset(); }
         static objectPtr getRoot() { return Root; }
     private:
         static objectPtr Root;
         static int objectCounter;
-        static objectPtr moveOperator;
 
         std::any value;
         childrenType children;
@@ -107,4 +104,5 @@ class object : public std::enable_shared_from_this<object>
         signaturesContainer signatures;
 };
 
-#endif // OBJECT_H
+
+#endif
