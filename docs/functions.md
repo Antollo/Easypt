@@ -156,3 +156,9 @@ Happy 51 birthday John!
 Understand the code:
 
 - `toString` is `Basic`'s method that return new `String` object created from owner value.
+
+---
+
+[Next lesson (Conditionals and loops)](conditionals_and_loops.md)
+
+[Table of contents](tutorial.md)

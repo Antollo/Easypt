@@ -164,7 +164,6 @@ object::objectPtr object::debugTree(int indentation)
         IO::console<<spaces<<"{\n";
         for(auto& child : children)
         {
-            std::cout<<"<"<<(std::string)child.first<<">\n";
             child.second->debugTree(indentation+1);
         }
         IO::console<<spaces<<"}\n";

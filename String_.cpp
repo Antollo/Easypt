@@ -84,15 +84,9 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
                 ret->getValue() = (*std::any_cast<std::string>(&obj->getParent()->getValue())).begin() + index;
                 return ret;
             }
-            else
-            {
-                throw(OutOfRange("Out of range while calling ", obj->getFullNameString()));
-            }
+            throw(OutOfRange("Out of range while calling ", obj->getFullNameString()));
         }
-        else
-        {
-            throw(WrongTypeOfArgument("Argument is not Int in ", obj->getFullNameString()));
-        }
+        throw(WrongTypeOfArgument("Argument is not Int in ", obj->getFullNameString()));
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }

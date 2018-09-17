@@ -121,6 +121,6 @@ Oops! I didn't tell you that `String` has some functionality like `Array` (both 
 
 ---
 
-Next lesson (Types)
+[Next lesson (Classes)](classes.md)
 
 [Table of contents](tutorial.md)

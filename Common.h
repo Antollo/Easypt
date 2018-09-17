@@ -89,37 +89,55 @@ template<class T>
 struct guess_type
 {
 	typedef typename std::conditional<
-	std::is_integral<T>::value, int,
-		typename std::conditional<std::is_floating_point<T>::value, double, T>::type
+	    std::is_integral<T>::value, int,
+		    typename std::conditional<std::is_floating_point<T>::value, double, T>::type
 	>::type type;
 };
 
+template<>
+struct guess_type<char>
+{
+    typedef std::string type;
+};
+
+template<>
+struct guess_type<std::string::const_iterator>
+{
+    typedef std::string::iterator type;
+};
+
+template<class T, class A>
+inline T type_converter(A member)
+{
+    return (T)member;
+};
+
+template<>
+inline char type_converter(std::string member)
+{
+    //TODO THROW!!!
+    return member[0]; 
+};
 
 template<class V, class R, class... Args, int... Is>
 R callMethod(V* value, R (V::*f)(Args...), object::argsContainer& args, seq<Is...>)
 {
-    if (args.size() != sizeof...(Args))
-        throw(WrongNumberOfArguments("Wrong number of argument"));
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
-        return (value->*f)(*std::any_cast<typename guess_type<Args>::type>(&args[Is]->getValue())...);
+        return (value->*f)((type_converter<Args, typename guess_type<Args>::type>(std::any_cast<typename guess_type<Args>::type>(args[Is]->getValue())))...);
     throw(WrongTypeOfArgument("Wrong type of argument"));
 }
 
 template<class V, class R, class... Args, int... Is>
 R callMethod(V* value, R (V::*f)(Args...) const, object::argsContainer& args, seq<Is...>)
 {
-    if (args.size() != sizeof...(Args))
-        throw(WrongNumberOfArguments("Wrong number of argument"));
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
-        return (value->*f)(std::any_cast<typename guess_type<Args>::type>(args[Is]->getValue())...);
+        return (value->*f)((type_converter<Args, typename guess_type<Args>::type>(std::any_cast<typename guess_type<Args>::type>(args[Is]->getValue())))...);
     throw(WrongTypeOfArgument("Wrong type of argument"));
 }
 
 template<class R, class... Args, int... Is>
 R callFunction(R (*f)(Args...), object::argsContainer& args, seq<Is...>)
 {
-    if (args.size() != sizeof...(Args))
-        throw(WrongNumberOfArguments("Wrong number of argument"));
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
         return f(*std::any_cast<typename guess_type<Args>::type>(&args[Is]->getValue())...);
     throw(WrongTypeOfArgument("Wrong type of argument"));
@@ -128,12 +146,16 @@ R callFunction(R (*f)(Args...), object::argsContainer& args, seq<Is...>)
 template<class V, class S, S f, class R, const char* typeName,  class... Args>
 object::objectPtr TMethod (object::objectPtr obj, object::argsContainer& args)
 {
+    if (args.size() != sizeof...(Args))
+        throw(WrongNumberOfArguments("Wrong number of argument"));
     return obj->READ(name(typeName), true)->CALL()->setValue((R) callMethod(std::any_cast<V>(&obj->getParent()->getValue()), f, args, gen_seq<sizeof...(Args)>()));
 }
 
 template<class V, class S, S f,  class... Args>
 object::objectPtr VMethod (object::objectPtr obj, object::argsContainer& args)
 {
+    if (args.size() != sizeof...(Args))
+        throw(WrongNumberOfArguments("Wrong number of argument"));
     callMethod(std::any_cast<V>(&obj->getParent()->getValue()), f, args, gen_seq<sizeof...(Args)>());
     return obj->getParent();
 }
@@ -141,12 +163,16 @@ object::objectPtr VMethod (object::objectPtr obj, object::argsContainer& args)
 template<class S, S f, class R, const char* typeName,  class... Args>
 object::objectPtr TFunction (object::objectPtr obj, object::argsContainer& args)
 {
+    if (args.size() != sizeof...(Args))
+        throw(WrongNumberOfArguments("Wrong number of argument"));
     return obj->READ(name(typeName), true)->CALL()->setValue((R) callFunction(f, args, gen_seq<sizeof...(Args)>()));
 }
 
 template<class S, S f, class... Args>
 object::objectPtr VFunction (object::objectPtr obj, object::argsContainer& args)
 {
+    if (args.size() != sizeof...(Args))
+        throw(WrongNumberOfArguments("Wrong number of argument"));
     callFunction(f, args, gen_seq<sizeof...(Args)>());
     return obj->getParent();
 }

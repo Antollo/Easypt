@@ -35,7 +35,8 @@ object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::argsCon
     {
         if (args[0]->hasSignature(name("String")))
         {
-            return constructObject(obj, "String", std::string(std::getenv(std::any_cast<std::string>(args[0]->getValue()).c_str())));
+            char* res = std::getenv(std::any_cast<std::string>(args[0]->getValue()).c_str());
+            return constructObject(obj, "String", std::string((res == nullptr) ? "" : res));
         }
         else
         {

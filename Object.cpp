@@ -42,6 +42,62 @@ object::objectPtr getParent (object::objectPtr obj, object::argsContainer& args)
 {
     return obj->getParent()->getParent();
 }
+object::objectPtr hasParent (object::objectPtr obj, object::argsContainer& args)
+{
+    return constructObject(obj, "Boolean", (bool) obj->getParent()->getParent(false));
+}
+object::objectPtr getChild (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("String")))
+        {
+            if (obj->getParent()->hasChild(std::any_cast<std::string>(args[0]->getValue())))
+                return obj->getParent()->READ(name(std::any_cast<std::string>(args[0]->getValue())));
+            throw(NotFound("Not found ", std::any_cast<std::string>(args[0]->getValue()), " in ", obj->getFullNameString()));
+        }
+        throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr hasChild (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("String")))
+        {
+            return constructObject(obj, "Boolean", (bool) obj->getParent()->hasChild(name(std::any_cast<std::string>(args[0]->getValue()))));
+        }
+        throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr addChild2 (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 2)
+    {
+        if (args[0]->hasSignature(name("String")))
+        {
+            obj->getParent()->getChildren()[std::any_cast<std::string>(args[0]->getValue())] = args[1];
+            return  obj->getParent();
+        }
+        throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr addChild1 (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        obj->getParent()->getChildren()[args[0]->getName()] = args[0];
+        return  obj->getParent();
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr getName (object::objectPtr obj, object::argsContainer& args)
+{
+    return constructObject(obj, "String", (std::string) obj->getParent()->getName());
+}
 object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args)
 {
     bool isInstanceOf = true;

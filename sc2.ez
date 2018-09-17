@@ -3,24 +3,53 @@
 import("console");
 import("system");
 
-console.writeLine("za¾¢ˆ† g©˜l¥ ja¾ä");
-console.writeLine("za¾¢ˆ† g©˜l¥ ja¾ä".find("g©"));
+console.writeLine("abc defgh");
+"abc defgh".insert("abc defgh".begin().+(1), "x".begin(), "x".end());
+console.writeLine("abc defgh".find("de", 0));
+console.writeLine("abc defgh");
 var x.=(console.readLine());
-# console.writeLine(x);#
+x.resize(6,"f");
+console.writeLine(x);
+
+var a;
+var uuu;
+if (a.hasChild("b"), { console.writeLine("not ok"); });
+a.addChild("b", Int());
+a.addChild(uuu);
+if (a.hasChild("b"), { console.writeLine("ok"); });
+console.writeLine(a.getParent().getName());
 
 console.beep();
 
-try({
+#try({
     throw(OutOfRangeException("bab"));
 }, {
     basicOut(args[0].get());
+});#
+
+#system.callShellCommand("cls");#
+#basicOut(system.getEnvironmentVariable("PATH"));#
+
+var Bird.=({
+    var color.=(args[0].get());
+    var tweet.=({ basicOut("tweet"); });
+    var tweetNTimes.=({
+        for (var i.=(0).<, args[0], i.++, {
+            tweet();
+        });
+    });
+    var getColor.=({
+        # current workaround to return reference #
+        addChild("return", color);
+    });
+    var return;
+    return.addChild(color);
+    return.addChild(tweet);
+    return.addChild(tweetNTimes);
+    return.addChild(getColor);
 });
 
-system.callShellCommand("cls");
-# basicOut(system.getEnvironmentVariable("PATH")); #
+var crow.=(Bird("black"));
 
-var print.=({
-    basicOut(args[0].get());
-});
-
-print(7);
+crow.tweet();
+basicOut(crow.getColor());
