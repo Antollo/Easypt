@@ -18,6 +18,26 @@ namespace typeNames
 
 object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args);
 
+
+template<class T, class X>
+struct plus
+{
+    T operator()(const T& t, const X& x)
+    {
+        return t+x;
+    }
+};
+
+template<class T, class X>
+struct minus
+{
+    T operator()(const T& t, const X& x)
+    {
+        return t-x;
+    }
+};
+
+
 //Templated functions
 template<class T, template<class> class OP, const char* STR>
 object::objectPtr T2TOperator (object::objectPtr obj, object::argsContainer& args)
@@ -36,6 +56,21 @@ object::objectPtr T2TOperator (object::objectPtr obj, object::argsContainer& arg
             return ret;
         }
         throw(WrongTypeOfArgument("Argument is not ", STR," in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+template<class T, class X, template<class, class> class OP, const char* TSTR, const char* XSTR>
+object::objectPtr TXTOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name(XSTR)))
+        {
+            object::objectPtr ret = obj->READ(name(TSTR), true)->CALL();
+            ret->getValue() = OP<T, X>()(std::any_cast<T>(obj->getParent()->getValue()), std::any_cast<X>(args[0]->getValue()));
+            return ret;
+        }
+        throw(WrongTypeOfArgument("Argument is not ", XSTR," in ", obj->getFullNameString()));
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
@@ -116,7 +151,7 @@ template<>
 inline char type_converter(std::string member)
 {
     //TODO THROW!!!
-    return member[0]; 
+    return member[0];
 };
 
 template<class V, class R, class... Args, int... Is>

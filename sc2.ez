@@ -4,7 +4,8 @@ import("console");
 import("system");
 
 console.writeLine("abc defgh");
-"abc defgh".insert("abc defgh".begin().+(1), "x".begin(), "x".end());
+console.writeLine("abc".begin().+(1).get());
+#"abc defgh".insert("abc defgh".begin().+(1), "x".begin(), "x".end());#
 console.writeLine("abc defgh".find("de", 0));
 console.writeLine("abc defgh");
 var x.=(console.readLine());
