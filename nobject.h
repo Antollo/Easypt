@@ -51,8 +51,6 @@ class object : public std::enable_shared_from_this<object>
         {
             children[child->getName()] = child;
             child->setParent(this);
-            /*if (value.type().hash_code() != typeid(nativeFunctionType).hash_code());
-                child->addChild(moveOperator->copy());*/
             return shared_from_this();
         }
         childrenType& getChildren() { return children; }
@@ -99,8 +97,6 @@ class object : public std::enable_shared_from_this<object>
         childrenType children;
         object* parent;
         name myName;
-        //Longest name in this project:
-        objectPtr* pointerToPointerToMeFromWhichIWasAccessed;
         signaturesContainer signatures;
 };
 

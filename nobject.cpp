@@ -6,7 +6,7 @@ int object::objectCounter = 0;
 object::objectPtr object::Root;
 
 object::object(std::any newValue, name newName)
-    :value(newValue), myName(newName), parent(nullptr), pointerToPointerToMeFromWhichIWasAccessed(nullptr)
+    :value(newValue), myName(newName), parent(nullptr)
 {
 #if defined(DEBUG)
     std::cout<<"CREATE "<<getFullNameString()<<std::endl;
@@ -164,6 +164,7 @@ object::objectPtr object::debugTree(int indentation)
         IO::console<<spaces<<"{\n";
         for(auto& child : children)
         {
+            IO::console<<spaces<<"    "<<"Nickname:   "<<(std::string)child.first<<"\n";
             child.second->debugTree(indentation+1);
         }
         IO::console<<spaces<<"}\n";
@@ -172,20 +173,3 @@ object::objectPtr object::debugTree(int indentation)
         IO::console<<"\n";
     return shared_from_this();
 }
-
-
-/*object::objectPtr moveOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-    {
-        if (args[0]->getParent(false))
-            args[0]->getParent()->removeChild(args[0]->getName());
-        args[0]->getName() = obj->getParent()->getName();
-        obj->getParent()->getParent()->addChild(args[0]);
-    }
-    else
-    {
-        throw(exception("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-    }
-    return obj;
-}*/

@@ -45,7 +45,7 @@ Nothing happened. We need to call it (by call operator - `()`).
 
 Let's give our function a name;:
 
-```js
+```c
 var fun.=({
     basicOut("I am fun!");
 });
@@ -60,7 +60,7 @@ fun();
 
 In Easypt argumets are provided as `Array` of [references](https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_reference) to arguments named `args`. See the example:
 
-```js
+``c
 var print.=({
     basicOut(args[0].get(), args[1].get());
 });
@@ -69,7 +69,7 @@ print(7, 3.14);
 
 Try to run:
 
-```js
+```c
 var print.=({
     basicOut(args[0].get(), args[1].get());
 });
@@ -79,25 +79,25 @@ print(7);
 You will see out of range exception:
 
 ```
-Error at: ..Root.import
-Error at: ..Root.my_source_file
-Error at: ..Root.my_source_file.callOperator
-Error at: ..Root.my_source_file.print
-Error at: ..Root.my_source_file.print.callOperator
-Error at: ..Root.my_source_file.print.args
-Error at: ..Root.my_source_file.print.args.readOperator
-Out of range while calling ..Root.my_source_file.print.args.readOperator
+Exception at: ..Root.import
+Exception at: ..Root.my_source_file
+Exception at: ..Root.my_source_file.callOperator
+Exception at: ..Root.my_source_file.print
+Exception at: ..Root.my_source_file.print.callOperator
+Exception at: ..Root.my_source_file.print.args
+Exception at: ..Root.my_source_file.print.args.readOperator
+OutOfRangeException: Out of range while calling ..Root.my_source_file.print.args.readOperator
 ```
 
 But 
 
-```js
+``c
 print(7, 7, 7, 7, 7);
 ```
 
 works fine as you expected. So what are those "references"? Run this:
 
-```js
+```c
 var myIncrement.=({
     args[0].get().++();
 });
@@ -108,7 +108,7 @@ basicOut(myInt);
 
 Output is `6`. If you don't want to pass a reference, you will have to use `Object`'s `copy` method:
 
-```js
+``c
 var myIncrement.=({
     args[0].get().++();
 });
@@ -125,7 +125,7 @@ You will learn about variable number of arguments while learning about loops.
 
 Unlike _return statement_ in many languages `return` is variable in Easypt. `return` is value of function call. Assigning value to `return` doesn't make execution to leave the current function and if no value is assigned new `Object` will be returned. Example:
 
-```js
+``c
 var fun.=({
     var return.=(5);
 });
@@ -136,7 +136,7 @@ basicOut(fun());
 
 Your exercise is to analyze following code:
 
-```js
+```c
 var makeGreetingsString.=({
     var return.=("Happy ");
     return.=(return.+(args[0].get().toString()));

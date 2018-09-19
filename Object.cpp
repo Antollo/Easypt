@@ -17,11 +17,16 @@ object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& 
         *(obj->getParent()) = *(args[0]->copy()->setName(obj->getParent()->getName())->setParent(obj->getParent()->getParent(false)));
         return obj->getParent()->fixChildren();
     }
-        //return obj->getParent()->getParent()->getChildren()[obj->getParent()->getName()] = args[0];
-    else
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr referenceAssignOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
     {
-        throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+        obj->getParent()->getParent()->getChildren()[obj->getParent()->getName()] = args[0];
+        return  obj->getParent();
     }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr merge (object::objectPtr obj, object::argsContainer& args)
 {
@@ -60,6 +65,15 @@ object::objectPtr getChild (object::objectPtr obj, object::argsContainer& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
+object::objectPtr getChildrenArray (object::objectPtr obj, object::argsContainer& args)
+{
+    object::objectPtr ret = constructObject(obj, "Array", std::vector<object::objectPtr>(obj->getParent()->getChildren().size()));
+    auto& it1 = (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())).begin();
+    auto& it2 = obj->getParent()->getChildren().begin();
+    while(it2 != obj->getParent()->getChildren().end())
+        *(it1++) = (it2++)->second;
+    return ret;
+}
 object::objectPtr hasChild (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
@@ -97,15 +111,6 @@ object::objectPtr addChild1 (object::objectPtr obj, object::argsContainer& args)
 object::objectPtr getName (object::objectPtr obj, object::argsContainer& args)
 {
     return constructObject(obj, "String", (std::string) obj->getParent()->getName());
-}
-object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args)
-{
-    bool isInstanceOf = true;
-    for(auto& arg : args)
-        isInstanceOf = isInstanceOf && obj->hasSignature(arg->getName());
-    object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-    ret->getValue() = std::any(isInstanceOf);
-    return ret;
 }
 object::objectPtr notEqualOperator (object::objectPtr obj, object::argsContainer& args)
 {

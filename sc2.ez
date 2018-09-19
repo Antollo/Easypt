@@ -1,17 +1,39 @@
+#Root.debugTree();#
 
 
+var mother;
+var father;
+#
+Here the "weirdest" syntax comes,
+It not also attach son as child to
+mother, but also attach mother
+as parent to son.
+#
+mother.var son;
+father.var daughter;
+#Adds reference to father's daughter as step-daughter#
+mother.addChild("step-daughter", father.getChild("daughter"));
+#same as: mother.var step-daughter.<-(father.daughter);#
+mother.addChild(Object());
+var childrenArray.=(mother.getChildrenArray());
+for (var it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+    if (instanceOf(it.get(), Object), {
+        basicOut(it.get().getName());
+    });
+});
+mother.debugTree();
 import("console");
-import("system");
+#import("system");
 
 console.writeLine("abc defgh");
 console.writeLine("abc".begin().+(1).get());
-#"abc defgh".insert("abc defgh".begin().+(1), "x".begin(), "x".end());#
+"abc defgh".insert("abc defgh".begin().+(1), "x".begin(), "x".end());
 console.writeLine("abc defgh".find("de", 0));
-console.writeLine("abc defgh");
+console.writeLine("abc defgh");#
 var x.=(console.readLine());
 x.resize(6,"f");
 console.writeLine(x);
-
+#
 var a;
 var uuu;
 if (a.hasChild("b"), { console.writeLine("not ok"); });
@@ -22,14 +44,14 @@ console.writeLine(a.getParent().getName());
 
 console.beep();
 
-#try({
+try({
     throw(OutOfRangeException("bab"));
 }, {
     basicOut(args[0].get());
 });#
 
 #system.callShellCommand("cls");#
-#basicOut(system.getEnvironmentVariable("PATH"));#
+#basicOut(system.getEnvironmentVariable("PATH"));
 
 var Bird.=({
     var color.=(args[0].get());
@@ -40,7 +62,7 @@ var Bird.=({
         });
     });
     var getColor.=({
-        # current workaround to return reference #
+         current workaround to return reference 
         addChild("return", color);
     });
     var return;
@@ -54,3 +76,4 @@ var crow.=(Bird("black"));
 
 crow.tweet();
 basicOut(crow.getColor());
+#

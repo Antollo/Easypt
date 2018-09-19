@@ -18,7 +18,7 @@ Hello world!
 Press any key to close the terminal.
 ```
 
-Congrats, you have created your first Easypt script! Alternatively you can run it from commandline with command:
+Congrats, you have created your first Easypt script! Alternatively you can run it from shell with command:
 
 ```
 easypt -file source.ez
@@ -73,7 +73,7 @@ var myText.=("This is my first variable");
 Understand the code:
 
 - `var` is keyword which take following token and create variable (of `Object` type) in current context.
-- `=` is `Object`'s method (member function) that assign value of passed argument to owner and return a [reference](https://en.wikipedia.org/wiki/Reference_(computer_science)) to owner.
+- `=` is `Object`'s method (member function) that assign copy of passed argument to owner and return a [reference](https://en.wikipedia.org/wiki/Reference_(computer_science)) to owner.
 
 ## 4. Math operators
 
@@ -136,10 +136,10 @@ basicOut(a.--());
 
 Understand the code:
 
-- `var` is keyword which take following token and create variable (of `Object` type) in current context.
+- `var` is keyword which take following token and create variable (of `Object` class) in current context.
 - In this case `++` is `Int`'s method (member function) equivalent to `a.=(a.+(1))`
 - `--` is similar to `++`.
-- 
+
 ## 6. Adding Strings
 
 The `+` method adds them together to make a new `String`.

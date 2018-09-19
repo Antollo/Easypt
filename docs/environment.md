@@ -1,6 +1,6 @@
 # Prepare environment
 
-> Installer and auto-updates are coming soon!
+> Auto-updates are coming soon!
 
 ## 1. Download Easypt interpreter
 
@@ -22,7 +22,6 @@ Unpack `artifacts.zip` and place easypt interpreter in a worthy place.
   - Select Path from the User variables section and click Edit
   - Click the New button and paste path to interpreter.
   - Click Ok.
-
 
 - For Linux run command
 

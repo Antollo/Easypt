@@ -66,8 +66,8 @@ var text.=("Hello");
 var arr.=(Array());
 arr.resize(1);
 
-# Assign reference to text to arr[0], it is ArrayIterator.= #
-arr[0].=(text);
+# Assign reference to text to arr[0], it is ArrayIterator.<- #
+arr[0].<-(text);
 basicOut(arr[0].get());
 
 # Modify text using reference stored in arr[0], it is Object.= #
@@ -87,12 +87,12 @@ basicOut(arr[10000].get());
 Output should look like this:
 
 ```
-Error at: ..Root.import
-Error at: ..Root.my_file_name
-Error at: ..Root.my_file_name.callOperator
-Error at: ..Root.my_file_name.arr
-Error at: ..Root.my_file_name.arr.readOperator
-Out of range while calling ..Root.my_file_name.arr.readOperator
+Exception at: ..Root.import
+Exception at: ..Root.my_file_name
+Exception at: ..Root.my_file_name.callOperator
+Exception at: ..Root.my_file_name.arr
+Exception at: ..Root.my_file_name.arr.readOperator
+OutOfRangeException: Out of range while calling ..Root.my_file_name.arr.readOperator
 ```
 This is exception, it describes what happened clearly.
 

@@ -10,6 +10,6 @@ object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContaine
 object::objectPtr ArrayPushBack (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr ArrayIteratorGet (object::objectPtr obj, object::argsContainer& args);
-object::objectPtr ArrayIteratorAssignOperator (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr ArrayIteratorReferenceAssignOperator (object::objectPtr obj, object::argsContainer& args);
 
 #endif

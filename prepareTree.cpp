@@ -9,7 +9,8 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
     Root
         ->addChild(makeObject(basicOut, name("basicOut")))
         ->addChild(makeObject(debugTree, name("debugTree")))
-        ->addChild(makeObject(import, name("import")));
+        ->addChild(makeObject(import, name("import")))
+        ->addChild(makeObject(instanceOf, name("instanceOf")));
     //Exception handling ready, here the fun starts
     try
     {
@@ -24,10 +25,11 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
 
         Root->addChild(makeObject(Object, name("Object"))
             ->addChild(makeObject(assignOperator, name("=")))
-            ->addChild(makeObject(instanceOf, name("instanceOf")))
+            ->addChild(makeObject(referenceAssignOperator, name("<-")))
             ->addChild(makeObject(merge, name("merge")))
             ->addChild(makeObject(getParent, name("getParent")))
             ->addChild(makeObject(getChild, name("getChild")))
+            ->addChild(makeObject(getChildrenArray, name("getChildrenArray")))
             ->addChild(makeObject(hasChild, name("hasChild")))
             ->addChild(makeObject(FunctionChooser<wrongNumberOfArguments, addChild1, addChild2>, name("addChild")))
             ->addChild(makeObject(getName, name("getName")))
@@ -35,7 +37,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(notEqualOperator, name("!=")))
             ->addChild(makeObject(equalReferenceOperator, name("==")))
             ->addChild(makeObject(equalSignaturesTypeOperator, name("===")))
-            ->addChild(makeObject(equalInternalTypeOperator, name("====")))
+            /*->addChild(makeObject(equalInternalTypeOperator, name("====")))*/
             ->addChild(makeObject(debugTree, name("debugTree")))
         );
 
@@ -54,10 +56,8 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
         Root->addChild(makeObject(Iterator, name("Iterator"))
             ->addChild(makeObject(nullptr, name("++")))
             ->addChild(makeObject(nullptr, name("--")))
-            ->addChild(makeObject(nullptr, name("+")))
-            ->addChild(makeObject(nullptr, name("-")))
             ->addChild(makeObject(nullptr, name("==")))
-            ->addChild(makeObject(nullptr, name("=")))
+            ->addChild(makeObject(nullptr, name("<-")))
             ->addChild(makeObject(nullptr, name("get")))
         );
 
@@ -98,7 +98,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(T2BOperator<std::string::iterator, std::less, typeNames::StringIterator>, name("<")))
             ->addChild(makeObject(T2BOperator<std::string::iterator, std::greater_equal, typeNames::StringIterator>, name(">=")))
             ->addChild(makeObject(T2BOperator<std::string::iterator, std::less_equal, typeNames::StringIterator>, name("<=")))
-            ->addChild(makeObject(StringIteratorAssignOperator, name("=")))
+            ->addChild(makeObject(StringIteratorReferenceAssignOperator, name("<-")))
         );
 
         Root->addChild(makeObject(Int, name("Int"))
@@ -191,7 +191,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(T2BOperator<std::vector<object::objectPtr>::iterator, std::less, typeNames::ArrayIterator>, name("<")))
             ->addChild(makeObject(T2BOperator<std::vector<object::objectPtr>::iterator, std::greater_equal, typeNames::ArrayIterator>, name(">=")))
             ->addChild(makeObject(T2BOperator<std::vector<object::objectPtr>::iterator, std::less_equal, typeNames::ArrayIterator>, name("<=")))
-            ->addChild(makeObject(ArrayIteratorAssignOperator, name("=")))
+            ->addChild(makeObject(ArrayIteratorReferenceAssignOperator, name("<-")))
         );
 
         Root->addChild(makeObject(parse, name("parse"))

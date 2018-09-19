@@ -12,6 +12,6 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
 
 object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringIteratorGet (object::objectPtr obj, object::argsContainer& args);
-object::objectPtr StringIteratorAssignOperator (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr StringIteratorReferenceAssignOperator (object::objectPtr obj, object::argsContainer& args);
 
 #endif

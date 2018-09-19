@@ -9,5 +9,6 @@ object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args)
 object::objectPtr parse (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr basicOut (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr import (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args);
 
 #endif // CORE_H

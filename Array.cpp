@@ -97,7 +97,7 @@ object::objectPtr ArrayIteratorGet (object::objectPtr obj, object::argsContainer
 {
     return *(std::any_cast<std::vector<object::objectPtr>::iterator>(obj->getParent()->getValue()));
 }
-object::objectPtr ArrayIteratorAssignOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayIteratorReferenceAssignOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
     {

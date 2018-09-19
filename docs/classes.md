@@ -1,6 +1,6 @@
 # Classes
 
-### This is not tutorial for learning object-oriented programming. 
+### Warning: This is not tutorial for learning object-oriented programming. 
 
 ## 1. Object
 
@@ -57,6 +57,6 @@ basicOut(crow.getColor());
 
 ---
 
-Next lesson (Standard library)
+[Next lesson (This is tree!)](tree.md)
 
 [Table of contents](tutorial.md)

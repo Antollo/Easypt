@@ -17,10 +17,10 @@ include_directories("${PROJECT_SOURCE_DIR}")
 
 if(MSVC)
 message("MSVC :3")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}  /MT /O2")
+add_compile_options(/MT /O2)
 else()
 message("probably GCC :3")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}  -static-libgcc -static-libstdc++ -O3") 
+add_compile_options(-static-libgcc -static-libstdc++ -O3) 
 endif()
 
 file(GLOB SOURCES "*.cpp")

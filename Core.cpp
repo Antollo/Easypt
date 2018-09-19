@@ -113,3 +113,14 @@ object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
+object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() > 1)
+    {
+        bool isInstanceOf = true;
+        for(auto& it = args.begin()+1; it != args.end(); it++)
+            isInstanceOf = isInstanceOf && args[0]->hasSignature((*it)->getName());
+        return constructObject(obj, "Boolean", isInstanceOf);
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}

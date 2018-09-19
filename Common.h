@@ -142,15 +142,16 @@ struct guess_type<std::string::const_iterator>
 };
 
 template<class T, class A>
-inline T type_converter(A member)
+inline T type_converter(const A& member)
 {
     return (T)member;
 };
 
 template<>
-inline char type_converter(std::string member)
+inline char type_converter(const std::string& member)
 {
-    //TODO THROW!!!
+    if (member.empty())
+        throw(OutOfRange("Out of range"));
     return member[0];
 };
 

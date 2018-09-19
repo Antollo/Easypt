@@ -107,13 +107,13 @@ object::objectPtr StringIteratorGet (object::objectPtr obj, object::argsContaine
     ret->getValue() = std::string(1, *(std::any_cast<std::string::iterator>(obj->getParent()->getValue())));
     return ret;
 }
-object::objectPtr StringIteratorAssignOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringIteratorReferenceAssignOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("Basic")))
         {
-            (*(*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()))) = std::any_cast<std::string>(args[0]->READ(name("toString"))->CALL()->getValue())[0];
+            (*(*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()))) = std::any_cast<std::string>(args[0]->READ(name("toString"))->CALL()->getValue()).at(0);
             return obj->getParent();
         }
         else
