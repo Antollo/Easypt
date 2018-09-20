@@ -4,7 +4,7 @@
 
 ## 1. Download Easypt interpreter
 
-You can obtain latest interpreter executale [here](https://ci.appveyor.com/project/Antollo/easypt). 
+You can obtain latest interpreter executable [here](https://ci.appveyor.com/project/Antollo/easypt). 
 
 - For Windows click `Visual Studio 2017` then `artifacts` then `artifacts.zip`.
 - For Linux click `Ubuntu` then `artifacts` then `artifacts.zip`.
@@ -51,7 +51,7 @@ Skip this step if you already have VS Code installed.
                 "command": "easypt"
             },
             "args": [
-                "-file",
+                "--file",
                 "my_source_file.ez"
             ],
             "presentation": {

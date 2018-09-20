@@ -1,6 +1,6 @@
 # Classes
 
-### Warning: This is not tutorial for learning object-oriented programming. 
+### **Warning:** This is not tutorial for learning object-oriented programming. 
 
 ## 1. Object
 

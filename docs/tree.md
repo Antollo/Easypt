@@ -90,7 +90,7 @@ mother.debugTree();
 
 ---
 
-[Next lesson (Standard library)](library.md)
+[Next lesson (Libraries)](library.md)
 
 
 [Table of contents](tutorial.md)

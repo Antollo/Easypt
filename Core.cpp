@@ -118,7 +118,7 @@ object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args
     if (args.size() > 1)
     {
         bool isInstanceOf = true;
-        for(auto& it = args.begin()+1; it != args.end(); it++)
+        for(auto it = args.begin()+1; it != args.end(); it++)
             isInstanceOf = isInstanceOf && args[0]->hasSignature((*it)->getName());
         return constructObject(obj, "Boolean", isInstanceOf);
     }

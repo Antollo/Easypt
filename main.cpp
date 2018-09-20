@@ -19,16 +19,20 @@ int main(int argc, char** argv)
     std::list<std::string> fileNames;
     for(int i=0; i<argc; i++)
     {
-        if (std::strcmp(argv[i], "-file") == 0 && i != argc-1)
+        if (std::strcmp(argv[i], "--file") == 0 && i != argc-1)
         {
             fileNames.push_back(std::string(argv[++i]));
             std::ifstream sourceFile(argv[i]);
             std::getline(sourceFile, source, (char)EOF);
             sourceFile.close();
         }
-        else if (std::strcmp(argv[i], "-entryPoint") == 0 && i != argc-1)
+        else if (std::strcmp(argv[i], "--entryPoint") == 0 && i != argc-1)
         {
             entryPoint = argv[++i];
+        }
+        else if (std::strcmp(argv[i], "--help") == 0 && i != argc-1)
+        {
+            IO::basicOut<<"See project's repository (there are tutorial and language reference): https://github.com/Antollo/Easypt";
         }
         else
         {

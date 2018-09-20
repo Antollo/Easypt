@@ -113,7 +113,7 @@ basicOut(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
 
 ---
 
-[Next lesson (Conditionals and loops)](conditionals_and_loops.md)
+[Next lesson (functions)](functions.md)
 
 [Table of contents](tutorial.md)
 

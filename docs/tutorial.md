@@ -8,8 +8,8 @@ You’ll learn how to write Easypt scripts!
 4. [Functions](functions.md)
 5. [Conditionals and loops](conditionals_and_loops.md)
 6. [Classes](classes.md)
-7. This is tree!
-8. Standard library
+7. [This is tree!](tree.md)
+8. [Libraries](library.md)
 9. More on classes 
 10. Files, exceptions and extras
  

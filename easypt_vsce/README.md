@@ -16,14 +16,9 @@ Manually add following `tasks.json` to your project's `.vscode` folder (and chan
         {
             "label": "Run Easypt source",
             "type": "process",
-            "windows": {
-                "command": "easypt.exe"
-            },
-            "linux": {
-                "command": "easypt"
-            },
+            "command": "easypt",
             "args": [
-                "-file",
+                "--file",
                 "my_source_file.ez"
             ],
             "presentation": {
@@ -44,7 +39,11 @@ Add easypt interpreter (`easypt.exe` - Windows or `easypt` - Linux) to PATH. You
 
 Now you can run your code with `Ctrl+Shift+B`.
 
-## Release Notes
+## Changelog
+
+### 1.1.0
+
+Snippets added.
 
 ### 1.0.0
 
