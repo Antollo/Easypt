@@ -68,8 +68,8 @@ object::objectPtr getChild (object::objectPtr obj, object::argsContainer& args)
 object::objectPtr getChildrenArray (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = constructObject(obj, "Array", std::vector<object::objectPtr>(obj->getParent()->getChildren().size()));
-    auto& it1 = (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())).begin();
-    auto& it2 = obj->getParent()->getChildren().begin();
+    auto it1 = (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())).begin();
+    auto it2 = obj->getParent()->getChildren().begin();
     while(it2 != obj->getParent()->getChildren().end())
         *(it1++) = (it2++)->second;
     return ret;
