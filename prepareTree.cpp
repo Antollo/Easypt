@@ -14,7 +14,8 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
     //Exception handling ready, here the fun starts
     try
     {
-        Root->addChild(makeObject(Exception, name("WrongTypeOfArgumentException")))
+        Root->addChild(makeObject(Exception, name("Exception")))
+            ->addChild(makeObject(Exception, name("WrongTypeOfArgumentException")))
             ->addChild(makeObject(Exception, name("WrongNumberOfArgumentsException")))
             ->addChild(makeObject(Exception, name("FileNotFoundException")))
             ->addChild(makeObject(Exception, name("OutOfRangeException")))

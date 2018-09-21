@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdio>
+#include <string>
 #include "nobject.h"
 
 #ifdef _WIN32
@@ -24,6 +26,8 @@ object::objectPtr write (object::objectPtr obj, object::argsContainer& args)
             std::cout << *std::any_cast<bool>(&arg->getValue());
         else if (arg->hasSignature(name("Double")))
             std::cout << *std::any_cast<double>(&arg->getValue());
+        else if (arg->hasSignature(name("Basic")))
+            std::cout << *std::any_cast<std::string>(&(arg->READ(name("toString"))->CALL()->getValue()));
         else
             throw(WrongTypeOfArgument("Wrong type of argument while calling ", obj->getFullNameString()));
     };
@@ -116,6 +120,52 @@ object::objectPtr beep (object::objectPtr obj, object::argsContainer& args)
     return obj->getParent();
 }
 
+object::objectPtr fWriteInt (object::objectPtr obj, object::argsContainer& args)
+{
+    std::printf("%d", *std::any_cast<int>(&args.at(0)->getValue()));
+    return obj->getParent();
+}
+
+object::objectPtr fWriteDouble (object::objectPtr obj, object::argsContainer& args)
+{
+    std::printf("%lf", *std::any_cast<double>(&args.at(0)->getValue()));
+    return obj->getParent();
+}
+
+object::objectPtr fWriteString (object::objectPtr obj, object::argsContainer& args)
+{
+    std::printf("%s", std::any_cast<std::string>(&args.at(0)->getValue())->c_str());
+    return obj->getParent();
+}
+
+object::objectPtr fScanInt (object::objectPtr obj, object::argsContainer& args)
+{
+    std::scanf("%i", std::any_cast<int>(&args.at(0)->getValue()));
+    return obj->getParent();
+}
+
+object::objectPtr fScanDouble (object::objectPtr obj, object::argsContainer& args)
+{
+    std::scanf("%lf", std::any_cast<double>(&args.at(0)->getValue()));
+    return obj->getParent();
+}
+
+object::objectPtr fScanString16 (object::objectPtr obj, object::argsContainer& args)
+{
+    char temp[17];
+    scanf("%16s", temp);
+    *std::any_cast<std::string>(&args.at(0)->getValue()) = std::string(temp);
+    return obj->getParent();
+}
+
+object::objectPtr fScanString256 (object::objectPtr obj, object::argsContainer& args)
+{
+    char temp[257];
+    scanf("%256s", temp);
+    *std::any_cast<std::string>(&args.at(0)->getValue()) = std::string(temp);
+    return obj->getParent();
+}
+
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
 {
     std::ios_base::sync_with_stdio(false);
@@ -127,6 +177,15 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
         ->addChild(makeObject(read, name("read")))
         ->addChild(makeObject(readLine, name("readLine")))
         ->addChild(makeObject(scan, name("scan")))
-        ->addChild(makeObject(beep, name("beep")));
+        ->addChild(makeObject(beep, name("beep")))
+        ->addChild(makeObject(nullptr, name("fast"))
+            ->addChild(makeObject(fWriteInt, name("writeInt")))
+            ->addChild(makeObject(fWriteDouble, name("writeDouble")))
+            ->addChild(makeObject(fWriteString, name("writeString")))
+            ->addChild(makeObject(fScanInt, name("scanInt")))
+            ->addChild(makeObject(fScanDouble, name("scanDouble")))
+            ->addChild(makeObject(fScanString16, name("scanString16")))
+            ->addChild(makeObject(fScanString256, name("scanString256")))
+        );
     return nullptr;
 }

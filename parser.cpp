@@ -43,7 +43,8 @@ int parser::findNext(char what)
     bool quotemarksSwitch = false;
     int roundBracketsCounter = 0, curlyBracketsCounter = 0, squareBracketsCounter = 0, ret = iterator + 1;
     while (ret < last && (roundBracketsCounter != 0 || curlyBracketsCounter != 0 ||
-            squareBracketsCounter != 0 || quotemarksSwitch == true || source[ret] != what))
+            squareBracketsCounter != 0 || quotemarksSwitch == true ||
+            ((source[ret] != what) || ((what=='"') ? (source[ret-1]=='\\' && source[ret-2]!='\\') : false) )))
     {
         switch (source[ret])
         {
@@ -66,7 +67,7 @@ int parser::findNext(char what)
             squareBracketsCounter--;
             break;
         case '"':
-            quotemarksSwitch = !quotemarksSwitch;
+            if (!(source[ret-1]=='\\' && source[ret-2]!='\\')) quotemarksSwitch = !quotemarksSwitch;
             break;
         }
 
@@ -124,7 +125,7 @@ std::list<expression> parser::parse()
             if (!Root->hasChild(name(std::string(source + iterator, temp - iterator + 1))))
             {
                 object::objectPtr str = parser::Root->READ(name("String"), true)->CALL();
-                str->getValue() = std::string(source + iterator + 1, temp - iterator - 1);
+                str->getValue() = parseString(source + iterator + 1, temp - iterator - 1);
                 str->getName() = name(std::string(source + iterator, temp - iterator + 1));
                 Root->addChild(str);
             }
@@ -246,4 +247,49 @@ std::list<expression> parser::parse()
             break;
         }
     }
+}
+
+std::string parser::parseString(const char* source, int length)
+{
+    std::string ret;
+    ret.reserve(length);
+    for (int i=0; i<length; i++)
+    {
+        if (source[i] != '\\')
+            ret.push_back(source[i]);
+        else
+        {
+            switch (source[++i])
+            {
+            case '"':
+                ret.push_back('"');
+                break;
+            case '\\':
+                ret.push_back('\\');
+                break;
+            case 'a':
+                ret.push_back('\a');
+                break;
+            case 'b':
+                ret.push_back('\b');
+                break;
+            case 'f':
+                ret.push_back('\f');
+                break;
+            case 'n':
+                ret.push_back('\n');
+                break;
+            case 'r':
+                ret.push_back('\r');
+                break;
+            case 't':
+                ret.push_back('\t');
+                break;
+            case 'v':
+                ret.push_back('\v');
+                break;
+            }
+        }
+    }
+    return ret;
 }

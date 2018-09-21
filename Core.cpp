@@ -82,6 +82,9 @@ object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
                 std::getline(sourceFile, source, (char)EOF);
                 sourceFile.close();
 
+                //Prevent ugly ifs in parser
+                source = "  " + source;
+
                 object::objectPtr sourceString = obj->READ(name("String"), true)->CALL();
                 sourceString->getValue() = source;
                 object::objectPtr sourceBlockCallable = obj->READ(name("parse"), true)->CALL(sourceString);

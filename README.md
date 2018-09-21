@@ -13,6 +13,5 @@
 __Easypt__ (_blend of easy and script_) is cross-platform structured object-oriented interpreted programming language. Its main goal is to be easy, small and extensible. Project started on 30th August 2018.
  
 ## Artifacts
---------
 
 [https://ci.appveyor.com/project/Antollo/easypt](https://ci.appveyor.com/project/Antollo/easypt)

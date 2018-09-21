@@ -90,7 +90,7 @@ mother.debugTree();
 
 ---
 
-[Next lesson (Libraries)](library.md)
+[Next lesson (More sources)](import.md)
 
 
 [Table of contents](tutorial.md)

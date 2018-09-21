@@ -39,19 +39,12 @@ Add easypt interpreter (`easypt.exe` - Windows or `easypt` - Linux) to PATH. You
 
 Now you can run your code with `Ctrl+Shift+B`.
 
-## Changelog
+## Last changes
 
-### 1.1.0
+Small snippets changes.
 
-Snippets added.
 
-### 1.0.0
-
-Initial release.
-
----
-
-### For more information
+## For more information
 
 * [Easypt on Github](https://github.com/Antollo/Easypt)
 

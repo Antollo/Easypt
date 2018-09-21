@@ -2,7 +2,7 @@
     "name": "easypt",
     "displayName": "Easypt",
     "description": "Easypt programming language basic support.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "publisher": "Antollo",
     "engines": {
         "vscode": "^1.26.0"

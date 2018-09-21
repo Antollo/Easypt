@@ -1,123 +1,131 @@
 # Libraries
 
-## 1. Modular programming
+## 1. More on import
 
-> Modular programming is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains everything necessary to execute only one aspect of the desired functionality. A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. The implementation contains the working code that corresponds to the elements declared in the interface. Modular programming is closely related to structured programming and object-oriented programming, all having the same goal of facilitating construction of large software programs and systems by decomposition into smaller pieces, and all originating around the 1960s.
-> 
-> [_From Wikipedia_](https://en.wikipedia.org/wiki/Modular_programming)
+`import` is not only for importing `*.ez` sources, but also native Easypt libraries (like `*.dll`, `*.so` etc.). Easypt interpreter executable contain only core of Easypt features and its main features are being extensible and flexible. I present 3 simple libraries here:
 
-## 2. Time to use shell
+- `console`
+  - `console.write`
+    - prints passed arguments
+    - _parameters:_ `Basic` type, any number of parameters
+    - _return value:_ `console`
+  - `console.writeLine`
+    - prints passed arguments and newline character
+    - _parameters_
+    - _return value:_ `console`
+  - `console.read`
+    - read input from console until whitespace
+    - _no parameters_
+    - _return value:_ new `String`
+  - `console.readLine`
+    - read input from console until newline
+    - _no parameters_
+    - _return value:_ new `String`
+  - `console.scan`
+    - read input from console as data of type of passed arguments and store it in arguments
+    - _parameters:_ `Int`, `Double`, `String` or `Boolean` type, any number of parameters
+    - _return value:_ `console`
+  - `console.beep`
+    - prints passed arguments
+    - _no parameters_
+    - _return value:_ `console`
 
-1. Create file `a.ez` and paste there following content:
+- `system`
+  - `system.callShellCommand`
+    - call shell command
+    - _parameters:_ `String`
+    - _return value:_ `system`
+  - `console.getEnvironmentVariable`
+    - get environmental variable
+    - _parameters:_ `String`
+    - _return value:_ `String`
 
-   ```c
-   var add.=({
-       var return.=(args[0].get().+(args[1].get()));
-   });
+- `time`
+  - `time.secondsSinceEpoch`
+    - get time as seconds that have elapsed since 00:00:00 UTC, Thursday, 1 January 1970 ([_Read more, Wikipedia_](https://en.wikipedia.org/wiki/Unix_time))
+    - _no parameters:_ `Basic` type, any number of parameters
+    - _return value:_ `Int`
+  - `time.sleep`
+    - blocks the execution of the current thread for provided milliseconds
+    - _parameters:_ `Int`
+    - _return value:_ `time`
+  - `time.Clock`
+    - construct new `Clock`
+    - _no parameters_
+    - _return value:_ new `Clock`
+  - `time.Clock.getElapsedMilliseconds`
+    - get the time elapsed since the last `restart` or the construction of this `Clock` as milliseconds
+    - _no parameters:_
+    - _return value:_ elapsed milliseconds as `Int`
+  - `time.Clock.restart`
+    - puts the time counter back to zero
+    - _no parameters_
+    - _return value:_ this `Clock`
 
-   basicOut(add(5 ,7));
-   ```
-   
-   Fun it with `easypt --file a.ez`
-
-2. It would be better to divide it into two files:
-   
-   `a.ez`:
-   
-   ```c
-   var add.=({
-       var return.=(args[0].get().+(args[1].get()));
-   });
-   ```
-
-   `b.ez`:
-   
-   ```c
-   basicOut(a.add(5 ,7));
-   ```
-
-   _(Now it's `a.add`, huh? That's because all local variables in `some_file.ez` are added as children to `Root.some_file` node.)_
-
-   Command `easypt --file a.ez --file b.ez` works like a charm, but `easypt --file b.ez --file a.ez` doesn't and throws exception:
-
-   ```
-   Exception at: ..Root.import
-   Exception at: ..Root.b
-   Exception at: ..Root.b.callOperator
-   Exception at: ..Root.b
-   Exception at: ..Root
-   Exception at: .
-   NotFoundException: Cannot find a in .
-   ```
-
-   That's because the fact that `a` must be executed before `b`.
-
-3. `--entryPoint`
-   
-   Try running command `easypt --entryPoint "basicOut(\"Hello there!\");"`
-
-   (`\"` quote escaping works at least in Windows cmd, if you don't see `Hello there!` output try something shell independent e.g. `easypt --entryPoint basicOut(1234);`)
-
-   As you can see `--entryPoint` argument is executed (in `EntryPointBlockCallable` node that is not attached as child to `Root` for your curiosity) as normal code (called after last file from `--file`).
-
-   You might have heard about something called _main function_ in other languages. In Easypt it is done as following:
-
-   `a.ez`:
-
-   ```c
-   var add.=({
-       var return.=(args[0].get().+(args[1].get()));
-   });
-   ```
-
-   `b.ez`:
-   
-   ```c
-   var main.=({
-       basicOut(a.add(5 ,7));
-   });
-   ```
-
-   Now this two files project can be executed with the far more beautiful command:
-
-   `easypt --file b.ez --file a.ez --entryPoint b.main();`
-
-## 3. Import
-
-> Many programming languages and other computer files have a directive, _called import or include_, that causes the contents of a second file to be _available in_ the original file. [...] They are often used to define the physical layout of program data, pieces of procedural code and/or forward declarations while promoting encapsulation and the reuse of code. The include directive allows libraries of code to be developed which help to:
-> - ensure that everyone uses the same version of a data layout definition or procedural code throughout a program.
-> - easily cross-reference where components are used in a system.
-> - easily change programs when needed (only one master file to change).
-> - save time by not needing to code extensive data layouts (minor, but useful).
-> 
-> [_From Wikipedia, modified (marked with italic) to match Easypt `import`_](https://en.wikipedia.org/wiki/Include_directive)
-
-`import` function works in the same way as `--file` argument. In fact `--file` is handled by calling `import`. See example:
-
-`lib.ez`:
+## 2. Finally some input
 
 ```c
-var add.=({
-    var return.=(args[0].get().+(args[1].get()));
-});
+import("console");
+
+console.writeLine("What's your name?");
+var name.=(console.read());
+console.writeLine("Hello, ", name, "!");
 ```
 
-`source.ez`:
-   
+## 3. Bigger example
+
+This source will measure speed of Easypt's console output functions:
+
 ```c
-import("lib.ez");
-var main.=({
-    basicOut(a.add(5 ,7));
+import("time");
+import("console");
+
+var name.=(console.read());
+var test1;
+var test2;
+var test3;
+var test4;
+
+var clock.=(time.Clock());
+for (var i.=(0).<, 10000, i.++, {
+    basicOut(i);
 });
+test1.=(clock.getElapsedMilliseconds());
+
+clock.restart();
+for (var i.=(0).<, 10000, i.++, {
+    console.writeLine(i);
+});
+test2.=(clock.getElapsedMilliseconds());
+
+clock.restart();
+for (var i.=(0).<, 10000, i.++, {
+    console.write(i);
+});
+test3.=(clock.getElapsedMilliseconds());
+
+clock.restart();
+for (var i.=(0).<, 10000, i.++, {
+    console.fast.writeInt(i);
+});
+test4.=(clock.getElapsedMilliseconds());
+
+console.write("\nbasicOut: ", test1, " ms\n");
+console.write("console.writeLine: ", test2, " ms\n");
+console.write("console.write: ", test3, " ms\n");
+console.write("console.fast.writeInt: ", test4, " ms\n");
 ```
 
-Run it with command:
+Possible output:
 
-`easypt --file source.ez --entryPoint source.main();`
+[...]
 
-## 3. Libraries
-
-> **Not done yet:** Implement huge and useful libraries for Easypt.
+```
+basicOut: 4923 ms
+console.writeLine: 4243 ms
+console.write: 3384 ms
+console.fast.writeInt: 2569 ms
+```
 
 ---
 

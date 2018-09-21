@@ -48,6 +48,10 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
     {
         throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
     }
+    catch (std::exception& e)
+    {
+        throw(exception("Exception", "Exception at: ", getFullNameString(), "\n", "Unknown exception: " + std::string(e.what())));
+    }
     catch (object::objectPtr& e)
     {
         if (e->getValue().type().hash_code() == typeid(std::string).hash_code())
@@ -70,6 +74,10 @@ object::objectPtr object::READCALL(object::objectPtr arg)
     catch(exception& e)
     {
         throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
+    }
+    catch (std::exception& e)
+    {
+        throw(exception("Exception", "Exception at: ", getFullNameString(), "\n", "Unknown exception: " + std::string(e.what())));
     }
     catch (object::objectPtr& e)
     {
@@ -98,6 +106,10 @@ object::objectPtr object::CALL(object::argsContainer& args)
     catch(exception& e)
     {
         throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
+    }
+    catch (std::exception& e)
+    {
+        throw(exception("Exception", "Exception at: ", getFullNameString(), "\n", "Unknown exception: " + std::string(e.what())));
     }
     catch (object::objectPtr& e)
     {

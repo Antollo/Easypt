@@ -105,6 +105,7 @@ class parser
                 break;
             }
         }
+        std::string parseString(const char* source, int length);
     private:
         const char* source;
         int last;

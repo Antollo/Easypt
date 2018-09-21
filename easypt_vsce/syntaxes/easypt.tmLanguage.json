@@ -26,10 +26,12 @@
 			}]
 		},
 		"strings": {
-			"name": "string.quoted.double.easypt",
-			"begin": "\"",
-			"end": "\"",
-			"patterns":[]
+			"patterns": [
+				{
+					"name": "string.quoted.double.easypt",
+					"match": "\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\""
+				}
+			]
 		},
 		"comments": {
 			"name": "comment.easypt",

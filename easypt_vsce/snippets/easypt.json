@@ -1,5 +1,5 @@
 {
-    "Int_based_for_loop": {
+    "Int based for loop": {
         "prefix": "for",
         "body": [
             "for (var i.=(0).<, ${1:endValue}, i.++, {",
@@ -8,7 +8,7 @@
         ],
         "description": "Int based for loop"
     },
-    "Iterator_based_for_loop": {
+    "Iterator based for loop": {
         "prefix": "for",
         "body": [
             "for (var it.=(${1:iterable}.begin()).!=, ${2:iterable}.end(), it.++, {",
@@ -17,7 +17,7 @@
         ],
         "description": "Iterator based for loop"
     },
-    "While_loop": {
+    "While loop": {
         "prefix": "while",
         "body": [
             "while (${1:condition}, {",
@@ -35,7 +35,7 @@
         ],
         "description": "If"
     },
-    "If_else": {
+    "If else": {
         "prefix": "if",
         "body": [
             "if (${2:condition}, {",
@@ -47,7 +47,7 @@
         "description": "If else"
     },
     "Function": {
-        "prefix": "var",
+        "prefix": "function",
         "body": [
             "var ${2:name}.=({",
             "\t$0",
