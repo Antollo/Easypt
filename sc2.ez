@@ -1,7 +1,16 @@
 import("time");
 import("console");
-
-var test1;
+var myFunction.=({
+    if(args.size().!=(1), {
+        throw(WrongNumberOfArgumentsException("More or less than one arguments passed!"));
+    });
+    if(instanceOf(args[0].get(), String).!(), {
+        throw(WrongTypeOfArgumentException("This is not String!"));
+    });
+    basicOut("This is one String: ", args[0].get());
+});
+myFunction("my argument");
+#var test1;
 var test2;
 var test3;
 var test4;
@@ -34,7 +43,7 @@ console.write("\nbasicOut: ", test1, " ms\n");
 console.write("console.writeLine: ", test2, " ms\n");
 console.write("console.write: ", test3, " ms\n");
 console.write("console.fast.writeInt: ", test4, " ms\n");
-
+#
 
 
 var mother;
@@ -45,6 +54,7 @@ It not also attach son as child to
 mother, but also attach mother
 as parent to son.
 #
+mother.addChild(Object().setName("son"));
 mother.var son;
 father.var daughter;
 #Adds reference to father's daughter as step-daughter#

@@ -26,7 +26,7 @@
     - _parameters:_ `Int`, `Double`, `String` or `Boolean` type, any number of parameters
     - _return value:_ `console`
   - `console.beep`
-    - prints passed arguments
+    - beeps
     - _no parameters_
     - _return value:_ `console`
 
@@ -35,7 +35,7 @@
     - call shell command
     - _parameters:_ `String`
     - _return value:_ `system`
-  - `console.getEnvironmentVariable`
+  - `system.getEnvironmentVariable`
     - get environmental variable
     - _parameters:_ `String`
     - _return value:_ `String`
@@ -43,7 +43,7 @@
 - `time`
   - `time.secondsSinceEpoch`
     - get time as seconds that have elapsed since 00:00:00 UTC, Thursday, 1 January 1970 ([_Read more, Wikipedia_](https://en.wikipedia.org/wiki/Unix_time))
-    - _no parameters:_ `Basic` type, any number of parameters
+    - _no parameters_
     - _return value:_ `Int`
   - `time.sleep`
     - blocks the execution of the current thread for provided milliseconds
@@ -53,11 +53,11 @@
     - construct new `Clock`
     - _no parameters_
     - _return value:_ new `Clock`
-  - `time.Clock.getElapsedMilliseconds`
+  - `Clock.getElapsedMilliseconds`
     - get the time elapsed since the last `restart` or the construction of this `Clock` as milliseconds
     - _no parameters:_
     - _return value:_ elapsed milliseconds as `Int`
-  - `time.Clock.restart`
+  - `Clock.restart`
     - puts the time counter back to zero
     - _no parameters_
     - _return value:_ this `Clock`

@@ -23,10 +23,11 @@ Unpack `artifacts.zip` and place easypt interpreter in a worthy place.
   - Click the New button and paste path to interpreter.
   - Click Ok.
 
-- For Linux run command
+- For Linux run commands
 
   ```bash
   export PATH="$PATH:/path/to/interpreter"
+  chmod -R u=rwx /path/to/interpreter
   ```
 
 ## 3. Download Visual Studio Code

@@ -60,7 +60,7 @@ fun();
 
 In Easypt argumets are provided as `Array` of [references](https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_reference) to arguments named `args`. See the example:
 
-``c
+```c
 var print.=({
     basicOut(args[0].get(), args[1].get());
 });

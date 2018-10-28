@@ -107,7 +107,7 @@ var add.=({
 ```c
 import("lib.ez");
 var main.=({
-    basicOut(a.add(5 ,7));
+    basicOut(lib.add(5 ,7));
 });
 ```
 
