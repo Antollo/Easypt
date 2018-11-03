@@ -2,9 +2,9 @@
 
 #### `..Root.BlockCallable.throw`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

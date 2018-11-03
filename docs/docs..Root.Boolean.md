@@ -2,9 +2,9 @@
 
 #### `..Root.Boolean`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

@@ -169,6 +169,7 @@ object::objectPtr fScanString256 (object::objectPtr obj, object::argsContainer& 
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
 {
     std::ios_base::sync_with_stdio(false);
+    std::cout << std::boolalpha;
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
     object::initialize(obj->READ(name("Root"), true));
 

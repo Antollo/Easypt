@@ -2,9 +2,11 @@
 
 #### `..Root.String.==`
 
-#### Parameters:
+Checks if strings are equal.
 
-#### Return value:
+* **Parameters:** another `String`
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,7 +16,8 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+basicOut("a".==("a"));
+```

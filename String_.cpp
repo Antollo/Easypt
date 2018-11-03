@@ -1,7 +1,7 @@
 #include "String_.h"
 
 //String constructor
-object::objectPtr String (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr String0 (object::objectPtr obj, object::argsContainer& args)
 {
     object::objectPtr ret = obj->READ(name("Basic"), true)->CALL();
     ret->READ(name("merge"))->CALL(obj->READ(name("Container"), true)->CALL());
@@ -10,6 +10,26 @@ object::objectPtr String (object::objectPtr obj, object::argsContainer& args)
         ret->addChild(child.second->copy());
     ret->getValue() = std::string();
     return ret;
+}
+object::objectPtr String2 (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 2)
+    {
+        if (args[0]->hasSignature(name("Int")) && args[1]->hasSignature(name("String")))
+        {
+            object::objectPtr ret = String0(obj, args);
+            char character = type_converter<char>(std::any_cast<std::string>(args[1]->getValue()));
+            (*std::any_cast<std::string>(&ret->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
+            for(auto& el : (*std::any_cast<std::string>(&ret->getValue())))
+                el = character;
+            return ret;
+        }
+        else
+        {
+            throw(WrongTypeOfArgument("Arguments are not Int and String in ", obj->getFullNameString()));
+        }
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //String methods
 object::objectPtr StringToString (object::objectPtr obj, object::argsContainer& args)

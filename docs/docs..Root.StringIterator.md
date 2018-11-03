@@ -2,9 +2,7 @@
 
 #### `..Root.StringIterator`
 
-#### Parameters:
-
-#### Return value:
+Constructs a new `StringIterator`, this constructor exists only for internal `String` purposes. `StringIterator` is not memory safe (not aware of `String` size). For creating `StringIterator` pointing to data use `String.begin()` and `String.end()`.
 
 ## Child of:
 
@@ -28,6 +26,11 @@
 - [`>=`](docs..Root.StringIterator.>=.md)
 - [`<=`](docs..Root.StringIterator.<=.md)
 
-
 ## Example:
 
+```c
+var str.=("Hello world!");
+for (var it.=(str.begin()).!=, str.end(), it.++, {
+    basicOut(it.get());
+});
+```

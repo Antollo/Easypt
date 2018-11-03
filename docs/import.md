@@ -18,7 +18,7 @@
    basicOut(add(5 ,7));
    ```
    
-   Fun it with `easypt --file a.ez`
+   Run it with `easypt --file a.ez`
 
 2. It would be better to divide it into two files:
    

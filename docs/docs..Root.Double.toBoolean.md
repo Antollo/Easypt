@@ -2,9 +2,9 @@
 
 #### `..Root.Double.toBoolean`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

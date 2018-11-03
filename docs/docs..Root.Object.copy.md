@@ -2,9 +2,9 @@
 
 #### `..Root.Object.copy`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

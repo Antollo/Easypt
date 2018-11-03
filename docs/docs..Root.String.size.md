@@ -2,9 +2,9 @@
 
 #### `..Root.String.size`
 
-#### Parameters:
+Returns length of string.
 
-#### Return value:
+* **Return value:** new `Int`
 
 ## Child of:
 
@@ -14,7 +14,9 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("Hello World!");
+basicOut(str.size());
+```

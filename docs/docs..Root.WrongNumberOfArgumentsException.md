@@ -2,7 +2,7 @@
 
 #### `..Root.WrongNumberOfArgumentsException`
 
-* Constructs new `WrongNumberOfArgumentsException` which is thrown when wrong number of variables was passed to throwing function.
+Constructs new `WrongNumberOfArgumentsException` which is thrown when wrong number of variables was passed to throwing function.
 
 * **Parameters:** any number of `String` type variables
 

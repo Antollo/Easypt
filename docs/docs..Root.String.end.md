@@ -2,9 +2,9 @@
 
 #### `..Root.String.end`
 
-#### Parameters:
+Returns an iterator pointing after the last character of the string.
 
-#### Return value:
+* **Return value:** new `StringIterator`
 
 ## Child of:
 
@@ -14,7 +14,11 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("Hello world!");
+for (var it.=(str.begin()).!=, str.end(), it.++, {
+    basicOut(it.get());
+});
+```

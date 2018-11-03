@@ -2,9 +2,9 @@
 
 #### `..Root.String.clear`
 
-#### Parameters:
+Erases the contents of the string.
 
-#### Return value:
+* **Return value:** reference to this `String`
 
 ## Child of:
 
@@ -18,3 +18,8 @@
 
 ## Example:
 
+```c
+var str.=("Hello World!");
+basicOut(str);
+basicOut(str.empty());
+```

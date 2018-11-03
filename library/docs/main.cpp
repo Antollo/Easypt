@@ -53,9 +53,11 @@ object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& ar
             if (args[0]->hasSignature("Callable")) description = "\n\n* **Parameters:**\n\n* **Return value:**\n\n";
         }
 
+        object::argsContainer container;
         for (auto& child : args[0]->getChildren())
         {
-            generateDocs(obj, object::argsContainer(1, child.second));
+            container = object::argsContainer(1, child.second);
+            generateDocs(obj, container);
         }
 
         if (args[0]->hasSignature("NativeCallable") && std::isupper(((std::string)args[0]->getName())[0]) )

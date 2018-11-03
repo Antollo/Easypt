@@ -2,8 +2,10 @@
 #define STRING__H
 
 #include "nobject.h"
+#include "Common.h"
 
-object::objectPtr String (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr String0 (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr String2 (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringToString (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringToInt (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringToDouble (object::objectPtr obj, object::argsContainer& args);

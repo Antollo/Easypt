@@ -2,11 +2,11 @@
 
 #### `..Root.WrongTypeOfArgumentException`
 
-* Constructs new `WrongTypeOfArgumentException` which is thrown when variable with not appropriate type was passed to throwing function.
+Constructs new `WrongTypeOfArgumentException` which is thrown when variable with not appropriate type was passed to throwing function.
 
-* #### Parameters: any number of `String` type variables
+* * **Parameters:** any number of `String` type variables
 
-* #### Return value: new `WrongTypeOfArgumentException`
+* * **Return value:** new `WrongTypeOfArgumentException`
 
 ## Child of:
 

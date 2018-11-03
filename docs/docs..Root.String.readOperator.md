@@ -2,9 +2,11 @@
 
 #### `..Root.String.readOperator`
 
-#### Parameters:
+Returns iterator pointing to i-th character. Read operator (`[]`) is shorthand for this function.
 
-#### Return value:
+* **Parameters:** `Int` i
+
+* **Return value:** new `StringIterator`
 
 ## Child of:
 
@@ -14,7 +16,10 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("Hello World!");
+basicOut(str.readOperator(6).get());
+basicOut(str[6].get());
+```

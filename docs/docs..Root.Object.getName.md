@@ -2,9 +2,9 @@
 
 #### `..Root.Object.getName`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

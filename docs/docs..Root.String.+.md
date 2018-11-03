@@ -2,9 +2,11 @@
 
 #### `..Root.String.+`
 
-#### Parameters:
+Concatenates two strings.
 
-#### Return value:
+* **Parameters:** another `String`
+
+* **Return value:** new `String`
 
 ## Child of:
 
@@ -14,7 +16,8 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+basicOut("Hello ".+("world!"));
+```

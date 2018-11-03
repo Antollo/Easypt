@@ -1,15 +1,14 @@
 import("time");
 import("console");
-var myFunction.=({
-    if(args.size().!=(1), {
-        throw(WrongNumberOfArgumentsException("More or less than one arguments passed!"));
-    });
-    if(instanceOf(args[0].get(), String).!(), {
-        throw(WrongTypeOfArgumentException("This is not String!"));
-    });
-    basicOut("This is one String: ", args[0].get());
-});
-myFunction("my argument");
+
+
+var str.=("Hello World!");
+var begin.=(str.begin().+(str.find(" ", 0)));
+var end.=(str.begin().+(str.find("!", 0)));
+str.erase(begin, end);
+
+basicOut("Hello ".+("world!"));
+
 #var test1;
 var test2;
 var test3;

@@ -2,9 +2,9 @@
 
 #### `..Root.basicOut`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

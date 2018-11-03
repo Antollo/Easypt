@@ -54,7 +54,7 @@ if (a.>(b), {
 > 
 > [_From Wikipedia_](https://en.wikipedia.org/wiki/While_loop)
 
-In Easypt `if` is `BlockCallable` method and it has following syntax:
+In Easypt `while` is `BlockCallable` method and it has following syntax:
 
 ```c
 while (condition, {
@@ -64,11 +64,11 @@ while (condition, {
 Example:
 
 ```c
-var condition.=(1.toBoolean() #true# );
+var condition.=(true);
 var i.=(0);
 while (condition, {
     basicOut(i.++());
-    if (i.==(10), { condition.=(0.toBoolean() #false# ); });
+    if (i.; });
 });
 ```
 
@@ -83,10 +83,7 @@ In Easypt `for` is `BlockCallable` method and it has following syntax (**`for` s
 
 ```c
 for (i.comperator, someValue, change, {
-    # 
-     execute while i.comperator(someValue) is true
-     after each iteration call change()
-    #
+    # execute while i.comperator(someValue) is true after each iteration call change() #
 });
 ```
 
@@ -112,7 +109,7 @@ Example of `StringIterator` based `for`:
 
 ```c
 var str.=("Hello world!");
-for(var it.=(str.begin()).!=, str.end(), it.++, {
+for (var it.=(str.begin()).!=, str.end(), it.++, {
     basicOut(it.get());
 });
 ```

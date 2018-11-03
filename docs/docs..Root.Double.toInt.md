@@ -2,9 +2,9 @@
 
 #### `..Root.Double.toInt`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

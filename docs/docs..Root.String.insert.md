@@ -2,9 +2,11 @@
 
 #### `..Root.String.insert`
 
-#### Parameters:
+Inserts a copy of the sequence of characters in the range [first, last) before element pointed by w.
 
-#### Return value:
+* **Parameters:** `StringIterator` w, `StringIterator` first, `StringIterator` last
+
+* **Return value:** reference to this `String`
 
 ## Child of:
 
@@ -14,7 +16,15 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var a.=("----");
+var b.=("||");
+a.insert(a.begin().+(2), b.begin(), b.end());
+basicOut(a);
+```
+
+#### Expected output:
+
+    --||--

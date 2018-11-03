@@ -24,7 +24,7 @@ object::objectPtr Array1 (object::objectPtr obj, object::argsContainer& args)
         }
         else
         {
-            throw(WrongTypeOfArgument("Argument is not Basic in ", obj->getFullNameString()));
+            throw(WrongTypeOfArgument("Argument is not Int in ", obj->getFullNameString()));
         }
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
@@ -43,7 +43,7 @@ object::objectPtr Array2 (object::objectPtr obj, object::argsContainer& args)
         }
         else
         {
-            throw(WrongTypeOfArgument("Argument is not Basic in ", obj->getFullNameString()));
+            throw(WrongTypeOfArgument("Argument is not Int in ", obj->getFullNameString()));
         }
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));

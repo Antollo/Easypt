@@ -2,9 +2,9 @@
 
 #### `..Root.String.toInt`
 
-#### Parameters:
+Converts string to integer.
 
-#### Return value:
+* **Return value:** new `Int`
 
 ## Child of:
 
@@ -14,7 +14,9 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("1024");
+basicOut(str.toInt()./(2));
+```

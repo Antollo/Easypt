@@ -2,9 +2,9 @@
 
 #### `..Root.String.toBoolean`
 
-#### Parameters:
+Checks if string is not empty (true if not empty, false otherwise).
 
-#### Return value:
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,7 +14,9 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+basicOut("Hello World!".toBoolean());
+basicOut("".toBoolean());
+```

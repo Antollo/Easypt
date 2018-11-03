@@ -2,9 +2,9 @@
 
 #### `..Root.BlockCallable.callOperator`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

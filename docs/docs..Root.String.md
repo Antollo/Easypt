@@ -2,9 +2,15 @@
 
 #### `..Root.String`
 
-#### Parameters:
+1. Constructs an empty `String`.
 
-#### Return value:
+2. Constructs a string filled with n consecutive copies of character c.
+
+* **Parameters:**
+    1. _no parameters_
+    2. `Int` n, `String` c
+
+* **Return value:** new `String`
 
 ## Child of:
 
@@ -34,6 +40,9 @@
 - [`erase`](docs..Root.String.erase.md)
 - [`+`](docs..Root.String.+.md)
 
-
 ## Example:
 
+```c
+basicOut(String().size());
+basicOut(String(3, "a"));
+```

@@ -2,9 +2,11 @@
 
 #### `..Root.String.substring`
 
-#### Parameters:
+Returns new substring that starts at character position pos and spans len characters (or until the end of the string).
 
-#### Return value:
+* **Parameters:** `Int` pos, `Int` len
+
+* **Return value:** new `String`
 
 ## Child of:
 
@@ -14,7 +16,9 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("Hello World!");
+basicOut(str.substring(6, 5));
+```

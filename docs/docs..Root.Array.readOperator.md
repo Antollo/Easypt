@@ -2,9 +2,9 @@
 
 #### `..Root.Array.readOperator`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

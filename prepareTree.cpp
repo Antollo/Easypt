@@ -36,8 +36,8 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(getName, name("getName")))
             ->addChild(makeObject(copy, name("copy")))
             ->addChild(makeObject(notEqualOperator, name("!=")))
-            ->addChild(makeObject(equalReferenceOperator, name("==")))
-            ->addChild(makeObject(equalSignaturesTypeOperator, name("===")))
+            ->addChild(makeObject(equalReferenceOperator, name("===")))
+            ->addChild(makeObject(equalSignaturesTypeOperator, name("sameSignatures")))
             /*->addChild(makeObject(equalInternalTypeOperator, name("====")))*/
             ->addChild(makeObject(debugTree, name("debugTree")))
         );
@@ -67,7 +67,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(nullptr, name("size")))
         );
 
-        Root->addChild(makeObject(String, name("String"))
+        Root->addChild(makeObject(FunctionChooser<String0, wrongNumberOfArguments, String2>, name("String"))
             ->addChild(makeObject(StringToString, name("toString")))
             ->addChild(makeObject(StringToInt, name("toInt")))
             ->addChild(makeObject(StringToDouble, name("toDouble")))

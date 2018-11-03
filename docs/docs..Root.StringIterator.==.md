@@ -2,9 +2,11 @@
 
 #### `..Root.StringIterator.==`
 
-#### Parameters:
+Checks if two instances of `StringIterator` are pointing to same element.
 
-#### Return value:
+* **Parameters:** another `StringIterator` 
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,7 +16,12 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("Hello world!");
+var x.=(str.begin().+(4));
+for (var it.=(str.begin()).!=, str.end(), it.++, {
+    if (it.==(x), { basicOut(it.get()) });
+});
+```

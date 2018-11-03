@@ -2,9 +2,9 @@
 
 #### `..Root.StringIterator.++`
 
-#### Parameters:
+Increments `StringIterator` instance (equivalent of `parent.=(parent.+(1))`).
 
-#### Return value:
+* **Return value:** reference to incremented `StringIterator` instance 
 
 ## Child of:
 
@@ -14,7 +14,11 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("Hello world!");
+for (var it.=(str.begin()).!=, str.end(), it.++, {
+    basicOut(it.get());
+});
+```

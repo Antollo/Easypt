@@ -2,9 +2,9 @@
 
 #### `..Root.String.toString`
 
-#### Parameters:
+Returns copy of `String` instance. 
 
-#### Return value:
+* **Return value:** new `String`
 
 ## Child of:
 
@@ -14,7 +14,9 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("Hello world!".toString());
+basicOut(str);
+```

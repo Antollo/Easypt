@@ -2,9 +2,9 @@
 
 #### `..Root.Array.resize`
 
-#### Parameters:
+* **Parameters:**
 
-#### Return value:
+* **Return value:**
 
 ## Child of:
 

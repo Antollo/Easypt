@@ -2,9 +2,11 @@
 
 #### `..Root.String.erase`
 
-#### Parameters:
+Erases the sequence of characters in the range [first, last).
 
-#### Return value:
+* **Parameters:** `StringIterator` first, `StringIterator` last
+
+* **Return value:** reference to this `String`
 
 ## Child of:
 
@@ -14,7 +16,17 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
+
+```c
+var str.=("Hello World!");
+var begin.=(str.begin().+(str.find(" ", 0)));
+var end.=(str.begin().+(str.find("!", 0)));
+str.erase(begin, end);
+basicOut(str);
+```
+
+#### Expected output:
+
+    Hello!
 

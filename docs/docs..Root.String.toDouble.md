@@ -2,9 +2,9 @@
 
 #### `..Root.String.toDouble`
 
-#### Parameters:
+Converts string to floating point number.
 
-#### Return value:
+* **Return value:** new `Double`
 
 ## Child of:
 
@@ -14,7 +14,9 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("1024");
+basicOut(str.toDouble()./(3.0));
+```

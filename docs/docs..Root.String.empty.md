@@ -2,9 +2,9 @@
 
 #### `..Root.String.empty`
 
-#### Parameters:
+Checks if string is empty (true if empty, false otherwise).
 
-#### Return value:
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,7 +14,10 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
+
+```c
+basicOut("Hello World!".empty());
+basicOut("".empty());
+```
 

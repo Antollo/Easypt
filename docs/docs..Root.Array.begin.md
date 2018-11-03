@@ -4,7 +4,7 @@
 
 Return iterator to array's beginning.
 
-#### Return value: new `ArrayIterator`
+* **Return value:** new `ArrayIterator`
 
 ## Child of:
 

@@ -2,9 +2,9 @@
 
 #### `..Root.StringIterator.get`
 
-#### Parameters:
+Gets value of element (new `String` consisting of one character) pointed by iterator.
 
-#### Return value:
+* **Return value:** new `String` of size 1
 
 ## Child of:
 
@@ -14,7 +14,11 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var str.=("Hello world!");
+for (var it.=(str.begin()).!=, str.end(), it.++, {
+    basicOut(it.get());
+});
+```

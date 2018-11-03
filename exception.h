@@ -21,7 +21,7 @@ class exception : public std::exception
 };
 
 #define WrongTypeOfArgument(...) exception("WrongTypeOfArgumentException", "WrongTypeOfArgumentException: ", __VA_ARGS__)
-#define WrongNumberOfArguments(...) exception("WrongTypeOfArgumentsException", "WrongTypeOfArgumentsException: ", __VA_ARGS__)
+#define WrongNumberOfArguments(...) exception("WrongNumberOfArguments", "WrongNumberOfArguments: ", __VA_ARGS__)
 #define FileNotFound(...) exception("FileNotFoundException", "FileNotFoundException: ", __VA_ARGS__)
 #define OutOfRange(...) exception("OutOfRangeException", "OutOfRangeException: ", __VA_ARGS__)
 #define NotSupportedOnThisOS(...) exception("NotSupportedOnThisOSException", "NotSupportedOnThisOSException: ", __VA_ARGS__)

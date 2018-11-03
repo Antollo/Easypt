@@ -13,6 +13,7 @@
 int main(int argc, char** argv)
 {
     std::ios_base::sync_with_stdio(false);
+    std::cout << std::boolalpha;
     name::initialize();
     std::pair<object::objectPtr, object::objectPtr> RootWithFather = prepareTree();
     std::string source, entryPoint;
