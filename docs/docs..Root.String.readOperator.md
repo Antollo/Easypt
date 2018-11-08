@@ -16,7 +16,10 @@ Returns iterator pointing to i-th character. Read operator (`[]`) is shorthand f
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
 
 ```c
 var str.=("Hello World!");

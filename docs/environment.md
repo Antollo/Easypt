@@ -52,7 +52,7 @@ Skip this step if you already have VS Code installed.
                 "command": "easypt"
             },
             "args": [
-                "--file",
+                "-file",
                 "my_source_file.ez"
             ],
             "presentation": {

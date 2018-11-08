@@ -2,9 +2,11 @@
 
 #### `..Root.Object.!=`
 
-* **Parameters:**
+Returns negated result
 
-* **Return value:**
+* **Parameters:** object of any type
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,7 +16,8 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+basicOut(5.!=(5), 5.!=(-5));
+```

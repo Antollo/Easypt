@@ -14,7 +14,12 @@ Checks if string is not empty (true if not empty, false otherwise).
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
+
+#### Expected output:
 
 ```c
 basicOut("Hello World!".toBoolean());

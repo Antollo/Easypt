@@ -18,7 +18,7 @@ Manually add following `tasks.json` to your project's `.vscode` folder (and chan
             "type": "process",
             "command": "easypt",
             "args": [
-                "--file",
+                "-file",
                 "my_source_file.ez"
             ],
             "presentation": {

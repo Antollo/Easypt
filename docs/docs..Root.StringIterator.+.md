@@ -16,7 +16,10 @@ Returns new `StringIterator` moved forward by arguments value;
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
 
 ```c
 var str.=("Hello world!");

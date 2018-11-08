@@ -15,8 +15,9 @@ Erases the contents of the string.
 `NativeCallable`, `Callable`
 
 
-
 ## Example:
+
+
 
 ```c
 var str.=("Hello World!");

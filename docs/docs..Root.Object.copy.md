@@ -2,9 +2,9 @@
 
 #### `..Root.Object.copy`
 
-* **Parameters:**
+Makes copy of this object (signatures, children, internal value).
 
-* **Return value:**
+* **Return value:** new object (e.g `String` or `ArrayIterator`)
 
 ## Child of:
 
@@ -14,7 +14,17 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var a.=(5);
+basicOut(a.copy().++());
+basicOut(a)
+```
+
+#### Expected output:
+
+```
+6
+5
+```

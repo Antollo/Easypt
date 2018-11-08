@@ -2,9 +2,11 @@
 
 #### `..Root.InvalidValueException`
 
-* **Parameters:**
+Constructs new `InvalidValueException` which is thrown when an argument contains an invalid value.
 
-* **Return value:**
+* **Parameters:** any number of `String` type variables
+
+* **Return value:** new `InvalidValueException`
 
 ## Child of:
 
@@ -14,7 +16,12 @@
 
 `NativeCallable`, `Callable`
 
+## Examples:
 
+```c
+"abc".toInt();
+```
 
-## Example:
-
+```c
+5();
+```

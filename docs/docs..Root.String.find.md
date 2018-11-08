@@ -2,7 +2,7 @@
 
 #### `..Root.String.find`
 
-Searches the string for the first occurrence of str, the search only includes characters at or after position pos.
+Searches the string for the first occurrence of str, the search only includes characters at or after position pos. If no matches were found, the function returns -1.
 
 * **Parameters:** `String` str, `Int` pos
 
@@ -30,6 +30,7 @@ basicOut(str);
 
 #### Expected output:
 
-    3
-    Hello!
-
+```
+3
+Hello!
+```

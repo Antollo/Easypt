@@ -16,7 +16,10 @@ Erases the sequence of characters in the range [first, last).
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
 
 ```c
 var str.=("Hello World!");

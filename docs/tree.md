@@ -10,7 +10,7 @@
 
 ## 2. Tree in Easypt
 
-Generally all variables, functions and namespaces are nodes in one big Easypt tree. The best explanation is output of following line:
+Generally all variables, functions and namespaces are nodes in one big Easypt tree. The best explanation is output of the following line:
 
 ```c
 Root.debugTree();

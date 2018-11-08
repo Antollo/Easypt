@@ -14,7 +14,12 @@ Returns copy of `String` instance.
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
+
+#### Expected output:
 
 ```c
 var str.=("Hello world!".toString());

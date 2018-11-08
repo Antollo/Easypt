@@ -2,9 +2,11 @@
 
 #### `..Root.FileNotFoundException`
 
-* **Parameters:**
+Constructs new `FileNotFoundException` which is thrown when opening a file failed.
 
-* **Return value:**
+* **Parameters:** any number of `String` type variables
+
+* **Return value:** new `FileNotFoundException`
 
 ## Child of:
 
@@ -14,7 +16,8 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+import("ababababa");
+```

@@ -4,7 +4,7 @@
 
 Increments `StringIterator` instance (equivalent of `parent.=(parent.+(1))`).
 
-* **Return value:** reference to incremented `StringIterator` instance 
+* **Return value:** reference to this (incremented) `StringIterator` 
 
 ## Child of:
 

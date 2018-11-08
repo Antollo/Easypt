@@ -2,9 +2,11 @@
 
 #### `..Root.Object.merge`
 
-* **Parameters:**
+Marges two object by copying signatures, members and internal value (real data in memory like integer or array) from arg to this `Object`.
 
-* **Return value:**
+* **Parameters:** `Object` arg 
+
+* **Return value:** reference to this `Object`
 
 ## Child of:
 
@@ -14,7 +16,11 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var a.=(Iterable());
+a.debugTree();
+a.merge(Container());
+a.debugTree();
+```

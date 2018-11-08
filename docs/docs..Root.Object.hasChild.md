@@ -2,9 +2,11 @@
 
 #### `..Root.Object.hasChild`
 
-* **Parameters:**
+Checks if this object has child (member, note: variables are treated as tree nodes) named mem.
 
-* **Return value:**
+* **Parameters:** `String` mem
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,7 +16,10 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var mother;
+mother.var son;
+basicOut(mother.hasChild("son"));
+```

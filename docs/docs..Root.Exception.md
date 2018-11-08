@@ -2,9 +2,11 @@
 
 #### `..Root.Exception`
 
-* **Parameters:**
+Constructs new `WrongNumberOfArgumentsException` which is thrown when wrong number of variables was passed to throwing function.
 
-* **Return value:**
+* **Parameters:** any number of `String` type variables
+
+* **Return value:** new `WrongNumberOfArgumentsException`
 
 ## Child of:
 
@@ -13,8 +15,6 @@
 ## Signatures:
 
 `NativeCallable`, `Callable`
-
-
 
 ## Example:
 

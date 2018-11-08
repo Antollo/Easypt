@@ -16,7 +16,10 @@ Returns new substring that starts at character position pos and spans len charac
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
 
 ```c
 var str.=("Hello World!");

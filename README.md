@@ -12,7 +12,7 @@ name.=(console.read());
 console.write("Hello ", name);
 ```
 
-Run with: `easypt --file my_file.ez`. More sophisticated:
+Run with: `easypt -file my_file.ez`. More sophisticated:
 
 ```c
 import("console");
@@ -24,7 +24,7 @@ var main.=({
 });
 ```
 
-Run with: `easypt --file my_file.ez --entryPoint Root.my_file.main()`
+Run with: `easypt -file my_file.ez -entryPoint Root.my_file.main()`
 
 
 ## Overview

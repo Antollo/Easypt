@@ -2,9 +2,11 @@
 
 #### `..Root.ParserException`
 
-* **Parameters:**
+Constructs new `ParserException` which is thrown when parser encounters serious error on input.
 
-* **Return value:**
+* **Parameters:** any number of `String` type variables
+
+* **Return value:** new `ParserException`
 
 ## Child of:
 
@@ -14,7 +16,8 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+throw(Parser("Serious error!"));
+```

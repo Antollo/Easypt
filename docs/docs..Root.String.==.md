@@ -2,7 +2,7 @@
 
 #### `..Root.String.==`
 
-Checks if strings are equal.
+Checks if two strings are equal.
 
 * **Parameters:** another `String`
 

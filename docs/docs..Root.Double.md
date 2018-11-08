@@ -15,14 +15,13 @@
 `NativeCallable`, `Callable`
 
 ## Members:
-
-- [`==`](docs..Root.Double.==.md)
 - [`toString`](docs..Root.Double.toString.md)
 - [`toInt`](docs..Root.Double.toInt.md)
 - [`toDouble`](docs..Root.Double.toDouble.md)
 - [`toBoolean`](docs..Root.Double.toBoolean.md)
 - [`++`](docs..Root.Double.++.md)
 - [`--`](docs..Root.Double.--.md)
+- [`==`](docs..Root.Double.==.md)
 - [`+`](docs..Root.Double.+.md)
 - [`-`](docs..Root.Double.-.md)
 - [`>`](docs..Root.Double.>.md)
@@ -34,4 +33,6 @@
 
 
 ## Example:
+
+
 

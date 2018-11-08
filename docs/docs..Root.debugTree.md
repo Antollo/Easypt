@@ -2,9 +2,9 @@
 
 #### `..Root.debugTree`
 
-* **Parameters:**
+Prints variables tree.
 
-* **Return value:**
+* **Return value:** reference to this `Object`
 
 ## Child of:
 
@@ -14,7 +14,12 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+Root.debugTree();
+```
+
+#### Expected output:
+
+[_too long_]

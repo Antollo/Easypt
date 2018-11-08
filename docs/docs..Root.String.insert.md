@@ -16,7 +16,10 @@ Inserts a copy of the sequence of characters in the range [first, last) before e
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
 
 ```c
 var a.=("----");

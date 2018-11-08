@@ -2,9 +2,11 @@
 
 #### `..Root.parse`
 
-* **Parameters:**
+Parses code from string to `BlockCallable` object. It is used by `import` and `-file` flag.
 
-* **Return value:**
+* **Parameters:** `String`
+
+* **Return value:** `BlockCallable`
 
 ## Child of:
 
@@ -15,6 +17,15 @@
 `NativeCallable`, `Callable`
 
 
-
 ## Example:
 
+```c
+var fun.=(parse("basicOut(\"from string\");"));
+fun();
+```
+
+#### Expected output:
+
+```
+from string
+```

@@ -2,7 +2,7 @@
 
 #### `..Root.StringIterator.get`
 
-Gets value of element (new `String` consisting of one character) pointed by iterator.
+Gets value of an element (new `String` consisting of one character) pointed by iterator.
 
 * **Return value:** new `String` of size 1
 

@@ -1,6 +1,6 @@
-# `==`
+# `/`
 
-#### `..Root.Object.==`
+#### `..Root.Int./`
 
 * **Parameters:**
 
@@ -8,13 +8,14 @@
 
 ## Child of:
 
-[`Object`](docs..Root.Object.md)
+[`Int`](docs..Root.Int.md)
 
 ## Signatures:
 
 `NativeCallable`, `Callable`
 
 
-
 ## Example:
+
+
 

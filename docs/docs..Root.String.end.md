@@ -2,7 +2,7 @@
 
 #### `..Root.String.end`
 
-Returns an iterator pointing after the last character of the string.
+Returns an iterator pointing after the last character of this `String`.
 
 * **Return value:** new `StringIterator`
 
@@ -14,7 +14,10 @@ Returns an iterator pointing after the last character of the string.
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
 
 ```c
 var str.=("Hello world!");

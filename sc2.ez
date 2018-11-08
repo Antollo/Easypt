@@ -2,12 +2,26 @@ import("time");
 import("console");
 
 
-var str.=("Hello World!");
-var begin.=(str.begin().+(str.find(" ", 0)));
-var end.=(str.begin().+(str.find("!", 0)));
-str.erase(begin, end);
+{
+    var Int.=({ var return.=(5); });
+    basicOut(Int());
+    basicOut(Root.Int());
+}();
 
-basicOut("Hello ".+("world!"));
+
+var n.=(10);
+var str.=(String());
+var conditon.=(n.toBoolean());
+while(conditon, {
+    str.pushBack("a");
+    conditon.=(n.--().toBoolean());
+});
+basicOut(str);
+
+var str.=("Hello World!");
+var a.=(str.begin().+(str.find("e", 0)));
+var b.=(str.begin().+(str.find("d", 0)));
+basicOut(a.>=(b));
 
 #var test1;
 var test2;
@@ -53,7 +67,6 @@ It not also attach son as child to
 mother, but also attach mother
 as parent to son.
 #
-mother.addChild(Object().setName("son"));
 mother.var son;
 father.var daughter;
 #Adds reference to father's daughter as step-daughter#

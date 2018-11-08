@@ -2,9 +2,11 @@
 
 #### `..Root.OutOfRangeException`
 
-* **Parameters:**
+Constructs new `OutOfRangeException` which is thrown when an illegal range was used (indexes and string to number conversions).
 
-* **Return value:**
+* **Parameters:** any number of `String` type variables
+
+* **Return value:** new `OutOfRangeException`
 
 ## Child of:
 
@@ -14,7 +16,19 @@
 
 `NativeCallable`, `Callable`
 
+## Examples:
 
+```c
+var arr.=(Array(3, "x");
+arr[7].get();
+```
 
-## Example:
+```c
+var str.=("abc");
+str.pushBack("");
+```
 
+```c
+var bignum.=("99999999999999999999999999");
+basicOut(bignum.toInt());
+```

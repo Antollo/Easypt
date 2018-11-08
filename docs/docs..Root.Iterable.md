@@ -1,10 +1,8 @@
-# `Iterable`
+# `Iterable` (interface)
 
 #### `..Root.Iterable`
 
-* **Parameters:**
-
-* **Return value:**
+`Iterable` is object that can be traversed by iterators. `Iterable` derived classes should implement all members of `Iterable`.
 
 ## Child of:
 
@@ -16,9 +14,5 @@
 
 ## Members:
 
-- [`begin`](docs..Root.Iterable.begin.md)
-- [`end`](docs..Root.Iterable.end.md)
-
-
-## Example:
-
+- `begin` returns iterator to begin
+- `end` returns iterator to end

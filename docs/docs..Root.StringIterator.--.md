@@ -4,7 +4,7 @@
 
 Decrements `StringIterator` instance (equivalent of `parent.=(parent.-(1))`).
 
-* **Return value:** reference to incremented `StringIterator` instance 
+* **Return value:** reference to this (decremented) `StringIterator` 
 
 ## Child of:
 
@@ -14,7 +14,10 @@ Decrements `StringIterator` instance (equivalent of `parent.=(parent.-(1))`).
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
 
 ```c
 var str.=("Hello world!");

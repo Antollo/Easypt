@@ -1,10 +1,12 @@
-# `Iterator`
+# `Iterator` (interface)
 
 #### `..Root.Iterator`
 
-* **Parameters:**
+`Iterator` is object that is used to to traverse a container. `Iterator` derived classes should implement all members of `Iterator`.
 
-* **Return value:**
+### `Iterator` type signatures:
+
+`Iterator`
 
 ## Child of:
 
@@ -16,12 +18,9 @@
 
 ## Members:
 
-- [`<-`](docs..Root.Iterator.<-.md)
-- [`==`](docs..Root.Iterator.==.md)
-- [`++`](docs..Root.Iterator.++.md)
-- [`--`](docs..Root.Iterator.--.md)
-- [`get`](docs..Root.Iterator.get.md)
-
-
-## Example:
+- `<-` assigns reference to pointed element
+- `++` increments
+- `--` decrements
+- `==` compares
+- `get` return reference to pointed element
 

@@ -11,7 +11,7 @@ basicOut("Hello world!");
 Run file with `Ctrl+Shift+B`. You wil see output in VS Code integrated terminal, something like this:
 
 ```
-> Executing task: D:\Easypt\bin\easypt.exe --file source.ez <
+> Executing task: D:\Easypt\bin\easypt.exe -file source.ez <
 
 Hello world!
 
@@ -21,7 +21,7 @@ Press any key to close the terminal.
 Congrats, you have created your first Easypt script! Alternatively you can run it from shell with command:
 
 ```
-easypt --file source.ez
+easypt -file source.ez
 ```
 
 Understand the code:

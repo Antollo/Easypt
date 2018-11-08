@@ -33,4 +33,6 @@ myFunction("my argument");
 
 #### Expected output:
 
-    my argument
+```
+my argument
+```

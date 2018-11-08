@@ -10,6 +10,11 @@
 #include "prepareTree.h"
 #include <string>
 
+inline bool isFlag(const char* input, const char* flag)
+{
+    return std::strcmp(input, flag) == 0 || (std::strcmp(input + 1, flag) == 0 && input[0] == '-');
+}
+
 int main(int argc, char** argv)
 {
     std::ios_base::sync_with_stdio(false);
@@ -20,18 +25,18 @@ int main(int argc, char** argv)
     std::list<std::string> fileNames;
     for(int i=0; i<argc; i++)
     {
-        if (std::strcmp(argv[i], "--file") == 0 && i != argc-1)
+        if (isFlag(argv[i], "-file") && i != argc-1)
         {
             fileNames.push_back(std::string(argv[++i]));
             std::ifstream sourceFile(argv[i]);
             std::getline(sourceFile, source, (char)EOF);
             sourceFile.close();
         }
-        else if (std::strcmp(argv[i], "--entryPoint") == 0 && i != argc-1)
+        else if (isFlag(argv[i], "-entryPoint") && i != argc-1)
         {
             entryPoint = argv[++i];
         }
-        else if (std::strcmp(argv[i], "--help") == 0 && i != argc-1)
+        else if (isFlag(argv[i], "-help"))
         {
             IO::basicOut<<"See project's repository (there are tutorial and language reference): https://github.com/Antollo/Easypt";
         }

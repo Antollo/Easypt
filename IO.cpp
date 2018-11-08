@@ -30,5 +30,11 @@ IO::_basicOut& IO::_basicOut::operator<< (const double& number)
     return *this;
 };
 
+IO::_basicOut& IO::_basicOut::operator<< (const bool& boolean)
+{
+    std::cout<<boolean<<std::endl;
+    return *this;
+};
+
 IO::_console IO::console;
 IO::_basicOut IO::basicOut;

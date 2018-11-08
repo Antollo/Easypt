@@ -2,9 +2,9 @@
 
 #### `..Root.Object.getParent`
 
-* **Parameters:**
+Returns parent (note: variables are treated as tree nodes) of this object.
 
-* **Return value:**
+* **Return value:** reference to parent of this object
 
 ## Child of:
 
@@ -14,7 +14,10 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var mother;
+mother.var son;
+basicOut(mother.son.getParent().hasChild("son"));
+```

@@ -18,7 +18,7 @@
    basicOut(add(5 ,7));
    ```
    
-   Run it with `easypt --file a.ez`
+   Run it with `easypt -file a.ez`
 
 2. It would be better to divide it into two files:
    
@@ -38,7 +38,7 @@
 
    _(Now it's `a.add`, huh? That's because all local variables in `some_file.ez` are added as children to `Root.some_file` node.)_
 
-   Command `easypt --file a.ez --file b.ez` works like a charm, but `easypt --file b.ez --file a.ez` doesn't and throws exception:
+   Command `easypt -file a.ez -file b.ez` works like a charm, but `easypt -file b.ez -file a.ez` doesn't and throws exception:
 
    ```
    Exception at: ..Root.import
@@ -52,13 +52,13 @@
 
    That's because the fact that `a` must be executed before `b`.
 
-3. `--entryPoint`
+3. `-entryPoint`
    
-   Try running command `easypt --entryPoint "basicOut(\"Hello there!\");"`
+   Try running command `easypt -entryPoint "basicOut(\"Hello there!\");"`
 
-   (`\"` quote escaping works at least in Windows cmd, if you don't see `Hello there!` output try something shell independent e.g. `easypt --entryPoint basicOut(1234);`)
+   (`\"` quote escaping works at least in Windows cmd, if you don't see `Hello there!` output try something shell independent e.g. `easypt -entryPoint basicOut(1234);`)
 
-   As you can see `--entryPoint` argument is executed (in `EntryPointBlockCallable` node that is not attached as child to `Root` for your curiosity) as normal code (called after last file from `--file`).
+   As you can see `-entryPoint` argument is executed (in `EntryPointBlockCallable` node that is not attached as child to `Root` for your curiosity) as normal code (called after last file from `-file`).
 
    You might have heard about something called _main function_ in other languages. In Easypt it is done as following:
 
@@ -80,7 +80,7 @@
 
    Now this two files project can be executed with the far more beautiful command:
 
-   `easypt --file b.ez --file a.ez --entryPoint b.main();`
+   `easypt -file b.ez -file a.ez -entryPoint b.main();`
 
 ## 3. Import
 
@@ -92,7 +92,7 @@
 > 
 > [_From Wikipedia, modified (marked with italic) to match Easypt `import`_](https://en.wikipedia.org/wiki/Include_directive)
 
-`import` function works in the same way as `--file` argument. In fact `--file` is handled by calling `import`. See example:
+`import` function works in the same way as `-file` argument. In fact `-file` is handled by calling `import`. See example:
 
 `lib.ez`:
 
@@ -113,7 +113,7 @@ var main.=({
 
 Run it with command:
 
-`easypt --file source.ez --entryPoint source.main();`
+`easypt -file source.ez -entryPoint source.main();`
   
 
 ---

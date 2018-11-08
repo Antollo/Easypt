@@ -52,6 +52,15 @@ object::objectPtr basicOut (object::objectPtr obj, object::argsContainer& args)
             IO::basicOut << *std::any_cast<bool>(&arg->getValue());
         if (arg->getValue().type().hash_code() == typeid(double).hash_code())
             IO::basicOut << *std::any_cast<double>(&arg->getValue());
+        if (arg->getValue().type().hash_code() == typeid(std::vector<object::objectPtr>).hash_code())
+        {
+            object::argsContainer temp(1, nullptr);
+            for(auto& el : *std::any_cast<std::vector<object::objectPtr>>(&arg->getValue()))
+            {
+                temp.front() = el;
+                basicOut(obj, temp);
+            }
+        }
     };
     return obj->READ(name("Object"), true)->CALL();
 }

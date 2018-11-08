@@ -1,10 +1,8 @@
-# `Basic`
+# `Basic` (interface)
 
 #### `..Root.Basic`
 
-* **Parameters:**
-
-* **Return value:**
+`Basic` is object that can be converted to basic types. `Basic` derived classes should implement all members of `Basic`.
 
 ## Child of:
 
@@ -16,11 +14,8 @@
 
 ## Members:
 
-- [`toString`](docs..Root.Basic.toString.md)
-- [`toInt`](docs..Root.Basic.toInt.md)
-- [`toDouble`](docs..Root.Basic.toDouble.md)
-- [`toBoolean`](docs..Root.Basic.toBoolean.md)
-
-
-## Example:
+- `toString` returns `String`
+- `toInt` returns `Int`
+- `toDouble` returns `Double`
+- `toBoolean` returns `Boolean`
 

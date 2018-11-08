@@ -2,9 +2,13 @@
 
 #### `..Root.Object`
 
-* **Parameters:**
+Constructs new `Object`. Any variable created with keyword `var` is initialized with `Object` type.
 
-* **Return value:**
+* **Return value:** new `Object`
+
+### `Object` type signatures:
+
+`Object`
 
 ## Child of:
 
@@ -28,9 +32,32 @@
 - [`getName`](docs..Root.Object.getName.md)
 - [`copy`](docs..Root.Object.copy.md)
 - [`!=`](docs..Root.Object.!=.md)
-- [`==`](docs..Root.Object.==.md)
 - [`===`](docs..Root.Object.===.md)
-
 
 ## Example:
 
+```c
+var mother;
+var father;
+
+mother.var son;
+father.var daughter;
+
+mother.addChild("step-daughter", father.getChild("daughter"));
+
+mother.addChild(Object());
+var childrenArray.=(mother.getChildrenArray());
+for (var it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+    if (instanceOf(it.get(), Object), {
+        basicOut(it.get().getName());
+    });
+});
+```
+
+#### Possible output:
+
+```
+son
+daughter
+Anonymous3384
+```

@@ -14,7 +14,12 @@ Converts string to floating point number.
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
+
+#### Expected output:
 
 ```c
 var str.=("1024");

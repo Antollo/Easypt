@@ -16,7 +16,10 @@ Resizes the string to a length of n characters. If n is smaller than the current
 
 `NativeCallable`, `Callable`
 
+
 ## Example:
+
+
 
 ```c
 var str.=("Hello World!");

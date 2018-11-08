@@ -2,7 +2,7 @@
 
 #### `..Root.String.begin`
 
-Returns an iterator pointing to the first character of the string.
+Returns an iterator pointing to the first character of this `String`.
 
 * **Return value:** new `StringIterator`
 

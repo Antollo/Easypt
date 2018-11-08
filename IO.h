@@ -20,6 +20,7 @@ namespace IO
         _basicOut& operator<< (const std::string& text);
         _basicOut& operator<< (const int& number);
         _basicOut& operator<< (const double& number);
+        _basicOut& operator<< (const bool& boolean);
     };
     extern _basicOut basicOut;
 };

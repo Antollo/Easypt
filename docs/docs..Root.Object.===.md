@@ -2,9 +2,11 @@
 
 #### `..Root.Object.===`
 
-* **Parameters:**
+Checks if this and another `Object` are references to the same object;
 
-* **Return value:**
+* **Parameters:** another `Object`
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,7 +16,10 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var father;
+father.var son.=("I'm son");
+basicOut(father.getChild("son").===(father.son));
+```

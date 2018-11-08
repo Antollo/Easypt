@@ -22,6 +22,26 @@ inline size_t findNth(const std::string& str, const std::string& what, size_t n,
 	if (n == 1) return str.find(what, pos);
 	return findNth(str, what, n-1, str.find(what, pos) + 1);
 }
+inline std::string goodName(const std::string& oldName)
+{
+	std::size_t pos;
+	std::string temp="less", name = oldName;
+	while ((pos = name.find('<')) != std::string::npos)
+		name.replace(name.begin()+pos, name.begin()+pos+1, temp.begin(), temp.end());
+	temp="greater";
+	while ((pos = name.find('>')) != std::string::npos)
+		name.replace(name.begin()+pos, name.begin()+pos+1, temp.begin(), temp.end());
+	temp="star";
+	while ((pos = name.find('*')) != std::string::npos)
+		name.replace(name.begin()+pos, name.begin()+pos+1, temp.begin(), temp.end());
+	temp="tilde";
+	while ((pos = name.find('~')) != std::string::npos)
+		name.replace(name.begin()+pos, name.begin()+pos+1, temp.begin(), temp.end());
+	temp="div";
+	while ((pos = name.find('/')) != std::string::npos)
+		name.replace(name.begin()+pos, name.begin()+pos+1, temp.begin(), temp.end());
+    return name;
+}
 object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
@@ -34,7 +54,7 @@ object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& ar
             if (locationToFilename.count(f)) IO::console << "Probably duplicate\n";
         }
 
-        if (std::ifstream(("docs/docs" + args[0]->getFullNameString() + ".md").c_str()).good())
+        if (std::ifstream(("docs/docs" + goodName(args[0]->getFullNameString()) + ".md").c_str()).good())
         {
             IO::console << "Update file? (y/n) ";
             do {
@@ -49,7 +69,7 @@ object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& ar
                 IO::console >> temp;
             } while (temp != "y" && temp != "n");
             if (temp == "n") return args[0];
-            std::ofstream("docs/docs" + args[0]->getFullNameString() + ".md");
+            std::ofstream("docs/docs" + goodName(args[0]->getFullNameString()) + ".md");
             if (args[0]->hasSignature("Callable")) description = "\n\n* **Parameters:**\n\n* **Return value:**\n\n";
         }
 
@@ -63,16 +83,16 @@ object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& ar
         if (args[0]->hasSignature("NativeCallable") && std::isupper(((std::string)args[0]->getName())[0]) )
         {
             object::nativeFunctionType f = std::any_cast<object::nativeFunctionType>(args[0]->getValue());
-            if (locationToFilename.count(f) == 0) locationToFilename[f] = "docs/docs" + args[0]->getFullNameString() + ".md";
+            if (locationToFilename.count(f) == 0) locationToFilename[f] = "docs/docs" + goodName(args[0]->getFullNameString()) + ".md";
         }
 
-        std::ifstream fileInput("docs/docs" + args[0]->getFullNameString() + ".md");
+        std::ifstream fileInput("docs/docs" + goodName(args[0]->getFullNameString()) + ".md");
 	    std::getline(fileInput, fileContent, '\0');
         fileInput.close();
         if (findNth(fileContent, "`", 4) != std::string::npos) description = fileContent.substr(findNth(fileContent, "`", 4) + 1, fileContent.find("## Child of:") - findNth(fileContent, "`", 4) - 1);
 	    if (fileContent.find("## Example:") != std::string::npos) example = fileContent.substr(fileContent.find("## Example:") + std::string("## Example:").size());
         
-        std::ofstream fileOutput("docs/docs" + args[0]->getFullNameString() + ".md", std::ofstream::trunc);
+        std::ofstream fileOutput("docs/docs" + goodName(args[0]->getFullNameString()) + ".md", std::ofstream::trunc);
         fileOutput << "# `" << (std::string)args[0]->getName() << "`\n\n";
         
         fileOutput << "#### `" << args[0]->getFullNameString() << "`";
@@ -86,7 +106,7 @@ object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& ar
         if (args[0]->getSignatures().size())
             fileOutput.seekp((int)fileOutput.tellp() - 2);
         
-        if (args[0]->getChildren().size()) fileOutput << "\n\n## Members:";
+        if (args[0]->getChildren().size()) fileOutput << "\n\n## Members:\n";
         fileOutput << "\n";
         for (auto& child : args[0]->getChildren())
         {
@@ -99,7 +119,7 @@ object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& ar
             }
             else fileOutput << "(" << "docs" + child.second->getFullNameString() + ".md" << ")\n";
         }
-        fileOutput << "\n\n## Example:\n\n#### Expected output:" << example;
+        fileOutput << "\n\n## Example:\n\n" << example;
         fileOutput.close();
         return args[0];
     }
