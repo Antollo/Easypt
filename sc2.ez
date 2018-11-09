@@ -1,13 +1,14 @@
 import("time");
 import("console");
 
+var fun.=({ basicOut("called"); });
+fun.callOperator();
 
-{
-    var Int.=({ var return.=(5); });
-    basicOut(Int());
-    basicOut(Root.Int());
-}();
+basicOut(instanceOf(5, Int));
+basicOut(instanceOf(5.0, Int));
+basicOut(instanceOf(5.0, Double));
 
+basicOut(13.0./(7.0));
 
 var n.=(10);
 var str.=(String());

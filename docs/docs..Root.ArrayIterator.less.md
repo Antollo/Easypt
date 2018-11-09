@@ -2,9 +2,11 @@
 
 #### `..Root.ArrayIterator.<`
 
-* **Parameters:**
+Checks if this `ArrayIterator` is pointing before another `ArrayIterator`. This operation makes sense only if both iterators are pointing to the same `Array`
 
-* **Return value:**
+* **Parameters:** another `ArrayIterator`
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -17,5 +19,8 @@
 
 ## Example:
 
-
-
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+basicOut(arr.begin().<(arr.end()));
+```

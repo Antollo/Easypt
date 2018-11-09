@@ -2,9 +2,11 @@
 
 #### `..Root.ArrayIterator.==`
 
-* **Parameters:**
+Checks if two instances of `ArrayIterator` are pointing to same element.
 
-* **Return value:**
+* **Parameters:** another `ArrayIterator` 
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 

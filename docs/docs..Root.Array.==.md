@@ -2,11 +2,11 @@
 
 #### `..Root.Array.==`
 
-Compares 
+Compares elements of two arrays. 
 
-* **Parameters:**
+* **Parameters:** another `Array`
 
-* **Return value:**
+* **Return value:**  new `Boolean`
 
 ## Child of:
 
@@ -16,7 +16,23 @@ Compares
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var a.=(Array().pushBack(5.+(5), "a"));
+var b.=(Array().pushBack(10, "a"));
+
+basicOut(a);
+basicOut(b);
+basicOut(a.==(b));
+
+b.pushBack(3.14);
+basicOut(a.==(b));
+```
+
+#### Expected output:
+
+```
+true
+false
+```

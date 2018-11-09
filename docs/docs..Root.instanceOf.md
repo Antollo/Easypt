@@ -2,9 +2,11 @@
 
 #### `..Root.instanceOf`
 
-* **Parameters:**
+Checks if first argument has signatures identical to names of following variables.
 
-* **Return value:**
+* **Parameters:** variable of any type, any number of variables
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,7 +16,10 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+basicOut(instanceOf(5, Int));
+basicOut(instanceOf(5.0, Int));
+basicOut(instanceOf(5.0, Double));
+```

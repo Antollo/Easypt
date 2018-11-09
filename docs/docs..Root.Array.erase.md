@@ -1,10 +1,10 @@
-# `pushBack`
+# `erase`
 
-#### `..Root.Array.pushBack`
+#### `..Root.Array.erase`
 
-Appends given variables to array (as references).
+Erases the sequence of elements in the range [first, last).
 
-* **Parameters:** any number of variables
+* **Parameters:** `ArrayIterator` first, `ArrayIterator` last
 
 * **Return value:** reference to this `Array`
 
@@ -21,7 +21,7 @@ Appends given variables to array (as references).
 ```c
 var arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
-for (var it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
-});
+
+arr.erase(arr.begin(), arr.begin().+(2));
+basicOut(arr);
 ```

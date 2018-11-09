@@ -7,6 +7,7 @@
 2. Constructs a string filled with n consecutive copies of character c.
 
 * **Parameters:**
+
     1. _no parameters_
     2. `Int` n, `String` c
 

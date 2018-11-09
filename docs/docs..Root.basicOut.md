@@ -2,9 +2,11 @@
 
 #### `..Root.basicOut`
 
-* **Parameters:**
+Prints its arguments to output (e.g. console).
 
-* **Return value:**
+* **Parameters:** any number of variables of type `Int`, `String`, `Boolean`, `Double` or `Array`
+
+* **Return value:** `basicOut`
 
 ## Child of:
 
@@ -14,7 +16,8 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+basicOut("abc", 123, 0.456);
+```

@@ -2,7 +2,7 @@
 
 #### `..Root.Array.begin`
 
-Return iterator to array's beginning.
+Returns an iterator pointing to the first element of this `Array`.
 
 * **Return value:** new `ArrayIterator`
 

@@ -2,9 +2,9 @@
 
 #### `..Root.ArrayIterator.++`
 
-* **Parameters:**
+Increments `ArrayIterator` instance (equivalent of `it.=(it.+(1))`).
 
-* **Return value:**
+* **Return value:** reference to this (increments) `ArrayIterator`
 
 ## Child of:
 
@@ -14,8 +14,12 @@
 
 `NativeCallable`, `Callable`
 
-
 ## Example:
 
-
-
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+    basicOut(it.get());
+});
+```

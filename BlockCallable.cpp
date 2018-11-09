@@ -69,7 +69,23 @@ object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer&
 {
     if (args.size() == 2 || args.size() == 3)
     {
-        if (args[0]->hasSignature(name("Basic")))
+        if (args[0]->hasSignature(name("Boolean")))
+        {
+            bool boolean = std::any_cast<bool>(args[0]->getValue());
+            if (boolean)
+            {
+                args[1]->callWithParent(obj);
+                //args[1]->CALL();
+                return args[0];
+            }
+            else
+            {
+                if ( args.size() == 3)
+                    args[2]->callWithParent(obj);
+                return args[0];
+            }
+        }
+        else if (args[0]->hasSignature(name("Basic")))
         {
             bool boolean = std::any_cast<bool>(args[0]->READ(name("toBoolean"))->CALL()->getValue());
             if (boolean)

@@ -2,9 +2,11 @@
 
 #### `..Root.Array.readOperator`
 
-* **Parameters:**
+Returns iterator pointing to i-th element. Read operator (`[]`) is shorthand for this function.
 
-* **Return value:**
+* **Parameters:** `Int` i
+
+* **Return value:** new `ArrayIterator`
 
 ## Child of:
 
@@ -14,7 +16,10 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+basicOut(arr[1].get());
+```

@@ -2,9 +2,11 @@
 
 #### `..Root.BlockCallable.try`
 
-* **Parameters:**
+Calls first, if exception is thrown, calls second with thrown exception as its argument.
 
-* **Return value:**
+* **Parameters:** `Callable` first (to call), `Callable` second (to catch exception)
+
+* **Return value:** reference to this `BlockCallable`
 
 ## Child of:
 
@@ -14,7 +16,18 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+try({
+    throw(Exception("Error!"));
+}, {
+    basicOut(args[0].get());
+});
+```
+
+```c
+try( {abababa;}, {
+    basicOut(args[0].get());
+});
+```

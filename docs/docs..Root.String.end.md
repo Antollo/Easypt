@@ -14,10 +14,7 @@ Returns an iterator pointing after the last character of this `String`.
 
 `NativeCallable`, `Callable`
 
-
 ## Example:
-
-
 
 ```c
 var str.=("Hello world!");

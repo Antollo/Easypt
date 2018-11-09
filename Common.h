@@ -141,6 +141,12 @@ struct guess_type<std::string::const_iterator>
     typedef std::string::iterator type;
 };
 
+template<>
+struct guess_type<std::vector<object::objectPtr>::const_iterator>
+{
+    typedef std::vector<object::objectPtr>::iterator type;
+};
+
 template<class T, class A>
 inline T type_converter(const A& member)
 {

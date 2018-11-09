@@ -78,9 +78,35 @@ object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContaine
 }
 object::objectPtr ArrayPushBack (object::objectPtr obj, object::argsContainer& args)
 {
+    size_t i = (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).size();
+    (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).resize(i + args.size());
     for (auto& el : args)
-        (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).push_back(el);
+        (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue()))[i++] = (el);
     return obj->getParent();
+}
+object::objectPtr ArrayEqualOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        bool comparison = obj->getParent()->getSignatures() == args[0]->getSignatures();
+        if (comparison)
+        {
+            comparison = (*(std::any_cast<std::vector<object::objectPtr>>(&args[0]->getValue()))).size() == (*(std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue()))).size();
+            if (comparison)
+            {
+                auto it = (*(std::any_cast<std::vector<object::objectPtr>>(&args[0]->getValue()))).begin();
+                for (auto& el : (*(std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue()))))
+                {
+                    comparison = comparison && std::any_cast<bool>((*(it++))->READ(name("=="))->CALL(el)->getValue());
+                    if (!comparison) break;
+                }
+            }
+        }
+        object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
+        ret->getValue() = comparison;
+        return ret;
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //ArrayIterator constructor
 object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& args)

@@ -5,7 +5,7 @@
 //Exception constructor
 object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args)
 {
-    object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
+    object::objectPtr ret = obj->READ(name("String"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
         ret->addChild(child.second->copy());
@@ -99,7 +99,8 @@ object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
                 object::objectPtr sourceBlockCallable = obj->READ(name("parse"), true)->CALL(sourceString);
                 sourceBlockCallable->getName() = std::string(fileName.begin() + findLastSlash(fileName) + 1, fileName.begin()  + fileName.find_last_of('.'));
                 obj->READ(name("Root"), true)->addChild(sourceBlockCallable);
-                return sourceBlockCallable->CALL();
+                sourceBlockCallable->CALL();
+                return sourceBlockCallable;
             }
             else
             {
@@ -118,7 +119,6 @@ object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
                 exportFunction(nativeCallable, args);
 
                 return nativeCallable;
-
             }
         }
         throw(WrongTypeOfArgument("Wrong type of argument while calling ", obj->getFullNameString()));

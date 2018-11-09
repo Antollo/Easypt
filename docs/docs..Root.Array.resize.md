@@ -2,9 +2,12 @@
 
 #### `..Root.Array.resize`
 
-* **Parameters:**
+Resizes the array to contain n elements.
+If the current size is greater than n, the array is reduced to its first n elements. If n is greater than the current size, the array is extended by inserting at the end as many empty objects as needed to reach a size of n.
 
-* **Return value:**
+* **Parameters:** `Int` n
+
+* **Return value:** reference to this `Array`
 
 ## Child of:
 
@@ -14,7 +17,13 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+arr.resize(4);
+arr[2].<-("ghi");
+arr[3].<-("jkl");
+basicOut(arr);
+```

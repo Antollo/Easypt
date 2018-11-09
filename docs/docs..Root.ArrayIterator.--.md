@@ -2,9 +2,9 @@
 
 #### `..Root.ArrayIterator.--`
 
-* **Parameters:**
+Decrements `ArrayIterator` instance (equivalent of `it.=(it.-(1))`).
 
-* **Return value:**
+* **Return value:** reference to this (decremented) `ArrayIterator`
 
 ## Child of:
 
@@ -14,8 +14,12 @@
 
 `NativeCallable`, `Callable`
 
-
 ## Example:
 
-
-
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+for (var it.=(arr.end()).!=, arr.begin(), it.--, {
+    basicOut(it.-(1).get());
+});
+```

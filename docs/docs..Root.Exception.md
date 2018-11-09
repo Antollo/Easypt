@@ -2,11 +2,11 @@
 
 #### `..Root.Exception`
 
-Constructs new `WrongNumberOfArgumentsException` which is thrown when wrong number of variables was passed to throwing function.
+Constructs new `Exception` which is thrown when unrecognized error was encountered.
 
 * **Parameters:** any number of `String` type variables
 
-* **Return value:** new `WrongNumberOfArgumentsException`
+* **Return value:** new `Exception`
 
 ## Child of:
 
@@ -16,5 +16,22 @@ Constructs new `WrongNumberOfArgumentsException` which is thrown when wrong numb
 
 `NativeCallable`, `Callable`
 
-## Example:
+## Examples:
 
+```c
+try({
+    throw(Exception("Error!"));
+}, {
+    basicOut(args[0].get());
+});
+```
+
+```c
+var block.=({
+    throw(Exception("Error!"));
+});
+
+try(block, {
+    basicOut(args[0].get());
+});
+```

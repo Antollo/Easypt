@@ -120,6 +120,8 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(BooleanToBoolean, name("toBoolean")))
             ->addChild(makeObject(T2BOperator<bool, std::equal_to, typeNames::Boolean>, name("==")))
             ->addChild(makeObject(T1TOperator<bool, std::logical_not, typeNames::Boolean>, name("!")))
+            ->addChild(makeObject(T1TOperator<bool, std::logical_and, typeNames::Boolean>, name("&&")))
+            ->addChild(makeObject(T1TOperator<bool, std::logical_or, typeNames::Boolean>, name("||")))
         );
 
         Root
@@ -171,7 +173,6 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(BlockCallableThrow, name("throw")))
             ->addChild(makeObject(BlockCallableTry, name("try")))
             ->addChild(makeObject(BlockCallableCallOperator, name("callOperator")))
-            ->addChild(makeObject(T2BOperator<std::list<expression>, std::equal_to, typeNames::BlockCallable>, name("==")))
         );
 
         Root->addChild(makeObject(FunctionChooser<Array0, Array1, Array2>, name("Array"))
@@ -180,7 +181,9 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(ArrayReadOperator, name("readOperator")))
             ->addChild(makeObject(TMethod<std::vector<object::objectPtr>, size_t (std::vector<object::objectPtr>::*)() const, &std::vector<object::objectPtr>::size, int, typeNames::Int>, name("size")))
             ->addChild(makeObject(VMethod<std::vector<object::objectPtr>, void (std::vector<object::objectPtr>::*)(size_t), &std::vector<object::objectPtr>::resize, int>, name("resize")))
-            ->addChild(makeObject(T2BOperator< std::vector<object::objectPtr>, std::equal_to, typeNames::Array>, name("==")))
+            ->addChild(makeObject(VMethod<std::vector<object::objectPtr>, std::vector<object::objectPtr>::iterator (std::vector<object::objectPtr>::*)(std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::iterator, std::vector<object::objectPtr>::iterator), static_cast<std::vector<object::objectPtr>::iterator (std::vector<object::objectPtr>::*)(std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::iterator, std::vector<object::objectPtr>::iterator)>(&std::vector<object::objectPtr>::insert<std::vector<object::objectPtr>::iterator>), std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::iterator, std::vector<object::objectPtr>::iterator>, name("insert")))
+            ->addChild(makeObject(VMethod<std::vector<object::objectPtr>, std::vector<object::objectPtr>::iterator (std::vector<object::objectPtr>::*)(std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::const_iterator), static_cast<std::vector<object::objectPtr>::iterator (std::vector<object::objectPtr>::*)(std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::const_iterator)>(&std::vector<object::objectPtr>::erase), std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::const_iterator>, name("erase")))
+            ->addChild(makeObject(ArrayEqualOperator, name("==")))
             ->addChild(makeObject(ArrayPushBack, name("pushBack")))
         );
 

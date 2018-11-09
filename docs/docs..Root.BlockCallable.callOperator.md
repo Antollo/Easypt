@@ -2,9 +2,11 @@
 
 #### `..Root.BlockCallable.callOperator`
 
-* **Parameters:**
+Calls `BlockCallable`, equivalent of call operator `()`.
 
-* **Return value:**
+* **Parameters:** any
+
+* **Return value:** any
 
 ## Child of:
 
@@ -14,7 +16,9 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var fun.=({ basicOut("called"); });
+fun.callOperator();
+```

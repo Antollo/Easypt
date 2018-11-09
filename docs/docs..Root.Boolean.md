@@ -2,9 +2,13 @@
 
 #### `..Root.Boolean`
 
-* **Parameters:**
+Constructs new `Boolean`.
 
-* **Return value:**
+* **Return value:** new `Boolean` of value `false`
+
+### `Boolean` type signatures:
+
+`Object`, `Basic`, `Boolean`
 
 ## Child of:
 
@@ -15,15 +19,19 @@
 `NativeCallable`, `Callable`
 
 ## Members:
-- [`toString`](docs..Root.Boolean.toString.md)
-- [`toInt`](docs..Root.Boolean.toInt.md)
-- [`toDouble`](docs..Root.Boolean.toDouble.md)
-- [`toBoolean`](docs..Root.Boolean.toBoolean.md)
-- [`==`](docs..Root.Boolean.==.md)
-- [`!`](docs..Root.Boolean.!.md)
+
+- `toString` converts logical value to string, returns new `String` 
+- `toInt` converts logical value to integer, returns new `Int`
+- `toDouble` converts logical value to floating point number, returns new `Double`
+- `toBoolean` equivalent of `copy`
+- `==` compares two logical values, returns new `Boolean`
+- `!` negates value of this, returns new `Boolean`
+- `&&` performs logical and, returns new `Boolean`
+- `||` performs logical or, returns new `Boolean`
 
 
 ## Example:
 
-
-
+```c
+basicOut(true, false, "a".==("a"));
+```

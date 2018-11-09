@@ -2,9 +2,11 @@
 
 #### `..Root.BlockCallable.throw`
 
-* **Parameters:**
+Throws an exception. _[Longer description will come.]_
 
-* **Return value:**
+* **Parameters:** variable of any type, preferably kind of `Exception`
+
+* **Return value:** _none_
 
 ## Child of:
 
@@ -14,7 +16,12 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+try({
+    throw(Exception("Error!"));
+}, {
+    basicOut(args[0].get());
+});
+```

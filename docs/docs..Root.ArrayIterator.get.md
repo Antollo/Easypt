@@ -2,9 +2,9 @@
 
 #### `..Root.ArrayIterator.get`
 
-* **Parameters:**
+Gets reference to element pointed by iterator.
 
-* **Return value:**
+* **Return value:** reference to any type
 
 ## Child of:
 
@@ -14,8 +14,12 @@
 
 `NativeCallable`, `Callable`
 
-
 ## Example:
 
-
-
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+    basicOut(it.get());
+});
+```

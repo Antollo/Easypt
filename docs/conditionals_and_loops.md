@@ -68,7 +68,7 @@ var condition.=(true);
 var i.=(0);
 while (condition, {
     basicOut(i.++());
-    if (i.; });
+    if (i.==(10), { condition.=(false); });
 });
 ```
 
@@ -82,8 +82,8 @@ while (condition, {
 In Easypt `for` is `BlockCallable` method and it has following syntax (**`for` syntax is different in Easypt than in other common languages**):
 
 ```c
-for (i.comperator, someValue, change, {
-    # execute while i.comperator(someValue) is true after each iteration call change() #
+for (i.comparator, someValue, change, {
+    # execute while i.comparator(someValue) is true after each iteration call change() #
 });
 ```
 

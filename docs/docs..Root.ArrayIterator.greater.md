@@ -2,9 +2,11 @@
 
 #### `..Root.ArrayIterator.>`
 
-* **Parameters:**
+Checks if this `ArrayIterator` is pointing after another `ArrayIterator`. This operation makes sense only if both iterators are pointing to the same `Array`
 
-* **Return value:**
+* **Parameters:** another `ArrayIterator`
+
+* **Return value:** new `Boolean`
 
 ## Child of:
 
@@ -14,8 +16,10 @@
 
 `NativeCallable`, `Callable`
 
-
 ## Example:
 
-
-
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+basicOut(arr.begin().>(arr.end()));
+```

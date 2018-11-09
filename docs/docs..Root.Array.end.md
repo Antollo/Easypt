@@ -2,7 +2,7 @@
 
 #### `..Root.Array.end`
 
-Return iterator to array's beginning.
+Returns an iterator pointing after the last element of this `Array`.
 
 * **Return value:** new `ArrayIterator`
 

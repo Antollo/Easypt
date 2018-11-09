@@ -2,9 +2,11 @@
 
 #### `..Root.ArrayIterator`
 
-* **Parameters:**
+Constructs a new `ArrayIterator`, this constructor exists only for internal `Array` purposes. `ArrayIterator` is not memory safe (not aware of `Array` size). For creating `ArrayIterator` pointing to data use `Array.begin()` and `Array.end()`.
 
-* **Return value:**
+### `Object` type signatures:
+
+`Object`, `Iterator`, `ArrayIterator` 
 
 ## Child of:
 
@@ -30,5 +32,10 @@
 
 ## Example:
 
-
-
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+    basicOut(it.get());
+});
+```

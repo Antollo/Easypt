@@ -8,6 +8,7 @@ _Mysterious dot._
 
 ## Signatures:
 
+_none_
 
 ## Members:
 
@@ -25,20 +26,20 @@ _Mysterious dot._
 - [`ParserException`](docs..Root.ParserException.md)
 - [`NotFoundException`](docs..Root.NotFoundException.md)
 - [`Object`](docs..Root.Object.md)
-- [`Basic`](docs/docs..Root.Iterator.md)
-- [`Iterable`](docs/docs..Root.Iterator.md)
-- [`Iterator`](docs/docs..Root.Iterator.md)
-- [`Container`](docs/docs..Root.Container.md)
-- [`String`](docs/docs..Root.String.md)
-- [`StringIterator`](docs/docs..Root.StringIterator.md)
-- [`Int`](docs/docs..Root.Int.md)
-- [`Double`](docs/docs..Root.Double.md)
-- [`Boolean`](docs/docs..Root.Boolean.md)
-- [`true`](docs..Root.true.md)
-- [`false`](docs..Root.false.md)
+- [`Basic`](docs..Root.Iterator.md)
+- [`Iterable`](docs..Root.Iterator.md)
+- [`Iterator`](docs..Root.Iterator.md)
+- [`Container`](docs..Root.Container.md)
+- [`String`](docs..Root.String.md)
+- [`StringIterator`](docs..Root.StringIterator.md)
+- [`Int`](docs..Root.Int.md)
+- [`Double`](docs..Root.Double.md)
+- [`Boolean`](docs..Root.Boolean.md)
+- `true`
+- `false`
 - [`BlockCallable`](docs..Root.BlockCallable.md)
 - [`Array`](docs..Root.Array.md)
-- [`ArrayIterator`](docs/docs..Root.StringIterator.md)
+- [`ArrayIterator`](docs..Root.StringIterator.md)
 - [`parse`](docs..Root.parse.md)
 
 ## Example:

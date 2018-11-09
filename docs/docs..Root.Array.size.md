@@ -2,9 +2,9 @@
 
 #### `..Root.Array.size`
 
-* **Parameters:**
+Returns the number of elements in the array.
 
-* **Return value:**
+* **Return value:** new `Int`
 
 ## Child of:
 
@@ -14,7 +14,10 @@
 
 `NativeCallable`, `Callable`
 
-
-
 ## Example:
 
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+basicOut(arr.size());
+```

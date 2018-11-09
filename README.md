@@ -31,7 +31,7 @@ Run with: `easypt -file my_file.ez -entryPoint Root.my_file.main()`
 
 __Easypt__ (_blend of easy and script_) is cross-platform structured object-oriented interpreted programming language. Its main goal is to be easy, small and extensible. Project started on 30th August 2018.
 
-### [See Easypt reference](https://antollo.github.io/Easypt)
+### [See `Root` of Easypt reference](https://antollo.github.io/Easypt/docs..Root)
 
 ### [See Easypt tutorial](https://antollo.github.io/Easypt/tutorial)
  

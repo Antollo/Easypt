@@ -29,6 +29,6 @@ str.pushBack("");
 ```
 
 ```c
-var bignum.=("99999999999999999999999999");
-basicOut(bignum.toInt());
+var bigNumber.=("99999999999999999999999999");
+basicOut(bigNumber.toInt());
 ```

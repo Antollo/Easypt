@@ -2,7 +2,7 @@
 
 #### `..Root.StringIterator.++`
 
-Increments `StringIterator` instance (equivalent of `parent.=(parent.+(1))`).
+Increments `StringIterator` instance (equivalent of `it.=(it.+(1))`).
 
 * **Return value:** reference to this (incremented) `StringIterator` 
 

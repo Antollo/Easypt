@@ -1,10 +1,8 @@
-# `Container`
+# `Container` (interface)
 
 #### `..Root.Container`
 
-* **Parameters:**
-
-* **Return value:**
+`Container` is object used for storing data. `Container` derived classes should implement all members of `Container`.
 
 ## Child of:
 
@@ -15,13 +13,6 @@
 `NativeCallable`, `Callable`
 
 ## Members:
-- [`readOperator`](docs..Root.Container.readOperator.md)
-- [`size`](docs..Root.Container.size.md)
 
-
-## Example:
-
-
-
-#### Expected output:
-
+- `readOperator` takes an integer, gives access to stored element
+- `size` returns size of container

@@ -2,9 +2,13 @@
 
 #### `..Root.BlockCallable`
 
-* **Parameters:**
+Constructs empty `BlockCallable`. To create non empty `BlockCallable` use `{`...`}`.
 
-* **Return value:**
+* **Return value:** new `BlockCallable`
+
+### `BlockCallable` type signatures:
+
+`Object`, `Callable`, `BlockCallable`
 
 ## Child of:
 
@@ -16,7 +20,6 @@
 
 ## Members:
 
-- [`==`](docs..Root.BlockCallable.==.md)
 - [`if`](docs..Root.BlockCallable.if.md)
 - [`while`](docs..Root.BlockCallable.while.md)
 - [`for`](docs..Root.BlockCallable.for.md)
@@ -24,6 +27,9 @@
 - [`try`](docs..Root.BlockCallable.try.md)
 - [`callOperator`](docs..Root.BlockCallable.callOperator.md)
 
-
 ## Example:
 
+```c
+var fun.=({ basicOut("called"); });
+fun();
+```

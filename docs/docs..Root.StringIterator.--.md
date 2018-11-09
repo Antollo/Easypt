@@ -2,7 +2,7 @@
 
 #### `..Root.StringIterator.--`
 
-Decrements `StringIterator` instance (equivalent of `parent.=(parent.-(1))`).
+Decrements `StringIterator` instance (equivalent of `it.=(it.-(1))`).
 
 * **Return value:** reference to this (decremented) `StringIterator` 
 

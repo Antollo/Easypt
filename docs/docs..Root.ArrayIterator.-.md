@@ -2,9 +2,11 @@
 
 #### `..Root.ArrayIterator.-`
 
-* **Parameters:**
+Returns new `ArrayIterator` moved backward by arguments value;
 
-* **Return value:**
+* **Parameters:** `Int`
+
+* **Return value:** new `ArrayIterator`
 
 ## Child of:
 
@@ -14,8 +16,11 @@
 
 `NativeCallable`, `Callable`
 
-
 ## Example:
 
-
-
+```c
+var arr.=(Array());
+arr.pushBack("abc", "def");
+for (var it.=(arr.end()).!=, arr.begin(), it.--, {
+    basicOut(it.-(1).get());
+});
