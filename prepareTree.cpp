@@ -120,8 +120,8 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(BooleanToBoolean, name("toBoolean")))
             ->addChild(makeObject(T2BOperator<bool, std::equal_to, typeNames::Boolean>, name("==")))
             ->addChild(makeObject(T1TOperator<bool, std::logical_not, typeNames::Boolean>, name("!")))
-            ->addChild(makeObject(T1TOperator<bool, std::logical_and, typeNames::Boolean>, name("&&")))
-            ->addChild(makeObject(T1TOperator<bool, std::logical_or, typeNames::Boolean>, name("||")))
+            ->addChild(makeObject(T2TOperator<bool, std::logical_and, typeNames::Boolean>, name("&&")))
+            ->addChild(makeObject(T2TOperator<bool, std::logical_or, typeNames::Boolean>, name("||")))
         );
 
         Root
