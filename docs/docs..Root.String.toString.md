@@ -17,10 +17,6 @@ Returns copy of `String` instance.
 
 ## Example:
 
-
-
-#### Expected output:
-
 ```c
 var str.=("Hello world!".toString());
 basicOut(str);

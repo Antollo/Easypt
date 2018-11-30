@@ -10,6 +10,7 @@ object::objectPtr StringToString (object::objectPtr obj, object::argsContainer& 
 object::objectPtr StringToInt (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringToDouble (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringToBoolean (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr StringToAsciiCode (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContainer& args);
 
 object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& args);

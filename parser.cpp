@@ -5,6 +5,13 @@
 parser::parser(const char* newSource, int newLast, object::objectPtr newRoot)
     : source(newSource), last(newLast), Root(newRoot), iterator(0) {};
 
+int parser::numberOfSlashes(const int& i)
+{
+    int ret = i;
+    while (source[ret] == '\\') ret--;
+    return i - ret;
+}
+
 void parser::eatTrash()
 {
     bool comment = false;
@@ -40,35 +47,46 @@ void parser::eatTrashBackward(int& i)
 
 int parser::findNext(char what)
 {
+    int ret = iterator + 1;
+    if (what == '"')
+    {
+        while (ret < last)
+        {
+            if (source[ret] == what && numberOfSlashes(ret - 1) % 2 == 0)
+                return ret;
+            ret++;
+        }
+        return ret;
+    }
     bool quotemarksSwitch = false;
-    int roundBracketsCounter = 0, curlyBracketsCounter = 0, squareBracketsCounter = 0, ret = iterator + 1;
+    int roundBracketsCounter = 0, curlyBracketsCounter = 0, squareBracketsCounter = 0;
     while (ret < last && (roundBracketsCounter != 0 || curlyBracketsCounter != 0 ||
             squareBracketsCounter != 0 || quotemarksSwitch == true ||
-            ((source[ret] != what) || ((what=='"') ? (source[ret-1]=='\\' && source[ret-2]!='\\') : false) )))
+            source[ret] != what ))
     {
         switch (source[ret])
         {
-        case '(':
-            roundBracketsCounter++;
-            break;
-        case ')':
-            roundBracketsCounter--;
-            break;
-        case '{':
-            curlyBracketsCounter++;
-            break;
-        case '}':
-            curlyBracketsCounter--;
-            break;
-        case '[':
-            squareBracketsCounter++;
-            break;
-        case ']':
-            squareBracketsCounter--;
-            break;
-        case '"':
-            if (!(source[ret-1]=='\\' && source[ret-2]!='\\')) quotemarksSwitch = !quotemarksSwitch;
-            break;
+            case '(':
+                if (!quotemarksSwitch) roundBracketsCounter++;
+                break;
+            case ')':
+                if (!quotemarksSwitch) roundBracketsCounter--;
+                break;
+            case '{':
+                if (!quotemarksSwitch) curlyBracketsCounter++;
+                break;
+            case '}':
+                if (!quotemarksSwitch) curlyBracketsCounter--;
+                break;
+            case '[':
+                if (!quotemarksSwitch) squareBracketsCounter++;
+                break;
+            case ']':
+                if (!quotemarksSwitch) squareBracketsCounter--;
+                break;
+            case '"':
+                if (numberOfSlashes(ret - 1) % 2 == 0) quotemarksSwitch = !quotemarksSwitch;
+                break;
         }
 
         ret++;

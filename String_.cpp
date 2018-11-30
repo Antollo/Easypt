@@ -89,6 +89,15 @@ object::objectPtr StringToBoolean (object::objectPtr obj, object::argsContainer&
     }
     return ret;
 }
+object::objectPtr StringToAsciiCode (object::objectPtr obj, object::argsContainer& args)
+{
+    object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
+    if (std::any_cast<std::string>(&obj->getParent()->getValue())->empty())
+        throw(OutOfRange("Out of range in ", obj->getFullNameString()));
+    else
+        ret->getValue() =  int ((unsigned char) (*std::any_cast<std::string>(&obj->getParent()->getValue()))[0]);
+    return ret;
+}
 object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContainer& args)
 {
 

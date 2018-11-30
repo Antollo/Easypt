@@ -17,10 +17,6 @@ Converts string to floating point number.
 
 ## Example:
 
-
-
-#### Expected output:
-
 ```c
 var str.=("1024");
 basicOut(str.toDouble()./(3.0));

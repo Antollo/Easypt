@@ -18,9 +18,6 @@ Checks if string is not empty (true if not empty, false otherwise).
 ## Example:
 
 
-
-#### Expected output:
-
 ```c
 basicOut("Hello World!".toBoolean());
 basicOut("".toBoolean());

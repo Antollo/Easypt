@@ -72,6 +72,7 @@ class parser
 {
     public:
         parser(const char* newSource, int newLast, object::objectPtr newRoot);
+        int numberOfSlashes(const int& i);
         std::list<expression> parse();
         void eatTrash();
         void eatTrash(int& i);

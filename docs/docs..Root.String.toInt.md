@@ -17,10 +17,6 @@ Converts string to integer.
 
 ## Example:
 
-
-
-#### Expected output:
-
 ```c
 var str.=("1024");
 basicOut(str.toInt()./(2));

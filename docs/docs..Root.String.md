@@ -30,6 +30,7 @@
 - [`toInt`](docs..Root.String.toInt.md)
 - [`toDouble`](docs..Root.String.toDouble.md)
 - [`toBoolean`](docs..Root.String.toBoolean.md)
+- [`toAsciiCode`](docs..Root.String.toAsciiCode.md)
 - [`begin`](docs..Root.String.begin.md)
 - [`end`](docs..Root.String.end.md)
 - [`==`](docs..Root.String.==.md)
