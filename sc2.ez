@@ -1,9 +1,11 @@
 import("time");
 import("console");
-import("packager.ez");
+import("memory");
 
 
 var str.=("abc");
 basicOut(str[0].get().toAsciiCode());
 
-var f.=(packager.Pack("script.ps1", "trophy.png", "README.md"));
+var b.=(Bytes(str));
+str[0]<-("d");
+basicOut(b[0].get().int());

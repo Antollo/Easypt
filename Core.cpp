@@ -46,13 +46,13 @@ object::objectPtr basicOut (object::objectPtr obj, object::argsContainer& args)
     {
         if (arg->getValue().type().hash_code() == typeid(std::string).hash_code())
             IO::basicOut << *std::any_cast<std::string>(&arg->getValue());
-        if (arg->getValue().type().hash_code() == typeid(int).hash_code())
+        else if (arg->getValue().type().hash_code() == typeid(int).hash_code())
             IO::basicOut << *std::any_cast<int>(&arg->getValue());
-        if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
+        else if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
             IO::basicOut << *std::any_cast<bool>(&arg->getValue());
-        if (arg->getValue().type().hash_code() == typeid(double).hash_code())
+        else if (arg->getValue().type().hash_code() == typeid(double).hash_code())
             IO::basicOut << *std::any_cast<double>(&arg->getValue());
-        if (arg->getValue().type().hash_code() == typeid(std::vector<object::objectPtr>).hash_code())
+        else if (arg->getValue().type().hash_code() == typeid(std::vector<object::objectPtr>).hash_code())
         {
             object::argsContainer temp(1, nullptr);
             for(auto& el : *std::any_cast<std::vector<object::objectPtr>>(&arg->getValue()))

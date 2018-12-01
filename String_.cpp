@@ -100,7 +100,6 @@ object::objectPtr StringToAsciiCode (object::objectPtr obj, object::argsContaine
 }
 object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContainer& args)
 {
-
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("Int")))
@@ -108,7 +107,6 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
             int index = std::any_cast<int>(args[0]->getValue());
             if (index >= 0 && index < std::any_cast<std::string>(obj->getParent()->getValue()).size())
             {
-
                 object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
                 ret->getValue() = (*std::any_cast<std::string>(&obj->getParent()->getValue())).begin() + index;
                 return ret;

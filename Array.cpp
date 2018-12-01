@@ -51,7 +51,6 @@ object::objectPtr Array2 (object::objectPtr obj, object::argsContainer& args)
 //Array methods
 object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContainer& args)
 {
-
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("Int")))
@@ -59,7 +58,6 @@ object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContaine
             int index = std::any_cast<int>(args[0]->getValue());
             if (index >= 0 && index < std::any_cast<std::vector<object::objectPtr>>(obj->getParent()->getValue()).size())
             {
-
                 object::objectPtr ret = obj->READ(name("ArrayIterator"), true)->CALL();
                 ret->getValue() = (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).begin() + index;
                 return ret;
