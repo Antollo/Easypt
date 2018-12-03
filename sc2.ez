@@ -6,6 +6,8 @@ import("memory");
 var str.=("abc");
 basicOut(str[0].get().toAsciiCode());
 
-var b.=(Bytes(str));
+var b.=(ByteView(str));
 str[0]<-("d");
-basicOut(b[0].get().int());
+basicOut(b[0].get().toInt());
+
+basicOut(ByteWrapper(2).<<=(ByteWrapper(1)).toInt());
