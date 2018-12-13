@@ -7,6 +7,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
     object::objectPtr dot = makeObject(nullptr, name("."))->addChild(Root);
 
     Root
+        ->addChild(makeObject(apply, name("apply")))
         ->addChild(makeObject(basicOut, name("basicOut")))
         ->addChild(makeObject(debugTree, name("debugTree")))
         ->addChild(makeObject(import, name("import")))

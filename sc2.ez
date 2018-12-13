@@ -1,8 +1,12 @@
 import("time");
 import("console");
 import("memory");
+import("math");
 
-
+var arr.=(Array());
+arr.pushBack(1);
+arr.pushBack(2);
+apply(basicOut, arr);
 var str.=("abc");
 basicOut(str[0].get().toAsciiCode());
 

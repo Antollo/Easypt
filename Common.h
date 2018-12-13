@@ -17,6 +17,7 @@ namespace typeNames
 }
 
 object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr apply (object::objectPtr obj, object::argsContainer& args);
 
 
 template<class T, class X>
@@ -189,7 +190,7 @@ template<class V, class S, S f, class R, const char* typeName,  class... Args>
 object::objectPtr TMethod (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
-        throw(WrongNumberOfArguments("Wrong number of argument"));
+        throw(WrongNumberOfArguments("Wrong number of arguments"));
     return obj->READ(name(typeName), true)->CALL()->setValue((R) callMethod(std::any_cast<V>(&obj->getParent()->getValue()), f, args, gen_seq<sizeof...(Args)>()));
 }
 
@@ -197,7 +198,7 @@ template<class V, class S, S f,  class... Args>
 object::objectPtr VMethod (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
-        throw(WrongNumberOfArguments("Wrong number of argument"));
+        throw(WrongNumberOfArguments("Wrong number of arguments"));
     callMethod(std::any_cast<V>(&obj->getParent()->getValue()), f, args, gen_seq<sizeof...(Args)>());
     return obj->getParent();
 }
@@ -206,7 +207,7 @@ template<class S, S f, class R, const char* typeName,  class... Args>
 object::objectPtr TFunction (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
-        throw(WrongNumberOfArguments("Wrong number of argument"));
+        throw(WrongNumberOfArguments("Wrong number of arguments"));
     return obj->READ(name(typeName), true)->CALL()->setValue((R) callFunction(f, args, gen_seq<sizeof...(Args)>()));
 }
 
@@ -214,7 +215,7 @@ template<class S, S f, class... Args>
 object::objectPtr VFunction (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
-        throw(WrongNumberOfArguments("Wrong number of argument"));
+        throw(WrongNumberOfArguments("Wrong number of arguments"));
     callFunction(f, args, gen_seq<sizeof...(Args)>());
     return obj->getParent();
 }

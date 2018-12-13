@@ -31,6 +31,7 @@ add_library(time SHARED library/time/main.cpp exception.cpp name.cpp nobject.cpp
 add_library(docs SHARED library/docs/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp)
 add_library(file SHARED library/file/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp)
 add_library(memory SHARED library/memory/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp)
+add_library(math SHARED library/math/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp)
 
 IF("${CMAKE_SYSTEM}" MATCHES "Linux")
 message("LINUX :3")

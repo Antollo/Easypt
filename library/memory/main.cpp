@@ -31,15 +31,15 @@ public:
     {
         return *b;
     }
-    void or(byteWrapper op)
+    void _or(byteWrapper op)
     {
         (*b) |= (*op.b);
     }
-    void and(byteWrapper op)
+    void _and(byteWrapper op)
     {
         (*b) &= (*op.b);
     }
-    void xor(byteWrapper op)
+    void _xor(byteWrapper op)
     {
         (*b) ^= (*op.b);
     }
@@ -51,7 +51,7 @@ public:
     {
         (*b) = (*b) >> (*op.b);
     }
-    void not()
+    void _not()
     {
         (*b) = ~(*b);
     }
@@ -224,12 +224,12 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
         );
     obj->READ(name("Root"), true)->addChild(makeObject(ByteWrapper, name("ByteWrapper"))
             ->addChild(makeObject(TMethod<byteWrapper, int (byteWrapper::*)(), &byteWrapper::toInt, int, typeNames::Int>, name("toInt")))
-            ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::or, byteWrapper>, name("|=")))
-            ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::and, byteWrapper>, name("&=")))
-            ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::xor, byteWrapper>, name("^=")))
+            ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_or, byteWrapper>, name("|=")))
+            ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_and, byteWrapper>, name("&=")))
+            ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_xor, byteWrapper>, name("^=")))
             ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::shl, byteWrapper>, name("<<=")))
             ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::shr, byteWrapper>, name(">>=")))
-            ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(), &byteWrapper::not>, name("~=")))
+            ->addChild(makeObject(VMethod<byteWrapper, void (byteWrapper::*)(), &byteWrapper::_not>, name("~=")))
         );
 
     return nullptr;
