@@ -2,7 +2,7 @@
 
 #### `..Root.BlockCallable`
 
-Constructs empty `BlockCallable`. To create non empty `BlockCallable` use `{`...`}`.
+Constructs empty `BlockCallable`. To create non empty `BlockCallable` use curly braces operator `{`...`}`.
 
 * **Return value:** new `BlockCallable`
 
@@ -20,6 +20,7 @@ Constructs empty `BlockCallable`. To create non empty `BlockCallable` use `{`...
 
 ## Members:
 
+- [`return`](docs..Root.BlockCallable.return.md)
 - [`if`](docs..Root.BlockCallable.if.md)
 - [`while`](docs..Root.BlockCallable.while.md)
 - [`for`](docs..Root.BlockCallable.for.md)
@@ -30,6 +31,12 @@ Constructs empty `BlockCallable`. To create non empty `BlockCallable` use `{`...
 ## Example:
 
 ```c
-var fun.=({ basicOut("called"); });
-fun();
+var fun.=({
+    basicOut("a");
+    basicOut("b");
+    return("c");
+    basicOut("d");
+});
+
+basicOut(fun());
 ```

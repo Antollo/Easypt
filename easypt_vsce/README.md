@@ -1,13 +1,12 @@
 # Easypt extension
 
-
 ## Features
 
 Highlight comments, strings and numeric literals in Easypt scripts (`*.ez` files) and basic snippets.
 
 ## Requirements
 
-Manually add following `tasks.json` to your project's `.vscode` folder (and change `my_source_file.ez` to your source file name):
+Manually add following `tasks.json` to your project's `.vscode` folder:
 
 ```json
 {
@@ -16,10 +15,10 @@ Manually add following `tasks.json` to your project's `.vscode` folder (and chan
         {
             "label": "Run Easypt source",
             "type": "process",
-            "command": "easypt",
+            "command": "easypyt",
             "args": [
                 "-file",
-                "my_source_file.ez"
+                "${file}"
             ],
             "presentation": {
                 "reveal": "always",
@@ -42,7 +41,6 @@ Now you can run your code with `Ctrl+Shift+B`.
 ## Last changes
 
 Small snippets changes.
-
 
 ## For more information
 

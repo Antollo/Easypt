@@ -5,6 +5,7 @@
 #include "nobject.h"
 #include "parser.h"
 
+object::objectPtr apply (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr parse (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr basicOut (object::objectPtr obj, object::argsContainer& args);

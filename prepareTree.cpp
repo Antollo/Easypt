@@ -174,6 +174,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(BlockCallableFor, name("for")))
             ->addChild(makeObject(BlockCallableThrow, name("throw")))
             ->addChild(makeObject(BlockCallableTry, name("try")))
+            ->addChild(makeObject(BlockCallableReturn, name("return")))
             ->addChild(makeObject(BlockCallableCallOperator, name("callOperator")))
         );
 

@@ -53,17 +53,29 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
     }
     return temp;
 }
+typedef std::tuple<std::list<expression>::const_iterator*, std::list<expression>::const_iterator, object::objectPtr> returnValueTriplet;
+object::objectPtr BlockCallableReturn (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        object::objectPtr parent = obj->getParent();
+        returnValueTriplet& rvt = *std::any_cast<returnValueTriplet>(&parent->READ(name("returnValueTriplet"))->getValue());
+        *(std::get<0>(rvt)) = std::get<1>(rvt);
+        std::get<2>(rvt) = args[0];
+        return args[0];
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
 object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::argsContainer& args)
 {
     std::list<expression> expressions = std::any_cast<std::list<expression>>(obj->getParent()->getValue());
     object::objectPtr parent = obj->getParent();
     parent->addChild(obj->READ(name("Array"), true)->CALL()->setValue(args)->setName("args"));
-
-    for(const expression& exp : expressions)
-        evaluateExpression(exp, parent);
-    if (obj->getParent()->hasChild(name("return")))
-        return obj->getParent()->READ(name("return"));
-    return obj->getParent()->READ(name("return"), false, true);
+    std::list<expression>::const_iterator it = expressions.begin();
+    parent->addChild(makeObject(returnValueTriplet(&it, std::prev(expressions.end()), constructObject(obj, "Object", 0)), name("returnValueTriplet")));
+    while (it !=  expressions.end())
+        evaluateExpression(*(it++), parent);
+    return std::get<2>(std::any_cast<returnValueTriplet>(parent->READ(name("returnValueTriplet"))->getValue()));
 }
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args)
 {

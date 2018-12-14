@@ -12,7 +12,7 @@
 
    ```c
    var add.=({
-       var return.=(args[0].get().+(args[1].get()));
+       return(args[0].get().+(args[1].get()));
    });
 
    basicOut(add(5 ,7));
@@ -26,7 +26,7 @@
    
    ```c
    var add.=({
-       var return.=(args[0].get().+(args[1].get()));
+       return(args[0].get().+(args[1].get()));
    });
    ```
 
@@ -98,7 +98,7 @@
 
 ```c
 var add.=({
-    var return.=(args[0].get().+(args[1].get()));
+    return(args[0].get().+(args[1].get()));
 });
 ```
 

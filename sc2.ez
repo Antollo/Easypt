@@ -5,7 +5,7 @@ import("math");
 
 var arr.=(Array());
 arr.pushBack(1);
-arr.pushBack(2);
+arr.pushBack(math.pow(2.2, 3).toDouble());
 apply(basicOut, arr);
 var str.=("abc");
 basicOut(str[0].get().toAsciiCode());
@@ -15,3 +15,19 @@ str[0]<-("d");
 basicOut(b[0].get().toInt());
 
 basicOut(ByteWrapper(2).<<=(ByteWrapper(1)).toInt());
+
+var makeGreetingsString.=({
+    var str.=("Happy ");
+    str.=(str.+(args[0].get().toString()));
+    str.=(str.+(" birthday "));
+    str.=(str.+(args[1].get()));
+    str.=(str.+("!"));
+    return(str);
+});
+basicOut(makeGreetingsString(51, "John"));
+
+   var add.=({
+       return(args[0].get().+(args[1].get()));
+   });
+
+   basicOut(add(5 ,7));

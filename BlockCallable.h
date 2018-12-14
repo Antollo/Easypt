@@ -4,8 +4,10 @@
 #include "nobject.h"
 #include "parser.h"
 #include <forward_list>
+#include <tuple>
 
 object::objectPtr BlockCallable (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr BlockCallableReturn (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr BlockCallableEqualOperator (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args);

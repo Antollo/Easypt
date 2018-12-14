@@ -31,19 +31,19 @@ var Bird.=({
     var color.=(args[0].get());
     var tweet.=({ basicOut("tweet"); });
     var tweetNTimes.=({
-        for (var i.=(0).<, args[0], i.++, {
+        for (var i.=(0).<, args[0].get(), i.++, {
             tweet();
         });
     });
     var getColor.=({
-        # current workaround to return reference #
-        addChild("return", color);
+        return(color);
     });
-    var return;
-    return.addChild(color);
-    return.addChild(tweet);
-    return.addChild(tweetNTimes);
-    return.addChild(getColor);
+    var ret;
+    ret.addChild(color);
+    ret.addChild(tweet);
+    ret.addChild(tweetNTimes);
+    ret.addChild(getColor);
+    return(ret);
 });
 ```
 
@@ -51,7 +51,7 @@ Usage of `Bird` class:
 
 ```c
 var crow.=(Bird("black"));
-crow.tweet();
+crow.tweetNTimes(4);
 basicOut(crow.getColor());
 ```
 

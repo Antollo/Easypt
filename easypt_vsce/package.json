@@ -2,8 +2,12 @@
     "name": "easypt",
     "displayName": "Easypt",
     "description": "Easypt programming language basic support.",
-    "version": "1.1.1",
+    "version": "1.1.4",
     "publisher": "Antollo",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Antollo/Easypt.git"
+    },
     "engines": {
         "vscode": "^1.26.0"
     },

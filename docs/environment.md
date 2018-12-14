@@ -45,15 +45,10 @@ Skip this step if you already have VS Code installed.
         {
             "label": "Run ",
             "type": "process",
-            "windows": {
-                "command": "easypt.exe"
-            },
-            "linux": {
-                "command": "easypt"
-            },
+            "command": "easypt",
             "args": [
                 "-file",
-                "my_source_file.ez"
+                "${file}"
             ],
             "presentation": {
                 "reveal": "always",
@@ -69,7 +64,7 @@ Skip this step if you already have VS Code installed.
 }
 ```
 
-Change `my_source_file.ez` to your source file name. Now you are able to run Easypt code with VS Code build task (`Ctrl+Shift+B`).
+Now you are able to run Easypt code with VS Code build task (`Ctrl+Shift+B`).
 
 ---
 

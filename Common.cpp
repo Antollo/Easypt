@@ -14,14 +14,6 @@ object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::argsCon
 {
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr apply (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() != 2)
-        throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-    if (!args[1]->hasSignature(name("Array")))
-        throw(WrongTypeOfArgument("Second argument is not Array in ", obj->getFullNameString()));
-    return args[0]->CALL(std::any_cast<std::vector<object::objectPtr>>(args[1]->getValue()));
-}
 
 bool isTrue()
 {

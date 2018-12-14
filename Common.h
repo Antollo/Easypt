@@ -17,8 +17,6 @@ namespace typeNames
 }
 
 object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args);
-object::objectPtr apply (object::objectPtr obj, object::argsContainer& args);
-
 
 template<class T, class X>
 struct plus

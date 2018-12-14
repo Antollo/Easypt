@@ -15,7 +15,7 @@
 >
 >**Disadvantages**
 >- Invoking a subroutine (versus using in-line code) imposes some computational overhead in the call mechanism.
->- A subroutine typically requires standard housekeeping code – both at entry to, and exit from, the function [...].
+>- A subroutine typically requires standard housekeeping code – both at entry to, and exit from [...].
 >
 >[_From Wikipedia_](https://en.wikipedia.org/wiki/Subroutine)
 
@@ -54,7 +54,7 @@ fun();
 
 ## 3. Parameters
 
-> In computer programming, a parameter  [...] is a special kind of variable, used in a subroutine [functions] to refer to one of the pieces of data provided as input to the subroutine. [...] Argument in computer science is the actual input expression passed/supplied to a function.
+> In computer programming, a parameter  [...] is a special kind of variable, used in a subroutine [function] to refer to one of the pieces of data provided as input to the subroutine. [...] Argument in computer science is the actual input expression passed/supplied to a function.
 >
 >[_From Wikipedia_](https://en.wikipedia.org/wiki/Parameter_(computer_programming))
 
@@ -65,6 +65,13 @@ var print.=({
     basicOut(args[0].get(), args[1].get());
 });
 print(7, 3.14);
+```
+
+Expected output is:
+
+```
+7
+3.14
 ```
 
 Try to run:
@@ -91,7 +98,7 @@ OutOfRangeException: Out of range while calling ..Root.my_source_file.print.args
 
 But 
 
-``c
+```c
 print(7, 7, 7, 7, 7);
 ```
 
@@ -108,7 +115,7 @@ basicOut(myInt);
 
 Output is `6`. If you don't want to pass a reference, you will have to use `Object`'s `copy` method:
 
-``c
+```c
 var myIncrement.=({
     args[0].get().++();
 });
@@ -123,11 +130,16 @@ You will learn about variable number of arguments while learning about loops.
 
 ## 4. Return
 
-Unlike _return statement_ in many languages `return` is variable in Easypt. `return` is value of function call. Assigning value to `return` doesn't make execution to leave the current function and if no value is assigned new `Object` will be returned. Example:
+>In computer programming, a return statement causes execution to leave the current subroutine [function] and resume at the point in the code immediately after where the subroutine was called [...]. Return statements in many languages allow a function to specify a return value to be passed back to the code that called the function.
+>
+>[_From Wikipedia_](https://en.wikipedia.org/wiki/Return_statement)
 
-``c
+
+In Easypt `return` is `BlockCallable`'s method. Calling return makes execution to leave the current function and `return`'s argument is the value of function call (if no value is passed new `Object` will be returned). Example:
+
+```c
 var fun.=({
-    var return.=(5);
+    return(5);
 });
 basicOut(fun());
 ```
@@ -138,11 +150,12 @@ Your exercise is to analyze following code:
 
 ```c
 var makeGreetingsString.=({
-    var return.=("Happy ");
-    return.=(return.+(args[0].get().toString()));
-    return.=(return.+(" birthday "));
-    return.=(return.+(args[1].get()));
-    return.=(return.+("!"));
+    var str.=("Happy ");
+    str.=(str.+(args[0].get().toString()));
+    str.=(str.+(" birthday "));
+    str.=(str.+(args[1].get()));
+    str.=(str.+("!"));
+    return(str);
 });
 basicOut(makeGreetingsString(51, "John"));
 ```

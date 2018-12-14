@@ -12,6 +12,7 @@ _none_
 
 ## Members:
 
+- [`apply`](docs..Root.apply.md)
 - [`basicOut`](docs..Root.basicOut.md)
 - [`debugTree`](docs..Root.debugTree.md)
 - [`import`](docs..Root.import.md)
