@@ -47,7 +47,7 @@ _none_
 
 ```c
 {
-    var Int.=({ var return.=(5); });
+    var Int.=({ return(5); });
     basicOut(Int());
     basicOut(Root.Int());
 }();
