@@ -1,0 +1,20 @@
+import("system");
+
+var downloadFile.=({
+    var argsTemp.=(args);
+    if (argsTemp.size().!=(2), {
+        throw(WrongNumberOfArgumentsException("Expected 2 arguments."))
+    });
+    if (instanceOf(argsTemp[0].get(), String).&&(instanceOf(argsTemp[1].get(), String)).!(), {
+        throw(WrongNumberOfArgumentsException("Expected 2 Strings."))
+    });
+    if (system.osName.==("windows"), {
+        system.callShellCommand("powershell -command \"Invoke-WebRequest -Uri \\\"".+(argsTemp[0].get()).+("\\\" -OutFile \\\"").+(argsTemp[1].get()).+("\\\"\""));
+    }, {
+        if (system.osName.==("linux"), {
+            system.callShellCommand("wget -O \"".+(argsTemp[1].get()).+("\" \"").+(argsTemp[0].get()).+("\""));
+        }, {
+            throw(NotSupportedOnThisOSException("downloadFile is not supported."))
+        });
+    });
+});

@@ -51,7 +51,15 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
     object::initialize(obj->READ(name("Root"), true));
 
+    std::string osName = "";
+    #if defined(_WIN32)
+        osName = "windows";
+    #elif defined(__linux__)
+        osName = "linux";
+    #endif
+
     obj->addChild(makeObject(callShellCommand, name("callShellCommand")))
-        ->addChild(makeObject(getEnvironmentVariable, name("getEnvironmentVariable")));
+        ->addChild(makeObject(getEnvironmentVariable, name("getEnvironmentVariable")))
+        ->addChild(constructObject(obj, "String", osName)->setName(name("osName")));
     return nullptr;
 }

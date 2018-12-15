@@ -1,6 +1,6 @@
 # Easypt
 
-![https://ci.appveyor.com/api/projects/status/github/Antollo/Easypt?svg=true]( https://ci.appveyor.com/api/projects/status/github/Antollo/Easypt?svg=true)
+[![https://ci.appveyor.com/api/projects/status/github/Antollo/Easypt?svg=true]( https://ci.appveyor.com/api/projects/status/github/Antollo/Easypt?svg=true)](https://ci.appveyor.com/project/Antollo/easypt)
 
 ## Quick example:
 
