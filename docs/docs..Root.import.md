@@ -22,7 +22,7 @@ Imports source code from another `*.ez` file (source is treated as one big `Bloc
 
 ```c
 var add.=({
-    var return.=(args[0].get().+(args[1].get()));
+    return(args[0].get().+(args[1].get()));
 });
 ```
 
