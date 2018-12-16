@@ -2,6 +2,8 @@ import("time");
 import("console");
 import("memory");
 import("math");
+import("network.ez");
+import("compression.ez");
 
 var arr.=(Array());
 arr.pushBack(1);
@@ -14,8 +16,6 @@ var b.=(ByteView(str));
 str[0]<-("d");
 basicOut(b[0].get().toInt());
 
-basicOut(ByteWrapper(2).<<=(ByteWrapper(1)).toInt());
-
 var makeGreetingsString.=({
     var str.=("Happy ");
     str.=(str.+(args[0].get().toString()));
@@ -26,9 +26,15 @@ var makeGreetingsString.=({
 });
 basicOut(makeGreetingsString(51, "John"));
 
-   var add.=({
-       return(args[0].get().+(args[1].get()));
-   });
+var add.=({
+    return(args[0].get().+(args[1].get()));
+});
 
-   basicOut(add(5 ,7));
+basicOut(add(5 ,7));
 
+var str.=("a aa aaa");
+str.replaceAll("a", "b");
+basicOut(str);
+
+#network.downloadFile("https://ci.appveyor.com/api/projects/antollo/easypt/artifacts/artifacts.zip?branch=master&job=Image%3A%20Ubuntu", "a.zip");
+compression.unzip("a.zip", "./");#

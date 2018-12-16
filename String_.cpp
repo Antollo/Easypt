@@ -98,6 +98,46 @@ object::objectPtr StringToAsciiCode (object::objectPtr obj, object::argsContaine
         ret->getValue() =  int ((unsigned char) (*std::any_cast<std::string>(&obj->getParent()->getValue()))[0]);
     return ret;
 }
+object::objectPtr StringReplace (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 2)
+    {
+        if (args[0]->hasSignature(name("String")) && args[1]->hasSignature(name("String")))
+        {
+            std::string what = std::any_cast<std::string>(args[0]->getValue());
+            std::string withWhat = std::any_cast<std::string>(args[1]->getValue());
+            std::string& internal = *std::any_cast<std::string>(&obj->getParent()->getValue());
+            size_t pos = internal.find(what);
+            if (pos != std::string::npos)
+               internal.replace(pos, what.size(), withWhat);
+            return obj->getParent();
+        }
+        throw(WrongTypeOfArgument("Arguments are not Strings in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr StringReplaceAll (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 2)
+    {
+        if (args[0]->hasSignature(name("String")) && args[1]->hasSignature(name("String")))
+        {
+            std::string what = std::any_cast<std::string>(args[0]->getValue());
+            std::string withWhat = std::any_cast<std::string>(args[1]->getValue());
+            std::string& internal = *std::any_cast<std::string>(&obj->getParent()->getValue());
+            size_t pos = internal.find(what);
+            while(pos != std::string::npos)
+            {
+                internal.replace(pos, what.size(), withWhat);
+                pos += withWhat.size();
+                pos = internal.find(what, pos);
+            }
+            return obj->getParent();
+        }
+        throw(WrongTypeOfArgument("Arguments are not Strings in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
 object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)

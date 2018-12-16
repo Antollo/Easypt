@@ -37,6 +37,8 @@
 - [`readOperator`](docs..Root.String.readOperator.md)
 - [`size`](docs..Root.String.size.md)
 - [`find`](docs..Root.String.find.md)
+- [`replace`](docs..Root.String.replace.md)
+- [`replaceAll`](docs..Root.String.replaceAll.md)
 - [`empty`](docs..Root.String.empty.md)
 - [`resize`](docs..Root.String.resize.md)
 - [`clear`](docs..Root.String.clear.md)

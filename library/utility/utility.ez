@@ -1,0 +1,19 @@
+import("system");
+
+var commandUtility.=({
+    var argsTemp.=(args[0].get());
+    for (var it.=(args[1]).!=, args.end(), it.++, {
+        if (it.get()[0].get()==(system.osName), {
+            var command.=(String());
+            for (var i.=(1).<, it.get().size(), i.++, {
+                if (instanceOf(it.get()[i].get(), Int), {
+                    command.=(command.+(argsTemp[it.get()[i].get()].get()));
+                }, {
+                    command.=(command.+(it.get()[i].get()));
+                });
+            });
+            if (system.osName.==("windows"), {command.replaceAll("&", "^&");});
+            system.callShellCommand(command);
+        });
+    });
+});

@@ -49,10 +49,24 @@
     "Function": {
         "prefix": "function",
         "body": [
-            "var ${2:name}.=({",
+            "var ${1:name}.=({",
             "\t$0",
             "});"
         ],
         "description": "Function"
+    },
+    "Variable": {
+        "prefix": "var",
+        "body": [
+            "var ${1:name}.=($0);"
+        ],
+        "description": "Variable"
+    },
+    "Import": {
+        "prefix": "import",
+        "body": [
+            "import(\"$0\")"
+        ],
+        "description": "Import"
     }
 }
