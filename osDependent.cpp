@@ -2,16 +2,19 @@
 
 std::string getExecutablePath()
 {
+    static std::string ret;
+    if (!ret.empty()) return ret;
     #if defined(_WIN32)
         char result[MAX_PATH];
-        return std::string(result, GetModuleFileName(NULL, result, MAX_PATH ));
+        ret = std::string(result, GetModuleFileName(NULL, result, MAX_PATH ));
     #elif defined(__linux__)
         char result[ PATH_MAX ];
         ssize_t length = readlink( "/proc/self/exe", result, PATH_MAX );
-        return std::string( result, (length > 0) ? length : 0 );
+        ret = std::string( result, (length > 0) ? length : 0 );
     #else
         return "";
     #endif
+    return ret;
 }
 
 dynamicLibrary::dynamicLibrary()

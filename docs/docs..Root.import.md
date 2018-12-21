@@ -1,6 +1,6 @@
 # `import`
 
-Imports source code from another `*.ez` file (source is treated as one big `BlockCallable`, assigned to `Root` with name identical as file name and then called) or from native Easypt libraries.
+Imports source code from another `*.ez` file (source is treated as one big `BlockCallable`, assigned to `Root` with name identical as file name and then called) or from native Easypt library (`*.dll`/`*.so`). Library is searched in current working directory and then in interpreter directory. If both `xyz.ez` and `xyz.dll`/`xyz.so` are present `import("xyz")` imports `xyz.ez`.
 
 #### `..Root.import`
 

@@ -40,6 +40,7 @@ Constructs new `Array`. `Array` is a sequence container that encapsulates dynami
 - [`resize`](docs..Root.Array.resize.md)
 - [`insert`](docs..Root.Array.insert.md)
 - [`erase`](docs..Root.Array.erase.md)
+- [`subarray`](docs..Root.Array.subarray.md)
 - [`pushBack`](docs..Root.Array.pushBack.md)
 
 ## Example:

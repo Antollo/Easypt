@@ -31,6 +31,34 @@ object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args)
     };
     return ret;
 }
+//except
+object::objectPtr except (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() >= 2)
+    {
+        if (args[0]->hasSignature(name("Boolean")))
+        {
+            bool boolean = std::any_cast<bool>(args[0]->getValue());
+            if (!boolean)
+            {
+                throw(args[1]->CALL(object::argsContainer(args.begin() + 2, args.end())));
+                
+            }
+            return args[0];
+        }
+        else if (args[0]->hasSignature(name("Basic")))
+        {
+            bool boolean = std::any_cast<bool>(args[0]->READ(name("toBoolean"))->CALL()->getValue());
+            if (!boolean)
+            {
+                throw(args[1]->CALL(object::argsContainer(args.begin() + 2, args.end())));
+            }
+            return args[0];
+        }
+        throw(WrongTypeOfArgument("First argument is not Basic in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
 //Parse
 object::objectPtr parse (object::objectPtr obj, object::argsContainer& args)
 {
@@ -86,14 +114,16 @@ object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
         if (args[0]->hasSignature(name("String")))
         {
             std::string fileName = std::any_cast<std::string>(args[0]->getValue());
-
-            if (fileName.find(".ez") == (fileName.size() - 3))
+            std::string executablePath = getExecutablePath();
+            if (fileName.find(".ez") == (fileName.size() - 3)
+                || std::ifstream((fileName + ".ez").c_str()).good()
+                || std::ifstream((executablePath.substr(0, findLastSlash(executablePath) + 1) + fileName  + ".ez").c_str()).good())
             {
+                if (fileName.find(".ez") != (fileName.size() - 3)) fileName += ".ez";
                 std::string source;
                 std::ifstream sourceFile(fileName.c_str());
                 if (!sourceFile.is_open())
                 {
-                    std::string executablePath = getExecutablePath();
                     sourceFile.open((executablePath.substr(0, findLastSlash(executablePath) + 1) + fileName).c_str());
                     if (!sourceFile.is_open()) 
                         throw(FileNotFound("Library ", fileName, " not found"));

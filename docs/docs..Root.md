@@ -18,6 +18,7 @@ _none_
 - [`import`](docs..Root.import.md)
 - [`instanceOf`](docs..Root.instanceOf.md)
 - [`Exception`](docs..Root.Exception.md)
+- [`except`](docs..Root.except.md)
 - [`WrongTypeOfArgumentException`](docs..Root.WrongTypeOfArgumentException.md)
 - [`WrongNumberOfArgumentsException`](docs..Root.WrongNumberOfArgumentsException.md)
 - [`FileNotFoundException`](docs..Root.FileNotFoundException.md)

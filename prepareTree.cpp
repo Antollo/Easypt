@@ -11,7 +11,8 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
         ->addChild(makeObject(basicOut, name("basicOut")))
         ->addChild(makeObject(debugTree, name("debugTree")))
         ->addChild(makeObject(import, name("import")))
-        ->addChild(makeObject(instanceOf, name("instanceOf")));
+        ->addChild(makeObject(instanceOf, name("instanceOf")))
+        ->addChild(makeObject(except, name("except")));
     //Exception handling ready, here the fun starts
     try
     {
@@ -184,6 +185,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(TMethod<std::vector<object::objectPtr>, std::vector<object::objectPtr>::iterator (std::vector<object::objectPtr>::*)(), &std::vector<object::objectPtr>::begin, std::vector<object::objectPtr>::iterator, typeNames::ArrayIterator>, name("begin")))
             ->addChild(makeObject(TMethod<std::vector<object::objectPtr>, std::vector<object::objectPtr>::iterator (std::vector<object::objectPtr>::*)(), &std::vector<object::objectPtr>::end, std::vector<object::objectPtr>::iterator, typeNames::ArrayIterator>, name("end")))
             ->addChild(makeObject(ArrayReadOperator, name("readOperator")))
+            ->addChild(makeObject(TFunction<std::vector<object::objectPtr> (*)(std::vector<object::objectPtr>::iterator, std::vector<object::objectPtr>::iterator), [](std::vector<object::objectPtr>::iterator a, std::vector<object::objectPtr>::iterator b){ return std::vector<object::objectPtr>(a, b); }, std::vector<object::objectPtr>, typeNames::Array, std::vector<object::objectPtr>::iterator, std::vector<object::objectPtr>::iterator>, name("subarray")))
             ->addChild(makeObject(TMethod<std::vector<object::objectPtr>, size_t (std::vector<object::objectPtr>::*)() const, &std::vector<object::objectPtr>::size, int, typeNames::Int>, name("size")))
             ->addChild(makeObject(VMethod<std::vector<object::objectPtr>, void (std::vector<object::objectPtr>::*)(size_t), &std::vector<object::objectPtr>::resize, int>, name("resize")))
             ->addChild(makeObject(VMethod<std::vector<object::objectPtr>, std::vector<object::objectPtr>::iterator (std::vector<object::objectPtr>::*)(std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::iterator, std::vector<object::objectPtr>::iterator), static_cast<std::vector<object::objectPtr>::iterator (std::vector<object::objectPtr>::*)(std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::iterator, std::vector<object::objectPtr>::iterator)>(&std::vector<object::objectPtr>::insert<std::vector<object::objectPtr>::iterator>), std::vector<object::objectPtr>::const_iterator , std::vector<object::objectPtr>::iterator, std::vector<object::objectPtr>::iterator>, name("insert")))

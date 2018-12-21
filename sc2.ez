@@ -2,13 +2,17 @@ import("time");
 import("console");
 import("memory");
 import("math");
-import("network.ez");
-import("compression.ez");
+
 
 var arr.=(Array());
-arr.pushBack(1);
-arr.pushBack(math.pow(2.2, 3).toDouble());
-apply(basicOut, arr);
+arr.pushBack("0");
+arr.pushBack("1");
+arr.pushBack("2");
+arr.pushBack("3");
+arr.pushBack("4");
+basicOut(arr.subarray(arr.begin().+(1), arr.end().-(1)));
+
+
 var str.=("abc");
 basicOut(str[0].get().toAsciiCode());
 
@@ -35,6 +39,7 @@ basicOut(add(5 ,7));
 var str.=("a aa aaa");
 str.replaceAll("a", "b");
 basicOut(str);
+except(false, Exception, "Message");
 
 #network.downloadFile("https://ci.appveyor.com/api/projects/antollo/easypt/artifacts/artifacts.zip?branch=master&job=Image%3A%20Ubuntu", "a.zip");
 compression.unzip("a.zip", "./");#
