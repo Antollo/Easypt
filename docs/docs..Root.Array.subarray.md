@@ -28,7 +28,7 @@ arr.pushBack("4");
 basicOut(arr.subarray(arr.begin().+(1), arr.end().-(1)));
 ```
 
-### Expected output:
+#### Expected output:
 
 ```
 1

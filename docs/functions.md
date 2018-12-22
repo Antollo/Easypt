@@ -134,14 +134,38 @@ You will learn about variable number of arguments while learning about loops.
 >
 >[_From Wikipedia_](https://en.wikipedia.org/wiki/Return_statement)
 
+### 4.1 "Function style"
 
-In Easypt `return` is `BlockCallable`'s method. Calling return makes execution to leave the current function and `return`'s argument is the value of function call (if no value is passed new `Object` will be returned). Example:
+In Easypt `return` is `BlockCallable`'s method. Calling return makes execution to leave the current function and `return`'s argument is the value of function call. Example:
 
 ```c
 var fun.=({
     return(5);
 });
 basicOut(fun());
+```
+
+#### Expected output:
+
+```
+5
+```
+
+### 4.2 "Variable style"
+
+If `return` wasn't called value of `return` itself is returned. You can overwrite `return`  to perform return action. Example:
+
+```c
+var fun.=({
+    var return.=(5);
+});
+basicOut(fun());
+```
+
+#### Expected output:
+
+```
+5
 ```
 
 ## 5. Exercise "Birthday Project"

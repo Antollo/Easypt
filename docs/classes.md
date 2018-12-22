@@ -28,22 +28,17 @@
 
 ```c
 var Bird.=({
-    var color.=(args[0].get());
-    var tweet.=({ basicOut("tweet"); });
-    var tweetNTimes.=({
+    var return;
+    return.var color.=(args[0].get());
+    return.var tweet.=({ basicOut("tweet"); });
+    return.var tweetNTimes.=({
         for (var i.=(0).<, args[0].get(), i.++, {
             tweet();
         });
     });
-    var getColor.=({
+    return.var getColor.=({
         return(color);
     });
-    var ret;
-    ret.addChild(color);
-    ret.addChild(tweet);
-    ret.addChild(tweetNTimes);
-    ret.addChild(getColor);
-    return(ret);
 });
 ```
 
@@ -53,6 +48,23 @@ Usage of `Bird` class:
 var crow.=(Bird("black"));
 crow.tweetNTimes(4);
 basicOut(crow.getColor());
+```
+
+Output from `crow.debugTree()`:
+
+```
+Name:       crow
+Location:   1042276
+Parent:     sc2
+Signatures: Object Bird
+Children:
+{
+```
+
+...
+
+```
+}
 ```
 
 ---

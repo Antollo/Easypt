@@ -65,6 +65,7 @@ class object : public std::enable_shared_from_this<object>
         std::any& getValue() { return value; }
         objectPtr setValue(std::any newValue) { value = newValue; return shared_from_this(); }
         void addSignature(name signature) { signatures.insert(signature); }
+        objectPtr addSignatureR(name signature) { signatures.insert(signature); return shared_from_this(); }
         bool hasSignature(name signature) { return signatures.count(signature); }
         signaturesContainer& getSignatures() { return signatures; }
         objectPtr copy()
@@ -89,6 +90,10 @@ class object : public std::enable_shared_from_this<object>
         }
         static void release() { Root.reset(); }
         static objectPtr getRoot() { return Root; }
+        static name getAnonymousName()
+        {
+            return name(std::string("Anonymous") + std::to_string(objectCounter++));
+        }
     private:
         static objectPtr Root;
         static int objectCounter;

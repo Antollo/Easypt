@@ -41,8 +41,8 @@ object::objectPtr except (object::objectPtr obj, object::argsContainer& args)
             bool boolean = std::any_cast<bool>(args[0]->getValue());
             if (!boolean)
             {
-                throw(args[1]->CALL(object::argsContainer(args.begin() + 2, args.end())));
-                
+                object::argsContainer arr(args.begin() + 2, args.end());
+                throw(args[1]->CALL(arr));
             }
             return args[0];
         }
@@ -51,7 +51,8 @@ object::objectPtr except (object::objectPtr obj, object::argsContainer& args)
             bool boolean = std::any_cast<bool>(args[0]->READ(name("toBoolean"))->CALL()->getValue());
             if (!boolean)
             {
-                throw(args[1]->CALL(object::argsContainer(args.begin() + 2, args.end())));
+                object::argsContainer arr(args.begin() + 2, args.end());
+                throw(args[1]->CALL(arr));
             }
             return args[0];
         }

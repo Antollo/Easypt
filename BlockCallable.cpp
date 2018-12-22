@@ -72,10 +72,12 @@ object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::args
     object::objectPtr parent = obj->getParent();
     parent->addChild(obj->READ(name("Array"), true)->CALL()->setValue(args)->setName("args"));
     std::list<expression>::const_iterator it = expressions.begin();
-    parent->addChild(makeObject(returnValueTriplet(&it, std::prev(expressions.end()), constructObject(obj, "Object", 0)), name("returnValueTriplet")));
+    parent->addChild(makeObject(returnValueTriplet(&it, std::prev(expressions.end()), nullptr), name("returnValueTriplet")));
     while (it !=  expressions.end())
         evaluateExpression(*(it++), parent);
-    return std::get<2>(std::any_cast<returnValueTriplet>(parent->READ(name("returnValueTriplet"))->getValue()));
+    object::objectPtr ret = std::get<2>(std::any_cast<returnValueTriplet>(parent->READ(name("returnValueTriplet"))->getValue()));
+    if (ret) return ret;
+    return parent->READ(name("return"))->setName(object::getAnonymousName())->addSignatureR(parent->getName());
 }
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args)
 {

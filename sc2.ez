@@ -39,7 +39,25 @@ basicOut(add(5 ,7));
 var str.=("a aa aaa");
 str.replaceAll("a", "b");
 basicOut(str);
-except(false, Exception, "Message");
+
+var Bird.=({
+    var return;
+    return.var color.=(args[0].get());
+    return.var tweet.=({ basicOut("tweet"); });
+    return.var tweetNTimes.=({
+        for (var i.=(0).<, args[0].get(), i.++, {
+            tweet();
+        });
+    });
+    return.var getColor.=({
+        return(color);
+    });
+});
+
+var crow.=(Bird("black"));
+crow.tweetNTimes(4);
+basicOut(crow.getColor());
+
 
 #network.downloadFile("https://ci.appveyor.com/api/projects/antollo/easypt/artifacts/artifacts.zip?branch=master&job=Image%3A%20Ubuntu", "a.zip");
 compression.unzip("a.zip", "./");#
