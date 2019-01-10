@@ -131,6 +131,33 @@ object::objectPtr object::CALL()
     return CALL(args);
 }
 
+object::objectPtr object::callWithParent(objectPtr tempParent)
+{
+    object* temp = parent;
+    parent = tempParent.get();
+    object::objectPtr ret = CALL();
+    parent = temp;
+    return ret;
+}
+
+object::objectPtr object::callWithParent(objectPtr tempParent, objectPtr& arg)
+{
+    object* temp = parent;
+    parent = tempParent.get();
+    object::objectPtr ret = CALL(arg);
+    parent = temp;
+    return ret;
+}
+
+object::objectPtr object::callWithParent(objectPtr tempParent, argsContainer& args)
+{
+    object* temp = parent;
+    parent = tempParent.get();
+    object::objectPtr ret = CALL(args);
+    parent = temp;
+    return ret;
+}
+
 object::~object()
 {
 #if defined(DEBUG)

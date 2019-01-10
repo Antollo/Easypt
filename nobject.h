@@ -38,24 +38,11 @@ class object : public std::enable_shared_from_this<object>
         objectPtr CALL(argsContainer& args);
         objectPtr CALL(objectPtr arg);
         objectPtr CALL();
-        template <class... Args>
-        objectPtr callWithParent(objectPtr tempParent, Args... x)
-        {
-            object* temp = parent;
-            parent = tempParent.get();
-            object::objectPtr ret = CALL(x...);
-            parent = temp;
-            return ret;
-        }
-        template <>
-        objectPtr callWithParent(objectPtr tempParent, argsContainer& args)
-        {
-            object* temp = parent;
-            parent = tempParent.get();
-            object::objectPtr ret = CALL(args);
-            parent = temp;
-            return ret;
-        }
+        objectPtr callWithParent(objectPtr tempParent, argsContainer& args);
+        objectPtr callWithParent(objectPtr tempParent, objectPtr& arg);
+        objectPtr callWithParent(objectPtr tempParent);
+        
+
         objectPtr addChild(objectPtr child)
         {
             children[child->getName()] = child;
