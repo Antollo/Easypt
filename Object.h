@@ -8,7 +8,7 @@ object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& 
 object::objectPtr referenceAssignOperator (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr merge (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr destructor (object::objectPtr obj, object::argsContainer& args);
-object::objectPtr copy (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr ObjectCopy (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr getParent (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr hasParent (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr getChild (object::objectPtr obj, object::argsContainer& args);

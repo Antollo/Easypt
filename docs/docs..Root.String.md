@@ -47,6 +47,10 @@
 - [`erase`](docs..Root.String.erase.md)
 - [`pushBack`](docs..Root.String.pushBack.md)
 - [`+`](docs..Root.String.+.md)
+- `>` compares two strings, returns new `Boolean`
+- `<` compares two strings, returns new `Boolean`
+- `>=` compares two strings, returns new `Boolean`
+- `<=` compares two strings, returns new `Boolean`
 
 
 ## Example:

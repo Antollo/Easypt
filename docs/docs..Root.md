@@ -41,7 +41,7 @@ _none_
 - `false`
 - [`BlockCallable`](docs..Root.BlockCallable.md)
 - [`Array`](docs..Root.Array.md)
-- [`ArrayIterator`](docs..Root.StringIterator.md)
+- [`ArrayIterator`](docs..Root.ArrayIterator.md)
 - [`parse`](docs..Root.parse.md)
 
 ## Example:

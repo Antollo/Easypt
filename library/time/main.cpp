@@ -58,11 +58,11 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
     object::initialize(obj->READ(name("Root"), true));
 
-    obj->addChild(makeObject(Clock, name("Clock"))
+    obj->READ(name("Root"), true)->addChild(makeObject(Clock, name("Clock"))
             ->addChild(makeObject(VMethod<_clock, void (_clock::*)(), &_clock::restart>, name("restart")))
             ->addChild(makeObject(TMethod<_clock, int (_clock::*)(), &_clock::getElapsedMilliseconds, int, typeNames::Int>, name("getElapsedMilliseconds")))
-        )
-        ->addChild(makeObject(VFunction<void (*)(int), sleep, int>, name("sleep")))
+        );
+    obj->addChild(makeObject(VFunction<void (*)(int), sleep, int>, name("sleep")))
         ->addChild(makeObject(TFunction<int (*)(), secondsSinceEpoch, int, typeNames::Int>, name("secondsSinceEpoch")));
     return nullptr;
 }

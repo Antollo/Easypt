@@ -22,7 +22,7 @@ Constructs new `Object`. Any variable created with keyword `var` is initialized 
 
 - [`debugTree`](docs..Root.Object.debugTree.md)
 - [`=`](docs..Root.Object.=.md)
-- [`<-`](docs..Root.Object.<-.md)
+- [`<-`](docs..Root.Object.less-.md)
 - [`merge`](docs..Root.Object.merge.md)
 - [`getParent`](docs..Root.Object.getParent.md)
 - [`getChild`](docs..Root.Object.getChild.md)

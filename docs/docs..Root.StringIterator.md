@@ -17,17 +17,18 @@ Constructs a new `StringIterator`, this constructor exists only for internal `St
 `NativeCallable`, `Callable`
 
 ## Members:
-- [`<-`](docs..Root.StringIterator.<-.md)
+- [`<-`](docs..Root.StringIterator.less-.md)
 - [`++`](docs..Root.StringIterator.++.md)
 - [`--`](docs..Root.StringIterator.--.md)
 - [`==`](docs..Root.StringIterator.==.md)
+- [`distance`](docs..Root.StringIterator.distance.md)
 - [`get`](docs..Root.StringIterator.get.md)
 - [`+`](docs..Root.StringIterator.+.md)
 - [`-`](docs..Root.StringIterator.-.md)
-- [`>`](docs..Root.StringIterator.>.md)
-- [`<`](docs..Root.StringIterator.<.md)
-- [`>=`](docs..Root.StringIterator.>=.md)
-- [`<=`](docs..Root.StringIterator.<=.md)
+- [`>`](docs..Root.StringIterator.greater.md)
+- [`<`](docs..Root.StringIterator.less.md)
+- [`>=`](docs..Root.StringIterator.greater=.md)
+- [`<=`](docs..Root.StringIterator.less=.md)
 
 ## Example:
 

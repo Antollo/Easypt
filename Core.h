@@ -8,6 +8,7 @@
 object::objectPtr apply (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr except (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr copy (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr parse (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr basicOut (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr import (object::objectPtr obj, object::argsContainer& args);

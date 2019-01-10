@@ -89,6 +89,21 @@ object::objectPtr T2BOperator (object::objectPtr obj, object::argsContainer& arg
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 template<class T, template<class> class OP, const char* STR>
+object::objectPtr T2IOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name(STR)))
+        {
+            object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
+            ret->getValue() = (int) OP<T>()(std::any_cast<T>(obj->getParent()->getValue()), std::any_cast<T>(args[0]->getValue()));
+            return ret;
+        }
+        throw(WrongTypeOfArgument("Argument is not ", STR," in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+template<class T, template<class> class OP, const char* STR>
 object::objectPtr T1TOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 0)

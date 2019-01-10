@@ -10,7 +10,7 @@
     1. any type
     2. `String` nick, any type
 
-* **Return value:**
+* **Return value:** reference to this object
 
 ## Child of:
 

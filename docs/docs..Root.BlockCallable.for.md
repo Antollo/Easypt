@@ -10,7 +10,7 @@ for (comparator, someValue, change, block);
 
 * **Parameters:** `Callable` comparator, someValue of any type, `Callable` change,  `Callable` block
 
-* **Return value:** reference to block
+* **Return value:** last result of calling block (or empty object if there was no call)
 
 ## Child of:
 

@@ -11,7 +11,7 @@
     1. `Basic` (best choice is `Boolean`) condition, `Callable` if-block
     2. `Basic` (best choice isr `Boolean`) condition, `Callable` if-block, `Callable` else-block
 
-* **Return value:** reference to condition
+* **Return value:** result of appropriate block (or empty object if there was no call)
 
 ## Child of:
 
@@ -21,7 +21,7 @@
 
 `NativeCallable`, `Callable`
 
-## Example:
+## Examples:
 
 ```c
 var a.=(6);
@@ -31,4 +31,16 @@ if (a.>(b), {
 }, {
     basicOut("a is less or equal than b");
 });
+```
+
+---
+
+```c
+var a.=(6);
+var b.=(9);
+basicOut(if (a.>(b), {
+    return("a is greater than b");
+}, {
+    return("a is less or equal than b");
+}));
 ```

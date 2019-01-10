@@ -47,6 +47,15 @@ class object : public std::enable_shared_from_this<object>
             parent = temp;
             return ret;
         }
+        template <>
+        objectPtr callWithParent(objectPtr tempParent, argsContainer& args)
+        {
+            object* temp = parent;
+            parent = tempParent.get();
+            object::objectPtr ret = CALL(args);
+            parent = temp;
+            return ret;
+        }
         objectPtr addChild(objectPtr child)
         {
             children[child->getName()] = child;
@@ -55,7 +64,7 @@ class object : public std::enable_shared_from_this<object>
         }
         childrenType& getChildren() { return children; }
         bool hasChild(name childName) { return children.count(childName); }
-        void removeChild(name childName) { children.erase(children.find(childName)); }
+        objectPtr removeChild(name childName) { children.erase(children.find(childName)); return shared_from_this(); }
         objectPtr getParent(bool throwing = true);
         void setParent(object* newParent) { parent = newParent; }
         objectPtr setParent(objectPtr newParent) { setParent(newParent.get()); return shared_from_this(); }

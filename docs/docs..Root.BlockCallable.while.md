@@ -6,7 +6,7 @@ While condition is true call block.
 
 * **Parameters:** `Basic` condition, `Callable` block
 
-* **Return value:** reference to condition
+* **Return value:** last result of calling block (or empty object if there was no call)
 
 ## Child of:
 
@@ -16,7 +16,7 @@ While condition is true call block.
 
 `NativeCallable`, `Callable`
 
-## Example:
+## Examples:
 
 ```c
 var condition.=(true);
@@ -25,4 +25,18 @@ while(condition, {
     basicOut(i.++());
     if(i.==(10), { condition.=(false); });
 });
+```
+
+---
+
+```c
+var a.=(6);
+var b.=(9);
+var condition.=(a.!=(b));
+basicOut(while (condition, {
+    if (a.>(b), { a.=(a.-(b)); });
+    if (b.>(a), { b.=(b.-(a)); });
+    condition.=(a.!=(b));
+    return (a);
+}));
 ```

@@ -58,6 +58,34 @@ var crow.=(Bird("black"));
 crow.tweetNTimes(4);
 basicOut(crow.getColor());
 
+var str.=("Hello world!");
+basicOut(str.begin().distance(str.end()), str.size());
+
+var a.=(6);
+var b.=(9);
+basicOut(if (a.>(b), {
+    return("a is greater than b");
+}, {
+    return("a is less or equal than b");
+}));
+
+var a.=(6);
+var b.=(9);
+var condition.=(a.!=(b));
+basicOut(while (condition, {
+    if (a.>(b), { a.=(a.-(b)); });
+    if (b.>(a), { b.=(b.-(a)); });
+    condition.=(a.!=(b));
+    return (a);
+}));
+
+var a;
+a.var b;
+var c;
+
+a.b.=(c);
+basicOut(c.===(a.b));
+
 
 #network.downloadFile("https://ci.appveyor.com/api/projects/antollo/easypt/artifacts/artifacts.zip?branch=master&job=Image%3A%20Ubuntu", "a.zip");
 compression.unzip("a.zip", "./");#

@@ -22,5 +22,6 @@
 - `++` increments
 - `--` decrements
 - `==` compares
+- `distance` get distance from another iterator
 - `get` return reference to pointed element
 

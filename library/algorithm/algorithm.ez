@@ -1,0 +1,117 @@
+var iterator;
+iterator.var copy.=({
+    #
+    except(args.size(), WrongNumerOfArgumentException, "Expected three arguments");
+    except(instanceOf(args[0].get(), Iterator), WrongTypeOfArgumentException, "Expected Iterator");
+    except(instanceOf(args[1].get(), Iterator), WrongTypeOfArgumentException, "Expected Iterator");
+    except(instanceOf(args[2].get(), Iterator), WrongTypeOfArgumentException, "Expected Iterator");
+    #
+    var outIt.=(args[2].get());
+    for (var it.=(args[0].get()).!=, args[1].get(), it.++, {
+        outIt.get().=(it.get());
+        outIt.++();
+    });
+    return(outIt);
+});
+
+iterator.var move.=({
+    #
+    except(args.size(), WrongNumerOfArgumentException, "Expected three arguments");
+    except(instanceOf(args[0].get(), Iterator), WrongTypeOfArgumentException, "Expected Iterator");
+    except(instanceOf(args[1].get(), Iterator), WrongTypeOfArgumentException, "Expected Iterator");
+    except(instanceOf(args[2].get(), Iterator), WrongTypeOfArgumentException, "Expected Iterator");
+    #
+    var outIt.=(args[2].get());
+    for (var it.=(args[0].get()).!=, args[1].get(), it.++, {
+        outIt.<-(it.get());
+        outIt.++();
+    });
+    return(outIt);
+});
+
+iterator.var merge.=({
+    var itA.=(args[0].get());
+    var endA.=(args[1].get());
+    var itB.=(args[2].get());
+    var endB.=(args[3].get());
+    var result.=(args[4].get());
+    var cmp.=(args[5].get());
+    var cnd.=(true);
+    while (cnd, {
+        if (cmp(itA.get(), itB.get()), {
+            result.<-(itA.get());
+            itA.++();
+        }, {
+            result.<-(itB.get());
+            itB.++();
+        });
+        result.++();
+        if (itA.==(endA), {
+            cnd.=(false);
+            iterator.move(itB, endB, result);
+        });
+        if (itB.==(endB), {
+            cnd.=(false);
+            iterator.move(itA, endA, result);
+        });
+    });
+});
+
+iterator.var sort.=({
+    var begin.=(args[0].get());
+    var end.=(args[1].get());
+    var cmp.=(args[2].get());
+    var size.=(begin.distance(end));
+    if(size.<(2), {
+    }, {
+        var pivot.=(begin.+(size./(2)));
+        iterator.sort(begin, pivot, cmp);
+        iterator.sort(pivot, end, cmp);
+
+        var temp.=(Array());
+        temp.resize(size);
+        iterator.merge(begin, pivot, pivot, end, temp.begin(), cmp);
+        iterator.move(temp.begin(), temp.end(), begin);
+    });
+});
+
+iterator.var forEach.=({
+    var fun.=(args[2].get());
+    for (var it.=(args[0].get()).!=, args[1].get(), it.++, {
+        fun(it.get());
+    });
+});
+
+var max.=({
+    var a.=(args[0]);
+    var b.=(args[1]);
+    return(if(a.get().>=(b.get()), {
+        return(a.get());
+    }, {
+        return(b.get());
+    }));
+});
+
+var min.=({
+    var a.=(args[0]);
+    var b.=(args[1]);
+    return(if(a.get().<=(b.get()), {
+        return(a.get());
+    }, {
+        return(b.get());
+    }));
+});
+
+var swap.=({
+    var c;
+    c.=(args[0].get());
+    args[0].get().=(args[1].get())
+    args[1].get().=(c);
+});
+
+var a.=(Array());
+a.pushBack("w", "a", "z", "f", "c", "d");
+var c.=(Array());
+c.resize(12);
+iterator.sort(a.begin(), a.end(), { return(args[0].get().>(args[1].get())); });
+iterator.forEach(a.begin(), a.end(), basicOut);

@@ -174,6 +174,23 @@ object::objectPtr StringIteratorGet (object::objectPtr obj, object::argsContaine
     ret->getValue() = std::string(1, *(std::any_cast<std::string::iterator>(obj->getParent()->getValue())));
     return ret;
 }
+object::objectPtr StringIteratorDistance (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("StringIterator")))
+        {
+            object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
+            ret->getValue() = (int) std::distance(*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()), *std::any_cast<std::string::iterator>(&args[0]->getValue()));
+            return ret;
+        }
+        else
+        {
+            throw(WrongTypeOfArgument("Argument is not StringIterator in ", obj->getFullNameString()));
+        }
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
 object::objectPtr StringIteratorReferenceAssignOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)

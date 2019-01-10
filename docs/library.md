@@ -49,7 +49,7 @@
     - blocks the execution of the current thread for provided milliseconds
     - _parameters:_ `Int`
     - _return value:_ `time`
-  - `time.Clock`
+  - `Clock`
     - construct new `Clock`
     - _no parameters_
     - _return value:_ new `Clock`

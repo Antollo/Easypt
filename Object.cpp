@@ -39,7 +39,7 @@ object::objectPtr merge (object::objectPtr obj, object::argsContainer& args)
     };
     return obj->getParent();
 }
-object::objectPtr copy (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ObjectCopy (object::objectPtr obj, object::argsContainer& args)
 {
     return obj->getParent()->copy();
 }

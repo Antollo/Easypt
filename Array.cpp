@@ -106,6 +106,34 @@ object::objectPtr ArrayEqualOperator (object::objectPtr obj, object::argsContain
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
+//!
+std::vector<object::objectPtr> ArraySubarray(std::vector<object::objectPtr>::iterator a, std::vector<object::objectPtr>::iterator b)
+{
+    return std::vector<object::objectPtr>(a, b);
+}
+object::objectPtr ArrayResize(object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("Int")))
+        {
+            object::argsContainer& arr = *std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue());
+            size_t newSize = std::any_cast<int>(args[0]->getValue());
+            size_t oldSize = arr.size();
+            arr.resize(newSize);
+
+            object::objectPtr object = obj->READ(name("Object"), true)->CALL();
+            for (size_t i = oldSize; i < newSize; i++)
+                arr[i] = object->copy();
+            return obj;
+        }
+        else
+        {
+            throw(WrongTypeOfArgument("Argument is not Int in ", obj->getFullNameString()));
+        }
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
 //ArrayIterator constructor
 object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& args)
 {
@@ -120,6 +148,23 @@ object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& a
 object::objectPtr ArrayIteratorGet (object::objectPtr obj, object::argsContainer& args)
 {
     return *(std::any_cast<std::vector<object::objectPtr>::iterator>(obj->getParent()->getValue()));
+}
+object::objectPtr ArrayIteratorDistance (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("ArrayIterator")))
+        {
+            object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
+            ret->getValue() = (int) std::distance(*std::any_cast<std::vector<object::objectPtr>::iterator>(&obj->getParent()->getValue()), *std::any_cast<std::vector<object::objectPtr>::iterator>(&args[0]->getValue()));
+            return ret;
+        }
+        else
+        {
+            throw(WrongTypeOfArgument("Argument is not ArrayIterator in ", obj->getFullNameString()));
+        }
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 object::objectPtr ArrayIteratorReferenceAssignOperator (object::objectPtr obj, object::argsContainer& args)
 {

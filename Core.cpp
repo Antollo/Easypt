@@ -60,6 +60,16 @@ object::objectPtr except (object::objectPtr obj, object::argsContainer& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
+//copy
+object::objectPtr copy (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        
+        return args[0]->copy();
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
 //Parse
 object::objectPtr parse (object::objectPtr obj, object::argsContainer& args)
 {
