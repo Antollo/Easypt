@@ -17,6 +17,7 @@ Constructs a new `StringIterator`, this constructor exists only for internal `St
 `NativeCallable`, `Callable`
 
 ## Members:
+
 - [`<-`](docs..Root.StringIterator.less-.md)
 - [`++`](docs..Root.StringIterator.++.md)
 - [`--`](docs..Root.StringIterator.--.md)

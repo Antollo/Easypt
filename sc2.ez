@@ -2,7 +2,7 @@ import("time");
 import("console");
 import("memory");
 import("math");
-
+import("algorithm");
 
 var arr.=(Array());
 arr.pushBack("0");
@@ -89,3 +89,51 @@ basicOut(c.===(a.b));
 
 #network.downloadFile("https://ci.appveyor.com/api/projects/antollo/easypt/artifacts/artifacts.zip?branch=master&job=Image%3A%20Ubuntu", "a.zip");
 compression.unzip("a.zip", "./");#
+
+var a.=(Array());
+a.pushBack("w", "a", "z", "f", "c", "d");
+algorithm.iterator.sort(a.begin(), a.end(), { return(args[0].get().>(args[1].get())); });
+basicOut(a);
+
+import("algorithm");
+import("compression");
+import("console");
+import("docs");
+import("file");
+import("math");
+import("memory");
+import("network");
+import("system");
+import("utility");
+
+basicOut(algorithm());
+
+import("console");
+
+var a.=(Int());
+var b.=(Double());
+var c.=(String());
+console.fast.scanInt(a);
+console.fast.scanDouble(b);
+console.fast.scanString16(c);
+console.fast.writeInt(a);
+console.fast.writeDouble(b);
+console.fast.writeString(c);
+
+import("algorithm");
+
+var a.=(1);
+var b.=(2);
+
+algorithm.swap(a, b);
+basicOut(a, b);
+
+
+console.controlSequence("m");
+while (false, {
+    if(console.read().==("beep"), {
+        console.beep();
+        console.writeLine(">_<");
+    });
+});
+

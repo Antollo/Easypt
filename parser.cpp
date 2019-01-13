@@ -271,7 +271,7 @@ std::string parser::parseString(const char* source, int length)
 {
     std::string ret;
     ret.reserve(length);
-    for (int i=0; i<length; i++)
+    for (int i=0; i < length; i++)
     {
         if (source[i] != '\\')
             ret.push_back(source[i]);
@@ -305,6 +305,19 @@ std::string parser::parseString(const char* source, int length)
                 break;
             case 'v':
                 ret.push_back('\v');
+                break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                ret.push_back((source[i]-'0')*100 + (source[i+1]-'0')*10 + (source[i+2]-'0'));
+                i += 2;
                 break;
             }
         }

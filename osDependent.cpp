@@ -78,3 +78,27 @@ dynamicLibrary::~dynamicLibrary()
         throw(Parser("Dynamic libraries are not supported on this OS"))
     #endif
 }
+
+void initialize()
+{
+    std::ios_base::sync_with_stdio(false);
+    std::cout << std::boolalpha;
+    name::initialize();
+    #if defined(_WIN32)
+            HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        if (hOut == INVALID_HANDLE_VALUE)
+        {
+            return;
+        }
+        DWORD dwMode = 0;
+        if (!GetConsoleMode(hOut, &dwMode))
+        {
+            return;
+        }
+        dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        if (!SetConsoleMode(hOut, dwMode))
+        {
+            return;
+        }
+    #endif
+}

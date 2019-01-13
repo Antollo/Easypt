@@ -120,6 +120,18 @@ object::objectPtr beep (object::objectPtr obj, object::argsContainer& args)
     return obj->getParent();
 }
 
+object::objectPtr controlSequence (object::objectPtr obj, object::argsContainer& args)
+{
+    for(auto& arg : args)
+    {
+        if (arg->hasSignature(name("String")))
+            std::cout << ("\033[" + *std::any_cast<std::string>(&arg->getValue()));
+        else
+            throw(WrongTypeOfArgument("Wrong type of argument while calling ", obj->getFullNameString()));
+    };
+    return obj->getParent();
+}
+
 object::objectPtr fWriteInt (object::objectPtr obj, object::argsContainer& args)
 {
     std::printf("%d", *std::any_cast<int>(&args.at(0)->getValue()));
@@ -179,7 +191,8 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
         ->addChild(makeObject(readLine, name("readLine")))
         ->addChild(makeObject(scan, name("scan")))
         ->addChild(makeObject(beep, name("beep")))
-        ->addChild(makeObject(nullptr, name("fast"))
+        ->addChild(makeObject(controlSequence, name("controlSequence")))
+        ->addChild(constructObject(obj, "Object", nullptr)->setName("fast")
             ->addChild(makeObject(fWriteInt, name("writeInt")))
             ->addChild(makeObject(fWriteDouble, name("writeDouble")))
             ->addChild(makeObject(fWriteString, name("writeString")))

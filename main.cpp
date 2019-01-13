@@ -1,4 +1,3 @@
-#include "prepareTree.h"
 //cmake .
 //cmake --build . --config Release
 
@@ -8,6 +7,7 @@
 #pragma message ("Debug mode on")
 #endif
 #include "prepareTree.h"
+#include "osDependent.h"
 #include <string>
 
 inline bool isFlag(const char* input, const char* flag)
@@ -17,9 +17,7 @@ inline bool isFlag(const char* input, const char* flag)
 
 int main(int argc, char** argv)
 {
-    std::ios_base::sync_with_stdio(false);
-    std::cout << std::boolalpha;
-    name::initialize();
+    initialize();
     std::pair<object::objectPtr, object::objectPtr> RootWithFather = prepareTree();
     std::string source, entryPoint;
     std::list<std::string> fileNames;

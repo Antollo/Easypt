@@ -19,6 +19,7 @@ var unzip.=({
     linux.pushBack("\"");
 
     utility.commandUtility(args, windows, linux);
+    return(args[1].get());
 });
 
 var zip.=({
@@ -40,4 +41,5 @@ var zip.=({
     linux.pushBack("\"");
 
     utility.commandUtility(args, windows, linux);
+    return(args[1].get());
 });

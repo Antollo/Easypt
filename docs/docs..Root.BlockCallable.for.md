@@ -2,13 +2,13 @@
 
 #### `..Root.BlockCallable.for`
 
-While `comperator(someValue)` is true call block and then change.
+While `compare(someValue)` is true call block and then change.
 
 ```c
-for (comparator, someValue, change, block);
+for (compare, someValue, change, block);
 ```
 
-* **Parameters:** `Callable` comparator, someValue of any type, `Callable` change,  `Callable` block
+* **Parameters:** `Callable` compare, someValue of any type, `Callable` change,  `Callable` block
 
 * **Return value:** last result of calling block (or empty object if there was no call)
 

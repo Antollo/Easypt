@@ -60,3 +60,26 @@ _none_
 5
 0
 ```
+
+# Standard libraries
+
+## `console`
+
+- [`algorithm`](docs..Root.algorithm.md)
+
+## `compression`
+
+- [`compression`](docs..Root.compression.md)
+
+## `console`
+
+- [`console`](docs..Root.console.md)
+
+## `docs`
+
+- [`docs`](docs..Root.docs.md)
+
+## `time`
+
+- [`time`](docs..Root.time.md)
+- [`Clock`](docs..Root.Clock.md)

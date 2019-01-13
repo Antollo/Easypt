@@ -11,6 +11,9 @@
     #define WIN32_LEAN_AND_MEAN
     #include <Windows.h>
     typedef HMODULE libraryType;
+    #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+    #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+    #endif
 #elif defined(__linux__)
     #include <cstdio>
     #include <sys/types.h>
@@ -35,5 +38,7 @@ public:
 private:
     libraryType library;
 };
+
+void initialize();
 
 #endif // OSDEPENDENT_H

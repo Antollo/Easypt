@@ -55,6 +55,7 @@ iterator.var merge.=({
             iterator.move(itA, endA, result);
         });
     });
+    return(result);
 });
 
 iterator.var sort.=({
@@ -73,6 +74,7 @@ iterator.var sort.=({
         iterator.merge(begin, pivot, pivot, end, temp.begin(), cmp);
         iterator.move(temp.begin(), temp.end(), begin);
     });
+    return(end);
 });
 
 iterator.var forEach.=({
@@ -80,6 +82,11 @@ iterator.var forEach.=({
     for (var it.=(args[0].get()).!=, args[1].get(), it.++, {
         fun(it.get());
     });
+    return(args[1].get());
+});
+
+var forEach.=({
+    return(iterator.forEach(args[0].get().begin(), args[0].get().end(), args[1].get()));
 });
 
 var max.=({
@@ -105,13 +112,7 @@ var min.=({
 var swap.=({
     var c;
     c.=(args[0].get());
-    args[0].get().=(args[1].get())
+    args[0].get().=(args[1].get());
     args[1].get().=(c);
+    return(args[1].get());
 });
-
-var a.=(Array());
-a.pushBack("w", "a", "z", "f", "c", "d");
-var c.=(Array());
-c.resize(12);
-iterator.sort(a.begin(), a.end(), { return(args[0].get().>(args[1].get())); });
-iterator.forEach(a.begin(), a.end(), basicOut);

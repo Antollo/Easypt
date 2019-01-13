@@ -32,9 +32,11 @@ add_library(docs SHARED library/docs/main.cpp exception.cpp name.cpp nobject.cpp
 add_library(file SHARED library/file/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp)
 add_library(memory SHARED library/memory/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp)
 add_library(math SHARED library/math/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp)
+
 configure_file(library/network/network.ez ${CMAKE_BINARY_DIR}/network.ez COPYONLY)
 configure_file(library/compression/compression.ez ${CMAKE_BINARY_DIR}/compression.ez COPYONLY)
 configure_file(library/utility/utility.ez ${CMAKE_BINARY_DIR}/utility.ez COPYONLY)
+configure_file(library/algorithm/algorithm.ez ${CMAKE_BINARY_DIR}/algorithm.ez COPYONLY)
 
 IF("${CMAKE_SYSTEM}" MATCHES "Linux")
 message("LINUX :3")
