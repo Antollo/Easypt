@@ -4,7 +4,7 @@
 
 ## Child of:
 
-_Mysterious dot._
+_Mysterious dot. (joke)_
 
 ## Signatures:
 
@@ -63,23 +63,65 @@ _none_
 
 # Standard libraries
 
-## `console`
+## `algorithm`
+
+Provides functions for a variety of purposes (e.g. `min`, `forEach`, `sort`) including ones that operates on `Iterator`s and `Container`s.
 
 - [`algorithm`](docs..Root.algorithm.md)
 
 ## `compression`
 
+Provides basic compression and decompression services.
+
 - [`compression`](docs..Root.compression.md)
 
 ## `console`
+
+Provides standard input and output operations.
 
 - [`console`](docs..Root.console.md)
 
 ## `docs`
 
+Makes documentation.
+
 - [`docs`](docs..Root.docs.md)
 
+## `file`
+
+Provides file input and output.
+
+- [`File`](docs..Root.File.md)
+
+## `math`
+
+Provides mathematical constants and functions.
+
+- [`math`](docs..Root.math.md)
+
+## `memory`
+
+Provides access to raw memory.
+
+- [`ByteView`](docs..Root.ByteView.md)
+- [`ByteViewIterator`](docs..Root.ByteViewIterator.md)
+- [`ByteWrapper`](docs..Root.ByteWrapper.md)
+
+## `network`
+
+Provides basic network features.
+
+- [`network`](docs..Root.network.md)
+
+## `system`
+
+Provides utilities for interactions with operating system.
+
+- [`system`](docs..Root.system.md)
+
 ## `time`
+
+Provides utilities for measuring time.
 
 - [`time`](docs..Root.time.md)
 - [`Clock`](docs..Root.Clock.md)

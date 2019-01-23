@@ -2,10 +2,6 @@
 
 #### `..Root.algorithm`
 
-* **Parameters:**
-
-* **Return value:**
-
 ## Child of:
 
 [`Root`](docs..Root.md)
