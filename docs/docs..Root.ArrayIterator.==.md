@@ -16,8 +16,13 @@ Checks if two instances of `ArrayIterator` are pointing to same element.
 
 `NativeCallable`, `Callable`
 
-
 ## Example:
+
+```c
+var arr.=(Array());
+arr.pushBack("x");
+basicOut(arr.begin().==(arr.[0]));
+```
 
 
 

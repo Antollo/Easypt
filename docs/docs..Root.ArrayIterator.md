@@ -4,7 +4,7 @@
 
 Constructs a new `ArrayIterator`, this constructor exists only for internal `Array` purposes. `ArrayIterator` is not memory safe (not aware of `Array` size). For creating `ArrayIterator` pointing to data use `Array.begin()` and `Array.end()`.
 
-### `Object` type signatures:
+### `ArrayIterator` type signatures:
 
 `Object`, `Iterator`, `ArrayIterator` 
 
@@ -17,6 +17,7 @@ Constructs a new `ArrayIterator`, this constructor exists only for internal `Arr
 `NativeCallable`, `Callable`
 
 ## Members:
+
 - [`<-`](docs..Root.ArrayIterator.less-.md)
 - [`++`](docs..Root.ArrayIterator.++.md)
 - [`--`](docs..Root.ArrayIterator.--.md)

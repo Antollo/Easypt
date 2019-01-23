@@ -181,7 +181,23 @@ object::objectPtr ByteViewIteratorGet (object::objectPtr obj, object::argsContai
     ret->getValue() = byteWrapper(std::any_cast<byteView::byteViewIterator>(obj->getParent()->getValue()));
     return ret;
 }
-
+object::objectPtr ByteViewIteratorDistance (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("ByteViewIterator")))
+        {
+            object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
+            ret->getValue() = (int) std::distance(*std::any_cast<byteView::byteViewIterator>(&obj->getParent()->getValue()), *std::any_cast<byteView::byteViewIterator>(&args[0]->getValue()));
+            return ret;
+        }
+        else
+        {
+            throw(WrongTypeOfArgument("Argument is not ByteViewIterator in ", obj->getFullNameString()));
+        }
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
 //ByteWrapper
 object::objectPtr ByteWrapper (object::objectPtr obj, object::argsContainer& args)
 {
@@ -216,6 +232,7 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
             ->addChild(makeObject(TXTOperator<byteView::byteViewIterator, int, plus, typeNamesByteViewIterator, typeNames::Int>, name("+")))
             ->addChild(makeObject(TXTOperator<byteView::byteViewIterator, int, minus, typeNamesByteViewIterator, typeNames::Int>, name("-")))
             ->addChild(makeObject(ByteViewIteratorGet, name("get")))
+            ->addChild(makeObject(ByteViewIteratorDistance, name("distance")))
             ->addChild(makeObject(T2BOperator<byteView::byteViewIterator, std::equal_to, typeNamesByteViewIterator>, name("==")))
             ->addChild(makeObject(T2BOperator<byteView::byteViewIterator, std::greater, typeNamesByteViewIterator>, name(">")))
             ->addChild(makeObject(T2BOperator<byteView::byteViewIterator, std::less, typeNamesByteViewIterator>, name("<")))

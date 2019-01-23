@@ -19,4 +19,5 @@ var downloadFile.=({
     linux.pushBack("\"");
 
     utility.commandUtility(args, windows, linux);
+    return(args[1].get());
 });

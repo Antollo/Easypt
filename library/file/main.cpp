@@ -35,7 +35,7 @@ private:
 void file::open(std::string name)
 {
     if (f->is_open()) f->close();
-    f->open(name, std::ios::in | std::ios::out | std::ios::binary);
+    f->open(name, std::ios::in | std::ios::out | std::ios::binary | std::ios::app);
     fileName = name;
     if (!f->good())
     {
@@ -57,33 +57,47 @@ void file::clear()
 void file::write(int x)
 {
     *f << x;
+    f->flush();
+    f->seekg(0, std::ios::beg);
 }
 
 void file::write(double x)
 {
     *f << x;
+    f->flush();
+    f->seekg(0, std::ios::beg);
 }
 
 void file::write(bool x)
 {
     *f << x;
+    f->flush();
+    f->seekg(0, std::ios::beg);
 }
 
 void file::write(std::string x)
 {
     *f << x;
+    f->flush();
+    f->seekg(0, std::ios::beg);
 }
 
 std::string file::read()
 {
     std::string temp;
     *f >> temp;
+    //f->flush();
+    //f->seekp(0, std::ios::end);
+    f->clear();
     return temp;
 }
 
 std::string file::readAll()
 {
+    std::streampos p = f->tellg();
+    f->seekg(0, std::ios::beg);
     std::string temp((std::istreambuf_iterator<char>(*f)), std::istreambuf_iterator<char>());
+    f->seekg(p);
     return temp;
 }
 

@@ -14,7 +14,7 @@ Compress zip archive. Under the hood:
 
 (_warning: commands prints own output_)
 
-* **Parameters:** `String` inputPath, `String` pathToZipFile, 
+* **Parameters:** `String` inputPath, `String` pathToZipFile
 
 * **Return value:** reference to pathToZipFile
 

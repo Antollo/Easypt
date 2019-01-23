@@ -18,7 +18,7 @@ Constructs new `Array`. `Array` is a sequence container that encapsulates dynami
 
 * **Return value:** new `Array`
 
-### `Object` type signatures:
+### `Array` type signatures:
 
 `Object`, `Container`, `Iterable`, `Array`
 

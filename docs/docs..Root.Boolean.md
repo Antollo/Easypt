@@ -29,7 +29,6 @@ Constructs new `Boolean`.
 - `&&` performs logical and, returns new `Boolean`
 - `||` performs logical or, returns new `Boolean`
 
-
 ## Example:
 
 ```c

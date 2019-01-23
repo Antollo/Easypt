@@ -2,9 +2,9 @@
 
 #### `..Root.Clock`
 
-Utility that measures the elapsed time.
+Constructs new `Clock`. Clock is utility that measures the elapsed time.
 
-* **Return value:**
+* **Return value:** new `Clock`
 
 ### `Clock` type signatures:
 
