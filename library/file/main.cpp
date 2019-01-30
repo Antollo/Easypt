@@ -137,10 +137,10 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
     object::initialize(obj->READ(name("Root"), true));
 
     obj->READ(name("Root"), true)->addChild(makeObject(File, name("File"))
-            ->addChild(makeObject(VMethod<file, void (file::*)(std::string), &file::open, std::string>, name("open")))
-            ->addChild(makeObject(VMethod<file, void (file::*)(), &file::clear>, name("clear")))
-            ->addChild(makeObject(TMethod<file, std::string (file::*)(), &file::read, std::string, typeNames::String>, name("read")))
-            ->addChild(makeObject(TMethod<file, std::string (file::*)(), &file::readAll, std::string, typeNames::String>, name("readAll")))
+            ->addChild(makeObject(method<file, void (file::*)(std::string), &file::open, void, std::string>, name("open")))
+            ->addChild(makeObject(method<file, void (file::*)(), &file::clear, void>, name("clear")))
+            ->addChild(makeObject(method<file, std::string (file::*)(), &file::read, std::string>, name("read")))
+            ->addChild(makeObject(method<file, std::string (file::*)(), &file::readAll, std::string>, name("readAll")))
             ->addChild(makeObject(FileWrite, name("write")))
         );
     return nullptr;

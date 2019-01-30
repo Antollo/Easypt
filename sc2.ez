@@ -130,8 +130,8 @@ basicOut(a, b);
 
 
 console.controlSequence("m");
-while (false, {
-    if(console.read().==("beep"), {
+while (true, {
+    if(console.read().find("beep", 0).!=(-1), {
         console.beep();
         console.writeLine(">_<");
     });

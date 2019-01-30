@@ -2,6 +2,7 @@
 #define COMMON_H
 
 #include "nobject.h"
+#include "parser.h"
 
 namespace typeNames
 {
@@ -16,106 +17,163 @@ namespace typeNames
     extern const char BlockCallable[];
 }
 
-object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args);
+template<class T>
+struct [[deprecated("Unknown type")]] guessTypeName
+{
+    static constexpr const char* name = typeNames::Object;
+};
 
-template<class T, class X>
+template<class T>
+struct guessTypeName<const T> : guessTypeName<T> {};
+
+template<class T>
+struct guessTypeName<T&> : guessTypeName<T> {};
+
+template<class T>
+struct guessTypeName<T&&> : guessTypeName<T> {};
+
+template<>
+struct guessTypeName<void>
+{
+    static constexpr const char* name = typeNames::Object;
+};
+
+template<>
+struct guessTypeName<std::string>
+{
+    static constexpr const char* name = typeNames::String;
+};
+
+template<>
+struct guessTypeName<std::string::iterator>
+{
+    static constexpr const char* name = typeNames::StringIterator;
+};
+
+template<>
+struct guessTypeName<int>
+{
+    static constexpr const char* name = typeNames::Int;
+};
+
+template<>
+struct guessTypeName<bool>
+{
+    static constexpr const char* name = typeNames::Boolean;
+};
+
+template<>
+struct guessTypeName<double>
+{
+    static constexpr const char* name = typeNames::Double;
+};
+
+template<>
+struct guessTypeName<object::argsContainer>
+{
+    static constexpr const char* name = typeNames::Array;
+};
+
+template<>
+struct guessTypeName<object::argsContainer::iterator>
+{
+    static constexpr const char* name = typeNames::ArrayIterator;
+};
+
+template<>
+struct guessTypeName<std::list<expression>>
+{
+    static constexpr const char* name = typeNames::BlockCallable;
+};
+
+template<class T1, class T2>
 struct plus
 {
-    T operator()(const T& t, const X& x)
+    T1 operator()(const T1& t, const T2& x)
     {
-        return t+x;
+        return t + x;
     }
 };
 
-template<class T, class X>
+template<class T1, class T2>
 struct minus
 {
-    T operator()(const T& t, const X& x)
+    T1 operator()(const T1& t, const T2& x)
     {
-        return t-x;
+        return t - x;
     }
 };
 
-
-//Templated functions
-template<class T, template<class> class OP, const char* STR>
-object::objectPtr T2TOperator (object::objectPtr obj, object::argsContainer& args)
+template<class R, class T1, class T2, template<class, class> class OP>
+object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
     {
-        if (args[0]->hasSignature(name(STR)))
+        if (args[0]->hasSignature(guessTypeName<T2>::name))
+        {
+            object::objectPtr ret = obj->READ(guessTypeName<R>::name, true)->CALL();
+            ret->getValue() = (R) OP<T1, T2>()(std::any_cast<T1>(obj->getParent()->getValue()), std::any_cast<T2>(args[0]->getValue()));
+            return ret;
+        }
+        throw(WrongTypeOfArgument("Argument is not ", guessTypeName<T2>::name," in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+
+template<class R, class T, template<class> class OP>
+object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(guessTypeName<T>::name))
         {
             if (std::is_same<OP<T>, std::divides<int>>::value || std::is_same<OP<T>, std::modulus<int>>::value)
             {
                 if (std::any_cast<int>(args[0]->getValue()) == 0)
                     throw(Arithmetic("Division by zero while calling ", obj->getFullNameString()));
             }
-            object::objectPtr ret = obj->READ(name(STR), true)->CALL();
-            ret->getValue() = OP<T>()(std::any_cast<T>(obj->getParent()->getValue()), std::any_cast<T>(args[0]->getValue()));
-            return ret;
+            object::objectPtr ret = obj->READ(guessTypeName<R>::name, true)->CALL();
+            ret->getValue() = (R) OP<T>()(std::any_cast<T>(obj->getParent()->getValue()), std::any_cast<T>(args[0]->getValue()));
+            return ret;  
         }
-        throw(WrongTypeOfArgument("Argument is not ", STR," in ", obj->getFullNameString()));
+        throw(WrongTypeOfArgument("Argument is not ", guessTypeName<T>::name," in ", obj->getFullNameString()));
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-template<class T, class X, template<class, class> class OP, const char* TSTR, const char* XSTR>
-object::objectPtr TXTOperator (object::objectPtr obj, object::argsContainer& args)
+
+template<class T, template<class> class OP>
+object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
     {
-        if (args[0]->hasSignature(name(XSTR)))
+        if (args[0]->hasSignature(guessTypeName<T>::name))
         {
-            object::objectPtr ret = obj->READ(name(TSTR), true)->CALL();
-            ret->getValue() = OP<T, X>()(std::any_cast<T>(obj->getParent()->getValue()), std::any_cast<X>(args[0]->getValue()));
-            return ret;
+            if (std::is_same<OP<T>, std::divides<int>>::value || std::is_same<OP<T>, std::modulus<int>>::value)
+            {
+                if (std::any_cast<int>(args[0]->getValue()) == 0)
+                    throw(Arithmetic("Division by zero while calling ", obj->getFullNameString()));
+            }
+            object::objectPtr ret = obj->READ(guessTypeName<T>::name, true)->CALL();
+            ret->getValue() = (T) OP<T>()(std::any_cast<T>(obj->getParent()->getValue()), std::any_cast<T>(args[0]->getValue()));
+            return ret;  
         }
-        throw(WrongTypeOfArgument("Argument is not ", XSTR," in ", obj->getFullNameString()));
+        throw(WrongTypeOfArgument("Argument is not ", guessTypeName<T>::name," in ", obj->getFullNameString()));
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-template<class T, template<class> class OP, const char* STR>
-object::objectPtr T2BOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-    {
-        if (args[0]->hasSignature(name(STR)))
-        {
-            object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
-            ret->getValue() = OP<T>()(std::any_cast<T>(obj->getParent()->getValue()), std::any_cast<T>(args[0]->getValue()));
-            return ret;
-        }
-        throw(WrongTypeOfArgument("Argument is not ", STR," in ", obj->getFullNameString()));
-    }
-    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-}
-template<class T, template<class> class OP, const char* STR>
-object::objectPtr T2IOperator (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() == 1)
-    {
-        if (args[0]->hasSignature(name(STR)))
-        {
-            object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
-            ret->getValue() = (int) OP<T>()(std::any_cast<T>(obj->getParent()->getValue()), std::any_cast<T>(args[0]->getValue()));
-            return ret;
-        }
-        throw(WrongTypeOfArgument("Argument is not ", STR," in ", obj->getFullNameString()));
-    }
-    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-}
-template<class T, template<class> class OP, const char* STR>
-object::objectPtr T1TOperator (object::objectPtr obj, object::argsContainer& args)
+
+template<class T, template<class> class OP>
+object::objectPtr unaryOperator (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 0)
     {
-        object::objectPtr ret = obj->READ(name(STR), true)->CALL();
-        ret->getValue() = OP<T>()(std::any_cast<T>(obj->getParent()->getValue()));
+        object::objectPtr ret = obj->READ(guessTypeName<T>::name, true)->CALL();
+        ret->getValue() = (T) OP<T>()(std::any_cast<T>(obj->getParent()->getValue()));
         return ret;
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-//Template for everything
 bool isTrue();
 bool isTrue(bool first);
 
@@ -125,125 +183,117 @@ bool isTrue(bool first, Args... args)
     return first && isTrue(args...);
 }
 
-template<int... Is>
-struct seq { };
-
-template<int N, int... Is>
-struct gen_seq : gen_seq<N - 1, N - 1, Is...> { };
-
-template<int... Is>
-struct gen_seq<0, Is...> : seq<Is...> { };
-
 template<class T>
-struct guess_type
+struct guessType
 {
-	typedef typename std::conditional<
+	using type = typename std::conditional<
 	    std::is_integral<T>::value, int,
 		    typename std::conditional<std::is_floating_point<T>::value, double, T>::type
-	>::type type;
+	>::type;
 };
 
 template<>
-struct guess_type<char>
+struct guessType<char>
 {
     typedef std::string type;
 };
 
 template<>
-struct guess_type<std::string::const_iterator>
+struct guessType<std::string::const_iterator>
 {
     typedef std::string::iterator type;
 };
 
 template<>
-struct guess_type<std::vector<object::objectPtr>::const_iterator>
+struct guessType<std::vector<object::objectPtr>::const_iterator>
 {
     typedef std::vector<object::objectPtr>::iterator type;
 };
 
 template<class T, class A>
-inline T type_converter(const A& member)
+inline T typeConverter(const A& a)
 {
-    return (T)member;
+    return (T)a;
 };
 
 template<>
-inline char type_converter(const std::string& member)
+inline char typeConverter(const std::string& str)
 {
-    if (member.empty())
+    if (str.empty())
         throw(OutOfRange("Out of range"));
-    return member[0];
+    return str[0];
 };
 
-template<class V, class R, class... Args, int... Is>
-R callMethod(V* value, R (V::*f)(Args...), object::argsContainer& args, seq<Is...>)
+template<class O, class R, class... Args, int... Is>
+R callMethod(O* obj, R (O::*f)(Args...), object::argsContainer& args, std::index_sequence<Is...>)
 {
-    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
-        return (value->*f)((type_converter<Args, typename guess_type<Args>::type>(std::any_cast<typename guess_type<Args>::type>(args[Is]->getValue())))...);
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
+        return (obj->*f)((typeConverter<Args, typename guessType<Args>::type>(*std::any_cast<typename guessType<Args>::type>(&args[Is]->getValue())))...);
     throw(WrongTypeOfArgument("Wrong type of argument"));
 }
 
-template<class V, class R, class... Args, int... Is>
-R callMethod(V* value, R (V::*f)(Args...) const, object::argsContainer& args, seq<Is...>)
+template<class O, class R, class... Args, int... Is>
+R callMethod(O* obj, R (O::*f)(Args...) const, object::argsContainer& args, std::index_sequence<Is...>)
 {
-    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
-        return (value->*f)((type_converter<Args, typename guess_type<Args>::type>(std::any_cast<typename guess_type<Args>::type>(args[Is]->getValue())))...);
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
+        return (obj->*f)((typeConverter<Args, typename guessType<Args>::type>(std::any_cast<typename guessType<Args>::type>(args[Is]->getValue())))...);
     throw(WrongTypeOfArgument("Wrong type of argument"));
 }
 
 template<class R, class... Args, int... Is>
-R callFunction(R (*f)(Args...), object::argsContainer& args, seq<Is...>)
+R callFunction(R (*f)(Args...), object::argsContainer& args, std::index_sequence<Is...>)
 {
-    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guess_type<Args>::type).hash_code())...))
-        return f(*std::any_cast<typename guess_type<Args>::type>(&args[Is]->getValue())...);
+    if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
+        return f((typeConverter<Args, typename guessType<Args>::type>(*std::any_cast<typename guessType<Args>::type>(&args[Is]->getValue())))...);
     throw(WrongTypeOfArgument("Wrong type of argument"));
 }
 
-template<class V, class S, S f, class R, const char* typeName,  class... Args>
-object::objectPtr TMethod (object::objectPtr obj, object::argsContainer& args)
-{
-    if (args.size() != sizeof...(Args))
-        throw(WrongNumberOfArguments("Wrong number of arguments"));
-    return obj->READ(name(typeName), true)->CALL()->setValue((R) callMethod(std::any_cast<V>(&obj->getParent()->getValue()), f, args, gen_seq<sizeof...(Args)>()));
-}
 
-template<class V, class S, S f,  class... Args>
-object::objectPtr VMethod (object::objectPtr obj, object::argsContainer& args)
+template<class O, class M, M f, class R, class... Args, std::enable_if_t<std::is_same<R, void>::value, int> = 0>
+object::objectPtr method (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
-    callMethod(std::any_cast<V>(&obj->getParent()->getValue()), f, args, gen_seq<sizeof...(Args)>());
+    callMethod(std::any_cast<O>(&obj->getParent()->getValue()), f, args, std::index_sequence_for<Args...>());
     return obj->getParent();
 }
 
-template<class S, S f, class R, const char* typeName,  class... Args>
-object::objectPtr TFunction (object::objectPtr obj, object::argsContainer& args)
+template<class O, class M, M f, class R, class... Args, std::enable_if_t<!std::is_same<R, void>::value, int> = 0>
+object::objectPtr method (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
-    return obj->READ(name(typeName), true)->CALL()->setValue((R) callFunction(f, args, gen_seq<sizeof...(Args)>()));
+    return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue((R) callMethod(std::any_cast<O>(&obj->getParent()->getValue()), f, args, std::index_sequence_for<Args...>()));
 }
 
-template<class S, S f, class... Args>
-object::objectPtr VFunction (object::objectPtr obj, object::argsContainer& args)
+template<class F, F f, class R,  class... Args, std::enable_if_t<std::is_same<R, void>::value, int> = 0>
+object::objectPtr function (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
-    callFunction(f, args, gen_seq<sizeof...(Args)>());
+    callFunction(f, args, std::index_sequence_for<Args...>());
     return obj->getParent();
 }
 
-typedef object::objectPtr (*Ftype)(object::objectPtr, object::argsContainer&);
-template<Ftype... F>
-object::objectPtr FunctionChooser (object::objectPtr obj, object::argsContainer& args)
+template<class F, F f, class R,  class... Args, std::enable_if_t<!std::is_same<R, void>::value, int> = 0>
+object::objectPtr function (object::objectPtr obj, object::argsContainer& args)
 {
-    Ftype functions[sizeof...(F)] = {F...};
+    if (args.size() != sizeof...(Args))
+        throw(WrongNumberOfArguments("Wrong number of arguments"));
+    return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue((R) callFunction(f, args, std::index_sequence_for<Args...>()));
+}
+
+object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args);
+
+template<object::nativeFunctionType... F>
+object::objectPtr functionChooser (object::objectPtr obj, object::argsContainer& args)
+{
+    object::nativeFunctionType functions[sizeof...(F)] = {F...};
     if (args.size() < sizeof...(F))
         return functions[args.size()](obj, args);
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-//Additional template functions
 template <class T>
 object::objectPtr increment (object::objectPtr obj, object::argsContainer& args)
 {

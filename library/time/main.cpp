@@ -59,10 +59,10 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
     object::initialize(obj->READ(name("Root"), true));
 
     obj->READ(name("Root"), true)->addChild(makeObject(Clock, name("Clock"))
-            ->addChild(makeObject(VMethod<_clock, void (_clock::*)(), &_clock::restart>, name("restart")))
-            ->addChild(makeObject(TMethod<_clock, int (_clock::*)(), &_clock::getElapsedMilliseconds, int, typeNames::Int>, name("getElapsedMilliseconds")))
+            ->addChild(makeObject(method<_clock, void (_clock::*)(), &_clock::restart, void>, name("restart")))
+            ->addChild(makeObject(method<_clock, int (_clock::*)(), &_clock::getElapsedMilliseconds, int>, name("getElapsedMilliseconds")))
         );
-    obj->addChild(makeObject(VFunction<void (*)(int), sleep, int>, name("sleep")))
-        ->addChild(makeObject(TFunction<int (*)(), secondsSinceEpoch, int, typeNames::Int>, name("secondsSinceEpoch")));
+    obj->addChild(makeObject(function<void (*)(int), sleep, void, int>, name("sleep")))
+        ->addChild(makeObject(function<int (*)(), secondsSinceEpoch, int>, name("secondsSinceEpoch")));
     return nullptr;
 }
