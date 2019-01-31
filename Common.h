@@ -18,9 +18,9 @@ namespace typeNames
 }
 
 template<class T>
-struct [[deprecated("Unknown type")]] guessTypeName
+struct guessTypeName
 {
-    static constexpr const char* name = typeNames::Object;
+    static constexpr const char* name = "WrongType";
 };
 
 template<class T>
@@ -210,10 +210,37 @@ struct guessType<std::vector<object::objectPtr>::const_iterator>
     typedef std::vector<object::objectPtr>::iterator type;
 };
 
-template<class T, class A>
-inline T typeConverter(const A& a)
+template<class>
+struct resultOf {};
+
+template<class R, class... Args>
+struct resultOf<R (*)(Args...)>
 {
-    return (T)a;
+    typedef R type;
+};
+
+template<class O, class R, class... Args>
+struct resultOf<R (O::*)(Args...)>
+{
+    typedef R type;
+};
+
+template<class O, class R, class... Args>
+struct resultOf<R (O::*)(Args...) const>
+{
+    typedef R type;
+};
+
+template<class R, class A>
+inline R typeConverter(const A& a)
+{
+    return (R)a;
+};
+
+template<class T>
+inline T& typeConverter(T& t)
+{
+    return t;
 };
 
 template<>
@@ -224,7 +251,7 @@ inline char typeConverter(const std::string& str)
     return str[0];
 };
 
-template<class O, class R, class... Args, int... Is>
+template<class O, class R, class... Args, std::size_t... Is>
 R callMethod(O* obj, R (O::*f)(Args...), object::argsContainer& args, std::index_sequence<Is...>)
 {
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
@@ -232,7 +259,7 @@ R callMethod(O* obj, R (O::*f)(Args...), object::argsContainer& args, std::index
     throw(WrongTypeOfArgument("Wrong type of argument"));
 }
 
-template<class O, class R, class... Args, int... Is>
+template<class O, class R, class... Args, std::size_t... Is>
 R callMethod(O* obj, R (O::*f)(Args...) const, object::argsContainer& args, std::index_sequence<Is...>)
 {
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
@@ -240,7 +267,7 @@ R callMethod(O* obj, R (O::*f)(Args...) const, object::argsContainer& args, std:
     throw(WrongTypeOfArgument("Wrong type of argument"));
 }
 
-template<class R, class... Args, int... Is>
+template<class R, class... Args, std::size_t... Is>
 R callFunction(R (*f)(Args...), object::argsContainer& args, std::index_sequence<Is...>)
 {
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
@@ -249,8 +276,8 @@ R callFunction(R (*f)(Args...), object::argsContainer& args, std::index_sequence
 }
 
 
-template<class O, class M, M f, class R, class... Args, std::enable_if_t<std::is_same<R, void>::value, int> = 0>
-object::objectPtr method (object::objectPtr obj, object::argsContainer& args)
+template<class O, class M, M f, class R, class... Args>
+std::enable_if_t<std::is_same<R, void>::value, object::objectPtr> method (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -258,16 +285,19 @@ object::objectPtr method (object::objectPtr obj, object::argsContainer& args)
     return obj->getParent();
 }
 
-template<class O, class M, M f, class R, class... Args, std::enable_if_t<!std::is_same<R, void>::value, int> = 0>
-object::objectPtr method (object::objectPtr obj, object::argsContainer& args)
+template<class O, class M, M f, class R, class... Args>
+std::enable_if_t<!std::is_same<R, void>::value, object::objectPtr> method (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
-    return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue((R) callMethod(std::any_cast<O>(&obj->getParent()->getValue()), f, args, std::index_sequence_for<Args...>()));
+    if (std::is_convertible<typename resultOf<M>::type, R>::value)
+        return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue((R) callMethod(std::any_cast<O>(&obj->getParent()->getValue()), f, args, std::index_sequence_for<Args...>()));
+    else
+        return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue(typeConverter<R, typename resultOf<M>::type>(callMethod(std::any_cast<O>(&obj->getParent()->getValue()), f, args, std::index_sequence_for<Args...>())));
 }
 
-template<class F, F f, class R,  class... Args, std::enable_if_t<std::is_same<R, void>::value, int> = 0>
-object::objectPtr function (object::objectPtr obj, object::argsContainer& args)
+template<class F, F f, class R,  class... Args>
+std::enable_if_t<std::is_same<R, void>::value, object::objectPtr> function (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -275,12 +305,15 @@ object::objectPtr function (object::objectPtr obj, object::argsContainer& args)
     return obj->getParent();
 }
 
-template<class F, F f, class R,  class... Args, std::enable_if_t<!std::is_same<R, void>::value, int> = 0>
-object::objectPtr function (object::objectPtr obj, object::argsContainer& args)
+template<class F, F f, class R,  class... Args>
+std::enable_if_t<!std::is_same<R, void>::value, object::objectPtr> function (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
-    return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue((R) callFunction(f, args, std::index_sequence_for<Args...>()));
+    if (std::is_convertible<typename resultOf<F>::type, R>::value)
+        return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue((R) callFunction(f, args, std::index_sequence_for<Args...>()));
+    else
+        return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue(typeConverter<R, typename resultOf<F>::type>(callFunction(f, args, std::index_sequence_for<Args...>())));
 }
 
 object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args);
