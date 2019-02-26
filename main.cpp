@@ -18,10 +18,10 @@ inline bool isFlag(const char* input, const char* flag)
 int main(int argc, char** argv)
 {
     initialize();
-    std::pair<object::objectPtr, object::objectPtr> RootWithFather = prepareTree();
+    prepareTree();
     std::string source, entryPoint;
     std::list<std::string> fileNames;
-    for(int i=0; i<argc; i++)
+    for (int i = 0; i < argc; i++)
     {
         if (isFlag(argv[i], "-file") && i != argc-1)
         {
@@ -40,35 +40,37 @@ int main(int argc, char** argv)
         }
         else
         {
-            RootWithFather.second->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(RootWithFather.second->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
+           object::getRawRoot()->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
         }
     }
     try
     {
         for(auto& fileName : fileNames)
         {
-            object::objectPtr sourceBlockCallable = RootWithFather.second->READ(name("import"))->CALL(RootWithFather.second->READ(name("String"))->CALL()->setValue(fileName));
+            object::objectPtr sourceBlockCallable = object::getRawRoot()->READ(name("import"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(fileName));
         }
 
-        object::objectPtr entryPointString = RootWithFather.second->READ(name("String"))->CALL();
+        object::objectPtr entryPointString = object::getRawRoot()->READ(name("String"))->CALL();
         entryPointString->getValue() = entryPoint;
-        object::objectPtr entryPointBlockCallable = RootWithFather.second->READ(name("parse"))->CALL(entryPointString);
+        object::objectPtr entryPointBlockCallable = object::getRawRoot()->READ(name("parse"))->CALL(entryPointString);
         //TODO BlockCallable should change its name itself
         entryPointBlockCallable->getName() = "EntryPointBlockCallable";
         entryPointBlockCallable->CALL();
+		object::release();
     }
     catch (exception& e)
     {
-        RootWithFather.second->READ(name("basicOut"))->CALL(constructObject(RootWithFather.second, "String", e.getMessage()));
+		object::getRawRoot()->READ(name("basicOut"))->CALL(constructObject(object::getRawRoot(), "String", e.getMessage()));
     }
     catch (std::exception& e)
     {
-        RootWithFather.second->READ(name("basicOut"))->CALL(constructObject(RootWithFather.second, "String", "Unknown exception: " + std::string(e.what())));
+		object::getRawRoot()->READ(name("basicOut"))->CALL(constructObject(object::getRawRoot(), "String", "Unknown exception: " + std::string(e.what())));
     }
     catch (object::objectPtr& e)
     {
-        RootWithFather.second->READ(name("basicOut"))->CALL(e);
+		object::getRawRoot()->READ(name("basicOut"))->CALL(e);
     }
-    object::release();
+	object::release();
+    //std::cout<<'\n'<< object::getRawRoot().use_count()<<'\n';
     return 0;
 }

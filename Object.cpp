@@ -14,7 +14,7 @@ object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& 
 {
     if (args.size() == 1)
     {
-        *(obj->getParent()) = *(args[0]->copy()->setName(obj->getParent()->getName())->setParent(obj->getParent()->getParent(false)));
+        *(obj->getParent()) = *(args[0]->copy()->setName(obj->getParent()->getName())->setParent(obj->getParent()->getParent(false))->setAutomatic(obj->getParent()->getAutomatic()));
         return obj->getParent()->fixChildren();
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
@@ -33,7 +33,7 @@ object::objectPtr merge (object::objectPtr obj, object::argsContainer& args)
     for(auto& arg : args)
     {
         obj->getParent()->getSignatures().insert(arg->getSignatures().begin(), arg->getSignatures().end());
-        for(auto& child : obj->getParent()->getChildren())
+        for(auto& child : arg->getChildren())
             obj->getParent()->addChild(child.second->copy());
         obj->getParent()->getValue() = arg->getValue();
     };
@@ -81,6 +81,19 @@ object::objectPtr hasChild (object::objectPtr obj, object::argsContainer& args)
         if (args[0]->hasSignature(name("String")))
         {
             return constructObject(obj, "Boolean", (bool) obj->getParent()->hasChild(name(std::any_cast<std::string>(args[0]->getValue()))));
+        }
+        throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr removeChild (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("String")))
+        {
+            obj->getParent()->removeChild(name(std::any_cast<std::string>(args[0]->getValue())));
+            return  obj->getParent();
         }
         throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
     }

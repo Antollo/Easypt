@@ -1,13 +1,14 @@
 #include "prepareTree.h"
 
-std::pair<object::objectPtr, object::objectPtr> prepareTree()
+void prepareTree()
 {
     object::objectPtr Root = makeObject(nullptr, name("Root"));
-    object::initialize(Root);
     object::objectPtr dot = makeObject(nullptr, name("."))->addChild(Root);
+	object::initialize(Root, dot);
 
     Root
         ->addChild(makeObject(apply, name("apply")))
+        ->addChild(makeObject(call, name("call")))
         ->addChild(makeObject(basicOut, name("basicOut")))
         ->addChild(makeObject(debugTree, name("debugTree")))
         ->addChild(makeObject(import, name("import")))
@@ -34,6 +35,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(getChild, name("getChild")))
             ->addChild(makeObject(getChildrenArray, name("getChildrenArray")))
             ->addChild(makeObject(hasChild, name("hasChild")))
+            ->addChild(makeObject(removeChild, name("removeChild")))
             ->addChild(makeObject(functionChooser<wrongNumberOfArguments, addChild1, addChild2>, name("addChild")))
             ->addChild(makeObject(getName, name("getName")))
             ->addChild(makeObject(ObjectCopy, name("copy")))
@@ -184,6 +186,7 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
             ->addChild(makeObject(BlockCallableTry, name("try")))
             ->addChild(makeObject(BlockCallableReturn, name("return")))
             ->addChild(makeObject(BlockCallableCallOperator, name("callOperator")))
+            ->addChild(makeObject(BlockCallableThis, name("getThis")))
         );
 
         Root->addChild(makeObject(functionChooser<Array0, Array1, Array2>, name("Array"))
@@ -223,6 +226,4 @@ std::pair<object::objectPtr, object::objectPtr> prepareTree()
     {
         Root->READ(name("basicOut"))->CALL(makeObject(e.getMessage(), name("exception")));
     }
-
-    return std::make_pair(dot, Root);
 }

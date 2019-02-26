@@ -11,6 +11,6 @@ You’ll learn how to write Easypt scripts!
 7. [This is tree!](tree.md)
 8. [More sources](import.md)
 9. [Libraries](library.md)
-10. More on classes 
+10. [More on classes](classes2.md)
 11. Files, exceptions and extras
  

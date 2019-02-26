@@ -71,7 +71,7 @@ arr[0].<-(text);
 basicOut(arr[0].get());
 
 # Modify text using reference stored in arr[0], it is Object.= #
-arr[0].get()=("Good morning");
+arr[0].get().=("Good morning");
 basicOut(arr[0].get(), text);
 ```
 

@@ -5,12 +5,19 @@
 
 object::objectPtr apply (object::objectPtr obj, object::argsContainer& args)
 {
-    if (args.size() != 2)
+    if (args.size() != 3)
         throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-    if (!args[1]->hasSignature(name("Array")))
-        throw(WrongTypeOfArgument("Second argument is not Array in ", obj->getFullNameString()));
-    std::vector<object::objectPtr> _args = std::any_cast<std::vector<object::objectPtr>>(args[1]->getValue());
-    return args[0]->CALL(_args);
+    if (!args[2]->hasSignature(name("Array")))
+        throw(WrongTypeOfArgument("Third argument is not Array in ", obj->getFullNameString()));
+    object::argsContainer _args = std::any_cast<object::argsContainer>(args[2]->getValue());
+    return args[1]->callWithParent(args[0], _args);
+}
+object::objectPtr call (object::objectPtr obj, object::argsContainer& args)
+{
+    if (args.size() < 2)
+        throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    object::argsContainer _args = object::argsContainer(args.begin() + 1, args.end());
+    return args[1]->callWithParent(args[0], _args);
 }
 //Exception constructor
 object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args)
@@ -79,7 +86,7 @@ object::objectPtr parse (object::objectPtr obj, object::argsContainer& args)
         {
             std::string source = std::any_cast<std::string>(args[0]->getValue());
             object::objectPtr ret = obj->READ(name("BlockCallable"), true)->CALL();
-            parser par(source.c_str(), source.size() - 1, object::getRoot());
+            parser par(source.c_str(), source.size() - 1, object::getRawRoot());
             ret->getValue() = par.parse();
             return ret;
 
@@ -166,8 +173,10 @@ object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
 
                 object::nativeFunctionType exportFunction = (*std::any_cast<dynamicLibrary>(&nativeCallable->getValue())).getFunction("exportLibrary");
 
-                object::argsContainer args(1, nameInitializationPack);
+                object::argsContainer args{nameInitializationPack};
                 exportFunction(nativeCallable, args);
+
+				object::pushDynamicLibrary(nativeCallable);
 
                 return nativeCallable;
             }

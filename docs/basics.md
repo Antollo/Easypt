@@ -2,13 +2,13 @@
 
 ## 1. Hello world!
 
-Create new `*.ez` source file (e.g. `source.ez`). Open it with VS Code. Create `tasks.json` as described in [prepare environment](environment.md). Paste following code to that file:
+Create new `*.ez` source file (e.g. `source.ez`). Open it with VS Code. Paste following code to that file:
 
 ```c
 basicOut("Hello world!");
 ```
 
-Run file with `Ctrl+Shift+B`. You wil see output in VS Code integrated terminal, something like this:
+ Create `tasks.json` as described in [prepare environment](environment.md). Run file with `Ctrl+Shift+B`. You wil see output in VS Code integrated terminal, something like this:
 
 ```
 > Executing task: D:\Easypt\bin\easypt.exe -file source.ez <

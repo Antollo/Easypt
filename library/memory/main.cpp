@@ -248,6 +248,6 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
             ->addChild(makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::shr, void, byteWrapper>, name(">>=")))
             ->addChild(makeObject(method<byteWrapper, void (byteWrapper::*)(), &byteWrapper::_not, void>, name("~=")))
         );
-
+        
     return nullptr;
 }

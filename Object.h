@@ -12,6 +12,7 @@ object::objectPtr ObjectCopy (object::objectPtr obj, object::argsContainer& args
 object::objectPtr getParent (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr hasParent (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr getChild (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr removeChild (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr getChildrenArray (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr hasChild (object::objectPtr obj, object::argsContainer& args);
 object::objectPtr addChild1 (object::objectPtr obj, object::argsContainer& args);

@@ -10,7 +10,7 @@
     #define NOMINMAX
     #define WIN32_LEAN_AND_MEAN
     #include <Windows.h>
-    typedef HMODULE libraryType;
+    using libraryType = HMODULE;
     #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
     #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
     #endif
@@ -20,10 +20,10 @@
     #include <unistd.h>
     #include <linux/limits.h>
     #include <dlfcn.h>
-    typedef void* libraryType;
+    using libraryType = void*;
 #else
     #pragma message ("OS not fully supported")
-    typedef bool libraryType;
+    using libraryType = bool;
 #endif
 
 std::string getExecutablePath();

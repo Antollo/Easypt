@@ -3,10 +3,12 @@
 //#define DEBUG
 
 int object::objectCounter = 0;
-object::objectPtr object::Root;
+object::objectRawPtr object::Root = nullptr;
+object::objectPtr object::dot;
+std::deque<object::objectPtr> object::dynamicLibraries;
 
 object::object(std::any newValue, name newName)
-    :value(newValue), myName(newName), parent(nullptr)
+	:value(newValue), myName(newName), parent(nullptr), automatic(false)
 {
 #if defined(DEBUG)
     std::cout<<"CREATE "<<getFullNameString()<<std::endl;
@@ -19,7 +21,7 @@ object::object(std::any newValue, name newName)
     }
 }
 
-object::objectPtr object::READ(name objectName, bool searchInParent, bool forceCreate)
+object::objectPtr object::READ(name objectName, bool searchInParent, bool forceCreate, bool automatic)
 {
 #if defined(DEBUG)
     std::cout<<" READ "<<(std::string)objectName + std::string(" in ") + getFullNameString()<<std::endl;
@@ -30,6 +32,7 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
         {
             object::objectPtr newChild = READ(name("Object"), true)->CALL();
             newChild->getName() = objectName;
+			if (automatic) newChild->setAutomatic();
             addChild(newChild);
             return newChild;
         }
@@ -39,8 +42,10 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
             return parent->READ(objectName, true);
         if (searchInParent)
         {
-            if (!hasChild(name("Root")))
+            if (!hasChild(name("Root")) && Root != nullptr)
                 return Root->READ(objectName, true);
+			else if (Root == nullptr)
+				throw(NotFound("Root is not found in ", getFullNameString()));
         }
         throw(NotFound("Cannot find ", objectName, " in ", getFullNameString()));
     }
@@ -97,6 +102,7 @@ object::objectPtr object::CALL(object::argsContainer& args)
         if (hasSignature("NativeCallable"))
         {
             nativeFunctionType f = std::any_cast<nativeFunctionType>(value);
+            //if (!f) throw(InvalidValue("Object ", getFullNameString(), " is abstract function."));
             return f(shared_from_this(), args);
         }
         if (children.count(name("callOperator")))
@@ -161,20 +167,18 @@ object::objectPtr object::callWithParent(objectPtr tempParent, argsContainer& ar
 object::~object()
 {
 #if defined(DEBUG)
-    std::cout<<" DESTROY "<<getFullNameString()<<std::endl;
+    std::cout<<"DESTROY "<<getFullNameString()<<std::endl;
 #endif
     //~ Must not use his parent. Parent is already dead!
-    for(auto& child : children)
-    {
-        child.second->setParent(nullptr);
-    }
-    if(hasChild(name("~~")))
+    if (hasChild(name("~~")) && Root != nullptr)
         READ(name("~~"))->CALL();
+    for (auto& child : children)
+        child.second->setParent(nullptr);
 }
 
 object::objectPtr object::getParent(bool throwing)
 {
-    if(throwing && parent == nullptr)
+    if (throwing && parent == nullptr)
     {
         throw(NotFound("Object ", getName(), " has no parent, how sad"));
         return nullptr;
@@ -182,6 +186,18 @@ object::objectPtr object::getParent(bool throwing)
     if (parent == nullptr)
         return nullptr;
     return parent->shared_from_this();
+}
+
+object* object::getRawParent(bool throwing)
+{
+    if (throwing && parent == nullptr)
+    {
+        throw(NotFound("Object ", getName(), " has no parent, how sad"));
+        return nullptr;
+    }
+    if (parent == nullptr)
+        return nullptr;
+    return parent;
 }
 
 object::objectPtr object::debugTree(int indentation)

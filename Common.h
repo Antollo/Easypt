@@ -195,20 +195,23 @@ struct guessType
 template<>
 struct guessType<char>
 {
-    typedef std::string type;
+    using type = std::string;
 };
 
 template<>
 struct guessType<std::string::const_iterator>
 {
-    typedef std::string::iterator type;
+    using type = std::string::iterator;
 };
 
 template<>
 struct guessType<std::vector<object::objectPtr>::const_iterator>
 {
-    typedef std::vector<object::objectPtr>::iterator type;
+    using type = std::vector<object::objectPtr>::iterator;
 };
+
+template<class T>
+using guessTypeT = typename guessType<T>::type;
 
 template<class>
 struct resultOf {};
@@ -216,20 +219,23 @@ struct resultOf {};
 template<class R, class... Args>
 struct resultOf<R (*)(Args...)>
 {
-    typedef R type;
+    using type = R;
 };
 
 template<class O, class R, class... Args>
 struct resultOf<R (O::*)(Args...)>
 {
-    typedef R type;
+    using type = R;
 };
 
 template<class O, class R, class... Args>
 struct resultOf<R (O::*)(Args...) const>
 {
-    typedef R type;
+    using type = R;
 };
+
+template<class... Args>
+using resultOfT = typename resultOf<Args...>::type;
 
 template<class R, class A>
 inline R typeConverter(const A& a)

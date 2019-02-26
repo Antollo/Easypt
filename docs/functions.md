@@ -153,7 +153,7 @@ basicOut(fun());
 
 ### 4.2 "Variable style"
 
-If `return` wasn't called value of `return` itself is returned. You can overwrite `return`  to perform return action. Example:
+If `return` wasn't called value of `return` itself is returned. You can overwrite `return`  to perform return action. "Variable style" returning adds function name to `return` object signatures, in following example after calling `fun` signatures of `5` are: `Object`, `Basic`, `Int`, `fun` (so its recommended for using in constructors). Example:
 
 ```c
 var fun.=({

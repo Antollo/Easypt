@@ -18,7 +18,7 @@ class file
 {
 public:
     file() : f(std::make_shared<std::fstream>()) {}
-    file(const file& anotherFile) : f(anotherFile.f) {}
+    file(const file& anotherFile) : f(anotherFile.f), fileName(anotherFile.fileName) {}
     void open(std::string name);
     void clear();
     void write(int x);
@@ -143,5 +143,6 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsConta
             ->addChild(makeObject(method<file, std::string (file::*)(), &file::readAll, std::string>, name("readAll")))
             ->addChild(makeObject(FileWrite, name("write")))
         );
+    //object::release();
     return nullptr;
 }

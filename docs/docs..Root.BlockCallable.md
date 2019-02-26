@@ -27,6 +27,7 @@ Constructs empty `BlockCallable`. To create non empty `BlockCallable` use curly 
 - [`throw`](docs..Root.BlockCallable.throw.md)
 - [`try`](docs..Root.BlockCallable.try.md)
 - [`callOperator`](docs..Root.BlockCallable.callOperator.md)
+- [`getThis`](docs..Root.BlockCallable.getThis.md)
 
 ## Example:
 

@@ -24,7 +24,7 @@
 
 ## 4. Example of class
 
-`Bird` class:
+`Bird` class's constructor:
 
 ```c
 var Bird.=({

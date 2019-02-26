@@ -58,7 +58,7 @@ public:
     }
     //Why?
     //This class in dll will have own static members
-    typedef std::pair<std::shared_ptr<std::map<int, std::string>>, std::shared_ptr<std::map<std::string, int>>> initializationPack;
+    using initializationPack = std::pair<std::shared_ptr<std::map<int, std::string>>, std::shared_ptr<std::map<std::string, int>>>;
     static void initialize();
     static initializationPack getInitializationPack() { return std::make_pair(codeToNameMap, nameToCodeMap); }
     static void initialize(initializationPack pack);

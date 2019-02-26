@@ -56,6 +56,7 @@ void dynamicLibrary::loadLibrary(const std::string& fileName)
 }
 object::nativeFunctionType dynamicLibrary::getFunction(const std::string& functionName)
 {
+	if (!library) return nullptr;
     #if defined(_WIN32)
         object::nativeFunctionType function = reinterpret_cast<object::nativeFunctionType>(GetProcAddress(library, functionName.c_str()));
         if (!function) throw(NotFound("Function ", functionName, " not found"));
@@ -71,11 +72,19 @@ object::nativeFunctionType dynamicLibrary::getFunction(const std::string& functi
 dynamicLibrary::~dynamicLibrary()
 {
     #if defined(_WIN32)
-        if (library) FreeLibrary(library);
+    if (library)
+    {
+        FreeLibrary(library);
+		library = nullptr;
+    }
     #elif defined(__linux__)
-        if (library) dlclose(library);
+    if (library)
+    {
+        dlclose(library);
+		library = nullptr;
+    }
     #else
-        throw(Parser("Dynamic libraries are not supported on this OS"))
+        throw(NotSupportedOnThisOS("Dynamic libraries are not supported on this OS"))
     #endif
 }
 
@@ -85,20 +94,20 @@ void initialize()
     std::cout << std::boolalpha;
     name::initialize();
     #if defined(_WIN32)
-            HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        if (hOut == INVALID_HANDLE_VALUE)
-        {
-            return;
-        }
-        DWORD dwMode = 0;
-        if (!GetConsoleMode(hOut, &dwMode))
-        {
-            return;
-        }
-        dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-        if (!SetConsoleMode(hOut, dwMode))
-        {
-            return;
-        }
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE)
+    {
+        return;
+    }
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(hOut, &dwMode))
+    {
+        return;
+    }
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    if (!SetConsoleMode(hOut, dwMode))
+    {
+        return;
+    }
     #endif
 }

@@ -29,6 +29,7 @@ Constructs new `Object`. Any variable created with keyword `var` is initialized 
 - [`getChildrenArray`](docs..Root.Object.getChildrenArray.md)
 - [`hasChild`](docs..Root.Object.hasChild.md)
 - [`addChild`](docs..Root.Object.addChild.md)
+- [`removeChild`](docs..Root.Object.removeChild.md)
 - [`getName`](docs..Root.Object.getName.md)
 - [`copy`](docs..Root.Object.copy.md)
 - [`!=`](docs..Root.Object.!=.md)

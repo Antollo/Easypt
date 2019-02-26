@@ -2,7 +2,7 @@
 
 //#define DEBUG
 
-parser::parser(const char* newSource, int newLast, object::objectPtr newRoot)
+parser::parser(const char* newSource, int newLast, object::objectRawPtr newRoot)
     : source(newSource), last(newLast), Root(newRoot), iterator(0) {};
 
 int parser::numberOfSlashes(const int& i)
@@ -99,7 +99,7 @@ std::list<expression> parser::parse()
     std::list<expression> expressions;
     int temp;
     //searchInParent means that new expression is starting
-    bool searchInParent = true, forceCreate =  false;
+    bool searchInParent = true, forceCreate =  false, automatic = false;
     expressions.emplace_back();
     while(true)
     {
@@ -147,9 +147,10 @@ std::list<expression> parser::parse()
                 str->getName() = name(std::string(source + iterator, temp - iterator + 1));
                 Root->addChild(str);
             }
-            expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator + 1), searchInParent, false));
+            expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator + 1), searchInParent));
             searchInParent = false;
             forceCreate = false;
+			automatic = false;
             #if defined(DEBUG)
             std::cout<<">str <"<<std::string(source + iterator, temp - iterator + 1)<<">\n";
             #endif
@@ -166,9 +167,10 @@ std::list<expression> parser::parse()
                     str->getName() = name(std::string(source + iterator, temp - iterator + 1));
                     Root->addChild(str);
                 }
-                expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator + 1), searchInParent, false));
+                expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator + 1), searchInParent));
                 searchInParent = false;
                 forceCreate = false;
+				automatic = false;
                 #if defined(DEBUG)
                 std::cout<<">obj <"<<std::string(source + iterator, temp - iterator + 1)<<">\n";
                 #endif
@@ -228,9 +230,10 @@ std::list<expression> parser::parse()
                     }
                     Root->addChild(num);
                 }
-                expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator), searchInParent, false));
+                expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator), searchInParent));
                 searchInParent = false;
                 forceCreate = false;
+				automatic = false;
                 #if defined(DEBUG)
                 std::cout<<">num <"<<std::string(source + iterator, temp - iterator)<<"> "<<std::atoi(source + iterator)<<"\n";
                 #endif
@@ -250,12 +253,23 @@ std::list<expression> parser::parse()
                     iterator = temp + 1;
                     break;
                 }
+				if (std::strncmp(source + iterator, "auto", 4) == 0)
+				{
+					forceCreate = true;
+					automatic = true;
+					#if defined(DEBUG)
+					std::cout << ">auto \n";
+					#endif
+					iterator = temp + 1;
+					break;
+				}
                 #if defined(DEBUG)
                 std::cout<<">read <"<<std::string(source + iterator, temp - iterator)<<"> "<<forceCreate<<"\n";
                 #endif
-                expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator), searchInParent, forceCreate));
+                expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator), searchInParent, forceCreate, automatic));
                 searchInParent = false;
                 forceCreate = false;
+				automatic = false;
                 iterator = temp;
             }
             else

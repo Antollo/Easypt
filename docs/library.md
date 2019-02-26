@@ -129,6 +129,6 @@ console.fast.writeInt: 2569 ms
 
 ---
 
-Next lesson
+[Next lesson (More on classes)](classes2.md)
 
 [Table of contents](tutorial.md)

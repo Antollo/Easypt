@@ -12,6 +12,7 @@
 #include <iostream>
 #include <cstdint>
 #include <functional>
+#include <deque>
 
 
 #define makeObject(...) std::make_shared<object>(__VA_ARGS__)
@@ -20,11 +21,13 @@
 class object : public std::enable_shared_from_this<object>
 {
     public:
-        typedef std::shared_ptr<object> objectPtr;
-        typedef std::vector<objectPtr> argsContainer;
-        typedef objectPtr (*nativeFunctionType)(objectPtr, argsContainer&);
-        typedef std::map<name, objectPtr> childrenType;
-        typedef std::unordered_set<name> signaturesContainer;
+        using objectPtr = std::shared_ptr<object>;
+        using objectRawPtr = object*;
+        using weakObjectPtr = std::shared_ptr<object>;
+        using argsContainer = std::vector<objectPtr>;
+        using nativeFunctionType = objectPtr (*)(objectPtr, argsContainer&);
+        using childrenType = std::map<name, objectPtr>;
+        using signaturesContainer = std::unordered_set<name>;
 
 
         object(std::any newValue = nullptr, name newName = name(std::string("Anonymous") + std::to_string(objectCounter)));
@@ -33,7 +36,7 @@ class object : public std::enable_shared_from_this<object>
         {
             return myName == x.myName && signatures == x.signatures && children == x.children;
         }
-        objectPtr READ(name objectName, bool searchInParent = false, bool forceCreate = false);
+        objectPtr READ(name objectName, bool searchInParent = false, bool forceCreate = false, bool automatic = false);
         objectPtr READCALL(objectPtr arg);
         objectPtr CALL(argsContainer& args);
         objectPtr CALL(objectPtr arg);
@@ -51,8 +54,9 @@ class object : public std::enable_shared_from_this<object>
         }
         childrenType& getChildren() { return children; }
         bool hasChild(name childName) { return children.count(childName); }
-        objectPtr removeChild(name childName) { children.erase(children.find(childName)); return shared_from_this(); }
+        objectPtr removeChild(name childName) { if (hasChild(childName)) children.erase(children.find(childName)); return shared_from_this(); }
         objectPtr getParent(bool throwing = true);
+        objectRawPtr getRawParent(bool throwing = true);
         void setParent(object* newParent) { parent = newParent; }
         objectPtr setParent(objectPtr newParent) { setParent(newParent.get()); return shared_from_this(); }
         name& getName() { return myName; }
@@ -78,20 +82,28 @@ class object : public std::enable_shared_from_this<object>
                 addChild(child.second->fixChildren());
             return shared_from_this();
         }
-
+		objectPtr setAutomatic(bool newAutomatic = true) { automatic = newAutomatic; return shared_from_this(); }
+		bool getAutomatic() const { return automatic; }
         objectPtr debugTree(int indentation);
-        static void initialize(objectPtr newRoot)
+        static void initialize(objectPtr newRoot, objectPtr newDot = nullptr)
         {
-            Root = newRoot;
+            Root = newRoot.get();
+			dot = newDot;
         }
-        static void release() { Root.reset(); }
-        static objectPtr getRoot() { return Root; }
+		static void release() { Root = nullptr; dot.reset(); dynamicLibraries.clear(); }
+        static objectRawPtr getRawRoot() { return Root; }
         static name getAnonymousName()
         {
             return name(std::string("Anonymous") + std::to_string(objectCounter++));
         }
+        static void pushDynamicLibrary(objectPtr ptr)
+        {
+            dynamicLibraries.push_back(ptr);
+        }
     private:
-        static objectPtr Root;
+        static objectRawPtr Root;
+        static objectPtr dot;
+        static std::deque<objectPtr> dynamicLibraries;
         static int objectCounter;
 
         std::any value;
@@ -99,6 +111,7 @@ class object : public std::enable_shared_from_this<object>
         object* parent;
         name myName;
         signaturesContainer signatures;
+		bool automatic;
 };
 
 

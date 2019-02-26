@@ -14,6 +14,6 @@
 #include "BlockCallable.h"
 #include <utility>
 
-std::pair<object::objectPtr, object::objectPtr> prepareTree();
+void prepareTree();
 
 #endif // PREPARETREE_H

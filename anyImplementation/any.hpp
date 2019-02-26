@@ -122,6 +122,9 @@ public:
         }
     }
 
+    //Addition to support standard by Antollo.
+    void reset() noexcept { clear(); }
+
     /// Returns true if *this has no contained object, otherwise false.
     bool empty() const noexcept
     {

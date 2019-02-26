@@ -36,7 +36,7 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
         switch(act->getType())
         {
         case action::type::read:
-            temp = temp->READ(act->getName(), act->getSearchInParent(), act->getForceCreate());
+            temp = temp->READ(act->getName(), act->getSearchInParent(), act->getForceCreate(), act->getAutomatic());
             break;
         case action::type::readcall:
             temp = temp->READCALL(evaluateExpression(act->getExpression(), parent));
@@ -53,7 +53,7 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
     }
     return temp;
 }
-typedef std::tuple<std::list<expression>::const_iterator*, std::list<expression>::const_iterator, object::objectPtr> returnValueTriplet;
+using returnValueTriplet = std::tuple<std::list<expression>::const_iterator*, std::list<expression>::const_iterator, object::objectPtr>;
 object::objectPtr BlockCallableReturn (object::objectPtr obj, object::argsContainer& args)
 {
     if (args.size() == 1)
@@ -74,15 +74,21 @@ object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::args
         return parent->copy()->removeChild(name("returnValueTriplet"))->callWithParent(parent->getParent(), args);
     }
     std::list<expression> expressions = std::any_cast<std::list<expression>>(obj->getParent()->getValue());
-    parent->addChild(obj->READ(name("Array"), true)->CALL()->setValue(args)->setName("args"));
+    parent->addChild(obj->READ(name("Array"), true)->CALL()->setValue(args)->setName("args")->setAutomatic());
     std::list<expression>::const_iterator it = expressions.begin();
-    parent->addChild(makeObject(returnValueTriplet(&it, std::prev(expressions.end()), nullptr), name("returnValueTriplet")));
+    parent->addChild(makeObject(returnValueTriplet(&it, std::prev(expressions.end()), nullptr), name("returnValueTriplet"))->setAutomatic());
     while (it !=  expressions.end())
         evaluateExpression(*(it++), parent);
     object::objectPtr ret = std::get<2>(std::any_cast<returnValueTriplet>(parent->READ(name("returnValueTriplet"))->getValue()));
-    parent->removeChild(name("returnValueTriplet"));
-    if (ret) return ret;
-    return parent->READ(name("return"))->setName(object::getAnonymousName())->addSignatureR(parent->getName());
+    //parent->removeChild(name("returnValueTriplet"));
+    if (!ret)
+        ret = parent->READ(name("return"))->setName(object::getAnonymousName())->addSignatureR(parent->getName());
+    object::childrenType::const_iterator temp;
+	while ((temp = std::find_if(parent->getChildren().cbegin(), parent->getChildren().cend(), [](const auto& it) {
+		return it.second->getAutomatic();
+	})) != parent->getChildren().end()) 
+		parent->getChildren().erase(temp);
+    return ret;
 }
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args)
 {
@@ -187,4 +193,8 @@ object::objectPtr BlockCallableTry (object::objectPtr obj, object::argsContainer
         return obj->getParent();
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr BlockCallableThis (object::objectPtr obj, object::argsContainer& args)
+{
+    return obj->getParent();
 }
