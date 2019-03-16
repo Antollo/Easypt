@@ -26,10 +26,10 @@ var Crow.=({
     return.var sing.=({ basicOut("caw"); });
 });
 
+getThis().debugTree();
 
 
-var crow.=(call(getThis(), Crow, "pink");
-
+var crow.=(call(getThis(), Crow, "pink"));
 import("file");
 var testFile.=(File());
 

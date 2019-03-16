@@ -7,7 +7,7 @@ object::objectPtr String0 (object::objectPtr obj, object::argsContainer& args)
     ret->READ(name("merge"))->CALL(obj->READ(name("Container"), true)->CALL());
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     ret->getValue() = std::string();
     return ret;
 }
@@ -163,7 +163,7 @@ object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& 
     object::objectPtr ret = obj->READ(name("Iterator"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     ret->getValue() = std::string::iterator();
     return ret;
 }

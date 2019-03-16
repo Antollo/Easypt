@@ -6,7 +6,7 @@ object::objectPtr Object (object::objectPtr obj, object::argsContainer& args)
     object::objectPtr ret = makeObject();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     return ret;
 }
 //Object methods

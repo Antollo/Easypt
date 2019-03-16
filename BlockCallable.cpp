@@ -7,7 +7,7 @@ object::objectPtr BlockCallable (object::objectPtr obj, object::argsContainer& a
     ret->addSignature(name("Callable"));
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     ret->getValue() = std::list<expression>();
     return ret;
 }

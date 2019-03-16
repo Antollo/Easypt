@@ -6,7 +6,7 @@ object::objectPtr Array0 (object::objectPtr obj, object::argsContainer& args)
     object::objectPtr ret = obj->READ(name("Container"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     ret->getValue() = std::vector<object::objectPtr>();
     return ret;
 }
@@ -140,7 +140,7 @@ object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& a
     object::objectPtr ret = obj->READ(name("Iterator"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     ret->getValue() = std::string::iterator();
     return ret;
 }

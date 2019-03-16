@@ -6,7 +6,7 @@ object::objectPtr Double (object::objectPtr obj, object::argsContainer& args)
     object::objectPtr ret = obj->READ(name("Basic"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     ret->getValue() = 0.0;
     return ret;
 }

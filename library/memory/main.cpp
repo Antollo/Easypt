@@ -109,7 +109,7 @@ object::objectPtr ByteView (object::objectPtr obj, object::argsContainer& args)
     object::objectPtr ret = obj->READ(name("Container"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     if (args.size() == 1)
     {
         if (args[0]->getValue().type().hash_code() == typeid(std::string).hash_code())
@@ -171,7 +171,7 @@ object::objectPtr ByteViewIterator (object::objectPtr obj, object::argsContainer
     object::objectPtr ret = obj->READ(name("Iterator"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     ret->getValue() = (byteView::byteViewIterator)nullptr;
     return ret;
 }
@@ -204,7 +204,7 @@ object::objectPtr ByteWrapper (object::objectPtr obj, object::argsContainer& arg
     object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChild(child.second->copy());
+        ret->addChildToProto(child.second);
     ret->getValue() = byteWrapper(nullptr);
     if (args.size() == 1)
     {

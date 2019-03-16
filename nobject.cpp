@@ -36,7 +36,8 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
             addChild(newChild);
             return newChild;
         }
-        if (children.count(objectName))
+        //if (children.count(objectName))
+        if (hasChild(objectName))
             return children[objectName];
         if (searchInParent && parent != nullptr)
             return parent->READ(objectName, true);
@@ -72,7 +73,8 @@ object::objectPtr object::READCALL(object::objectPtr arg)
 #endif
     try
     {
-        if (children.count(name("readOperator")))
+        if (hasChild("readOperator"))
+        //if (children.count(name("readOperator")))
             return children[name("readOperator")]->CALL(arg);
         throw(NotFound("Object ", getFullNameString(), " has no readOperator"));
     }
@@ -105,7 +107,8 @@ object::objectPtr object::CALL(object::argsContainer& args)
             //if (!f) throw(InvalidValue("Object ", getFullNameString(), " is abstract function."));
             return f(shared_from_this(), args);
         }
-        if (children.count(name("callOperator")))
+        if (hasChild("callOperator"))
+        //if (children.count(name("callOperator")))
             return children[name("callOperator")]->CALL(args);
         throw(InvalidValue("Object ", getFullNameString(), " is neither BlockCallable nor NativeCallable."));
     }
@@ -204,7 +207,7 @@ object::objectPtr object::debugTree(int indentation)
 {
     std::string spaces(indentation * 4, ' ');
     IO::console<<spaces<<"Name:       "<<(std::string)myName<<"\n";
-    IO::console<<spaces<<"Location:   "<<std::to_string((intptr_t)this)<<"\n";
+    //IO::console<<spaces<<"Location:   "<<std::to_string((intptr_t)this)<<"\n";
     IO::console<<spaces<<"Parent:     "<<((parent != nullptr)?(std::string)parent->getName():"")<<"\n";
     if (signatures.size())
     {
@@ -213,6 +216,15 @@ object::objectPtr object::debugTree(int indentation)
             IO::console<<(std::string)signature<<" ";
         IO::console<<"\n";
     }
+    if (value.type().hash_code() == typeid(protoType).hash_code())
+    {
+        IO::console<<spaces<<"Internals: ";
+        for (auto& el : (*std::any_cast<protoType>(&value)))
+            IO::console<<(std::string)el.second->getName()<<" ";
+        IO::console<<"\n";
+
+    }
+    //Warning - proto
     if (children.size())
     {
         IO::console<<spaces<<"Children:\n";
