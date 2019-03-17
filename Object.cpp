@@ -6,7 +6,7 @@ object::objectPtr Object (object::objectPtr obj, object::argsContainer& args)
     object::objectPtr ret = makeObject();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChildToProto(child.second);
+        ret->addPrototypeChild(child.second);
     return ret;
 }
 //Object methods
@@ -28,13 +28,13 @@ object::objectPtr referenceAssignOperator (object::objectPtr obj, object::argsCo
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr merge (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr inherit (object::objectPtr obj, object::argsContainer& args)
 {
     for(auto& arg : args)
     {
         obj->getParent()->getSignatures().insert(arg->getSignatures().begin(), arg->getSignatures().end());
         for(auto& child : arg->getChildren())
-            obj->getParent()->addChild(child.second->copy());
+            obj->getParent()->addPrototypeChild(child.second);
         obj->getParent()->getValue() = arg->getValue();
     };
     return obj->getParent();

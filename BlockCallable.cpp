@@ -7,7 +7,7 @@ object::objectPtr BlockCallable (object::objectPtr obj, object::argsContainer& a
     ret->addSignature(name("Callable"));
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChildToProto(child.second);
+        ret->addPrototypeChild(child.second);
     ret->getValue() = std::list<expression>();
     return ret;
 }
@@ -16,7 +16,7 @@ object::objectPtr BlockCallableEqualOperator (object::objectPtr obj, object::arg
 {
     if (args.size() == 1)
     {
-        bool firstComparison = ((obj->getParent()->getSignatures() == args[0]->getSignatures()) && (obj->getParent()->getChildren() == args[0]->getChildren()));
+        bool firstComparison = ((obj->getParent()->getSignatures() == args[0]->getSignatures()));
         if (firstComparison)
             firstComparison = (std::any_cast<std::list<expression>>(args[0]->getValue()) == std::any_cast<std::list<expression>>(obj->getParent()->getValue()));
         object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
@@ -84,10 +84,10 @@ object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::args
     if (!ret)
         ret = parent->READ(name("return"))->setName(object::getAnonymousName())->addSignatureR(parent->getName());
     object::childrenType::const_iterator temp;
-	while ((temp = std::find_if(parent->getChildren().cbegin(), parent->getChildren().cend(), [](const auto& it) {
+	while ((temp = std::find_if(parent->getLocalChildren().cbegin(), parent->getLocalChildren().cend(), [](const auto& it) {
 		return it.second->getAutomatic();
-	})) != parent->getChildren().end()) 
-		parent->getChildren().erase(temp);
+	})) != parent->getLocalChildren().end()) 
+		parent->getLocalChildren().erase(temp);
     return ret;
 }
 object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args)

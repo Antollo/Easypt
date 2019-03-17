@@ -218,7 +218,7 @@ object::objectPtr object::debugTree(int indentation)
     }
     if (value.type().hash_code() == typeid(protoType).hash_code())
     {
-        IO::console<<spaces<<"Internals: ";
+        IO::console<<spaces<<"Internals:  ";
         for (auto& el : (*std::any_cast<protoType>(&value)))
             IO::console<<(std::string)el.second->getName()<<" ";
         IO::console<<"\n";

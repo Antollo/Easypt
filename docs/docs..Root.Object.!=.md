@@ -2,7 +2,7 @@
 
 #### `..Root.Object.!=`
 
-Returns negated result
+Returns negated result of `==`.
 
 * **Parameters:** object of any type
 

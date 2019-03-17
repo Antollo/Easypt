@@ -17,7 +17,7 @@ include_directories("${PROJECT_SOURCE_DIR}")
 
 if(MSVC)
 message("MSVC :3")
-add_compile_options(/MT /O2)
+add_compile_options(/MT)
 else()
 message("probably GCC :3")
 add_compile_options(-static-libgcc -static-libstdc++ -O3) 

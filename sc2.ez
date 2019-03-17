@@ -22,7 +22,7 @@ var Bird.=({
 
 var Crow.=({
     var return;
-    return.merge(Bird(args[0].get()));
+    return.inherit(Bird);
     return.var sing.=({ basicOut("caw"); });
 });
 

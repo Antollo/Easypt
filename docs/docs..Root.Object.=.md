@@ -2,7 +2,7 @@
 
 #### `..Root.Object.=`
 
-Assign another object to this object (parent and name of this object do not change).
+Assign copy of another object to this object (parent and name of this object do not change).
 
 * **Parameters:** object of any type
 

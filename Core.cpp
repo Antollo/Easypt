@@ -25,7 +25,7 @@ object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args)
     object::objectPtr ret = obj->READ(name("String"), true)->CALL();
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
-        ret->addChildToProto(child.second);
+        ret->addPrototypeChild(child.second);
     ret->getValue() = (std::string) obj->getName() + ": ";
     for(auto& arg : args)
     {

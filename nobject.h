@@ -54,7 +54,14 @@ class object : public std::enable_shared_from_this<object>
             child->setParent(this);
             return shared_from_this();
         }
-        objectPtr addChildToProto(objectPtr child)
+        objectPtr addChild(name childName, objectPtr child)
+        {
+            hasChild(childName);
+            children[childName] = child;
+            child->setParent(this);
+            return shared_from_this();
+        }
+        objectPtr addPrototypeChild(objectPtr child)
         {
             if (!children.count("proto"))
                 addChild(makeObject(protoType(), name("proto")));
@@ -70,8 +77,11 @@ class object : public std::enable_shared_from_this<object>
                 children[it->first]->setParent(this);
                 (*std::any_cast<protoType>(&children["proto"]->getValue())).erase(it);
             }
+            if (children.count("proto"))
+                removeChild(name("proto"));
             return children;
         }
+        childrenType& getLocalChildren() { return children; }
         bool hasChild(name childName)
         {
             if (children.count("proto") && (*std::any_cast<protoType>(&children["proto"]->getValue())).count(childName))

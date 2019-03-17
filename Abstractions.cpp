@@ -7,7 +7,7 @@ object::objectPtr Basic (object::objectPtr obj, object::argsContainer& args)
     ret->addSignature(obj->getName());
     //#if defined(DEBUG)
     for (auto& child : obj->getChildren())
-        ret->addChildToProto(child.second);
+        ret->addPrototypeChild(child.second);
     //#endif
     return ret;
 };
@@ -18,7 +18,7 @@ object::objectPtr Iterable (object::objectPtr obj, object::argsContainer& args)
     ret->addSignature(obj->getName());
     //#if defined(DEBUG)
     for (auto& child : obj->getChildren())
-        ret->addChildToProto(child.second);
+        ret->addPrototypeChild(child.second);
     //#endif
     return ret;
 };
@@ -29,7 +29,7 @@ object::objectPtr Iterator (object::objectPtr obj, object::argsContainer& args)
     ret->addSignature(obj->getName());
     //#if defined(DEBUG)
     for (auto& child : obj->getChildren())
-        ret->addChildToProto(child.second);
+        ret->addPrototypeChild(child.second);
     //#endif
     return ret;
 };
@@ -40,7 +40,7 @@ object::objectPtr Container (object::objectPtr obj, object::argsContainer& args)
     ret->addSignature(obj->getName());
     //#if defined(DEBUG)
     for (auto& child : obj->getChildren())
-        ret->addChildToProto(child.second);
+        ret->addPrototypeChild(child.second);
     //#endif
     return ret;
 };
