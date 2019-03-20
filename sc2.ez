@@ -1,173 +1,38 @@
-import("time");
+#import("time");
 import("algorithm");
 import("console");
 import("memory");
-import("math");
-
-var arr.=(Array());
-arr.pushBack("0");
-arr.pushBack("1");
-arr.pushBack("2");
-arr.pushBack("3");
-arr.pushBack("4");
-basicOut(arr.subarray(arr.begin().+(1), arr.end().-(1)));
-
-var Bird.=({
-    basicOut("bird");
-    var return;
-    return.var color.=(args[0].get());
-    return.var sing.=({ basicOut("tweet"); });
-    return.var ~~.=({ basicOut("bird died"); });
-});
-
-var Crow.=({
-    var return;
-    return.inherit(Bird);
-    return.var sing.=({ basicOut("caw"); });
-});
-
-getThis().debugTree();
+import("math");#
 
 
-var crow.=(call(getThis(), Crow, "pink"));
-import("file");
-var testFile.=(File());
+auto A.=(Class(
+    Object, 
+    {
+        basicOut("helloA");
+    }.setName("A"),
+    Object, 
+    {
+        basicOut("goodbye");
+    }.setName("~~"),
+));
+#auto a.=(A());#
+#a.debugTree();#
+auto B.=(Class(
+    A,
+    {
+        A();
+        basicOut("helloB");
+    }.setName("B")
+));
+B();
+auto f.=({f();});
 
-basicOut("xxdx");
-
-testFile.open("test.txt");
-testFile.clear();
-
-testFile.write("afpha beta\ngamma");
-
-basicOut(testFile.read());
-basicOut(testFile.read());
-basicOut(testFile.read());
-
-testFile.write("delta");
-basicOut(testFile.read());
-#it.get();#
-
-
-var str.=("abc");
-basicOut(str[0].get().toAsciiCode());
-
-var b.=(ByteView(str));
-str[0]<-("d");
-basicOut(b[0].get().toInt());
-
-var makeGreetingsString.=({
-    var str.=("Happy ");
-    str.=(str.+(args[0].get().toString()));
-    str.=(str.+(" birthday "));
-    str.=(str.+(args[1].get()));
-    str.=(str.+("!"));
-    return(str);
-});
-basicOut(makeGreetingsString(51, "John"));
-
-var add.=({
-    return(args[0].get().+(args[1].get()));
-});
-
-basicOut(add(5 ,7));
-
-var str.=("a aa aaa");
-str.replaceAll("a", "b");
-basicOut(str);
+"launchArgs".debugTree();
 
 
-var str.=("Hello world!");
-basicOut(str.begin().distance(str.end()), str.size());
+#auto b.=(B());#
+#b.debugTree();#
+#getThis().debugTree();#
+#throw("stop");#
 
-var a.=(6);
-var b.=(9);
-basicOut(if (a.>(b), {
-    return("a is greater than b");
-}, {
-    return("a is less or equal than b");
-}));
-
-var a.=(6);
-var b.=(9);
-var condition.=(a.!=(b));
-basicOut(while (condition, {
-    if (a.>(b), { a.=(a.-(b)); });
-    if (b.>(a), { b.=(b.-(a)); });
-    condition.=(a.!=(b));
-    return (a);
-}));
-
-var a;
-a.var b;
-var c;
-
-a.b.=(c);
-basicOut(c.===(a.b));
-
-
-#network.downloadFile("https://ci.appveyor.com/api/projects/antollo/easypt/artifacts/artifacts.zip?branch=master&job=Image%3A%20Ubuntu", "a.zip");
-compression.unzip("a.zip", "./");#
-
-var a.=(Array());
-a.pushBack("w", "a", "z", "f", "c", "d");
-algorithm.iterator.sort(a.begin(), a.end(), { return(args[0].get().>(args[1].get())); });
-basicOut(a);
-
-import("compression");
-import("console");
-import("docs");
-import("file");
-import("math");
-import("memory");
-import("network");
-import("system");
-import("utility");
-
-basicOut(algorithm());
-
-import("console");
-
-var a.=(Int());
-var b.=(Double());
-var c.=(String());
-console.fast.scanInt(a);
-console.fast.scanDouble(b);
-console.fast.scanString16(c);
-console.fast.writeInt(a);
-console.fast.writeDouble(b);
-console.fast.writeString(c);
-
-import("algorithm");
-
-{
-var a.=(1);
-var b.=(2);
-
-algorithm.swap(a, b);
-basicOut(a, b);
-}();
-
-var text.=("Hello");
-var arr.=(Array());
-arr.resize(1);
-
-# Assign reference to text to arr[0], it is ArrayIterator.<- #
-arr[0].<-(text);
-basicOut(arr[0].get());
-
-# Modify text using reference stored in arr[0], it is Object.= #
-arr[0].get().=("Good morning");
-basicOut(arr[0].get(), text);
-
-
-console.controlSequence("m");
-console.writeLine("abc");
-console.controlSequence("/034m");
-while (false, {
-    if(console.read().find("beep", 0).!=(-1), {
-        console.beep();
-        console.writeLine(">_<");
-    });
-});
 

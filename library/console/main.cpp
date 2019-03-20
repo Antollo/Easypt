@@ -11,10 +11,10 @@
 
 extern "C"
 {
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args);
+    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
 }
 
-object::objectPtr write (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr write (object::objectPtr obj, object::arrayType& args)
 {
     for(auto& arg : args)
     {
@@ -34,28 +34,28 @@ object::objectPtr write (object::objectPtr obj, object::argsContainer& args)
     return obj->getParent();
 }
 
-object::objectPtr writeLine (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr writeLine (object::objectPtr obj, object::arrayType& args)
 {
     write(obj, args);
     std::cout << std::endl;
     return obj->getParent();
 }
 
-object::objectPtr read (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr read (object::objectPtr obj, object::arrayType& args)
 {
     std::string buffer;
     std::cin >> buffer;
     return obj->READ(name("String"), true)->CALL()->setValue(buffer);
 }
 
-object::objectPtr readLine (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr readLine (object::objectPtr obj, object::arrayType& args)
 {
     std::string buffer;
     std::getline(std::cin, buffer);
     return obj->READ(name("String"), true)->CALL()->setValue(buffer);
 }
 
-object::objectPtr scan (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr scan (object::objectPtr obj, object::arrayType& args)
 {
     std::string buffer;
     for(auto& arg : args)
@@ -114,13 +114,13 @@ object::objectPtr scan (object::objectPtr obj, object::argsContainer& args)
     return obj->getParent();
 }
 
-object::objectPtr beep (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr beep (object::objectPtr obj, object::arrayType& args)
 {
     std::cout << '\a';
     return obj->getParent();
 }
 
-object::objectPtr controlSequence (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr controlSequence (object::objectPtr obj, object::arrayType& args)
 {
     for(auto& arg : args)
     {
@@ -132,37 +132,37 @@ object::objectPtr controlSequence (object::objectPtr obj, object::argsContainer&
     return obj->getParent();
 }
 
-object::objectPtr fWriteInt (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr fWriteInt (object::objectPtr obj, object::arrayType& args)
 {
     std::printf("%d", *std::any_cast<int>(&args.at(0)->getValue()));
     return obj->getParent();
 }
 
-object::objectPtr fWriteDouble (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr fWriteDouble (object::objectPtr obj, object::arrayType& args)
 {
     std::printf("%lf", *std::any_cast<double>(&args.at(0)->getValue()));
     return obj->getParent();
 }
 
-object::objectPtr fWriteString (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr fWriteString (object::objectPtr obj, object::arrayType& args)
 {
     std::printf("%s", std::any_cast<std::string>(&args.at(0)->getValue())->c_str());
     return obj->getParent();
 }
 
-object::objectPtr fScanInt (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr fScanInt (object::objectPtr obj, object::arrayType& args)
 {
     std::scanf("%i", std::any_cast<int>(&args.at(0)->getValue()));
     return obj->getParent();
 }
 
-object::objectPtr fScanDouble (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr fScanDouble (object::objectPtr obj, object::arrayType& args)
 {
     std::scanf("%lf", std::any_cast<double>(&args.at(0)->getValue()));
     return obj->getParent();
 }
 
-object::objectPtr fScanString16 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr fScanString16 (object::objectPtr obj, object::arrayType& args)
 {
     char temp[17];
     scanf("%16s", temp);
@@ -170,7 +170,7 @@ object::objectPtr fScanString16 (object::objectPtr obj, object::argsContainer& a
     return obj->getParent();
 }
 
-object::objectPtr fScanString256 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr fScanString256 (object::objectPtr obj, object::arrayType& args)
 {
     char temp[257];
     scanf("%256s", temp);
@@ -178,7 +178,7 @@ object::objectPtr fScanString256 (object::objectPtr obj, object::argsContainer& 
     return obj->getParent();
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
+EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     std::ios_base::sync_with_stdio(false);
     std::cout << std::boolalpha;

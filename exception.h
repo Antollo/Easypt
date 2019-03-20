@@ -29,6 +29,7 @@ class exception : public std::exception
 #define Parser(...) exception("ParserException", "ParserException: ", __VA_ARGS__)
 #define NotFound(...) exception("NotFoundException", "NotFoundException: ", __VA_ARGS__)
 #define Arithmetic(...) exception("ArithmeticException", "ArithmeticException: ", __VA_ARGS__)
+#define Unknown(...) exception("Exception", "Exception: ", __VA_ARGS__)
 
 
 #endif

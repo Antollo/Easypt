@@ -13,11 +13,11 @@
 
 extern "C"
 {
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args);
+    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
 }
 
 template<class S, S f>
-object::objectPtr MFunction0 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr MFunction0 (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() != 0)
         throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -25,7 +25,7 @@ object::objectPtr MFunction0 (object::objectPtr obj, object::argsContainer& args
 }
 
 template<class S, S f>
-object::objectPtr MFunction1 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr MFunction1 (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() != 1)
         throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -38,7 +38,7 @@ object::objectPtr MFunction1 (object::objectPtr obj, object::argsContainer& args
 }
 
 template<class S, S f>
-object::objectPtr MFunction2 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr MFunction2 (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() != 2)
     throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -58,7 +58,7 @@ object::objectPtr MFunction2 (object::objectPtr obj, object::argsContainer& args
     return constructObject(obj, "Double", (double) f(a1, a2));
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
+EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     std::srand(std::time(0));
 

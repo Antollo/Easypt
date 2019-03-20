@@ -1,26 +1,22 @@
 #include "Array.h"
 
 //Array constructor
-object::objectPtr Array0 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr Array0 (object::objectPtr obj, object::arrayType& args)
 {
-    object::objectPtr ret = obj->READ(name("Container"), true)->CALL();
-    ret->addSignature(obj->getName());
-    for (auto& child : obj->getChildren())
-        ret->addPrototypeChild(child.second);
-    ret->getValue() = std::vector<object::objectPtr>();
-    return ret;
+    obj->getParent()->getValue() = object::arrayType();
+    return obj->getParent();
 }
-object::objectPtr Array1 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr Array1 (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("Int")))
         {
-            object::objectPtr ret = Array0(obj, args), object = obj->READ(name("Object"), true)->CALL();
-            (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
-            for(object::objectPtr& el : (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())))
-                el = object->copy();
-            return ret;
+            obj->getParent()->getValue() = object::arrayType();
+            (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
+            for(object::objectPtr& el : (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())))
+                el = object::getRawRoot()->READ(name("Object"), true)->CALL();
+            return obj->getParent();
         }
         else
         {
@@ -29,17 +25,17 @@ object::objectPtr Array1 (object::objectPtr obj, object::argsContainer& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr Array2 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr Array2 (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2)
     {
         if (args[0]->hasSignature(name("Int")))
         {
-            object::objectPtr ret = Array0(obj, args), object = args[1];
-            (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
-            for(object::objectPtr& el : (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())))
-                el = object->copy();
-            return ret;
+            obj->getParent()->getValue() = object::arrayType();
+            (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
+            for(object::objectPtr& el : (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())))
+                el = args[1]->copy();
+            return obj->getParent();
         }
         else
         {
@@ -49,17 +45,17 @@ object::objectPtr Array2 (object::objectPtr obj, object::argsContainer& args)
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //Array methods
-object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayReadOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("Int")))
         {
             int index = std::any_cast<int>(args[0]->getValue());
-            if (index >= 0 && index < std::any_cast<std::vector<object::objectPtr>>(obj->getParent()->getValue()).size())
+            if (index >= 0 && index < std::any_cast<object::arrayType>(obj->getParent()->getValue()).size())
             {
                 object::objectPtr ret = obj->READ(name("ArrayIterator"), true)->CALL();
-                ret->getValue() = (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).begin() + index;
+                ret->getValue() = (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())).begin() + index;
                 return ret;
             }
             else
@@ -74,26 +70,26 @@ object::objectPtr ArrayReadOperator (object::objectPtr obj, object::argsContaine
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr ArrayPushBack (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayPushBack (object::objectPtr obj, object::arrayType& args)
 {
-    size_t i = (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).size();
-    (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue())).resize(i + args.size());
+    size_t i = (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())).size();
+    (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())).resize(i + args.size());
     for (auto& el : args)
-        (*std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue()))[i++] = (el);
+        (*std::any_cast<object::arrayType>(&obj->getParent()->getValue()))[i++] = (el);
     return obj->getParent();
 }
-object::objectPtr ArrayEqualOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayEqualOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
         bool comparison = obj->getParent()->getSignatures() == args[0]->getSignatures();
         if (comparison)
         {
-            comparison = (*(std::any_cast<std::vector<object::objectPtr>>(&args[0]->getValue()))).size() == (*(std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue()))).size();
+            comparison = (*(std::any_cast<object::arrayType>(&args[0]->getValue()))).size() == (*(std::any_cast<object::arrayType>(&obj->getParent()->getValue()))).size();
             if (comparison)
             {
-                auto it = (*(std::any_cast<std::vector<object::objectPtr>>(&args[0]->getValue()))).begin();
-                for (auto& el : (*(std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue()))))
+                auto it = (*(std::any_cast<object::arrayType>(&args[0]->getValue()))).begin();
+                for (auto& el : (*(std::any_cast<object::arrayType>(&obj->getParent()->getValue()))))
                 {
                     comparison = comparison && std::any_cast<bool>((*(it++))->READ(name("=="))->CALL(el)->getValue());
                     if (!comparison) break;
@@ -107,17 +103,17 @@ object::objectPtr ArrayEqualOperator (object::objectPtr obj, object::argsContain
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //!
-std::vector<object::objectPtr> ArraySubarray(std::vector<object::objectPtr>::iterator a, std::vector<object::objectPtr>::iterator b)
+object::arrayType ArraySubarray(object::arrayType::iterator a, object::arrayType::iterator b)
 {
-    return std::vector<object::objectPtr>(a, b);
+    return object::arrayType(a, b);
 }
-object::objectPtr ArrayResize(object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayResize(object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("Int")))
         {
-            object::argsContainer& arr = *std::any_cast<std::vector<object::objectPtr>>(&obj->getParent()->getValue());
+            object::arrayType& arr = *std::any_cast<object::arrayType>(&obj->getParent()->getValue());
             size_t newSize = std::any_cast<int>(args[0]->getValue());
             size_t oldSize = arr.size();
             arr.resize(newSize);
@@ -135,7 +131,7 @@ object::objectPtr ArrayResize(object::objectPtr obj, object::argsContainer& args
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //ArrayIterator constructor
-object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayIterator (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Iterator"), true)->CALL();
     ret->addSignature(obj->getName());
@@ -145,18 +141,18 @@ object::objectPtr ArrayIterator (object::objectPtr obj, object::argsContainer& a
     return ret;
 }
 //ArrayIterator methods
-object::objectPtr ArrayIteratorGet (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayIteratorGet (object::objectPtr obj, object::arrayType& args)
 {
-    return *(std::any_cast<std::vector<object::objectPtr>::iterator>(obj->getParent()->getValue()));
+    return *(std::any_cast<object::arrayType::iterator>(obj->getParent()->getValue()));
 }
-object::objectPtr ArrayIteratorDistance (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayIteratorDistance (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("ArrayIterator")))
         {
             object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
-            ret->getValue() = (int) std::distance(*std::any_cast<std::vector<object::objectPtr>::iterator>(&obj->getParent()->getValue()), *std::any_cast<std::vector<object::objectPtr>::iterator>(&args[0]->getValue()));
+            ret->getValue() = (int) std::distance(*std::any_cast<object::arrayType::iterator>(&obj->getParent()->getValue()), *std::any_cast<object::arrayType::iterator>(&args[0]->getValue()));
             return ret;
         }
         else
@@ -166,11 +162,11 @@ object::objectPtr ArrayIteratorDistance (object::objectPtr obj, object::argsCont
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr ArrayIteratorReferenceAssignOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ArrayIteratorReferenceAssignOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
-        (*(*std::any_cast<std::vector<object::objectPtr>::iterator>(&obj->getParent()->getValue()))) = args[0];
+        (*(*std::any_cast<object::arrayType::iterator>(&obj->getParent()->getValue()))) = args[0];
         return obj->getParent();
 
     }

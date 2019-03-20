@@ -1,28 +1,23 @@
 #include "String_.h"
 
 //String constructor
-object::objectPtr String0 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr String0 (object::objectPtr obj, object::arrayType& args)
 {
-    object::objectPtr ret = obj->READ(name("Basic"), true)->CALL();
-    ret->READ(name("inherit"))->CALL(obj->READ(name("Container"), true));
-    ret->addSignature(obj->getName());
-    for (auto& child : obj->getChildren())
-        ret->addPrototypeChild(child.second);
-    ret->getValue() = std::string();
-    return ret;
+    obj->getParent()->getValue() = std::string();
+    return obj->getParent();
 }
-object::objectPtr String2 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr String2 (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2)
     {
         if (args[0]->hasSignature(name("Int")) && args[1]->hasSignature(name("String")))
         {
-            object::objectPtr ret = String0(obj, args);
+            obj->getParent()->getValue() = std::string();
             char character = typeConverter<char>(std::any_cast<std::string>(args[1]->getValue()));
-            (*std::any_cast<std::string>(&ret->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
-            for(auto& el : (*std::any_cast<std::string>(&ret->getValue())))
+            (*std::any_cast<std::string>(&obj->getParent()->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
+            for(auto& el : (*std::any_cast<std::string>(&obj->getParent()->getValue())))
                 el = character;
-            return ret;
+            return obj->getParent();
         }
         else
         {
@@ -32,13 +27,13 @@ object::objectPtr String2 (object::objectPtr obj, object::argsContainer& args)
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //String methods
-object::objectPtr StringToString (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringToString (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("String"), true)->CALL();
     ret->getValue() = obj->getParent()->getValue();
     return ret;
 }
-object::objectPtr StringToInt (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringToInt (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
     try
@@ -55,7 +50,7 @@ object::objectPtr StringToInt (object::objectPtr obj, object::argsContainer& arg
     }
     return ret;
 }
-object::objectPtr StringToDouble (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringToDouble (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Double"), true)->CALL();
     try
@@ -72,7 +67,7 @@ object::objectPtr StringToDouble (object::objectPtr obj, object::argsContainer& 
     }
     return ret;
 }
-object::objectPtr StringToBoolean (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringToBoolean (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
     try
@@ -89,7 +84,7 @@ object::objectPtr StringToBoolean (object::objectPtr obj, object::argsContainer&
     }
     return ret;
 }
-object::objectPtr StringToAsciiCode (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringToAsciiCode (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
     if (std::any_cast<std::string>(&obj->getParent()->getValue())->empty())
@@ -98,7 +93,7 @@ object::objectPtr StringToAsciiCode (object::objectPtr obj, object::argsContaine
         ret->getValue() =  int ((unsigned char) (*std::any_cast<std::string>(&obj->getParent()->getValue()))[0]);
     return ret;
 }
-object::objectPtr StringReplace (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringReplace (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2)
     {
@@ -116,7 +111,7 @@ object::objectPtr StringReplace (object::objectPtr obj, object::argsContainer& a
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr StringReplaceAll (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringReplaceAll (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2)
     {
@@ -138,13 +133,13 @@ object::objectPtr StringReplaceAll (object::objectPtr obj, object::argsContainer
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringReadOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("Int")))
         {
-            int index = std::any_cast<int>(args[0]->getValue());
+            size_t index = std::any_cast<int>(args[0]->getValue());
             if (index >= 0 && index < std::any_cast<std::string>(obj->getParent()->getValue()).size())
             {
                 object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
@@ -158,7 +153,7 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::argsContain
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //StringIterator constructor
-object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringIterator (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Iterator"), true)->CALL();
     ret->addSignature(obj->getName());
@@ -168,13 +163,13 @@ object::objectPtr StringIterator (object::objectPtr obj, object::argsContainer& 
     return ret;
 }
 //StringIterator methods
-object::objectPtr StringIteratorGet (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringIteratorGet (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("String"), true)->CALL();
     ret->getValue() = std::string(1, *(std::any_cast<std::string::iterator>(obj->getParent()->getValue())));
     return ret;
 }
-object::objectPtr StringIteratorDistance (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringIteratorDistance (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -191,7 +186,7 @@ object::objectPtr StringIteratorDistance (object::objectPtr obj, object::argsCon
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr StringIteratorReferenceAssignOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr StringIteratorReferenceAssignOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {

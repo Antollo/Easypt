@@ -2,6 +2,7 @@
 #include <memory>
 #include "nobject.h"
 #include "Common.h"
+#include "Core.h"
 
 #ifdef _WIN32
     #define EXPORT __declspec(dllexport)
@@ -11,7 +12,7 @@
 
 extern "C"
 {
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args);
+    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
 }
 
 class file
@@ -101,7 +102,7 @@ std::string file::readAll()
     return temp;
 }
 
-object::objectPtr File (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr File (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
     ret->addSignature(obj->getName());
@@ -111,7 +112,7 @@ object::objectPtr File (object::objectPtr obj, object::argsContainer& args)
     return ret;
 };
 
-object::objectPtr FileWrite (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr FileWrite (object::objectPtr obj, object::arrayType& args)
 {
     for(auto& arg : args)
     {
@@ -131,18 +132,23 @@ object::objectPtr FileWrite (object::objectPtr obj, object::argsContainer& args)
     return obj->getParent();
 };
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
+EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
     object::initialize(obj->READ(name("Root"), true));
 
-    obj->READ(name("Root"), true)->addChild(makeObject(File, name("File"))
-            ->addChild(makeObject(method<file, void (file::*)(std::string), &file::open, void, std::string>, name("open")))
-            ->addChild(makeObject(method<file, void (file::*)(), &file::clear, void>, name("clear")))
-            ->addChild(makeObject(method<file, std::string (file::*)(), &file::read, std::string>, name("read")))
-            ->addChild(makeObject(method<file, std::string (file::*)(), &file::readAll, std::string>, name("readAll")))
-            ->addChild(makeObject(FileWrite, name("write")))
-        );
+    obj->READ(name("Root"), true)->addChild(makeClass({
+        obj->READ("Object", true),
+        makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+            obj->getParent()->getValue() = file();
+            return obj->getParent();
+        }, name("File")),
+        makeObject(method<file, void (file::*)(std::string), &file::open, void, std::string>, name("open")),
+        makeObject(method<file, void (file::*)(), &file::clear, void>, name("clear")),
+        makeObject(method<file, std::string (file::*)(), &file::read, std::string>, name("read")),
+        makeObject(method<file, std::string (file::*)(), &file::readAll, std::string>, name("readAll")),
+        makeObject(FileWrite, name("write")),
+    })->setName("File"));
     //object::release();
     return nullptr;
 }

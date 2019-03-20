@@ -23,15 +23,14 @@ class object : public std::enable_shared_from_this<object>
     public:
         using objectPtr = std::shared_ptr<object>;
         using objectRawPtr = object*;
-        using weakObjectPtr = std::shared_ptr<object>;
-        using argsContainer = std::vector<objectPtr>;
-        using nativeFunctionType = objectPtr (*)(objectPtr, argsContainer&);
+        using arrayType = std::vector<objectPtr>;
+        using nativeFunctionType = objectPtr (*)(objectPtr, arrayType&);
         using childrenType = std::map<name, objectPtr>;
         using signaturesContainer = std::unordered_set<name>;
         using protoType = childrenType;
 
 
-        object(std::any newValue = nullptr, name newName = name(std::string("Anonymous") + std::to_string(objectCounter)));
+        object(std::any newValue = nullptr, name newName = getAnonymousName());
         ~object();
         bool operator ==(const object& x) const
         {
@@ -39,14 +38,24 @@ class object : public std::enable_shared_from_this<object>
         }
         objectPtr READ(name objectName, bool searchInParent = false, bool forceCreate = false, bool automatic = false);
         objectPtr READCALL(objectPtr arg);
-        objectPtr CALL(argsContainer& args);
+        objectPtr CALL(arrayType& args);
         objectPtr CALL(objectPtr arg);
         objectPtr CALL();
-        objectPtr callWithParent(objectPtr tempParent, argsContainer& args);
+        objectPtr callWithParent(objectPtr tempParent, arrayType& args);
         objectPtr callWithParent(objectPtr tempParent, objectPtr& arg);
         objectPtr callWithParent(objectPtr tempParent);
-        
 
+        bool hasChild(name childName)
+        {
+            if (children.count("proto") && (*std::any_cast<protoType>(&children["proto"]->getValue())).count(childName))
+            {
+                auto it = (*std::any_cast<protoType>(&children["proto"]->getValue())).find(childName);
+                children[childName] = it->second->copy();
+                children[childName]->setParent(this);
+                (*std::any_cast<protoType>(&children["proto"]->getValue())).erase(it);
+            }
+            return children.count(childName);
+        }
         objectPtr addChild(objectPtr child)
         {
             hasChild(child->getName());
@@ -70,29 +79,20 @@ class object : public std::enable_shared_from_this<object>
         }
         childrenType& getChildren()
         {
-            while (children.count("proto") && !(*std::any_cast<protoType>(&children["proto"]->getValue())).empty())
-            {
-                auto it = (*std::any_cast<protoType>(&children["proto"]->getValue())).begin();
-                children[it->first] = it->second->copy();
-                children[it->first]->setParent(this);
-                (*std::any_cast<protoType>(&children["proto"]->getValue())).erase(it);
-            }
             if (children.count("proto"))
+            {
+                while (!(*std::any_cast<protoType>(&children["proto"]->getValue())).empty())
+                {
+                    auto it = (*std::any_cast<protoType>(&children["proto"]->getValue())).begin();
+                    children[it->first] = it->second->copy();
+                    children[it->first]->setParent(this);
+                    (*std::any_cast<protoType>(&children["proto"]->getValue())).erase(it);
+                }
                 removeChild(name("proto"));
+            }
             return children;
         }
         childrenType& getLocalChildren() { return children; }
-        bool hasChild(name childName)
-        {
-            if (children.count("proto") && (*std::any_cast<protoType>(&children["proto"]->getValue())).count(childName))
-            {
-                auto it = (*std::any_cast<protoType>(&children["proto"]->getValue())).find(childName);
-                children[childName] = it->second->copy();
-                children[childName]->setParent(this);
-                (*std::any_cast<protoType>(&children["proto"]->getValue())).erase(it);
-            }
-            return children.count(childName);
-        }
         objectPtr removeChild(name childName) { if (hasChild(childName)) children.erase(children.find(childName)); return shared_from_this(); }
         objectPtr getParent(bool throwing = true);
         objectRawPtr getRawParent(bool throwing = true);

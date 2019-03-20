@@ -9,7 +9,9 @@
 #if defined(_WIN32)
     #define NOMINMAX
     #define WIN32_LEAN_AND_MEAN
+    #pragma comment(linker, "/STACK:67108864")
     #include <Windows.h>
+    #include <eh.h>
     using libraryType = HMODULE;
     #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
     #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004

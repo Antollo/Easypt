@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "nobject.h"
 #include "Common.h"
+#include "Core.h"
 
 #ifdef _WIN32
     #define EXPORT __declspec(dllexport)
@@ -13,7 +14,7 @@
 
 extern "C"
 {
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args);
+    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
 }
 
 
@@ -104,29 +105,25 @@ private:
 };
 
 //ByteView
-object::objectPtr ByteView (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ByteView (object::objectPtr obj, object::arrayType& args)
 {
-    object::objectPtr ret = obj->READ(name("Container"), true)->CALL();
-    ret->addSignature(obj->getName());
-    for (auto& child : obj->getChildren())
-        ret->addPrototypeChild(child.second);
     if (args.size() == 1)
     {
         if (args[0]->getValue().type().hash_code() == typeid(std::string).hash_code())
-            ret->getValue() = byteView(std::any_cast<std::string>(&args[0]->getValue()));
+            obj->getParent()->getValue() = byteView(std::any_cast<std::string>(&args[0]->getValue()));
         else if (args[0]->getValue().type().hash_code() == typeid(int).hash_code())
-            ret->getValue() = byteView(std::any_cast<int>(&args[0]->getValue()));
+            obj->getParent()->getValue() = byteView(std::any_cast<int>(&args[0]->getValue()));
         else if (args[0]->getValue().type().hash_code() == typeid(bool).hash_code())
-            ret->getValue() = byteView(std::any_cast<bool>(&args[0]->getValue()));
+            obj->getParent()->getValue() = byteView(std::any_cast<bool>(&args[0]->getValue()));
         else if (args[0]->getValue().type().hash_code() == typeid(double).hash_code())
-            ret->getValue() = byteView(std::any_cast<double>(&args[0]->getValue()));
+            obj->getParent()->getValue() = byteView(std::any_cast<double>(&args[0]->getValue()));
         else
             throw(WrongTypeOfArgument("Wrong type of argument in ", obj->getFullNameString()));
-        return ret;
+        return obj->getParent();
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr ByteViewReadOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ByteViewReadOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -145,7 +142,7 @@ object::objectPtr ByteViewReadOperator (object::objectPtr obj, object::argsConta
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr ByteViewEqualOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ByteViewEqualOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -166,7 +163,7 @@ object::objectPtr ByteViewEqualOperator (object::objectPtr obj, object::argsCont
 }
 
 //ByteViewIterator
-object::objectPtr ByteViewIterator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ByteViewIterator (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Iterator"), true)->CALL();
     ret->addSignature(obj->getName());
@@ -175,13 +172,13 @@ object::objectPtr ByteViewIterator (object::objectPtr obj, object::argsContainer
     ret->getValue() = (byteView::byteViewIterator)nullptr;
     return ret;
 }
-object::objectPtr ByteViewIteratorGet (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ByteViewIteratorGet (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("ByteWrapper"), true)->CALL();
     ret->getValue() = byteWrapper(std::any_cast<byteView::byteViewIterator>(obj->getParent()->getValue()));
     return ret;
 }
-object::objectPtr ByteViewIteratorDistance (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ByteViewIteratorDistance (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -199,55 +196,65 @@ object::objectPtr ByteViewIteratorDistance (object::objectPtr obj, object::argsC
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //ByteWrapper
-object::objectPtr ByteWrapper (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ByteWrapper (object::objectPtr obj, object::arrayType& args)
 {
-    object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
-    ret->addSignature(obj->getName());
-    for (auto& child : obj->getChildren())
-        ret->addPrototypeChild(child.second);
-    ret->getValue() = byteWrapper(nullptr);
+    obj->getParent()->getValue() = byteWrapper(nullptr);
     if (args.size() == 1)
     {
         if (args[0]->getValue().type().hash_code() == typeid(int).hash_code())
-            ret->getValue() = byteWrapper((byteWrapper::byte*) std::any_cast<int>(&args[0]->getValue()));
+            obj->getParent()->getValue() = byteWrapper((byteWrapper::byte*) std::any_cast<int>(&args[0]->getValue()));
     }
-    return ret;
+    return obj->getParent();
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
+EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
     object::initialize(obj->READ(name("Root"), true));
 
-    obj->READ(name("Root"), true)->addChild(makeObject(ByteView, name("ByteView"))
-            ->addChild(makeObject(method<byteView, byteView::byteViewIterator (byteView::*)(), &byteView::begin, byteView::byteViewIterator>, name("begin")))
-            ->addChild(makeObject(method<byteView, byteView::byteViewIterator (byteView::*)(), &byteView::end, byteView::byteViewIterator>, name("end")))
-            ->addChild(makeObject(ByteViewReadOperator, name("readOperator")))
-            ->addChild(makeObject(method<byteView, int (byteView::*)(), &byteView::size, int>, name("size")))
-            ->addChild(makeObject(ByteViewEqualOperator, name("==")))
-        );
-    obj->READ(name("Root"), true)->addChild(makeObject(ByteViewIterator, name("ByteViewIterator"))
-            ->addChild(makeObject(increment<byteView::byteViewIterator>, name("++")))
-            ->addChild(makeObject(decrement<byteView::byteViewIterator>, name("--")))
-            ->addChild(makeObject(binaryOperator<byteView::byteViewIterator, byteView::byteViewIterator, int, plus>, name("+")))
-            ->addChild(makeObject(binaryOperator<byteView::byteViewIterator, byteView::byteViewIterator, int, minus>, name("-")))
-            ->addChild(makeObject(ByteViewIteratorGet, name("get")))
-            ->addChild(makeObject(ByteViewIteratorDistance, name("distance")))
-            ->addChild(makeObject(binaryOperator<bool, byteView::byteViewIterator, std::equal_to>, name("==")))
-            ->addChild(makeObject(binaryOperator<bool, byteView::byteViewIterator, std::greater>, name(">")))
-            ->addChild(makeObject(binaryOperator<bool, byteView::byteViewIterator, std::less>, name("<")))
-            ->addChild(makeObject(binaryOperator<bool, byteView::byteViewIterator, std::greater_equal>, name(">=")))
-            ->addChild(makeObject(binaryOperator<bool, byteView::byteViewIterator, std::less_equal>, name("<=")))
-        );
-    obj->READ(name("Root"), true)->addChild(makeObject(ByteWrapper, name("ByteWrapper"))
-            ->addChild(makeObject(method<byteWrapper, int (byteWrapper::*)(), &byteWrapper::toInt, int>, name("toInt")))
-            ->addChild(makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_or, void, byteWrapper>, name("|=")))
-            ->addChild(makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_and, void, byteWrapper>, name("&=")))
-            ->addChild(makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_xor, void, byteWrapper>, name("^=")))
-            ->addChild(makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::shl, void, byteWrapper>, name("<<=")))
-            ->addChild(makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::shr, void, byteWrapper>, name(">>=")))
-            ->addChild(makeObject(method<byteWrapper, void (byteWrapper::*)(), &byteWrapper::_not, void>, name("~=")))
-        );
+    obj->READ(name("Root"), true)->addChild(makeClass({
+        obj->READ("Iterable", true),
+        makeObject(ByteView, name("ByteView")),
+        makeObject(method<byteView, byteView::byteViewIterator (byteView::*)(), &byteView::begin, byteView::byteViewIterator>, name("begin")),
+        makeObject(method<byteView, byteView::byteViewIterator (byteView::*)(), &byteView::end, byteView::byteViewIterator>, name("end")),
+        makeObject(ByteViewReadOperator, name("readOperator")),
+        makeObject(method<byteView, int (byteView::*)(), &byteView::size, int>, name("size")),
+        makeObject(ByteViewEqualOperator, name("==")),
+    })->setName("ByteView"));
+
+    obj->READ(name("Root"), true)->addChild(makeClass({
+        obj->READ("Iterator", true),
+        makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+            obj->getParent()->getValue() = (byteView::byteViewIterator)nullptr;
+            return obj->getParent();
+        }, name("ByteViewIterator")),
+        makeObject(increment<byteView::byteViewIterator>, name("++")),
+        makeObject(decrement<byteView::byteViewIterator>, name("--")),
+        makeObject(binaryOperator<byteView::byteViewIterator, byteView::byteViewIterator, int, plus>, name("+")),
+        makeObject(binaryOperator<byteView::byteViewIterator, byteView::byteViewIterator, int, minus>, name("-")),
+        makeObject(ByteViewIteratorGet, name("get")),
+        makeObject(ByteViewIteratorDistance, name("distance")),
+        makeObject(binaryOperator<bool, byteView::byteViewIterator, std::equal_to>, name("==")),
+        makeObject(binaryOperator<bool, byteView::byteViewIterator, std::greater>, name(">")),
+        makeObject(binaryOperator<bool, byteView::byteViewIterator, std::less>, name("<")),
+        makeObject(binaryOperator<bool, byteView::byteViewIterator, std::greater_equal>, name(">=")),
+        makeObject(binaryOperator<bool, byteView::byteViewIterator, std::less_equal>, name("<=")),
+    })->setName("ByteViewIterator"));
+
+    obj->READ(name("Root"), true)->addChild(makeClass({
+        obj->READ("Object", true),
+        makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+            obj->getParent()->getValue() = byteWrapper(nullptr);
+            return obj->getParent();
+        }, name("ByteWrapper")),
+        makeObject(method<byteWrapper, int (byteWrapper::*)(), &byteWrapper::toInt, int>, name("toInt")),
+        makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_or, void, byteWrapper>, name("|=")),
+        makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_and, void, byteWrapper>, name("&=")),
+        makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::_xor, void, byteWrapper>, name("^=")),
+        makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::shl, void, byteWrapper>, name("<<=")),
+        makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::shr, void, byteWrapper>, name(">>=")),
+        makeObject(method<byteWrapper, void (byteWrapper::*)(), &byteWrapper::_not, void>, name("~=")),
+    })->setName("ByteWrapper"));
         
     return nullptr;
 }

@@ -3,29 +3,27 @@
 #include "osDependent.h"
 
 
-object::objectPtr apply (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr apply (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() != 3)
         throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
     if (!args[2]->hasSignature(name("Array")))
         throw(WrongTypeOfArgument("Third argument is not Array in ", obj->getFullNameString()));
-    object::argsContainer _args = std::any_cast<object::argsContainer>(args[2]->getValue());
+    object::arrayType _args = std::any_cast<object::arrayType>(args[2]->getValue());
     return args[1]->callWithParent(args[0], _args);
 }
-object::objectPtr call (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr call (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() < 2)
         throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-    object::argsContainer _args = object::argsContainer(args.begin() + 1, args.end());
+    object::arrayType _args = object::arrayType(args.begin() + 1, args.end());
     return args[1]->callWithParent(args[0], _args);
 }
 //Exception constructor
-object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr Exception (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("String"), true)->CALL();
     ret->addSignature(obj->getName());
-    for (auto& child : obj->getChildren())
-        ret->addPrototypeChild(child.second);
     ret->getValue() = (std::string) obj->getName() + ": ";
     for(auto& arg : args)
     {
@@ -39,7 +37,7 @@ object::objectPtr Exception (object::objectPtr obj, object::argsContainer& args)
     return ret;
 }
 //except
-object::objectPtr except (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr except (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() >= 2)
     {
@@ -48,7 +46,7 @@ object::objectPtr except (object::objectPtr obj, object::argsContainer& args)
             bool boolean = std::any_cast<bool>(args[0]->getValue());
             if (!boolean)
             {
-                object::argsContainer arr(args.begin() + 2, args.end());
+                object::arrayType arr(args.begin() + 2, args.end());
                 throw(args[1]->CALL(arr));
             }
             return args[0];
@@ -58,7 +56,7 @@ object::objectPtr except (object::objectPtr obj, object::argsContainer& args)
             bool boolean = std::any_cast<bool>(args[0]->READ(name("toBoolean"))->CALL()->getValue());
             if (!boolean)
             {
-                object::argsContainer arr(args.begin() + 2, args.end());
+                object::arrayType arr(args.begin() + 2, args.end());
                 throw(args[1]->CALL(arr));
             }
             return args[0];
@@ -68,7 +66,7 @@ object::objectPtr except (object::objectPtr obj, object::argsContainer& args)
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //copy
-object::objectPtr copy (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr copy (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -78,7 +76,7 @@ object::objectPtr copy (object::objectPtr obj, object::argsContainer& args)
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //Parse
-object::objectPtr parse (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr parse (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -96,7 +94,7 @@ object::objectPtr parse (object::objectPtr obj, object::argsContainer& args)
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 //basicOut
-object::objectPtr basicOut (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr basicOut (object::objectPtr obj, object::arrayType& args)
 {
     for(auto& arg : args)
     {
@@ -108,10 +106,10 @@ object::objectPtr basicOut (object::objectPtr obj, object::argsContainer& args)
             IO::basicOut << *std::any_cast<bool>(&arg->getValue());
         else if (arg->getValue().type().hash_code() == typeid(double).hash_code())
             IO::basicOut << *std::any_cast<double>(&arg->getValue());
-        else if (arg->getValue().type().hash_code() == typeid(std::vector<object::objectPtr>).hash_code())
+        else if (arg->getValue().type().hash_code() == typeid(object::arrayType).hash_code())
         {
-            object::argsContainer temp(1, nullptr);
-            for(auto& el : *std::any_cast<std::vector<object::objectPtr>>(&arg->getValue()))
+            object::arrayType temp(1, nullptr);
+            for(auto& el : *std::any_cast<object::arrayType>(&arg->getValue()))
             {
                 temp.front() = el;
                 basicOut(obj, temp);
@@ -125,7 +123,7 @@ inline size_t findLastSlash(std::string& str)
 {
     return std::min(str.find_last_of('\\'), str.find_last_of('/'));
 }
-object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr import (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -173,7 +171,7 @@ object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
 
                 object::nativeFunctionType exportFunction = (*std::any_cast<dynamicLibrary>(&nativeCallable->getValue())).getFunction("exportLibrary");
 
-                object::argsContainer args{nameInitializationPack};
+                object::arrayType args{nameInitializationPack};
                 exportFunction(nativeCallable, args);
 
 				object::pushDynamicLibrary(nativeCallable);
@@ -185,7 +183,7 @@ object::objectPtr import (object::objectPtr obj, object::argsContainer& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr instanceOf (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr instanceOf (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() > 1)
     {

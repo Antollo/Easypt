@@ -9,10 +9,10 @@
 
 extern "C"
 {
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args);
+    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
 }
 
-object::objectPtr callShellCommand (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr callShellCommand (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -29,7 +29,7 @@ object::objectPtr callShellCommand (object::objectPtr obj, object::argsContainer
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -46,7 +46,7 @@ object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::argsCon
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
+EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
     object::initialize(obj->READ(name("Root"), true));

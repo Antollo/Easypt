@@ -12,7 +12,7 @@
 
 extern "C"
 {
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args);
+    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
 }
 
 std::map<object::nativeFunctionType, std::string> locationToFilename;
@@ -42,7 +42,7 @@ inline std::string goodName(const std::string& oldName)
 		name.replace(name.begin()+pos, name.begin()+pos+1, temp.begin(), temp.end());
     return name;
 }
-object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr generateDocs (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -73,10 +73,10 @@ object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& ar
             if (args[0]->hasSignature("Callable")) description = "\n\n* **Parameters:**\n\n* **Return value:**\n\n";
         }
 
-        object::argsContainer container;
+        object::arrayType container;
         for (auto& child : args[0]->getChildren())
         {
-            container = object::argsContainer(1, child.second);
+            container = object::arrayType(1, child.second);
             generateDocs(obj, container);
         }
 
@@ -126,7 +126,7 @@ object::objectPtr generateDocs (object::objectPtr obj, object::argsContainer& ar
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
+EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     std::ios_base::sync_with_stdio(false);
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));

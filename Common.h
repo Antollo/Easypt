@@ -69,13 +69,13 @@ struct guessTypeName<double>
 };
 
 template<>
-struct guessTypeName<object::argsContainer>
+struct guessTypeName<object::arrayType>
 {
     static constexpr const char* name = typeNames::Array;
 };
 
 template<>
-struct guessTypeName<object::argsContainer::iterator>
+struct guessTypeName<object::arrayType::iterator>
 {
     static constexpr const char* name = typeNames::ArrayIterator;
 };
@@ -105,7 +105,7 @@ struct minus
 };
 
 template<class R, class T1, class T2, template<class, class> class OP>
-object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr binaryOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -121,7 +121,7 @@ object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& 
 }
 
 template<class R, class T, template<class> class OP>
-object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr binaryOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -142,7 +142,7 @@ object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& 
 }
 
 template<class T, template<class> class OP>
-object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr binaryOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -163,7 +163,7 @@ object::objectPtr binaryOperator (object::objectPtr obj, object::argsContainer& 
 }
 
 template<class T, template<class> class OP>
-object::objectPtr unaryOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr unaryOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 0)
     {
@@ -205,9 +205,9 @@ struct guessType<std::string::const_iterator>
 };
 
 template<>
-struct guessType<std::vector<object::objectPtr>::const_iterator>
+struct guessType<object::arrayType::const_iterator>
 {
-    using type = std::vector<object::objectPtr>::iterator;
+    using type = object::arrayType::iterator;
 };
 
 template<class T>
@@ -258,7 +258,7 @@ inline char typeConverter(const std::string& str)
 };
 
 template<class O, class R, class... Args, std::size_t... Is>
-R callMethod(O* obj, R (O::*f)(Args...), object::argsContainer& args, std::index_sequence<Is...>)
+R callMethod(O* obj, R (O::*f)(Args...), object::arrayType& args, std::index_sequence<Is...>)
 {
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
         return (obj->*f)((typeConverter<Args, typename guessType<Args>::type>(*std::any_cast<typename guessType<Args>::type>(&args[Is]->getValue())))...);
@@ -266,7 +266,7 @@ R callMethod(O* obj, R (O::*f)(Args...), object::argsContainer& args, std::index
 }
 
 template<class O, class R, class... Args, std::size_t... Is>
-R callMethod(O* obj, R (O::*f)(Args...) const, object::argsContainer& args, std::index_sequence<Is...>)
+R callMethod(O* obj, R (O::*f)(Args...) const, object::arrayType& args, std::index_sequence<Is...>)
 {
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
         return (obj->*f)((typeConverter<Args, typename guessType<Args>::type>(std::any_cast<typename guessType<Args>::type>(args[Is]->getValue())))...);
@@ -274,7 +274,7 @@ R callMethod(O* obj, R (O::*f)(Args...) const, object::argsContainer& args, std:
 }
 
 template<class R, class... Args, std::size_t... Is>
-R callFunction(R (*f)(Args...), object::argsContainer& args, std::index_sequence<Is...>)
+R callFunction(R (*f)(Args...), object::arrayType& args, std::index_sequence<Is...>)
 {
     if (isTrue((args[Is]->getValue().type().hash_code() == typeid(typename guessType<Args>::type).hash_code())...))
         return f((typeConverter<Args, typename guessType<Args>::type>(*std::any_cast<typename guessType<Args>::type>(&args[Is]->getValue())))...);
@@ -283,7 +283,7 @@ R callFunction(R (*f)(Args...), object::argsContainer& args, std::index_sequence
 
 
 template<class O, class M, M f, class R, class... Args>
-std::enable_if_t<std::is_same<R, void>::value, object::objectPtr> method (object::objectPtr obj, object::argsContainer& args)
+std::enable_if_t<std::is_same<R, void>::value, object::objectPtr> method (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -292,7 +292,7 @@ std::enable_if_t<std::is_same<R, void>::value, object::objectPtr> method (object
 }
 
 template<class O, class M, M f, class R, class... Args>
-std::enable_if_t<!std::is_same<R, void>::value, object::objectPtr> method (object::objectPtr obj, object::argsContainer& args)
+std::enable_if_t<!std::is_same<R, void>::value, object::objectPtr> method (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -303,7 +303,7 @@ std::enable_if_t<!std::is_same<R, void>::value, object::objectPtr> method (objec
 }
 
 template<class F, F f, class R,  class... Args>
-std::enable_if_t<std::is_same<R, void>::value, object::objectPtr> function (object::objectPtr obj, object::argsContainer& args)
+std::enable_if_t<std::is_same<R, void>::value, object::objectPtr> function (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -312,7 +312,7 @@ std::enable_if_t<std::is_same<R, void>::value, object::objectPtr> function (obje
 }
 
 template<class F, F f, class R,  class... Args>
-std::enable_if_t<!std::is_same<R, void>::value, object::objectPtr> function (object::objectPtr obj, object::argsContainer& args)
+std::enable_if_t<!std::is_same<R, void>::value, object::objectPtr> function (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() != sizeof...(Args))
         throw(WrongNumberOfArguments("Wrong number of arguments"));
@@ -322,10 +322,10 @@ std::enable_if_t<!std::is_same<R, void>::value, object::objectPtr> function (obj
         return obj->READ(guessTypeName<R>::name, true)->CALL()->setValue(typeConverter<R, typename resultOf<F>::type>(callFunction(f, args, std::index_sequence_for<Args...>())));
 }
 
-object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::argsContainer& args);
+object::objectPtr wrongNumberOfArguments (object::objectPtr obj, object::arrayType& args);
 
 template<object::nativeFunctionType... F>
-object::objectPtr functionChooser (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr functionChooser (object::objectPtr obj, object::arrayType& args)
 {
     object::nativeFunctionType functions[sizeof...(F)] = {F...};
     if (args.size() < sizeof...(F))
@@ -334,16 +334,21 @@ object::objectPtr functionChooser (object::objectPtr obj, object::argsContainer&
 }
 
 template <class T>
-object::objectPtr increment (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr increment (object::objectPtr obj, object::arrayType& args)
 {
     (*std::any_cast<T>(&obj->getParent()->getValue()))++;
     return obj->getParent();
 }
 template <class T>
-object::objectPtr decrement (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr decrement (object::objectPtr obj, object::arrayType& args)
 {
     (*std::any_cast<T>(&obj->getParent()->getValue()))--;
     return obj->getParent();
 }
+
+
+object::objectPtr constructor (object::objectPtr obj, object::arrayType& args);
+object::objectPtr Class (object::objectPtr obj, object::arrayType& args);
+object::objectPtr makeClass (std::initializer_list<object::objectPtr>);
 
 #endif

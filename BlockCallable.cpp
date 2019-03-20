@@ -1,7 +1,7 @@
 #include "BlockCallable.h"
 
 //BlockCallable constructor
-object::objectPtr BlockCallable (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallable (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
     ret->addSignature(name("Callable"));
@@ -12,7 +12,7 @@ object::objectPtr BlockCallable (object::objectPtr obj, object::argsContainer& a
     return ret;
 }
 //BlockCallable methods
-object::objectPtr BlockCallableEqualOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableEqualOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -42,7 +42,7 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
             temp = temp->READCALL(evaluateExpression(act->getExpression(), parent));
             break;
         case action::type::call:
-            object::argsContainer args;
+            object::arrayType args;
             args.resize(act->getExpressionList().size());
             int it = 0;
             for(const expression& exp : act->getExpressionList())
@@ -54,7 +54,7 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
     return temp;
 }
 using returnValueTriplet = std::tuple<std::list<expression>::const_iterator*, std::list<expression>::const_iterator, object::objectPtr>;
-object::objectPtr BlockCallableReturn (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableReturn (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -66,7 +66,7 @@ object::objectPtr BlockCallableReturn (object::objectPtr obj, object::argsContai
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr parent = obj->getParent();
     if (parent->hasChild("returnValueTriplet"))
@@ -90,7 +90,7 @@ object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::args
 		parent->getLocalChildren().erase(temp);
     return ret;
 }
-object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableIf (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2 || args.size() == 3)
     {
@@ -128,7 +128,7 @@ object::objectPtr BlockCallableIf (object::objectPtr obj, object::argsContainer&
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr BlockCallableFor (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableFor (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 4)
     {
@@ -144,7 +144,7 @@ object::objectPtr BlockCallableFor (object::objectPtr obj, object::argsContainer
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr BlockCallableWhile (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableWhile (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2)
     {
@@ -161,7 +161,7 @@ object::objectPtr BlockCallableWhile (object::objectPtr obj, object::argsContain
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr BlockCallableThrow (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableThrow (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -169,7 +169,7 @@ object::objectPtr BlockCallableThrow (object::objectPtr obj, object::argsContain
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr BlockCallableTry (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableTry (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2)
     {
@@ -194,7 +194,7 @@ object::objectPtr BlockCallableTry (object::objectPtr obj, object::argsContainer
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr BlockCallableThis (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr BlockCallableThis (object::objectPtr obj, object::arrayType& args)
 {
     return obj->getParent();
 }

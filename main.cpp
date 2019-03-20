@@ -21,30 +21,31 @@ int main(int argc, char** argv)
     prepareTree();
     std::string source, entryPoint;
     std::list<std::string> fileNames;
-    for (int i = 0; i < argc; i++)
-    {
-        if (isFlag(argv[i], "-file") && i != argc-1)
-        {
-            fileNames.push_back(std::string(argv[++i]));
-            std::ifstream sourceFile(argv[i]);
-            std::getline(sourceFile, source, (char)EOF);
-            sourceFile.close();
-        }
-        else if (isFlag(argv[i], "-entryPoint") && i != argc-1)
-        {
-            entryPoint = argv[++i];
-        }
-        else if (isFlag(argv[i], "-help"))
-        {
-            IO::basicOut<<"See project's repository (there are tutorial and language reference): https://github.com/Antollo/Easypt";
-        }
-        else
-        {
-           object::getRawRoot()->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
-        }
-    }
     try
     {
+        for (int i = 0; i < argc; i++)
+        {
+            if (isFlag(argv[i], "-file") && i != argc-1)
+            {
+                fileNames.push_back(std::string(argv[++i]));
+                std::ifstream sourceFile(argv[i]);
+                std::getline(sourceFile, source, (char)EOF);
+                sourceFile.close();
+            }
+            else if (isFlag(argv[i], "-entryPoint") && i != argc-1)
+            {
+                entryPoint = argv[++i];
+            }
+            else if (isFlag(argv[i], "-help"))
+            {
+                IO::console<<"See project's repository (there are tutorial and language reference): https://github.com/Antollo/Easypt\n";
+            }
+            else
+            {
+               object::getRawRoot()->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
+            }
+        }
+        
         for(auto& fileName : fileNames)
         {
             object::objectPtr sourceBlockCallable = object::getRawRoot()->READ(name("import"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(fileName));

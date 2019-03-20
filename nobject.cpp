@@ -94,7 +94,7 @@ object::objectPtr object::READCALL(object::objectPtr arg)
     }
 }
 
-object::objectPtr object::CALL(object::argsContainer& args)
+object::objectPtr object::CALL(object::arrayType& args)
 {
 #if defined(DEBUG)
     std::cout << " CALL in " << getFullNameString() << std::endl;
@@ -104,7 +104,7 @@ object::objectPtr object::CALL(object::argsContainer& args)
         if (hasSignature("NativeCallable"))
         {
             nativeFunctionType f = std::any_cast<nativeFunctionType>(value);
-            //if (!f) throw(InvalidValue("Object ", getFullNameString(), " is abstract function."));
+            if (!f) throw(InvalidValue("Object ", getFullNameString(), " is abstract function."));
             return f(shared_from_this(), args);
         }
         if (hasChild("callOperator"))
@@ -130,13 +130,13 @@ object::objectPtr object::CALL(object::argsContainer& args)
 
 object::objectPtr object::CALL(object::objectPtr arg)
 {
-    object::argsContainer args(1, arg);
+    object::arrayType args(1, arg);
     return CALL(args);
 }
 
 object::objectPtr object::CALL()
 {
-    object::argsContainer args;
+    object::arrayType args;
     return CALL(args);
 }
 
@@ -158,7 +158,7 @@ object::objectPtr object::callWithParent(objectPtr tempParent, objectPtr& arg)
     return ret;
 }
 
-object::objectPtr object::callWithParent(objectPtr tempParent, argsContainer& args)
+object::objectPtr object::callWithParent(objectPtr tempParent, object::arrayType& args)
 {
     object* temp = parent;
     parent = tempParent.get();
@@ -173,6 +173,8 @@ object::~object()
     std::cout<<"DESTROY "<<getFullNameString()<<std::endl;
 #endif
     //~ Must not use his parent. Parent is already dead!
+    if (hasChild("getParent"))
+        children.erase(children.find("getParent"));
     if (hasChild(name("~~")) && Root != nullptr)
         READ(name("~~"))->CALL();
     for (auto& child : children)
@@ -216,14 +218,40 @@ object::objectPtr object::debugTree(int indentation)
             IO::console<<(std::string)signature<<" ";
         IO::console<<"\n";
     }
-    if (value.type().hash_code() == typeid(protoType).hash_code())
+    IO::console<<spaces<<"Value:      ";
+    if (getValue().type().hash_code() == typeid(nativeFunctionType).hash_code())
+        IO::basicOut << (std::string)"native function";
+    else if (getValue().type().hash_code() == typeid(std::string).hash_code())
+        IO::basicOut << *std::any_cast<std::string>(&getValue());
+    else if (getValue().type().hash_code() == typeid(int).hash_code())
+        IO::basicOut << *std::any_cast<int>(&getValue());
+    else if (getValue().type().hash_code() == typeid(bool).hash_code())
+        IO::basicOut << *std::any_cast<bool>(&getValue());
+    else if (getValue().type().hash_code() == typeid(double).hash_code())
+        IO::basicOut << *std::any_cast<double>(&getValue());
+    else if (getValue().type().hash_code() == typeid(arrayType).hash_code())
     {
-        IO::console<<spaces<<"Internals:  ";
+        for (auto& el : (*std::any_cast<arrayType>(&value)))
+            IO::console<<(std::string)el->getName()<<" ";
+        IO::console<<"\n";
+    }
+    else if (getValue().type().hash_code() == typeid(signaturesContainer).hash_code())
+    {
+        for (auto& el : (*std::any_cast<signaturesContainer>(&value)))
+            IO::console<<(std::string)el<<" ";
+        IO::console<<"\n";
+    }
+    else if (value.type().hash_code() == typeid(protoType).hash_code())
+    {
         for (auto& el : (*std::any_cast<protoType>(&value)))
             IO::console<<(std::string)el.second->getName()<<" ";
         IO::console<<"\n";
-
     }
+    else if (value.type().hash_code() == typeid(nullptr_t).hash_code())
+        IO::basicOut<<"object";
+    else
+        IO::basicOut<<"unknown";
+    
     //Warning - proto
     if (children.size())
     {
@@ -231,7 +259,8 @@ object::objectPtr object::debugTree(int indentation)
         IO::console<<spaces<<"{\n";
         for(auto& child : children)
         {
-            IO::console<<spaces<<"    "<<"Nickname:   "<<(std::string)child.first<<"\n";
+            if (child.second->getName() != child.first)
+                IO::console<<spaces<<"    "<<"Nickname:   "<<(std::string)child.first<<"\n";
             child.second->debugTree(indentation+1);
         }
         IO::console<<spaces<<"}\n";

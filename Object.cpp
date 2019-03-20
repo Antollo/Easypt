@@ -1,7 +1,7 @@
 #include "Object.h"
 
 //Object constructor
-object::objectPtr Object (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr Object (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = makeObject();
     ret->addSignature(obj->getName());
@@ -10,7 +10,7 @@ object::objectPtr Object (object::objectPtr obj, object::argsContainer& args)
     return ret;
 }
 //Object methods
-object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr assignOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -19,7 +19,7 @@ object::objectPtr assignOperator (object::objectPtr obj, object::argsContainer& 
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr referenceAssignOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr referenceAssignOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -28,7 +28,7 @@ object::objectPtr referenceAssignOperator (object::objectPtr obj, object::argsCo
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr inherit (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr inherit (object::objectPtr obj, object::arrayType& args)
 {
     for(auto& arg : args)
     {
@@ -39,19 +39,19 @@ object::objectPtr inherit (object::objectPtr obj, object::argsContainer& args)
     };
     return obj->getParent();
 }
-object::objectPtr ObjectCopy (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr ObjectCopy (object::objectPtr obj, object::arrayType& args)
 {
     return obj->getParent()->copy();
 }
-object::objectPtr getParent (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr getParent (object::objectPtr obj, object::arrayType& args)
 {
     return obj->getParent()->getParent();
 }
-object::objectPtr hasParent (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr hasParent (object::objectPtr obj, object::arrayType& args)
 {
     return constructObject(obj, "Boolean", (bool) obj->getParent()->getParent(false));
 }
-object::objectPtr getChild (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr getChild (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -65,16 +65,16 @@ object::objectPtr getChild (object::objectPtr obj, object::argsContainer& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr getChildrenArray (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr getChildrenArray (object::objectPtr obj, object::arrayType& args)
 {
-    object::objectPtr ret = constructObject(obj, "Array", std::vector<object::objectPtr>(obj->getParent()->getChildren().size()));
-    auto it1 = (*std::any_cast<std::vector<object::objectPtr>>(&ret->getValue())).begin();
+    object::objectPtr ret = constructObject(obj, "Array", object::arrayType(obj->getParent()->getChildren().size()));
+    auto it1 = (*std::any_cast<object::arrayType>(&ret->getValue())).begin();
     auto it2 = obj->getParent()->getChildren().begin();
     while(it2 != obj->getParent()->getChildren().end())
         *(it1++) = (it2++)->second;
     return ret;
 }
-object::objectPtr hasChild (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr hasChild (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -86,7 +86,7 @@ object::objectPtr hasChild (object::objectPtr obj, object::argsContainer& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr removeChild (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr removeChild (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -99,20 +99,20 @@ object::objectPtr removeChild (object::objectPtr obj, object::argsContainer& arg
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr addChild2 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr addChild2 (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2)
     {
         if (args[0]->hasSignature(name("String")))
         {
             obj->getParent()->getChildren()[std::any_cast<std::string>(args[0]->getValue())] = args[1];
-            return  obj->getParent();
+            return obj->getParent();
         }
         throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr addChild1 (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr addChild1 (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -121,11 +121,24 @@ object::objectPtr addChild1 (object::objectPtr obj, object::argsContainer& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr getName (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr getName (object::objectPtr obj, object::arrayType& args)
 {
     return constructObject(obj, "String", (std::string) obj->getParent()->getName());
 }
-object::objectPtr notEqualOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr setName (object::objectPtr obj, object::arrayType& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("String")))
+        {
+            obj->getParent()->setName(std::any_cast<std::string>(args[0]->getValue()));
+            return obj->getParent();
+        }
+        throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr notEqualOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -133,7 +146,7 @@ object::objectPtr notEqualOperator (object::objectPtr obj, object::argsContainer
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr equalReferenceOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr equalReferenceOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -142,7 +155,7 @@ object::objectPtr equalReferenceOperator (object::objectPtr obj, object::argsCon
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr equalSignaturesTypeOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr equalSignaturesTypeOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -151,7 +164,7 @@ object::objectPtr equalSignaturesTypeOperator (object::objectPtr obj, object::ar
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr equalInternalTypeOperator (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr equalInternalTypeOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
     {
@@ -160,7 +173,7 @@ object::objectPtr equalInternalTypeOperator (object::objectPtr obj, object::args
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr debugTree (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr debugTree (object::objectPtr obj, object::arrayType& args)
 {
     if (obj->getParent(false))
         obj->getParent()->debugTree(0);

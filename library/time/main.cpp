@@ -2,6 +2,7 @@
 #include <thread>
 #include "nobject.h"
 #include "Common.h"
+#include "Core.h"
 
 #ifdef _WIN32
     #define EXPORT __declspec(dllexport)
@@ -11,7 +12,7 @@
 
 extern "C"
 {
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args);
+    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
 }
 
 class _clock
@@ -43,7 +44,7 @@ void sleep(int milliseconds)
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
-object::objectPtr Clock (object::objectPtr obj, object::argsContainer& args)
+object::objectPtr Clock (object::objectPtr obj, object::arrayType& args)
 {
     object::objectPtr ret = obj->READ(name("Object"), true)->CALL();
     ret->addSignature(obj->getName());
@@ -53,15 +54,21 @@ object::objectPtr Clock (object::objectPtr obj, object::argsContainer& args)
     return ret;
 };
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::argsContainer& args)
+EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
     object::initialize(obj->READ(name("Root"), true));
 
-    obj->READ(name("Root"), true)->addChild(makeObject(Clock, name("Clock"))
-            ->addChild(makeObject(method<_clock, void (_clock::*)(), &_clock::restart, void>, name("restart")))
-            ->addChild(makeObject(method<_clock, int (_clock::*)(), &_clock::getElapsedMilliseconds, int>, name("getElapsedMilliseconds")))
-        );
+    obj->READ(name("Root"), true)->addChild(makeClass({
+        obj->READ("Object", true),
+        makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+            obj->getParent()->getValue() = _clock();;
+            return obj->getParent();
+        }, name("Clock")),
+        makeObject(method<_clock, void (_clock::*)(), &_clock::restart, void>, name("restart")),
+        makeObject(method<_clock, int (_clock::*)(), &_clock::getElapsedMilliseconds, int>, name("getElapsedMilliseconds")),
+    })->setName("Clock"));
+
     obj->addChild(makeObject(function<void (*)(int), sleep, void, int>, name("sleep")))
         ->addChild(makeObject(function<int (*)(), secondsSinceEpoch, int>, name("secondsSinceEpoch")));
     return nullptr;
