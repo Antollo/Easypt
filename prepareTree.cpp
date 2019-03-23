@@ -33,8 +33,7 @@ void prepareTree()
             ->addChild(makeObject(Exception, name("NotFoundException")));
 
         Root->addChild(makeClass({
-            makeObject(assignOperator, name("=")), 
-            makeObject(referenceAssignOperator, name("<-")), 
+            makeObject(assignOperator, name("=")),
             makeObject(getParent, name("getParent")), 
             makeObject(getChild, name("getChild")), 
             makeObject(getChildrenArray, name("getChildrenArray")), 

@@ -175,8 +175,13 @@ object::~object()
     //~ Must not use his parent. Parent is already dead!
     if (hasChild("getParent"))
         children.erase(children.find("getParent"));
-    if (hasChild(name("~~")) && Root != nullptr)
-        READ(name("~~"))->CALL();
+    if (hasChild("~~") && Root != nullptr)
+    {
+        object::objectPtr dtor = READ("~~");
+        if (dtor->hasChild("getParent"))
+            dtor->children.erase(dtor->children.find("getParent"));
+        dtor->CALL();
+    }
     for (auto& child : children)
         child.second->setParent(nullptr);
 }
@@ -247,10 +252,10 @@ object::objectPtr object::debugTree(int indentation)
             IO::console<<(std::string)el.second->getName()<<" ";
         IO::console<<"\n";
     }
-    else if (value.type().hash_code() == typeid(nullptr_t).hash_code())
-        IO::basicOut<<"object";
+    else if (value.type().hash_code() == typeid(std::nullptr_t).hash_code())
+        IO::basicOut << (std::string)"object";
     else
-        IO::basicOut<<"unknown";
+        IO::basicOut << (std::string)"unknown";
     
     //Warning - proto
     if (children.size())

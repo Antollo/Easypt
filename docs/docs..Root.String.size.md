@@ -17,6 +17,6 @@ Returns length of string.
 ## Example:
 
 ```c
-var str.=("Hello World!");
+auto str.=("Hello World!");
 basicOut(str.size());
 ```

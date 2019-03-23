@@ -19,7 +19,7 @@ Clears contents of opened file. Moves _read position indicator_ to the begin of 
 ```c
 import("file");
 
-var f.=(File());
+auto f.=(File());
 
 f.open("a.txt");
 f.clear();

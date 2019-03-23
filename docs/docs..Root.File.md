@@ -31,7 +31,7 @@ Constructs new `File`. `File` provides basic read and write operations on files.
 ```c
 import("file");
 
-var f.=(File());
+auto f.=(File());
 
 f.open("a.txt");
 f.clear();

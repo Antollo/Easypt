@@ -21,7 +21,7 @@ Calls function sequentially with elements in the range [first, last) as argument
 ```c
 import("algorithm");
 
-var a.=(Array());
+auto a.=(Array());
 a.pushBack("w", "a", "z", "f", "c", "d");
 algorithm.iterator.forEach(a.begin(), a.end(), basicOut);
 ```

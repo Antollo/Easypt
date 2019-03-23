@@ -19,7 +19,7 @@ Checks if this object has child (member, note: variables are treated as tree nod
 ## Example:
 
 ```c
-var mother;
-mother.var son;
+auto mother;
+mother.auto son;
 basicOut(mother.hasChild("son"));
 ```

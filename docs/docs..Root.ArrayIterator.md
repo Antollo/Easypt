@@ -35,9 +35,9 @@ Constructs a new `ArrayIterator`, this constructor exists only for internal `Arr
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
-for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
     basicOut(it.get());
 });
 ```

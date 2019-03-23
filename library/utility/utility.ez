@@ -1,11 +1,11 @@
 import("system");
 
 var commandUtility.=({
-    var argsTemp.=(args[0].get());
-    for (var it.=(args[1]).!=, args.end(), it.++, {
+    auto argsTemp.=(args[0].get());
+    for (auto it.=(args[1]).!=, args.end(), it.++, {
         if (it.get()[0].get()==(system.osName), {
-            var command.=(String());
-            for (var i.=(1).<, it.get().size(), i.++, {
+            auto command.=(String());
+            for (auto i.=(1).<, it.get().size(), i.++, {
                 if (instanceOf(it.get()[i].get(), Int), {
                     command.=(command.+(argsTemp[it.get()[i].get()].get()));
                 }, {

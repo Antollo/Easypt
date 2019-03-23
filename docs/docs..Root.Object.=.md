@@ -19,8 +19,8 @@ Assign copy of another object to this object (parent and name of this object do 
 ## Example:
 
 ```c
-var a.=(5);
-var b.=("abc");
+auto a.=(5);
+auto b.=("abc");
 a.=(b);
 basicOut(a, b);
 ```

@@ -24,8 +24,8 @@
 ## Examples:
 
 ```c
-var a.=(6);
-var b.=(9);
+auto a.=(6);
+auto b.=(9);
 if (a.>(b), {
     basicOut("a is greater than b");
 }, {
@@ -36,8 +36,8 @@ if (a.>(b), {
 ---
 
 ```c
-var a.=(6);
-var b.=(9);
+auto a.=(6);
+auto b.=(9);
 basicOut(if (a.>(b), {
     return("a is greater than b");
 }, {

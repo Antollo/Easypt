@@ -22,9 +22,9 @@ Returns new `StringIterator` moved backward by arguments value;
 
 
 ```c
-var str.=("Hello world!");
-var x.=(str.end().-(4));
-for (var it.=(str.begin()).!=, str.end(), it.++, {
+auto str.=("Hello world!");
+auto x.=(str.end().-(4));
+for (auto it.=(str.begin()).!=, str.end(), it.++, {
     if (it.==(x), { basicOut(it.get()) });
 });
 ```

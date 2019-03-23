@@ -2,7 +2,7 @@
 
 ## 1. Modular programming
 
-> Modular programming is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains everything necessary to execute only one aspect of the desired functionality. A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. The implementation contains the working code that corresponds to the elements declared in the interface. Modular programming is closely related to structured programming and object-oriented programming, all having the same goal of facilitating construction of large software programs and systems by decomposition into smaller pieces, and all originating around the 1960s.
+> **Modular programming** is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains everything necessary to execute only one aspect of the desired functionality. A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. The implementation contains the working code that corresponds to the elements declared in the interface. Modular programming is closely related to structured programming and object-oriented programming, all having the same goal of facilitating construction of large software programs and systems by decomposition into smaller pieces, and all originating around the 1960s.
 > 
 > [_From Wikipedia_](https://en.wikipedia.org/wiki/Modular_programming)
 
@@ -66,7 +66,7 @@
 
    ```c
    var add.=({
-       var return.=(args[0].get().+(args[1].get()));
+       auto return.=(args[0].get().+(args[1].get()));
    });
    ```
 
@@ -82,9 +82,15 @@
 
    `easypt -file b.ez -file a.ez -entryPoint b.main();`
 
+   **For advanced:**
+
+   This command is also corect:
+
+   `easypt -file console -entryPoint "console.writeLine(console.read());"`
+
 ## 3. Import
 
-> Many programming languages and other computer files have a directive, _called import or include_, that causes the contents of a second file to be _available in_ the original file. [...] They are often used to define the physical layout of program data, pieces of procedural code and/or forward declarations while promoting encapsulation and the reuse of code. The include directive allows libraries of code to be developed which help to:
+> Many programming languages and other computer files have a directive, _called **import** or include_, that causes the contents of a second file to be _available in_ the original file. [...] They are often used to define the physical layout of program data, pieces of procedural code and/or forward declarations while promoting encapsulation and the reuse of code. The include directive allows libraries of code to be developed which help to:
 > - ensure that everyone uses the same version of a data layout definition or procedural code throughout a program.
 > - easily cross-reference where components are used in a system.
 > - easily change programs when needed (only one master file to change).

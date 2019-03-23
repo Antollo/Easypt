@@ -19,8 +19,8 @@ While condition is true call block.
 ## Examples:
 
 ```c
-var condition.=(true);
-var i.=(0);
+auto condition.=(true);
+auto i.=(0);
 while(condition, {
     basicOut(i.++());
     if(i.==(10), { condition.=(false); });
@@ -30,9 +30,9 @@ while(condition, {
 ---
 
 ```c
-var a.=(6);
-var b.=(9);
-var condition.=(a.!=(b));
+auto a.=(6);
+auto b.=(9);
+auto condition.=(a.!=(b));
 basicOut(while (condition, {
     if (a.>(b), { a.=(a.-(b)); });
     if (b.>(a), { b.=(b.-(a)); });

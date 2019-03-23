@@ -19,7 +19,7 @@ Checks if this `ArrayIterator` is pointing after or to the same element as anoth
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
 basicOut(arr.begin().>=(arr.end()));
 ```

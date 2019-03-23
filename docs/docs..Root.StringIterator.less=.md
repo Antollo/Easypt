@@ -19,9 +19,9 @@ Checks if this `StringIterator` is pointing before or to the same element as ano
 ## Example:
 
 ```c
-var str.=("Hello World!");
-var a.=(str.begin().+(str.find("e", 0)));
-var b.=(str.begin().+(str.find("d", 0)));
+auto str.=("Hello World!");
+auto a.=(str.begin().+(str.find("e", 0)));
+auto b.=(str.begin().+(str.find("d", 0)));
 
 basicOut(a.<=(b));
 ```

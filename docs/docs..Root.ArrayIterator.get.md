@@ -17,9 +17,9 @@ Gets reference to element pointed by iterator.
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
-for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
     basicOut(it.get());
 });
 ```

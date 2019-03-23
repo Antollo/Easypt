@@ -21,10 +21,10 @@ Copies the elements in the range [first, last) to destination.
 ```c
 import("algorithm");
 
-var a.=(Array());
+auto a.=(Array());
 a.pushBack("a", "b", "c");
 
-var b.=(Array(3));
+auto b.=(Array(3));
 
 algorithm.iterator.copy(a.begin(), a.end(), b.begin());
 basicOut(b);

@@ -19,10 +19,10 @@ Inserts a copy of the sequence of elements in the range [first, last) before ele
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
 
-var numbers.=(Array().pushBack(1, 2, 3, 4, 5, 6, 7));
+auto numbers.=(Array().pushBack(1, 2, 3, 4, 5, 6, 7));
 
 arr.insert(arr.begin(), numbers.begin(), numbers.end());
 basicOut(arr);

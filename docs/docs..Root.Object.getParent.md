@@ -17,7 +17,7 @@ Returns parent (note: variables are treated as tree nodes) of this object.
 ## Example:
 
 ```c
-var mother;
-mother.var son;
+auto mother;
+mother.auto son;
 basicOut(mother.son.getParent().hasChild("son"));
 ```

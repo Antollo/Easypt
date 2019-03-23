@@ -17,8 +17,8 @@ Prints subtree of variables tree with this object as its root.
 ## Example:
 
 ```c
-var father;
-father.var son.=("I'm son");
+auto father;
+father.auto son.=("I'm son");
 father.debugTree();
 ```
 

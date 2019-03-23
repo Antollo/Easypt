@@ -17,7 +17,7 @@ Makes copy of this object (signatures, children, internal value).
 ## Example:
 
 ```c
-var a.=(5);
+auto a.=(5);
 basicOut(a.copy().++());
 basicOut(a)
 ```

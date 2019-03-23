@@ -8,7 +8,7 @@ A file must be opened before you can use it. `File` object may be use to read fr
 
 ```c
 import("file");
-var testFile.=(File());
+auto testFile.=(File());
 
 testFile.open("test.txt");
 ```
@@ -17,7 +17,7 @@ Let's write some contents to this file:
 
 ```c
 import("file");
-var testFile.=(File());
+auto testFile.=(File());
 
 testFile.open("test.txt");
 
@@ -29,7 +29,7 @@ And print it to console:
 
 ```c
 import("file");
-var testFile.=(File());
+auto testFile.=(File());
 
 testFile.open("test.txt");
 testFile.clear();
@@ -45,7 +45,7 @@ And write and read again:
 
 ```c
 import("file");
-var testFile.=(File());
+auto testFile.=(File());
 
 testFile.open("test.txt");
 testFile.clear();

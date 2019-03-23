@@ -21,32 +21,31 @@ Restarts the clock.
 import("time");
 import("console");
 
-var name.=(console.read());
-var test1;
-var test2;
-var test3;
-var test4;
+auto test1;
+auto test2;
+auto test3;
+auto test4;
 
-var clock.=(time.Clock());
-for (var i.=(0).<, 10000, i.++, {
+auto clock.=(Clock());
+for (auto i.=(0).<, 10000, i.++, {
     basicOut(i);
 });
 test1.=(clock.getElapsedMilliseconds());
 
 clock.restart();
-for (var i.=(0).<, 10000, i.++, {
+for (auto i.=(0).<, 10000, i.++, {
     console.writeLine(i);
 });
 test2.=(clock.getElapsedMilliseconds());
 
 clock.restart();
-for (var i.=(0).<, 10000, i.++, {
+for (auto i.=(0).<, 10000, i.++, {
     console.write(i);
 });
 test3.=(clock.getElapsedMilliseconds());
 
 clock.restart();
-for (var i.=(0).<, 10000, i.++, {
+for (auto i.=(0).<, 10000, i.++, {
     console.fast.writeInt(i);
 });
 test4.=(clock.getElapsedMilliseconds());

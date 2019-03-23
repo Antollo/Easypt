@@ -19,7 +19,7 @@ Gets distance from another iterator as new `Int`.
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
 basicOut(arr.begin().distance(arr.end()));
 ```

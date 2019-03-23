@@ -22,7 +22,7 @@ Returns iterator pointing to i-th character. Read operator (`[]`) is shorthand f
 
 
 ```c
-var str.=("Hello World!");
+auto str.=("Hello World!");
 basicOut(str.readOperator(6).get());
 basicOut(str[6].get());
 ```

@@ -1,0 +1,166 @@
+#..Root.apply#
+auto arr.=(Array());
+arr.pushBack(1);
+arr.pushBack(2);
+apply(Root, basicOut, arr);
+
+#..Root.call#
+call(Root, basicOut, 1, 2);
+
+#..Root.basicOut#
+basicOut("abc", 123, 0.456);
+
+#..Root.debugTree#
+#Object().setName("name").debugTree();#
+
+#..Root.import#
+import("console");
+console.writeLine("What's your name?");
+
+#..Root.instanceOf#
+basicOut(instanceOf(5, Int));
+basicOut(instanceOf(5.0, Int));
+basicOut(instanceOf(5.0, Double));
+
+#..Root.Exception#
+try({
+    throw(Exception("Error!"));
+}, {
+    basicOut(args[0].get());
+});
+
+#..Root.Object.addChild#
+auto mother;
+auto father;
+mother.var son;
+father.var daughter;
+mother.addChild("step-daughter", father.getChild("daughter"));
+mother.addChild(Object().setName("Object"));
+auto childrenArray.=(mother.getChildrenArray());
+for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+    if (instanceOf(it.get(), Object), {
+        basicOut(it.get().getName());
+    });
+});
+
+#..Root.Object.setName#
+auto something.setName("myNewName");
+basicOut(something.getName());
+
+#..Root.algorithm.iterator.sort#
+import("algorithm");
+auto a.=(Array());
+a.pushBack("w", "a", "z", "f", "c", "d");
+algorithm.iterator.sort(a.begin(), a.end(), {
+    return(args[0].get().<(args[1].get()));
+});
+basicOut(a);
+
+#..Root.ByteView#
+import("memory");
+import("algorithm");
+auto a.=(ByteView("abcd"));
+auto b.=(ByteView(1684234849));
+a.begin();
+basicOut(a.==(b));
+algorithm.forEach(a, {
+    basicOut(args[0].get().toInt());
+});
+basicOut("");
+algorithm.forEach(b, {
+    basicOut(args[0].get().toInt());
+});
+
+
+#..Root.Clock.getElapsedMilliseconds#
+import("time");
+import("console");
+auto clock.=(Clock());
+time.sleep(128);
+basicOut(clock.getElapsedMilliseconds());
+clock.restart();
+
+auto a.=(1);
+auto b.=(2);
+algorithm.swap(a, b);
+
+#Bird#
+auto Bird.=(Class(
+    Object, # inherit from Object #
+    var color, # color member variable #
+    {
+        basicOut("bird created");
+        color.=(args[0].get());
+    }.setName("Bird"), # constructor - name same as class #
+    {
+        basicOut("tweet");
+    }.setName("sing"), # sing method #
+    {
+        for (auto i.=(0).<, args[0].get(), i.++, {
+            sing();
+        });
+    }.setName("singNTimes"), # singNTimes method #
+    {
+        return(color);
+    }.setName("getColor"), # getColor method #
+    {
+        basicOut(, "bird died");
+    }.setName("~~") # destructor #
+));
+
+
+auto Crow.=(Class(
+    Bird,
+    var color,
+    {
+        Bird(args[0].get());
+    }.setName("Crow"),
+    {
+        basicOut("caw");
+    }.setName("sing"),
+    {
+        basicOut("crow died");
+    }.setName("~~")
+));
+
+auto bird.=(Crow("black"));
+bird.singNTimes(3);
+#crow.debugTree();#
+#crow.tweetNTimes(4);
+basicOut(crow.getColor());#
+
+
+#..Root.Array#
+auto arr.=(Array());
+basicOut(arr.size());
+arr.resize(5);
+basicOut(arr.size());
+arr[1].<-(7.copy());
+basicOut(arr[1].get());
+arr.=(Array(4, "some text"));
+basicOut(arr.size());
+basicOut(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
+
+auto makeGreetingsString.=({
+    auto str.=("Happy ");
+    str.=(str.+(args[0].get().toString()));
+    str.=(str.+(" birthday "));
+    str.=(str.+(args[1].get()));
+    str.=(str.+("!"));
+    return(str);
+});
+basicOut(makeGreetingsString(50, "John"));
+
+#..Root.BlockCallable.for#
+for (auto i.=(0).<, 10, i.++, {
+    basicOut(i);
+});
+auto arr.=(Array());
+arr.pushBack(1, 7, 3.14, "abc", "def");
+for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
+    basicOut(it.get());
+});
+auto str.=("Hello world!");
+for (auto it.=(str.begin()).!=, str.end(), it.++, {
+    basicOut(it.get());
+});

@@ -22,7 +22,7 @@ Resizes the string to a length of n characters. If n is smaller than the current
 
 
 ```c
-var str.=("Hello World!");
+auto str.=("Hello World!");
 basicOut(str.resize(5, "!"));
 str.=("Hello World!");
 basicOut(str.resize(20, "!"));

@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <functional>
 #include <deque>
+#include <cstddef>
+#include <utility>
 
 
 #define makeObject(...) std::make_shared<object>(__VA_ARGS__)
@@ -31,6 +33,8 @@ class object : public std::enable_shared_from_this<object>
 
 
         object(std::any newValue = nullptr, name newName = getAnonymousName());
+        object(object&&) = default;
+        object& operator= (object&&) = default;	
         ~object();
         bool operator ==(const object& x) const
         {

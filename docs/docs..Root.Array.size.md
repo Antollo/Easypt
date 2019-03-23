@@ -17,7 +17,7 @@ Returns the number of elements in the array.
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
 basicOut(arr.size());
 ```

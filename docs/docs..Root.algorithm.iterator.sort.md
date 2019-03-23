@@ -4,7 +4,7 @@
 
 Sorts the elements in the range [first, last) using order described by comparison.
 
-**Time comlexity** `O(n*log(n))`
+**Time comlexity:** `O(n*log(n))`
 
 * **Parameters:** `Iterator` first, `Iterator` last, `Callable` comparison
 
@@ -23,10 +23,10 @@ Sorts the elements in the range [first, last) using order described by compariso
 ```c
 import("algorithm");
 
-var a.=(Array());
+auto a.=(Array());
 a.pushBack("w", "a", "z", "f", "c", "d");
 algorithm.iterator.sort(a.begin(), a.end(), {
-    return(args[0].get().>(args[1].get()));
+    return(args[0].get().<(args[1].get()));
 });
 basicOut(a);
 ```

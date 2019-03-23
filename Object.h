@@ -5,7 +5,6 @@
 
 object::objectPtr Object (object::objectPtr obj, object::arrayType& args);
 object::objectPtr assignOperator (object::objectPtr obj, object::arrayType& args);
-object::objectPtr referenceAssignOperator (object::objectPtr obj, object::arrayType& args);
 object::objectPtr ObjectCopy (object::objectPtr obj, object::arrayType& args);
 object::objectPtr getParent (object::objectPtr obj, object::arrayType& args);
 object::objectPtr hasParent (object::objectPtr obj, object::arrayType& args);

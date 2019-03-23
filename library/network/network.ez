@@ -2,7 +2,7 @@ import("utility.ez");
 
 var downloadFile.=({
 
-    var windows.=(Array());
+    auto windows.=(Array());
     windows.pushBack("windows");
     windows.pushBack("powershell -command \"Invoke-WebRequest -Uri \\\"");
     windows.pushBack(0);
@@ -10,7 +10,7 @@ var downloadFile.=({
     windows.pushBack(1);
     windows.pushBack("\\\"\"");
 
-    var linux.=(Array());
+    auto linux.=(Array());
     linux.pushBack("linux");
     linux.pushBack("wget -O \"");
     linux.pushBack(1);

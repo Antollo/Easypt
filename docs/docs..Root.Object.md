@@ -2,7 +2,7 @@
 
 #### `..Root.Object`
 
-Constructs new `Object`. Any variable created with keyword `var` is initialized with `Object` type.
+Constructs new `Object`. Any variable created with keyword `auto` or `auto` is initialized with `Object` type.
 
 * **Return value:** new `Object`
 
@@ -22,8 +22,6 @@ Constructs new `Object`. Any variable created with keyword `var` is initialized 
 
 - [`debugTree`](docs..Root.Object.debugTree.md)
 - [`=`](docs..Root.Object.=.md)
-- [`<-`](docs..Root.Object.less-.md)
-- [`merge`](docs..Root.Object.merge.md)
 - [`getParent`](docs..Root.Object.getParent.md)
 - [`getChild`](docs..Root.Object.getChild.md)
 - [`getChildrenArray`](docs..Root.Object.getChildrenArray.md)
@@ -31,6 +29,7 @@ Constructs new `Object`. Any variable created with keyword `var` is initialized 
 - [`addChild`](docs..Root.Object.addChild.md)
 - [`removeChild`](docs..Root.Object.removeChild.md)
 - [`getName`](docs..Root.Object.getName.md)
+- [`setName`](docs..Root.Object.setName.md)
 - [`copy`](docs..Root.Object.copy.md)
 - [`!=`](docs..Root.Object.!=.md)
 - [`===`](docs..Root.Object.===.md)
@@ -38,17 +37,17 @@ Constructs new `Object`. Any variable created with keyword `var` is initialized 
 ## Example:
 
 ```c
-var mother;
-var father;
+auto mother;
+auto father;
 
-mother.var son;
-father.var daughter;
+mother.auto son;
+father.auto daughter;
 
 mother.addChild("step-daughter", father.getChild("daughter"));
 
 mother.addChild(Object());
-var childrenArray.=(mother.getChildrenArray());
-for (var it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+auto childrenArray.=(mother.getChildrenArray());
+for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
     if (instanceOf(it.get(), Object), {
         basicOut(it.get().getName());
     });

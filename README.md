@@ -6,7 +6,7 @@
 
 ```c
 import("console");
-var name; 
+auto name; 
 console.write("What's your name?\t");
 name.=(console.read());
 console.write("Hello ", name);
@@ -16,8 +16,8 @@ Run with: `easypt -file my_file.ez`. More sophisticated:
 
 ```c
 import("console");
-var main.=({
-    var name; 
+auto main.=({
+    auto name; 
     console.write("What's your name?\t");
     name.=(console.read());
     console.write("Hello ", name);

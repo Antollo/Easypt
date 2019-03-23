@@ -44,9 +44,9 @@ Constructs new `Int`.
 ## Example:
 
 ```c
-var n.=(10);
-var str.=(String());
-var conditon.=(n.toBoolean());
+auto n.=(10);
+auto str.=(String());
+auto conditon.=(n.toBoolean());
 while(conditon, {
     str.pushBack("a");
     conditon.=(n.--().toBoolean());

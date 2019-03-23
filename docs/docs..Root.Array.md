@@ -46,9 +46,9 @@ Constructs new `Array`. `Array` is a sequence container that encapsulates dynami
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
-for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
     basicOut(it.get());
 });
 ```

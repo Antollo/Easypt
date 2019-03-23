@@ -27,7 +27,7 @@ try({
 ```
 
 ```c
-var block.=({
+auto block.=({
     throw(Exception("Error!"));
 });
 

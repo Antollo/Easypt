@@ -75,14 +75,15 @@ object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::arra
     }
     std::list<expression> expressions = std::any_cast<std::list<expression>>(obj->getParent()->getValue());
     parent->addChild(obj->READ(name("Array"), true)->CALL()->setValue(args)->setName("args")->setAutomatic());
-    std::list<expression>::const_iterator it = expressions.begin();
+    std::list<expression>::const_iterator it = expressions.cbegin();
     parent->addChild(makeObject(returnValueTriplet(&it, std::prev(expressions.end()), nullptr), name("returnValueTriplet"))->setAutomatic());
     while (it !=  expressions.end())
         evaluateExpression(*(it++), parent);
     object::objectPtr ret = std::get<2>(std::any_cast<returnValueTriplet>(parent->READ(name("returnValueTriplet"))->getValue()));
     //parent->removeChild(name("returnValueTriplet"));
     if (!ret)
-        ret = parent->READ(name("return"))->setName(object::getAnonymousName())->addSignatureR(parent->getName());
+        ret = parent;
+        //ret = parent->READ(name("return"))->setName(object::getAnonymousName())->addSignatureR(parent->getName());
     object::childrenType::const_iterator temp;
 	while ((temp = std::find_if(parent->getLocalChildren().cbegin(), parent->getLocalChildren().cend(), [](const auto& it) {
 		return it.second->getAutomatic();

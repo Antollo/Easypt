@@ -17,8 +17,8 @@ Returns an iterator pointing to the first character of this `String`.
 ## Example:
 
 ```c
-var str.=("Hello world!");
-for (var it.=(str.begin()).!=, str.end(), it.++, {
+auto str.=("Hello world!");
+for (auto it.=(str.begin()).!=, str.end(), it.++, {
     basicOut(it.get());
 });
 ```

@@ -21,5 +21,5 @@ Reads the next line of characters from the standard input.
 ```c
 import("console");
 
-var str.=(console.readLine());
+auto str.=(console.readLine());
 ```

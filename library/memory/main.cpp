@@ -207,6 +207,22 @@ object::objectPtr ByteWrapper (object::objectPtr obj, object::arrayType& args)
     return obj->getParent();
 }
 
+template<>
+struct guessTypeName<byteView>
+{
+    static constexpr const char* name = typeNamesByteView;
+};
+template<>
+struct guessTypeName<byteView::byteViewIterator>
+{
+    static constexpr const char* name = typeNamesByteViewIterator;
+};
+template<>
+struct guessTypeName<byteWrapper>
+{
+    static constexpr const char* name = typeNamesByteWrapper;
+};
+
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));

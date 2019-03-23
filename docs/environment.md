@@ -4,10 +4,10 @@
 
 ## 1. Download Easypt interpreter
 
-You can obtain latest interpreter executable [here](https://ci.appveyor.com/project/Antollo/easypt). 
+You can obtain latest interpreter executable here:
 
-- For Windows click `Visual Studio 2017` then `artifacts` then `artifacts.zip`.
-- For Linux click `Ubuntu` then `artifacts` then `artifacts.zip`.
+- [Windows](https://ci.appveyor.com/api/projects/antollo/easypt/artifacts/artifacts.zip?branch=master&job=Image%3A%20Visual%20Studio%202017)
+- [Linux](https://ci.appveyor.com/api/projects/antollo/easypt/artifacts/artifacts.zip?branch=master&job=Image%3A%20Ubuntu)
 
 Unpack `artifacts.zip` and place easypt interpreter in a worthy place.
 
@@ -23,18 +23,28 @@ Unpack `artifacts.zip` and place easypt interpreter in a worthy place.
   - Click the New button and paste path to interpreter.
   - Click Ok.
 
-- For Linux run commands
+- For Linux run commands:
 
   ```bash
-  export PATH="$PATH:/path/to/interpreter"
+  echo "export PATH=\"$PATH:/path/to/interpreter\"" >> ~/.bash_profile
+  source ~/.bash_profile
   chmod -R u=rwx /path/to/interpreter
   ```
 
+- For all:
+  
+  Run command `easypt -entryPoint basicOut(1234);` to verify Easypt interpreter is correctly installed. 
+
+
 ## 3. Download Visual Studio Code
+
+You can download it [here](https://code.visualstudio.com/).
 
 Skip this step if you already have VS Code installed.
 
 ## 4. Add Easypt extension to VS Code
+
+You can download it [here]([https://code.visualstudio.com/](https://marketplace.visualstudio.com/items?itemName=Antollo.easypt)).
 
 ## 5. When you create new project add following `tasks.json` to project's `.vscode` directory:
 
@@ -43,7 +53,7 @@ Skip this step if you already have VS Code installed.
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run ",
+            "label": "Run Easypt source",
             "type": "process",
             "command": "easypt",
             "args": [

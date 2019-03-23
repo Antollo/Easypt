@@ -21,7 +21,7 @@ Calls function sequentially with elements in the container as argument.
 ```c
 import("algorithm");
 
-var a.=(Array());
+auto a.=(Array());
 a.pushBack("w", "a", "z", "f", "c", "d");
 algorithm.forEach(a, basicOut);
 ```

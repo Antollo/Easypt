@@ -19,7 +19,7 @@ Checks if two instances of `ArrayIterator` are pointing to same element.
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("x");
 basicOut(arr.begin().==(arr.[0]));
 ```

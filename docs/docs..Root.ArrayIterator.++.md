@@ -17,9 +17,9 @@ Increments `ArrayIterator` instance (equivalent of `it.=(it.+(1))`).
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
-for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
     basicOut(it.get());
 });
 ```

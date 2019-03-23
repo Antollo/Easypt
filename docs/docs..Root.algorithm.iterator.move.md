@@ -21,18 +21,18 @@ Moves the elements in the range [first, last) to destination.
 ```c
 import("algorithm");
 
-var mergeSort.=({
-    var begin.=(args[0].get());
-    var end.=(args[1].get());
-    var cmp.=(args[2].get());
-    var size.=(begin.distance(end));
+auto mergeSort.=({
+    auto begin.=(args[0].get());
+    auto end.=(args[1].get());
+    auto cmp.=(args[2].get());
+    auto size.=(begin.distance(end));
     if(size.<(2), {
     }, {
-        var pivot.=(begin.+(size./(2)));
+        auto pivot.=(begin.+(size./(2)));
         iterator.sort(begin, pivot, cmp);
         iterator.sort(pivot, end, cmp);
 
-        var temp.=(Array());
+        auto temp.=(Array());
         temp.resize(size);
         iterator.merge(begin, pivot, pivot, end, temp.begin(), cmp);
         iterator.move(temp.begin(), temp.end(), begin);

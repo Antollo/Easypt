@@ -21,8 +21,8 @@ Swaps two objects (_warning: objects after swap are copies of original objects_)
 ```c
 import("algorithm");
 
-var a.=(1);
-var b.=(2);
+auto a.=(1);
+auto b.=(2);
 
 algorithm.swap(a, b);
 basicOut(a, b);

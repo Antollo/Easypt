@@ -17,9 +17,9 @@ Change reference on position pointed by this `ArrayIterator` to reference to ano
 ## Example:
 
 ```c
-var a.=("a");
-var b.=("b");
-var arr.=(Array());
+auto a.=("a");
+auto b.=("b");
+auto arr.=(Array());
 arr.pushBack(a, b);
 basicOut(a, b, arr, "\n");
 

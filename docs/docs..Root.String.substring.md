@@ -22,6 +22,6 @@ Returns new substring that starts at character position pos and spans len charac
 
 
 ```c
-var str.=("Hello World!");
+auto str.=("Hello World!");
 basicOut(str.substring(6, 5));
 ```

@@ -17,8 +17,8 @@ Increments `StringIterator` instance (equivalent of `it.=(it.+(1))`).
 ## Example:
 
 ```c
-var str.=("Hello world!");
-for (var it.=(str.begin()).!=, str.end(), it.++, {
+auto str.=("Hello world!");
+for (auto it.=(str.begin()).!=, str.end(), it.++, {
     basicOut(it.get());
 });
 ```

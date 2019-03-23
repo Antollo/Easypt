@@ -19,7 +19,7 @@ Constructs new `WrongNumberOfArgumentsException` which is thrown when wrong numb
 ## Example:
 
 ```c
-var myFunction.=({
+auto myFunction.=({
     if(args.size().!=(1), {
         throw(WrongNumberOfArgumentsException("More or less than one arguments passed!"));
     });

@@ -19,7 +19,7 @@ Erases the sequence of elements in the range [first, last).
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
 
 arr.erase(arr.begin(), arr.begin().+(2));

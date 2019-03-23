@@ -19,7 +19,7 @@ Returns iterator pointing to i-th element. Read operator (`[]`) is shorthand for
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
 basicOut(arr[1].get());
 ```

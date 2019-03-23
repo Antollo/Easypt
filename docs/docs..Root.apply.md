@@ -19,7 +19,7 @@ Invoke the callable object f with elements of arr as arguments and p as its pare
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack(1);
 arr.pushBack(2);
 apply(Root, basicOut, arr);

@@ -21,7 +21,7 @@ Opens file pointed by a given path (creates such file if it does not exist). Mov
 ```c
 import("file");
 
-var f.=(File());
+auto f.=(File());
 
 f.open("a.txt");
 f.clear();

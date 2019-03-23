@@ -17,7 +17,7 @@ Returns name of variable.
 ## Example:
 
 ```c
-var something;
+auto something;
 basicOut(something.getName());
 basicOut(Object().getName());
 ```

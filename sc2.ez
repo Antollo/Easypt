@@ -15,7 +15,7 @@ auto A.=(Class(
         basicOut("goodbye");
     }.setName("~~"),
 ));
-#auto a.=(A());#
+auto a.=(A());
 #a.debugTree();#
 auto B.=(Class(
     A,
@@ -30,7 +30,7 @@ auto f.=({f();});
 "launchArgs".debugTree();
 
 
-#auto b.=(B());#
+auto b.=(B());
 #b.debugTree();#
 #getThis().debugTree();#
 #throw("stop");#

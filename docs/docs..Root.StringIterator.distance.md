@@ -19,6 +19,6 @@ Gets distance from another iterator as new `Int`.
 ## Example:
 
 ```c
-var str.=("Hello world!");
+auto str.=("Hello world!");
 basicOut(str.begin().distance(str.end()));
 ```

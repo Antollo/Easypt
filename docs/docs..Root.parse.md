@@ -20,7 +20,7 @@ Parses code from string to `BlockCallable` object. It is used by `import` and `-
 ## Example:
 
 ```c
-var fun.=(parse("basicOut(\"from string\");"));
+auto fun.=(parse("basicOut(\"from string\");"));
 fun();
 ```
 

@@ -20,7 +20,7 @@ Checks if this `ArrayIterator` is pointing before another `ArrayIterator`. This 
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
 basicOut(arr.begin().<(arr.end()));
 ```

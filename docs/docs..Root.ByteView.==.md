@@ -22,8 +22,8 @@ Compares bytes of two byte views.
 import("memory");
 import("algorithm");
 
-var a.=(ByteView("abcd"));
-var b.=(ByteView(1684234849));
+auto a.=(ByteView("abcd"));
+auto b.=(ByteView(1684234849));
 
 basicOut(a.==(b), "");
 

@@ -19,8 +19,8 @@ Returns the number of bytes of the associated variable.
 ```c
 import("memory");
 
-var i.=(1234);
-var a.=(ByteView(i));
+auto i.=(1234);
+auto a.=(ByteView(i));
 
 basicOut(a.size());
 ```

@@ -17,9 +17,9 @@ Decrements `ArrayIterator` instance (equivalent of `it.=(it.-(1))`).
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
-for (var it.=(arr.end()).!=, arr.begin(), it.--, {
+for (auto it.=(arr.end()).!=, arr.begin(), it.--, {
     basicOut(it.-(1).get());
 });
 ```

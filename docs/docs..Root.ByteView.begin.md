@@ -19,10 +19,10 @@ Returns an iterator pointing to the first byte of this `ByteView`.
 ```c
 import("memory");
 
-var str.=("\122\123\124");
-var a.=(ByteView(str));
+auto str.=("\122\123\124");
+auto a.=(ByteView(str));
 
-for (var it.=(a.begin()).!=, a.end(), it.++, {
+for (auto it.=(a.begin()).!=, a.end(), it.++, {
     basicOut(it.get().toInt());
 });
 ```

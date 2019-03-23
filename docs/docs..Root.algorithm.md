@@ -12,7 +12,7 @@
 
 ## Members:
 
-- [`iterator`](docs..Root.algorithm.iterator.md)
+- [**`iterator`**](docs..Root.algorithm.iterator.md) - _sort, forEach, ..._
 - [`max`](docs..Root.algorithm.max.md)
 - [`min`](docs..Root.algorithm.min.md)
 - [`swap`](docs..Root.algorithm.swap.md)
@@ -23,7 +23,7 @@
 ```c
 import("algorithm");
 
-var a.=(Array());
+auto a.=(Array());
 a.pushBack("w", "a", "z", "f", "c", "d");
 algorithm.iterator.sort(a.begin(), a.end(), {
     return(args[0].get().>(args[1].get()));

@@ -20,7 +20,7 @@ Replaces the first occurrence of a with b.
 ## Example:
 
 ```c
-var str.=("Hello World!");
+auto str.=("Hello World!");
 str.replace("World", "there");
 basicOut(str);
 ```

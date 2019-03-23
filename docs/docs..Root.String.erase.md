@@ -22,9 +22,9 @@ Erases the sequence of characters in the range [first, last).
 
 
 ```c
-var str.=("Hello World!");
-var begin.=(str.begin().+(str.find(" ", 0)));
-var end.=(str.begin().+(str.find("!", 0)));
+auto str.=("Hello World!");
+auto begin.=(str.begin().+(str.find(" ", 0)));
+auto end.=(str.begin().+(str.find("!", 0)));
 str.erase(begin, end);
 basicOut(str);
 ```

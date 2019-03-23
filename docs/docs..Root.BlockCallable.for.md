@@ -23,22 +23,22 @@ for (compare, someValue, change, block);
 ## Examples:
 
 ```c
-for (var i.=(0).<, 10, i.++, {
+for (auto i.=(0).<, 10, i.++, {
     basicOut(i);
 });
 ```
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
-for (var it.=(arr.begin()).!=, arr.end(), it.++, {
+for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
     basicOut(it.get());
 });
 ```
 
 ```c
-var str.=("Hello world!");
-for (var it.=(str.begin()).!=, str.end(), it.++, {
+auto str.=("Hello world!");
+for (auto it.=(str.begin()).!=, str.end(), it.++, {
     basicOut(it.get());
 });
 ```

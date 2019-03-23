@@ -19,7 +19,7 @@ Returns child (member, note: variables are treated as tree nodes) of this object
 ## Example:
 
 ```c
-var father;
-father.var son.=("I'm son");
+auto father;
+father.auto son.=("I'm son");
 basicOut(father.getChild("son"));
 ```

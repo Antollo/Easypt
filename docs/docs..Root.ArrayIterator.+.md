@@ -19,10 +19,10 @@ Returns new `ArrayIterator` moved forward by arguments value;
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
 
-var numbers.=(Array().pushBack(1, 2, 3, 4, 5, 6, 7));
+auto numbers.=(Array().pushBack(1, 2, 3, 4, 5, 6, 7));
 
 arr.insert(arr.begin(), numbers.begin(), numbers.begin().+(2));
 basicOut(arr);

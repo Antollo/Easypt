@@ -20,7 +20,7 @@ If the current size is greater than n, the array is reduced to its first n eleme
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("abc", "def");
 arr.resize(4);
 arr[2].<-("ghi");

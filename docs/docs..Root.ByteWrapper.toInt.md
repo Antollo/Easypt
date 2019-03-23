@@ -20,8 +20,8 @@ Return byte value as integer.
 import("memory");
 import("algorithm");
 
-var str.=("\012\012\012\012\012\012");
-var a.=(ByteView(str));
+auto str.=("\012\012\012\012\012\012");
+auto a.=(ByteView(str));
 
 a[0].get().|=(ByteWrapper(6));
 a[1].get().&=(ByteWrapper(6));

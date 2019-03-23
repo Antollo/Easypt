@@ -49,7 +49,7 @@ _none_
 
 ```c
 {
-    var Int.=({ return(5); });
+    auto Int.=({ return(5); });
     basicOut(Int());
     basicOut(Root.Int());
 }();
@@ -66,7 +66,7 @@ _none_
 
 ## `algorithm`
 
-Provides functions for a variety of purposes (e.g. `min`, `forEach`, `sort`) including ones that operates on `Iterator`s and `Container`s.
+Provides functions for a autoiety of purposes (e.g. `min`, `forEach`, `sort`) including ones that operates on `Iterator`s and `Container`s.
 
 - [`algorithm`](docs..Root.algorithm.md)
 

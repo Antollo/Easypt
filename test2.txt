@@ -1,0 +1,83 @@
+1
+2
+1
+2
+abc
+123
+0.456
+What's your name?
+true
+false
+true
+Exception at: ..Root.test.try.{
+    throw(Exception("Error!"));
+}
+Exception at: ..Root.test.try.{
+    throw(Exception("Error!"));
+}.callOperator
+Exception at: ..Root.test.try.{
+    throw(Exception("Error!"));
+}.throw
+Exception: Error!
+Object
+son
+daughter
+myNewName
+a
+c
+d
+f
+w
+z
+true
+97
+98
+99
+100
+
+97
+98
+99
+100
+129
+tweet
+tweet
+tweet
+tweet
+black
+0
+5
+7
+4
+some text
+some text
+some text
+some text
+Happy 50 birthday John!
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+1
+7
+3.14
+abc
+def
+H
+e
+l
+l
+o
+ 
+w
+o
+r
+l
+d
+!

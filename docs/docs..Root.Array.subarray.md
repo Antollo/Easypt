@@ -19,7 +19,7 @@ Returns new subarray that starts at element pointed by start and ends before ele
 ## Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack("0");
 arr.pushBack("1");
 arr.pushBack("2");

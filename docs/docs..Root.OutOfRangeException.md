@@ -19,16 +19,16 @@ Constructs new `OutOfRangeException` which is thrown when an illegal range was u
 ## Examples:
 
 ```c
-var arr.=(Array(3, "x");
+auto arr.=(Array(3, "x");
 arr[7].get();
 ```
 
 ```c
-var str.=("abc");
+auto str.=("abc");
 str.pushBack("");
 ```
 
 ```c
-var bigNumber.=("99999999999999999999999999");
+auto bigNumber.=("99999999999999999999999999");
 basicOut(bigNumber.toInt());
 ```

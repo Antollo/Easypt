@@ -4,7 +4,7 @@
 
 ## 1. Tree
 
-> In computer science, a tree is a widely used abstract data type (ADT)—or data structure implementing this ADT—that simulates a hierarchical tree structure, with a root value and subtrees of children with a parent node, represented as a set of linked nodes. A tree data structure can be defined recursively (locally) as a collection of nodes (starting at a root node), where each node is a data structure consisting of a value, together with a list of references to nodes (the "children"), with the constraints that no reference is duplicated, and none points to the root. Alternatively, a tree can be defined abstractly as a whole (globally) as an ordered tree, with a value assigned to each node. Both these perspectives are useful: while a tree can be analyzed mathematically as a whole, when actually represented as a data structure it is usually represented and worked with separately by node (rather than as a set of nodes and an adjacency list of edges between nodes, as one may represent a digraph, for instance). For example, looking at a tree as a whole, one can talk about "the parent node" of a given node, but in general as a data structure a given node only contains the list of its children, but does not contain a reference to its parent (if any).
+> In computer science, a **tree** is a widely used abstract data type (ADT), or data structure implementing this ADT, that simulates a hierarchical tree structure, with a root value and subtrees of children with a parent node, represented as a set of linked nodes. A tree data structure can be defined recursively (locally) as a collection of nodes (starting at a root node), where each node is a data structure consisting of a value, together with a list of references to nodes (the "children"), with the constraints that no reference is duplicated, and none points to the root. Alternatively, a tree can be defined abstractly as a whole (globally) as an ordered tree, with a value assigned to each node. Both these perspectives are useful: while a tree can be analyzed mathematically as a whole, when actually represented as a data structure it is usually represented and worked with separately by node (rather than as a set of nodes and an adjacency list of edges between nodes, as one may represent a digraph, for instance). For example, looking at a tree as a whole, one can talk about "the parent node" of a given node, but in general as a data structure a given node only contains the list of its children, but does not contain a reference to its parent (if any).
 > 
 > [_From Wikipedia_](https://en.wikipedia.org/wiki/Tree_(data_structure))
 
@@ -22,7 +22,7 @@ _`something way too long too publish here`_
 
 (Skip reading whole output if you get the idea.)
 
-Output should have approx. 1300 lines. Pretty big tree. `debugTree` is `Object` method so printing any subtree of whole tree is possible. Additionally, some variables (freshly created by constructors) might not be connected to tree. 
+Output could have more than 1000 lines. Pretty big tree. `debugTree` is `Object` method so printing any subtree of whole tree is possible. Additionally, some variables (freshly created by constructors) might not be connected to tree yet. 
 
 ## 3. Tree operations on `Object`
 
@@ -60,8 +60,8 @@ Output should have approx. 1300 lines. Pretty big tree. `debugTree` is `Object` 
 Code:
 
 ```
-var mother;
-var father;
+auto mother;
+auto father;
 
 #
 Here the "weirdest" syntax comes,
@@ -72,14 +72,13 @@ as parent to son.
 mother.var son;
 father.var daughter;
 
-# Adds reference to father's daughter as step-daughter #
+# Adds father's daughter as step-daughter #
 mother.addChild("step-daughter", father.getChild("daughter"));
-# same as: mother.var step-daughter.<-(father.daughter); #
 
 mother.addChild(Object());
 
-var childrenArray.=(mother.getChildrenArray());
-for (var it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+auto childrenArray.=(mother.getChildrenArray());
+for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
     if (instanceOf(it.get(), Object), {
         basicOut(it.get().getName());
     });

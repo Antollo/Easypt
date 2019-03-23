@@ -29,9 +29,9 @@ Provides the fastest IO operations.
 ```c
 import("console");
 
-var a.=(Int());
-var b.=(Double());
-var c.=(String());
+auto a.=(Int());
+auto b.=(Double());
+auto c.=(String());
 console.fast.scanInt(a);
 console.fast.scanDouble(b);
 console.fast.scanString16(c);

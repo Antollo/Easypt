@@ -18,6 +18,6 @@ Converts string to integer.
 ## Example:
 
 ```c
-var str.=("1024");
+auto str.=("1024");
 basicOut(str.toInt()./(2));
 ```

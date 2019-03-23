@@ -20,7 +20,7 @@ Replaces all occurrences of a with b.
 ## Example:
 
 ```c
-var str.=("a aa aaa");
+auto str.=("a aa aaa");
 str.replaceAll("a", "b");
 basicOut(str);
 ```

@@ -19,7 +19,7 @@ Invoke the callable object f with its remaining arguments as arguments and p as 
 ## Example:
 
 ```c
-apply(Root, basicOut, 1, 2);
+call(Root, basicOut, 1, 2);
 ```
 
 _Equivalent of `Root.basicOut(1, 2);`._

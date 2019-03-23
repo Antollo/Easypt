@@ -19,9 +19,9 @@ Same functionality as `str.=(str+.(character[0].get()))` but faster.
 ## Example:
 
 ```c
-var n.=(10);
-var str.=(String());
-var condition.=(n.--().toBoolean());
+auto n.=(10);
+auto str.=(String());
+auto condition.=(n.--().toBoolean());
 while(condition, {
     str.pushBack("a");
     condition.=(n.--().toBoolean());

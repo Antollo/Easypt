@@ -19,7 +19,7 @@ Checks if this and another `Object` are references to the same object;
 ## Example:
 
 ```c
-var father;
-father.var son.=("I'm son");
+auto father;
+father.auto son.=("I'm son");
 basicOut(father.getChild("son").===(father.son));
 ```

@@ -23,9 +23,9 @@ Reads new arguments' values from the standard input.
 ```c
 import("console");
 
-var a.=(Int());
-var b.=(Double());
-var c.=(String());
+auto a.=(Int());
+auto b.=(Double());
+auto c.=(String());
 console.scan(a, b, c);
 console.writeLine("a: ", a, "\nb: ", b, "\nc: ", c);
 ```

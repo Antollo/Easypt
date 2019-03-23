@@ -4,7 +4,7 @@
 
 1. Add another object as child to this object (another object's parent do not change). 
 
-2. Add another object as child with nickname nick to this object (another object's parent and name do not change). 
+2. Add another object as child with nickname nick to this object (another object's name do not change). 
 
 * **Parameters:**
     1. any type
@@ -23,8 +23,8 @@
 ## Example:
 
 ```c
-var mother;
-var father;
+auto mother;
+auto father;
 
 mother.var son;
 father.var daughter;
@@ -32,8 +32,8 @@ father.var daughter;
 mother.addChild("step-daughter", father.getChild("daughter"));
 
 mother.addChild(Object());
-var childrenArray.=(mother.getChildrenArray());
-for (var it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+auto childrenArray.=(mother.getChildrenArray());
+for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
     if (instanceOf(it.get(), Object), {
         basicOut(it.get().getName());
     });

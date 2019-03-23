@@ -19,7 +19,7 @@ Remove this object's child (member, note: variables are treated as tree nodes) n
 ## Example:
 
 ```c
-var mother;
-mother.var son;
+auto mother;
+mother.auto son;
 mother.removeChild("son");
 ```

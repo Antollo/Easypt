@@ -18,7 +18,7 @@ Converts first character of string to integer (following ASCII code).
 ## Example:
 
 ```c
-var str.=("abc");
+auto str.=("abc");
 basicOut(str[0].get().toAsciiCode());
 ```
 

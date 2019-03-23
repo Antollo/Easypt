@@ -34,8 +34,8 @@ Constructs a new `StringIterator`, this constructor exists only for internal `St
 ## Example:
 
 ```c
-var str.=("Hello world!");
-for (var it.=(str.begin()).!=, str.end(), it.++, {
+auto str.=("Hello world!");
+for (auto it.=(str.begin()).!=, str.end(), it.++, {
     basicOut(it.get());
 });
 ```

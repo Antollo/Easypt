@@ -19,7 +19,7 @@ Constructs new `WrongTypeOfArgumentException` which is thrown when variable with
 ## Example:
 
 ```c
-var myFunction.=({
+auto myFunction.=({
     if(args.size().!=(1), {
         throw(WrongNumberOfArgumentsException("More or less than one arguments passed!"));
     });

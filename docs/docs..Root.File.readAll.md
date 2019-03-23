@@ -19,7 +19,7 @@ Returns the contents of the file.
 ```c
 import("file");
 
-var f.=(File());
+auto f.=(File());
 
 f.open("a.txt");
 f.clear();

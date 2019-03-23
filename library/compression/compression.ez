@@ -2,7 +2,7 @@ import("utility.ez");
 
 var unzip.=({
 
-    var windows.=(Array());
+    auto windows.=(Array());
     windows.pushBack("windows");
     windows.pushBack("powershell -command \"Expand-Archive -Path \\\"");
     windows.pushBack(0);
@@ -10,7 +10,7 @@ var unzip.=({
     windows.pushBack(1);
     windows.pushBack("\\\"\"");
 
-    var linux.=(Array());
+    auto linux.=(Array());
     linux.pushBack("linux");
     linux.pushBack("unzip -o \"");
     linux.pushBack(0);
@@ -24,7 +24,7 @@ var unzip.=({
 
 var zip.=({
 
-    var windows.=(Array());
+    auto windows.=(Array());
     windows.pushBack("windows");
     windows.pushBack("powershell -command \"Compress-Archive -Path \\\"");
     windows.pushBack(0);
@@ -32,7 +32,7 @@ var zip.=({
     windows.pushBack(1);
     windows.pushBack("\\\"\"");
 
-    var linux.=(Array());
+    auto linux.=(Array());
     linux.pushBack("linux");
     linux.pushBack("zip -r \"");
     linux.pushBack(1);

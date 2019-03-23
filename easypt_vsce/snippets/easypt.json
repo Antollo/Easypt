@@ -2,7 +2,7 @@
     "Int based for loop": {
         "prefix": "for",
         "body": [
-            "for (var i.=(0).<, ${1:endValue}, i.++, {",
+            "for (auto i.=(0).<, ${1:endValue}, i.++, {",
             "\t$0",
             "});"
         ],
@@ -11,7 +11,7 @@
     "Iterator based for loop": {
         "prefix": "for",
         "body": [
-            "for (var it.=(${1:iterable}.begin()).!=, ${2:iterable}.end(), it.++, {",
+            "for (auto it.=(${1:iterable}.begin()).!=, ${2:iterable}.end(), it.++, {",
             "\t$0",
             "});"
         ],
@@ -49,16 +49,16 @@
     "Function": {
         "prefix": "function",
         "body": [
-            "var ${1:name}.=({",
+            "auto ${1:name}.=({",
             "\t$0",
             "});"
         ],
         "description": "Function"
     },
     "Variable": {
-        "prefix": "var",
+        "prefix": "auto",
         "body": [
-            "var ${1:name}.=($0);"
+            "auto ${1:name}.=($0);"
         ],
         "description": "Variable"
     },

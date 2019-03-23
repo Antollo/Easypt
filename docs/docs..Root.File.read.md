@@ -20,7 +20,7 @@ Reads the characters from the file starting at position pointed by _read positio
 ```c
 import("file");
 
-var f.=(File());
+auto f.=(File());
 
 f.open("a.txt");
 f.clear();

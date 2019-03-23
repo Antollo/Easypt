@@ -1,10 +1,10 @@
 # Arrays
 
-> Language support for array types may include certain built-in array data types, some syntactic constructions (array type constructors) that the programmer may use to define such types and declare array variables, and special notation for indexing array elements.
+> Language support for **array** types may include certain built-in array data types, some syntactic constructions (array type constructors) that the programmer may use to define such types and declare array variables, and special notation for indexing array elements.
 > 
 > [_From Wikipedia_](https://en.wikipedia.org/wiki/Array_data_type)
 
-> In computer science, a dynamic array, growable array, resizable array, dynamic table, mutable array, or array list is a random access, variable-size list data structure that allows elements to be added or removed. It is supplied with standard libraries in many modern mainstream programming languages. Dynamic arrays overcome a limit of static arrays, which have a fixed capacity that needs to be specified at allocation.
+> In computer science, a **dynamic array**, growable array, resizable array, dynamic table, mutable array, or array list is a random access, variable-size list data structure that allows elements to be added or removed. It is supplied with standard libraries in many modern mainstream programming languages. Dynamic arrays overcome a limit of static arrays, which have a fixed capacity that needs to be specified at allocation.
 > 
 > [_From Wikipedia_](https://en.wikipedia.org/wiki/Dynamic_array)
 
@@ -13,26 +13,26 @@
 It's really simple:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 ```
+
+See in reference: [`Array`](docs..Root.Array.md).
 
 ## 2. Resizing and adding elements
 
 `Array` has `size` method that returns array's size as new `Int` and `resize` method that takes an `Int` an resize array to argument's value. See it in action:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 basicOut(arr.size());
 arr.resize(5);
 basicOut(arr.size());
 ```
 
-(In example above `arr`'s elements are not initialized.)
-
 `Array` has also `pushBack` method that appends array with passed arguments. Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 basicOut(arr.size());
 arr.pushBack(3.14);
 basicOut(arr.size());
@@ -53,7 +53,7 @@ basicOut(arr.size());
 `Array` is indexed from `0`. To access something stored in `Array` use read operator (`[]`, taking as argument one `Int`) that returns `ArrayIterator` to it. To get stored reference from iterator use `ArrayIterator.get` method. Example:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack(7, "x", 0.01);
 
 basicOut(arr[0].get(), arr[1].get(), arr[2].get());
@@ -62,8 +62,8 @@ basicOut(arr[0].get(), arr[1].get(), arr[2].get());
 Now understand what reference is:
 
 ```c
-var text.=("Hello");
-var arr.=(Array());
+auto text.=("Hello");
+auto arr.=(Array());
 arr.resize(1);
 
 # Assign reference to text to arr[0], it is ArrayIterator.<- #
@@ -78,7 +78,7 @@ basicOut(arr[0].get(), text);
 There are also `Array.begin` method equivalent to `Array[0]` and `Array.end` method equivalent to `Array[Array.size()]`. Let's try running following code:
 
 ```c
-var arr.=(Array());
+auto arr.=(Array());
 arr.pushBack(7, "x", 0.01);
 
 basicOut(arr[10000].get());
@@ -101,12 +101,12 @@ This is exception, it describes what happened clearly.
 You will learn what constructor is in following lessons, now you need to know that it's that "`Array()`" thing. `Array` has also a constructor that takes one argument - its new size and a constructor that takes two arguments - its new size and value that will be copied to all elements. Example:
 
 ```c
-var arr.=(Array(20));
+auto arr.=(Array(20));
 basicOut(arr.size());
 ```
 
 ```c
-var arr.=(Array(4, "some text"));
+auto arr.=(Array(4, "some text"));
 basicOut(arr.size());
 basicOut(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
 ```

@@ -32,7 +32,7 @@ Constructs empty `BlockCallable`. To create non empty `BlockCallable` use curly 
 ## Example:
 
 ```c
-var fun.=({
+auto fun.=({
     basicOut("a");
     basicOut("b");
     return("c");

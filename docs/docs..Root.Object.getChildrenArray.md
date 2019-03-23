@@ -17,17 +17,17 @@ Returns all children (members, note: variables are treated as tree nodes) of thi
 ## Example:
 
 ```c
-var mother;
-var father;
+auto mother;
+auto father;
 
-mother.var son;
-father.var daughter;
+mother.auto son;
+father.auto daughter;
 
 mother.addChild("step-daughter", father.getChild("daughter"));
 
 mother.addChild(Object());
-var childrenArray.=(mother.getChildrenArray());
-for (var it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+auto childrenArray.=(mother.getChildrenArray());
+for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
     if (instanceOf(it.get(), Object), {
         basicOut(it.get().getName());
     });

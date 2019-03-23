@@ -21,7 +21,7 @@ Appends data to a file. Moves _read position indicator_ to the begin of file.
 ```c
 import("file");
 
-var f.=(File());
+auto f.=(File());
 
 f.open("a.txt");
 f.clear();

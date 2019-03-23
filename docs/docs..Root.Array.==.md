@@ -19,8 +19,8 @@ Compares elements of two arrays.
 ## Example:
 
 ```c
-var a.=(Array().pushBack(5.+(5), "a"));
-var b.=(Array().pushBack(10, "a"));
+auto a.=(Array().pushBack(5.+(5), "a"));
+auto b.=(Array().pushBack(10, "a"));
 
 basicOut(a);
 basicOut(b);

@@ -18,8 +18,8 @@ Decrements `StringIterator` instance (equivalent of `it.=(it.-(1))`).
 ## Example:
 
 ```c
-var str.=("Hello world!");
-for (var it.=(str.end()).!=, str.begin(), it.--, {
+auto str.=("Hello world!");
+for (auto it.=(str.end()).!=, str.begin(), it.--, {
     basicOut(it.-(1).get());
 });
 ```

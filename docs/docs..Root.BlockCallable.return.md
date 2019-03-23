@@ -26,7 +26,7 @@
 ## Example:
 
 ```c
-var fun.=({
+auto fun.=({
     basicOut("a");
     basicOut("b");
     return("c");

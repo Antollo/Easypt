@@ -18,6 +18,6 @@ Returns copy of `String` instance.
 ## Example:
 
 ```c
-var str.=("Hello world!".toString());
+auto str.=("Hello world!".toString());
 basicOut(str);
 ```
