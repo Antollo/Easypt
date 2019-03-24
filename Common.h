@@ -229,7 +229,19 @@ struct resultOf<R (O::*)(Args...)>
 };
 
 template<class O, class R, class... Args>
+struct resultOf<R (O::*)(Args...) noexcept>
+{
+    using type = R;
+};
+
+template<class O, class R, class... Args>
 struct resultOf<R (O::*)(Args...) const>
+{
+    using type = R;
+};
+
+template<class O, class R, class... Args>
+struct resultOf<R (O::*)(Args...) const noexcept>
 {
     using type = R;
 };

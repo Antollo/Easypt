@@ -106,7 +106,7 @@ void prepareTree()
             makeObject(binaryOperator<int, std::modulus>, name("%")),
 
             makeObject(increment<int>, name("++")),
-            makeObject(decrement<int>, name("--")),
+            makeObject(decrement<int>, name("--"))
         })->setName("Int"));
 
         Root->addChild(makeClass({
@@ -131,7 +131,7 @@ void prepareTree()
             makeObject(binaryOperator<double, std::divides>, name("/")),
 
             makeObject(increment<double>, name("++")),
-            makeObject(decrement<double>, name("--")),
+            makeObject(decrement<double>, name("--"))
         })->setName("Double"));
 
         Root->addChild(makeClass({
@@ -147,7 +147,7 @@ void prepareTree()
             makeObject(binaryOperator<bool, std::equal_to>, name("==")),
             makeObject(unaryOperator<bool, std::logical_not>, name("!")),
             makeObject(binaryOperator<bool, std::logical_and>, name("&&")),
-            makeObject(binaryOperator<bool, std::logical_or>, name("||")),
+            makeObject(binaryOperator<bool, std::logical_or>, name("||"))
         })->setName("Boolean"));
 
         Root
@@ -165,11 +165,11 @@ void prepareTree()
             makeObject(StringToAsciiCode, name("toAsciiCode")),
             makeObject(StringReplace, name("replace")),
             makeObject(StringReplaceAll, name("replaceAll")),
-            makeObject(method<std::string, std::string::iterator (std::string::*)(), &std::string::begin, std::string::iterator>, name("begin")),
-            makeObject(method<std::string, std::string::iterator (std::string::*)(), &std::string::end, std::string::iterator>, name("end")),
+            makeObject(method<std::string, std::string::iterator (std::string::*)() noexcept, &std::string::begin, std::string::iterator>, name("begin")),
+            makeObject(method<std::string, std::string::iterator (std::string::*)() noexcept, &std::string::end, std::string::iterator>, name("end")),
             makeObject(StringReadOperator, name("readOperator")),
             makeObject(method<std::string, size_t (std::string::*)() const, &std::string::size, int>, name("size")),
-            makeObject(method<std::string, size_t (std::string::*)(const std::string&, size_t) const, &std::string::find, int, std::string, size_t>, name("find")),
+            makeObject(method<std::string, size_t (std::string::*)(const std::string&, size_t) const noexcept, &std::string::find, int, std::string, size_t>, name("find")),
             makeObject(method<std::string, bool (std::string::*)() const, &std::string::empty, bool>, name("empty")),
             makeObject(method<std::string, void (std::string::*)(size_t, char), &std::string::resize, void, size_t, char>, name("resize")),
             makeObject(method<std::string, void (std::string::*)(), &std::string::clear, void>, name("clear")),
@@ -182,7 +182,7 @@ void prepareTree()
             makeObject(binaryOperator<bool, std::string, std::greater>, name(">")),
             makeObject(binaryOperator<bool, std::string, std::less>, name("<")),
             makeObject(binaryOperator<bool, std::string, std::greater_equal>, name(">=")),
-            makeObject(binaryOperator<bool, std::string, std::less_equal>, name("<=")),
+            makeObject(binaryOperator<bool, std::string, std::less_equal>, name("<="))
             /*->addChild(constructObject(Root, "Int", std::string::npos)->setName("maxSize"))*/
         })->setName("String"));
 
@@ -204,7 +204,7 @@ void prepareTree()
             makeObject(binaryOperator<bool, std::string::iterator, std::greater_equal>, name(">=")),
             makeObject(binaryOperator<bool, std::string::iterator, std::less_equal>, name("<=")),
             makeObject(StringIteratorDistance, name("distance")),
-            makeObject(StringIteratorReferenceAssignOperator, name("<-")),
+            makeObject(StringIteratorReferenceAssignOperator, name("<-"))
         })->setName("StringIterator"));
 
         Root->addChild(makeClass({
@@ -221,14 +221,14 @@ void prepareTree()
             makeObject(BlockCallableTry, name("try")),
             makeObject(BlockCallableReturn, name("return")),
             makeObject(BlockCallableCallOperator, name("callOperator")),
-            makeObject(BlockCallableThis, name("getThis")),
+            makeObject(BlockCallableThis, name("getThis"))
         })->setName("BlockCallable"));
 
         Root->addChild(makeClass({
             Root->READ("Container"),
             makeObject(functionChooser<Array0, Array1, Array2>, name("Array")),
-            makeObject(method<object::arrayType, object::arrayType::iterator (object::arrayType::*)(), &object::arrayType::begin, object::arrayType::iterator>, name("begin")),
-            makeObject(method<object::arrayType, object::arrayType::iterator (object::arrayType::*)(), &object::arrayType::end, object::arrayType::iterator>, name("end")),
+            makeObject(method<object::arrayType, object::arrayType::iterator (object::arrayType::*)() noexcept, &object::arrayType::begin, object::arrayType::iterator>, name("begin")),
+            makeObject(method<object::arrayType, object::arrayType::iterator (object::arrayType::*)() noexcept, &object::arrayType::end, object::arrayType::iterator>, name("end")),
             makeObject(ArrayReadOperator, name("readOperator")),
             makeObject(function<object::arrayType (*)(object::arrayType::iterator, object::arrayType::iterator), ArraySubarray, object::arrayType, object::arrayType::iterator, object::arrayType::iterator>, name("subarray")),
             makeObject(method<object::arrayType, size_t (object::arrayType::*)() const, &object::arrayType::size, int>, name("size")),
@@ -236,7 +236,7 @@ void prepareTree()
             makeObject(method<object::arrayType, object::arrayType::iterator (object::arrayType::*)(object::arrayType::const_iterator , object::arrayType::iterator, object::arrayType::iterator), static_cast<object::arrayType::iterator (object::arrayType::*)(object::arrayType::const_iterator , object::arrayType::iterator, object::arrayType::iterator)>(&object::arrayType::insert<object::arrayType::iterator>), void, object::arrayType::const_iterator , object::arrayType::iterator, object::arrayType::iterator>, name("insert")),
             makeObject(method<object::arrayType, object::arrayType::iterator (object::arrayType::*)(object::arrayType::const_iterator , object::arrayType::const_iterator), static_cast<object::arrayType::iterator (object::arrayType::*)(object::arrayType::const_iterator , object::arrayType::const_iterator)>(&object::arrayType::erase), void, object::arrayType::const_iterator , object::arrayType::const_iterator>, name("erase")),
             makeObject(ArrayEqualOperator, name("==")),
-            makeObject(ArrayPushBack, name("pushBack")),
+            makeObject(ArrayPushBack, name("pushBack"))
         })->setName("Array"));
 
         Root->addChild(makeClass({
@@ -256,7 +256,7 @@ void prepareTree()
             makeObject(binaryOperator<bool, object::arrayType::iterator, std::greater_equal>, name(">=")),
             makeObject(binaryOperator<bool, object::arrayType::iterator, std::less_equal>, name("<=")),
             makeObject(ArrayIteratorDistance, name("distance")),
-            makeObject(ArrayIteratorReferenceAssignOperator, name("<-")),
+            makeObject(ArrayIteratorReferenceAssignOperator, name("<-"))
         })->setName("ArrayIterator"));
 
         Root->addChild(makeObject(parse, name("parse")));
