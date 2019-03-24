@@ -16,7 +16,7 @@ Constructs new `Boolean`.
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

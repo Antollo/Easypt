@@ -16,7 +16,7 @@ Constructs new `Int`.
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

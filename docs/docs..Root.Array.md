@@ -28,7 +28,7 @@ Constructs new `Array`. `Array` is a sequence container that encapsulates dynami
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

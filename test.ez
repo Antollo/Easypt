@@ -112,8 +112,10 @@ auto Bird.=(Class(
 auto Crow.=(Class(
     Bird,
     var color,
+    var par,
     {
         Bird(args[0].get());
+        par.=(getParent().getParent);
     }.setName("Crow"),
     {
         basicOut("caw");
@@ -164,3 +166,15 @@ auto str.=("Hello world!");
 for (auto it.=(str.begin()).!=, str.end(), it.++, {
     basicOut(it.get());
 });
+
+#..Root.File#
+import("file");
+auto testFile.=(File());
+testFile.open("test.txt");
+testFile.clear();
+testFile.write("alpha beta\ngamma");
+basicOut(testFile.read());
+basicOut(testFile.read());
+basicOut(testFile.read());
+testFile.write("delta");
+basicOut(testFile.read());

@@ -16,7 +16,7 @@ Constructs new `File`. `File` provides basic read and write operations on files.
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

@@ -36,5 +36,11 @@ IO::_basicOut& IO::_basicOut::operator<< (const bool& boolean)
     return *this;
 };
 
+IO::_basicOut& IO::_basicOut::operator<< (const char* text)
+{
+    std::cout<<text<<std::endl;
+    return *this;
+};
+
 IO::_console IO::console;
 IO::_basicOut IO::basicOut;

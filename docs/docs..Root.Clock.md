@@ -16,7 +16,7 @@ Constructs new `Clock`. Clock is utility that measures the elapsed time.
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

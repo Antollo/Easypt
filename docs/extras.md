@@ -2,7 +2,7 @@
 
 ## 1. Files
 
-> You were expecting quote from Wikipedia? I'm sure you know what file is.
+> Were you expecting quote from Wikipedia? I'm sure you know what file is.
 
 A file must be opened before you can use it. `File` object may be use to read from it or write to it. Example:
 
@@ -22,7 +22,7 @@ auto testFile.=(File());
 testFile.open("test.txt");
 
 testFile.clear();
-testFile.write("afpha beta\ngamma");
+testFile.write("alpha beta\ngamma");
 ```
 
 And print it to console:
@@ -34,7 +34,7 @@ auto testFile.=(File());
 testFile.open("test.txt");
 testFile.clear();
 
-testFile.write("afpha beta\ngamma");
+testFile.write("alpha beta\ngamma");
 
 basicOut(testFile.read());
 basicOut(testFile.read());
@@ -50,7 +50,7 @@ auto testFile.=(File());
 testFile.open("test.txt");
 testFile.clear();
 
-testFile.write("afpha beta\ngamma");
+testFile.write("alpha beta\ngamma");
 
 basicOut(testFile.read());
 basicOut(testFile.read());

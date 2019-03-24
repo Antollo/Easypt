@@ -21,6 +21,7 @@ namespace IO
         _basicOut& operator<< (const int& number);
         _basicOut& operator<< (const double& number);
         _basicOut& operator<< (const bool& boolean);
+        _basicOut& operator<< (const char* text);
     };
     extern _basicOut basicOut;
 };

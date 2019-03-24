@@ -28,6 +28,7 @@ _none_
 - [`InvalidValueException`](docs..Root.InvalidValueException.md)
 - [`ParserException`](docs..Root.ParserException.md)
 - [`NotFoundException`](docs..Root.NotFoundException.md)
+- [`Class`](docs..Root.Class.md)
 - [`Object`](docs..Root.Object.md)
 - [`Basic`](docs..Root.Basic.md)
 - [`Iterable`](docs..Root.Iterable.md)

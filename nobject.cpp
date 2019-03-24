@@ -172,18 +172,35 @@ object::~object()
 #if defined(DEBUG)
     std::cout<<"DESTROY "<<getFullNameString()<<std::endl;
 #endif
-    //~ Must not use his parent. Parent is already dead!
-    if (hasChild("getParent"))
-        children.erase(children.find("getParent"));
+    //~ must not use his parent. Parent is already dead!
+    //This object is also dead!
+    parent = nullptr;
+    for (auto& child : children)
+        child.second->setParent(nullptr);
     if (hasChild("~~") && Root != nullptr)
     {
         object::objectPtr dtor = READ("~~");
+        if (hasChild("getParent"))
+            children.erase(children.find("getParent"));
         if (dtor->hasChild("getParent"))
             dtor->children.erase(dtor->children.find("getParent"));
-        dtor->CALL();
+        try
+        {
+            dtor->CALL();
+        }
+        catch (exception& e)
+        {
+            IO::basicOut << e.getMessage();
+        }
+        catch (std::exception& e)
+        {
+            IO::basicOut << "Unknown exception: " + std::string(e.what());
+        }
+        catch (...)
+        {
+	    	IO::basicOut << "Fatal error occurred.";
+        }
     }
-    for (auto& child : children)
-        child.second->setParent(nullptr);
 }
 
 object::objectPtr object::getParent(bool throwing)

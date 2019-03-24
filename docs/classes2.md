@@ -71,6 +71,8 @@ Why one bird died?! What about temporary object `Bird("black")`? Was it destroye
 >
 > [_From Wikipedia_](https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming))
 
+Base class constructors are available only in constructor of inherited class.
+
 Example:
 
 ```c

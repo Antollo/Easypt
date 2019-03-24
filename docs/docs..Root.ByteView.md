@@ -18,7 +18,7 @@ Constructs new `ByteView`. `ByteView` is a sequence container providing an inter
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

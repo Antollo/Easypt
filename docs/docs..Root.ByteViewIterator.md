@@ -14,7 +14,7 @@ Constructs a new `ByteViewIterator`, this constructor exists only for internal `
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

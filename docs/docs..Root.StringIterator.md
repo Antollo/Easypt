@@ -14,7 +14,7 @@ Constructs a new `StringIterator`, this constructor exists only for internal `St
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

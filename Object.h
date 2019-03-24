@@ -18,8 +18,6 @@ object::objectPtr getName (object::objectPtr obj, object::arrayType& args);
 object::objectPtr setName (object::objectPtr obj, object::arrayType& args);
 object::objectPtr notEqualOperator (object::objectPtr obj, object::arrayType& args);
 object::objectPtr equalReferenceOperator (object::objectPtr obj, object::arrayType& args);
-//object::objectPtr equalSignaturesTypeOperator (object::objectPtr obj, object::arrayType& args);
-//object::objectPtr equalInternalTypeOperator (object::objectPtr obj, object::arrayType& args);
 object::objectPtr debugTree (object::objectPtr obj, object::arrayType& args);
 
 #endif

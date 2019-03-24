@@ -7,7 +7,7 @@ void prepareTree()
 	object::initialize(Root, dot);
     Root->addChild(makeObject(basicOut, name("basicOut")));
         
-    //Exception handling ready, here the fun starts
+    //Exception handling ready, here the fun begins
     try
     {
         Root
@@ -242,7 +242,7 @@ void prepareTree()
         Root->addChild(makeClass({
             Root->READ("Iterator"),
             makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
-                obj->getValue() = std::string::iterator();
+                obj->getValue() = object::arrayType::iterator();
                 return obj->getParent();
             }, name("ArrayIterator")),
             makeObject(increment<object::arrayType::iterator>, name("++")),

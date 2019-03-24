@@ -16,7 +16,7 @@ Constructs new `Double`.
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

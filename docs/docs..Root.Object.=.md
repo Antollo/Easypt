@@ -2,7 +2,7 @@
 
 #### `..Root.Object.=`
 
-Assign copy of another object to this object (parent and name of this object do not change).
+Assign copy of another object to this object (parent and name of this object do not change). Easypt interpreter can optimize assignment to move operation, such optimization occurs when right operand of `=` has no parent.
 
 * **Parameters:** object of any type
 

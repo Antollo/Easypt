@@ -54,30 +54,8 @@ object::objectPtr Class (object::objectPtr obj, object::arrayType& args)
 }
 object::objectPtr makeClass (std::initializer_list<object::objectPtr> args)
 {
-    object::objectPtr ret = makeObject(constructor);
-    ret->addSignature("Class");
-    ret->addChild(makeObject(object::arrayType(), "classProto"));
-    ret->addChild(makeObject(object::signaturesContainer(), "classSignatures"));
-    object::arrayType& classProto = (*std::any_cast<object::arrayType>(&ret->READ("classProto")->getValue()));
-    object::signaturesContainer& classSignatures = (*std::any_cast<object::signaturesContainer>(&ret->READ("classSignatures")->getValue()));
-
-    auto it = std::begin(args);
-    while (it != std::end(args) && (*it)->hasSignature("Class"))
-    {
-        for (auto& el : (*std::any_cast<object::arrayType>(&(*it)->READ("classProto")->getValue())))
-            classProto.push_back(el);
-        classSignatures.insert(
-            (*std::any_cast<object::signaturesContainer>(&(*it)->READ("classSignatures")->getValue())).begin(),
-            (*std::any_cast<object::signaturesContainer>(&(*it)->READ("classSignatures")->getValue())).end());
-        classSignatures.insert((*it)->getName());
-        it++;
-    }
-    while (it != std::end(args))
-    {
-        classProto.push_back(*it);
-        it++;
-    }
-    return ret;
+    object::arrayType temp(args);
+    return Class(nullptr, temp);
 }
 object::objectPtr constructor (object::objectPtr obj, object::arrayType& args)
 {

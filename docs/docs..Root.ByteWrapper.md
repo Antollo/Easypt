@@ -20,7 +20,7 @@ Constructs a new `ByteWrapper` (also used for internal `ByteViewIterator.get()` 
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

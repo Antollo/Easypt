@@ -74,7 +74,7 @@ namespace std
 template<>
 struct hash<name>
 {
-    size_t operator()(const name & obj) const
+    size_t operator()(const name& obj) const
     {
         return hash<int>()(obj);
     }

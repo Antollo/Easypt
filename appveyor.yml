@@ -2,6 +2,8 @@ version: 0.0.{build}
 image:
     - Visual Studio 2017
     - Ubuntu
+init:
+    - sh: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 70 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 before_build:
     - cmake .
 build_script:

@@ -14,7 +14,7 @@ Constructs a new `ArrayIterator`, this constructor exists only for internal `Arr
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 

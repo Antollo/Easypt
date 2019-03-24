@@ -8,7 +8,7 @@ std::string getExecutablePath()
         char result[MAX_PATH];
         ret = std::string(result, GetModuleFileName(NULL, result, MAX_PATH ));
     #elif defined(__linux__)
-        char result[ PATH_MAX ];
+        char result[PATH_MAX];
         ssize_t length = readlink( "/proc/self/exe", result, PATH_MAX );
         ret = std::string( result, (length > 0) ? length : 0 );
     #else

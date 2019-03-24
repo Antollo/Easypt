@@ -16,7 +16,7 @@ Constructs new `Object`. Any variable created with keyword `auto` or `auto` is i
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 
@@ -40,8 +40,8 @@ Constructs new `Object`. Any variable created with keyword `auto` or `auto` is i
 auto mother;
 auto father;
 
-mother.auto son;
-father.auto daughter;
+mother.var son;
+father.var daughter;
 
 mother.addChild("step-daughter", father.getChild("daughter"));
 

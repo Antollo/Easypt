@@ -22,17 +22,6 @@ object::objectPtr assignOperator (object::objectPtr obj, object::arrayType& args
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr inherit (object::objectPtr obj, object::arrayType& args)
-{
-    for(auto& arg : args)
-    {
-        obj->getParent()->getSignatures().insert(arg->getSignatures().begin(), arg->getSignatures().end());
-        for(auto& child : arg->getChildren())
-            obj->getParent()->addPrototypeChild(child.second);
-        obj->getParent()->getValue() = arg->getValue();
-    };
-    return obj->getParent();
-}
 object::objectPtr ObjectCopy (object::objectPtr obj, object::arrayType& args)
 {
     return obj->getParent()->copy();

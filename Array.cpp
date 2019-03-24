@@ -137,7 +137,7 @@ object::objectPtr ArrayIterator (object::objectPtr obj, object::arrayType& args)
     ret->addSignature(obj->getName());
     for (auto& child : obj->getChildren())
         ret->addPrototypeChild(child.second);
-    ret->getValue() = std::string::iterator();
+    ret->getValue() = object::arrayType::iterator();
     return ret;
 }
 //ArrayIterator methods

@@ -16,7 +16,7 @@ Constructs empty `BlockCallable`. To create non empty `BlockCallable` use curly 
 
 ## Signatures:
 
-`NativeCallable`, `Callable`
+`NativeCallable`, `Callable`, `Class`
 
 ## Members:
 
