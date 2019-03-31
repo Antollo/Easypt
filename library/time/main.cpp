@@ -27,7 +27,7 @@ public:
     
     int getElapsedMilliseconds()
     {
-        return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count();
+        return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count());
     }
 
 private:

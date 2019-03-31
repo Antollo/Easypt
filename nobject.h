@@ -143,6 +143,7 @@ class object : public std::enable_shared_from_this<object>
         {
             dynamicLibraries.push_back(ptr);
         }
+        static constexpr nativeFunctionType abstractFunction = nullptr;
     private:
         static objectRawPtr Root;
         static objectPtr dot;

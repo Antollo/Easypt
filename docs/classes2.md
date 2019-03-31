@@ -114,7 +114,24 @@ bird.sing();
 >
 > [_From Wikipedia_](https://en.wikipedia.org/wiki/Class_(computer_programming)#Abstract_and_concrete)
 
+In Easypt there are plenty of abstract classes. For example `Container` or `Iterator`. Dive into language reference to search for more!
 
+Example of "abstractness":
+
+```c
+auto it.=(Iterator());
+it.get();
+```
+
+Expected output:
+
+```
+Exception at: ..Root.import
+Exception at: ..Root.my_file
+Exception at: ..Root.my_file.callOperator
+Exception at: ..Root.my_file.it.get
+InvalidValueException: Object ..Root.my_file.it.get is abstract function
+```
 
 [Next lesson (Files, exceptions and extras)](extras.md)
 

@@ -1,5 +1,11 @@
 # Change Log
 
+### 1.1.6
+
+`auto` keyword highlighting and class snippet added.
+
+### `...`
+
 ### 1.1.1
 
 Small snippets changes.

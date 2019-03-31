@@ -68,5 +68,21 @@
             "import(\"$0\")"
         ],
         "description": "Import"
+    },
+    "Class": {
+        "prefix": "class",
+        "body": [
+            "var ${0:class name}.=(Class(",
+            "\tObject,",
+            "\tvar ${1:member},",
+            "\t{",
+            "\t\t#${2:body of constructor}#",
+            "\t}.setName(\"${3:class name}\"),",
+            "\t{",
+            "\t\t#${4:body of destructor}#",
+            "\t}.setName(\"~~\")",
+            "));"
+        ],
+        "description": "Class"
     }
 }

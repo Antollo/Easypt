@@ -168,7 +168,7 @@ for (auto it.=(str.begin()).!=, str.end(), it.++, {
 });
 
 #..Root.File#
-import("file");
+#import("file");
 auto testFile.=(File());
 testFile.open("test.txt");
 testFile.clear();
@@ -177,4 +177,8 @@ basicOut(testFile.read());
 basicOut(testFile.read());
 basicOut(testFile.read());
 testFile.write("delta");
-basicOut(testFile.read());
+basicOut(testFile.read());#
+
+#..Root.Iterator#
+auto it.=(Iterator());
+it.get();

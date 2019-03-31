@@ -51,31 +51,31 @@ void prepareTree()
 
         Root->addChild(makeClass({
             Root->READ("Object"),
-            makeObject(nullptr, name("toString")),
-            makeObject(nullptr, name("toInt")),
-            makeObject(nullptr, name("toDouble")),
-            makeObject(nullptr, name("toBoolean"))
+            makeObject(object::abstractFunction, name("toString")),
+            makeObject(object::abstractFunction, name("toInt")),
+            makeObject(object::abstractFunction, name("toDouble")),
+            makeObject(object::abstractFunction, name("toBoolean"))
         })->setName("Basic"));
 
         Root->addChild(makeClass({
             Root->READ("Object"),
-            makeObject(nullptr, name("begin")),
-            makeObject(nullptr, name("end"))
+            makeObject(object::abstractFunction, name("begin")),
+            makeObject(object::abstractFunction, name("end"))
         })->setName("Iterable"));
 
         Root->addChild(makeClass({
             Root->READ("Object"),
-            makeObject(nullptr, name("++")),
-            makeObject(nullptr, name("--")),
-            makeObject(nullptr, name("==")),
-            makeObject(nullptr, name("<-")),
-            makeObject(nullptr, name("get"))
+            makeObject(object::abstractFunction, name("++")),
+            makeObject(object::abstractFunction, name("--")),
+            makeObject(object::abstractFunction, name("==")),
+            makeObject(object::abstractFunction, name("<-")),
+            makeObject(object::abstractFunction, name("get"))
         })->setName("Iterator"));
 
         Root->addChild(makeClass({
             Root->READ("Iterable"),
-            makeObject(nullptr, name("readOperator")),
-            makeObject(nullptr, name("size"))
+            makeObject(object::abstractFunction, name("readOperator")),
+            makeObject(object::abstractFunction, name("size"))
         })->setName("Container"));
 
         Root->addChild(makeClass({

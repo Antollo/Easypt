@@ -5,6 +5,7 @@
 
 #ifdef _WIN32
     #define EXPORT __declspec(dllexport)
+    #define _CRT_SECURE_NO_WARNINGS
 #else
     #define EXPORT
 #endif

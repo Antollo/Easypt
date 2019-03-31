@@ -44,7 +44,7 @@ Now you can run your code with `Ctrl+Shift+B`.
 
 ## Last changes
 
-Small snippets changes.
+`auto` keyword highlighting and class snippet added.
 
 ## For more information
 
