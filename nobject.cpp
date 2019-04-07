@@ -101,6 +101,7 @@ object::objectPtr object::CALL(object::arrayType& args)
 #endif
     try
     {
+        SequentialTask::switchTask();
         if (hasSignature("NativeCallable"))
         {
             nativeFunctionType f = std::any_cast<nativeFunctionType>(value);

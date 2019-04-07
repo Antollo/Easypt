@@ -5,7 +5,6 @@
 
 #ifdef _WIN32
     #define EXPORT __declspec(dllexport)
-    #define _CRT_SECURE_NO_WARNINGS
 #else
     #define EXPORT
 #endif
@@ -184,6 +183,7 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType
     std::ios_base::sync_with_stdio(false);
     std::cout << std::boolalpha;
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
+    SequentialTask::staticMembers = std::any_cast<SequentialTask::SharedStaticMembers>(args[1]->getValue());
     object::initialize(obj->READ(name("Root"), true));
 
     obj->addChild(makeObject(write, name("write")))

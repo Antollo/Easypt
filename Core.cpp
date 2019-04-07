@@ -163,6 +163,9 @@ object::objectPtr import (object::objectPtr obj, object::arrayType& args)
                 object::objectPtr nameInitializationPack = obj->READ(name("Object"), true)->CALL()->setName(name("nameInitializationPack"));
                 nameInitializationPack->getValue() = name::getInitializationPack();
 
+                object::objectPtr sequentialTaskInitializationPack = obj->READ(name("Object"), true)->CALL()->setName(name("sequentialTaskInitializationPack"));
+                sequentialTaskInitializationPack->getValue() = SequentialTask::staticMembers;
+
                 object::objectPtr nativeCallable = obj->READ(name("Object"), true)->CALL();
                 nativeCallable->getValue() = dynamicLibrary();
                 (*std::any_cast<dynamicLibrary>(&nativeCallable->getValue())).loadLibrary(fileName);
@@ -171,7 +174,7 @@ object::objectPtr import (object::objectPtr obj, object::arrayType& args)
 
                 object::nativeFunctionType exportFunction = (*std::any_cast<dynamicLibrary>(&nativeCallable->getValue())).getFunction("exportLibrary");
 
-                object::arrayType args{nameInitializationPack};
+                object::arrayType args{nameInitializationPack, sequentialTaskInitializationPack};
                 exportFunction(nativeCallable, args);
 
 				object::pushDynamicLibrary(nativeCallable);

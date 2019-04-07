@@ -4,8 +4,26 @@ import("console");
 import("memory");
 import("math");#
 
+import("console");
 
-auto A.=(Class(
+auto futureA.=(Task(Root, {
+    for (auto i.=(0).<, 10, i.++, {
+        console.writeLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    });
+    return("Future A ended.");
+}));
+
+auto futureB.=(Task(Root, {
+    for (auto i.=(0).<, 10, i.++, {
+        console.writeLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+    });
+    return("Future B ended.");
+}));
+
+futureA.get();
+futureB.get();
+
+#auto A.=(Class(
     Object, 
     {
         basicOut("helloA");
@@ -16,7 +34,6 @@ auto A.=(Class(
     }.setName("~~"),
 ));
 auto a.=(A());
-#a.debugTree();#
 auto B.=(Class(
     A,
     {
@@ -30,7 +47,7 @@ auto f.=({f();});
 "launchArgs".debugTree();
 
 
-auto b.=(B());
+auto b.=(B());#
 #b.debugTree();#
 #getThis().debugTree();#
 #throw("stop");#

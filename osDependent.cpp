@@ -126,6 +126,8 @@ void initialize()
     //std::ios_base::sync_with_stdio(false);
     std::cout << std::boolalpha;
     name::initialize();
+    SequentialTask::initialize(std::make_shared<SequentialTask::StaticMembers>());
+    SequentialTask::registerThisThread();
     #if defined(_WIN32)
     _set_se_translator(translateSEH);
     ULONG_PTR lowLimit;

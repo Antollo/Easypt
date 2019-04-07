@@ -242,7 +242,7 @@ void prepareTree()
         Root->addChild(makeClass({
             Root->READ("Iterator"),
             makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
-                obj->getValue() = object::arrayType::iterator();
+                obj->getParent()->getValue() = object::arrayType::iterator();
                 return obj->getParent();
             }, name("ArrayIterator")),
             makeObject(increment<object::arrayType::iterator>, name("++")),
@@ -258,6 +258,31 @@ void prepareTree()
             makeObject(ArrayIteratorDistance, name("distance")),
             makeObject(ArrayIteratorReferenceAssignOperator, name("<-"))
         })->setName("ArrayIterator"));
+
+        Root->addChild(makeClass({
+            Root->READ("Object"),
+            makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+                obj->getParent()->getValue() = std::make_shared<SequentialTask::Future<object::objectPtr>>(SequentialTask::makeSequentialTask([obj, args]()-> object::objectPtr {
+                    object::arrayType temp(args);
+                    return call(obj, temp);
+                }));
+                return obj->getParent();
+            }, name("Task")),
+            makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+                return (*std::any_cast<std::shared_ptr<SequentialTask::Future<object::objectPtr>>>(&obj->getParent()->getValue()))->get();
+            }, name("get")),
+            makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+                return constructObject(obj, "Boolean", (*std::any_cast<std::shared_ptr<SequentialTask::Future<object::objectPtr>>>(&obj->getParent()->getValue()))->valid());
+            }, name("isValid")),
+            makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+                return constructObject(obj, "Boolean", (*std::any_cast<std::shared_ptr<SequentialTask::Future<object::objectPtr>>>(&obj->getParent()->getValue()))->ready());
+            }, name("isReady"))
+        })->setName("Task")
+            //->addChild(makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+            //    
+            //}, name(setPriority)))
+        );
+
 
         Root->addChild(makeObject(parse, name("parse")));
 

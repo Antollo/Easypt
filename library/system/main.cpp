@@ -49,6 +49,7 @@ object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::arrayTy
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
+    SequentialTask::staticMembers = std::any_cast<SequentialTask::SharedStaticMembers>(args[1]->getValue());
     object::initialize(obj->READ(name("Root"), true));
 
     std::string osName = "";

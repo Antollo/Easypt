@@ -77,7 +77,7 @@ import("time");
 import("console");
 auto clock.=(Clock());
 time.sleep(128);
-basicOut(clock.getElapsedMilliseconds());
+console.writeLine("time: ", clock.getElapsedMilliseconds());
 clock.restart();
 
 auto a.=(1);

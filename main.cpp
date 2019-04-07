@@ -75,6 +75,7 @@ int main(int argc, char** argv)
         {
 	    	basicOutObject->CALL(e);
         }
+        SequentialTask::unregisterThisThread();
 	    object::release();
         basicOutObject.reset();
     }

@@ -3,12 +3,14 @@
 
 #include "nobject.h"
 #include "exception.h"
+#include "SequentialTask.h"
 #include <string>
 #include <algorithm>
 
 #if defined(_WIN32)
     #define NOMINMAX
     #define WIN32_LEAN_AND_MEAN
+    #define _CRT_SECURE_NO_WARNINGS
     #pragma comment(linker, "/STACK:67108864")
     #include <Windows.h>
     #include <eh.h>

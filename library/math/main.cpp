@@ -63,6 +63,7 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType
     std::srand(std::time(0));
 
     name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
+    SequentialTask::staticMembers = std::any_cast<SequentialTask::SharedStaticMembers>(args[1]->getValue());
     object::initialize(obj->READ(name("Root"), true));
 
     obj->addChild(constructObject(obj, "Double", M_E)->setName(name("e")))
