@@ -31,9 +31,6 @@ int main(int argc, char** argv)
                 if (isFlag(argv[i], "-file") && i != argc-1)
                 {
                     fileNames.push_back(std::string(argv[++i]));
-                    //std::ifstream sourceFile(argv[i]);
-                    //std::getline(sourceFile, source, (char)EOF);
-                    //sourceFile.close();
                 }
                 else if (isFlag(argv[i], "-entryPoint") && i != argc-1)
                 {
@@ -57,7 +54,6 @@ int main(int argc, char** argv)
             object::objectPtr entryPointString = object::getRawRoot()->READ(name("String"))->CALL();
             entryPointString->getValue() = entryPoint;
             object::objectPtr entryPointBlockCallable = object::getRawRoot()->READ(name("parse"))->CALL(entryPointString);
-            //TODO BlockCallable should change its name itself
             entryPointBlockCallable->getName() = "EntryPointBlockCallable";
             entryPointBlockCallable->CALL();
 
@@ -75,7 +71,7 @@ int main(int argc, char** argv)
         {
 	    	basicOutObject->CALL(e);
         }
-        SequentialTask::unregisterThisThread();
+        asyncTasks::unregisterThisThread();
 	    object::release();
         basicOutObject.reset();
     }

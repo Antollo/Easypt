@@ -1,16 +1,6 @@
 #include <cstdlib>
 #include "nobject.h"
-
-#ifdef _WIN32
-    #define EXPORT __declspec(dllexport)
-#else
-    #define EXPORT
-#endif
-
-extern "C"
-{
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
-}
+#include "nativeLibrary.h" 
 
 object::objectPtr callShellCommand (object::objectPtr obj, object::arrayType& args)
 {
@@ -48,9 +38,7 @@ object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::arrayTy
 
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
-    name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
-    SequentialTask::staticMembers = std::any_cast<SequentialTask::SharedStaticMembers>(args[1]->getValue());
-    object::initialize(obj->READ(name("Root"), true));
+    nativeLibrary::initialize(obj, args);
 
     std::string osName = "";
     #if defined(_WIN32)

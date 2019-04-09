@@ -3,17 +3,7 @@
 #include "nobject.h"
 #include "Common.h"
 #include "Core.h"
-
-#ifdef _WIN32
-    #define EXPORT __declspec(dllexport)
-#else
-    #define EXPORT
-#endif
-
-extern "C"
-{
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
-}
+#include "nativeLibrary.h" 
 
 class file
 {
@@ -134,9 +124,7 @@ object::objectPtr FileWrite (object::objectPtr obj, object::arrayType& args)
 
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
-    name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
-    SequentialTask::staticMembers = std::any_cast<SequentialTask::SharedStaticMembers>(args[1]->getValue());
-    object::initialize(obj->READ(name("Root"), true));
+    nativeLibrary::initialize(obj, args);
 
     obj->READ(name("Root"), true)->addChild(makeClass({
         obj->READ("Object", true),

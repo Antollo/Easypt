@@ -6,12 +6,17 @@ import("math");#
 
 import("console");
 
+import("time");
+
 auto futureA.=(Task(Root, {
     for (auto i.=(0).<, 10, i.++, {
         console.writeLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     });
     return("Future A ended.");
 }));
+
+time.sleep(20);
+
 
 auto futureB.=(Task(Root, {
     for (auto i.=(0).<, 10, i.++, {
@@ -20,8 +25,8 @@ auto futureB.=(Task(Root, {
     return("Future B ended.");
 }));
 
-futureA.get();
-futureB.get();
+console.writeLine(futureA.get());
+console.writeLine(futureB.get());
 
 #auto A.=(Class(
     Object, 

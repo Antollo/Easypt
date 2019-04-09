@@ -262,20 +262,20 @@ void prepareTree()
         Root->addChild(makeClass({
             Root->READ("Object"),
             makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
-                obj->getParent()->getValue() = std::make_shared<SequentialTask::Future<object::objectPtr>>(SequentialTask::makeSequentialTask([obj, args]()-> object::objectPtr {
+                obj->getParent()->getValue() = std::make_shared<asyncTasks::future<object::objectPtr>>(asyncTasks::makeAsyncTask([obj, args]()-> object::objectPtr {
                     object::arrayType temp(args);
                     return call(obj, temp);
                 }));
                 return obj->getParent();
             }, name("Task")),
             makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
-                return (*std::any_cast<std::shared_ptr<SequentialTask::Future<object::objectPtr>>>(&obj->getParent()->getValue()))->get();
+                return (*std::any_cast<std::shared_ptr<asyncTasks::future<object::objectPtr>>>(&obj->getParent()->getValue()))->get();
             }, name("get")),
             makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
-                return constructObject(obj, "Boolean", (*std::any_cast<std::shared_ptr<SequentialTask::Future<object::objectPtr>>>(&obj->getParent()->getValue()))->valid());
+                return constructObject(obj, "Boolean", (*std::any_cast<std::shared_ptr<asyncTasks::future<object::objectPtr>>>(&obj->getParent()->getValue()))->valid());
             }, name("isValid")),
             makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
-                return constructObject(obj, "Boolean", (*std::any_cast<std::shared_ptr<SequentialTask::Future<object::objectPtr>>>(&obj->getParent()->getValue()))->ready());
+                return constructObject(obj, "Boolean", (*std::any_cast<std::shared_ptr<asyncTasks::future<object::objectPtr>>>(&obj->getParent()->getValue()))->ready());
             }, name("isReady"))
         })->setName("Task")
             //->addChild(makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {

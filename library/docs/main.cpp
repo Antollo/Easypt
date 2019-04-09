@@ -3,17 +3,7 @@
 #include <map>
 #include <cctype>
 #include "nobject.h"
-
-#ifdef _WIN32
-    #define EXPORT __declspec(dllexport)
-#else
-    #define EXPORT
-#endif
-
-extern "C"
-{
-    EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args);
-}
+#include "nativeLibrary.h" 
 
 std::map<object::nativeFunctionType, std::string> locationToFilename;
 inline size_t findNth(const std::string& str, const std::string& what, size_t n, size_t pos = 0)
@@ -129,9 +119,7 @@ object::objectPtr generateDocs (object::objectPtr obj, object::arrayType& args)
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
     std::ios_base::sync_with_stdio(false);
-    name::initialize(std::any_cast<name::initializationPack>(args[0]->getValue()));
-    SequentialTask::staticMembers = std::any_cast<SequentialTask::SharedStaticMembers>(args[1]->getValue());
-    object::initialize(obj->READ(name("Root"), true));
+    nativeLibrary::initialize(obj, args);
 
     obj->addChild(makeObject(generateDocs, name("generateDocs")));
     return nullptr;
