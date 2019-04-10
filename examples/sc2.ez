@@ -5,29 +5,63 @@ import("memory");
 import("math");#
 
 import("console");
-
+import("devices");
 import("time");
 
-auto futureA.=(Task(Root, {
+#auto futureA.=(Task(Root, {
     for (auto i.=(0).<, 10, i.++, {
         console.writeLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     });
     return("Future A ended.");
 }));
 
-time.sleep(20);
-
-
 auto futureB.=(Task(Root, {
     for (auto i.=(0).<, 10, i.++, {
         console.writeLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
     });
     return("Future B ended.");
+}));#
+
+auto str.=("C");
+
+var EventListener.=(Class(
+    Object,
+    var task,
+    {
+        task.=(Task(Root, {
+            auto predicate.=(args[0].get());
+            auto callback.=(args[1].get());
+            while (true, {
+                if (predicate(), {
+                    callback();
+                    auto condition.=(predicate());
+                    while (condition, {
+                        condition.=(predicate());
+                    });
+                });
+            });
+        }, args[0].get(), args[1].get()));
+    }.setName("EventListener")
+));
+
+auto ev.=(EventListener({
+    return(devices.keyboard.isKeyDown("c"));
+}, {
+    basicOut("c pressed");
 }));
 
-console.writeLine(futureA.get());
-console.writeLine(futureB.get());
 
+auto futureC.=(Task(getThis(), {
+    for (auto i.=(0).<, 10, i.++, {
+        console.writeLine("CCCccccc");
+    });
+    return("Future C ended.");
+}));
+#console.writeLine(futureA.get());
+console.writeLine(futureB.get());#
+console.writeLine(futureC.get());
+
+console.writeLine("Is that ok?");
 #auto A.=(Class(
     Object, 
     {

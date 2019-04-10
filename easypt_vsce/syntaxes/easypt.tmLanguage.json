@@ -63,7 +63,7 @@
 			"patterns": [
 				{
 					"name": "entity.name.class",
-					"match": "\\b[A-Z][a-z]+\\b"
+					"match": "\\b[A-Z][A-Za-z]+\\b"
 				},
 				{
 					"name": "entity.name.function",

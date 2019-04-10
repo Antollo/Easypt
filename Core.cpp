@@ -16,7 +16,7 @@ object::objectPtr call (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() < 2)
         throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-    object::arrayType _args = object::arrayType(args.begin() + 1, args.end());
+    object::arrayType _args = object::arrayType(args.begin() + 2, args.end());
     return args[1]->callWithParent(args[0], _args);
 }
 //Exception constructor

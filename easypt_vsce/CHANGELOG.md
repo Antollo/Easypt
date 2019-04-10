@@ -1,5 +1,10 @@
 # Change Log
 
+### 1.1.7
+
+Highlighting fix.
+
+
 ### 1.1.6
 
 `auto` keyword highlighting and class snippet added.

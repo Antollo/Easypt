@@ -16,7 +16,7 @@
     #include <eh.h>
     using libraryType = HMODULE;
     #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
-    #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+        #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
     #endif
 #elif defined(__linux__)
     #include <cstdio>

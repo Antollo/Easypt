@@ -34,14 +34,18 @@ object::objectPtr writeLine (object::objectPtr obj, object::arrayType& args)
 object::objectPtr read (object::objectPtr obj, object::arrayType& args)
 {
     std::string buffer;
+    asyncTasks::unregisterThisThread();
     std::cin >> buffer;
+    asyncTasks::registerThisThread();
     return obj->READ(name("String"), true)->CALL()->setValue(buffer);
 }
 
 object::objectPtr readLine (object::objectPtr obj, object::arrayType& args)
 {
     std::string buffer;
+    asyncTasks::unregisterThisThread();
     std::getline(std::cin, buffer);
+    asyncTasks::registerThisThread();
     return obj->READ(name("String"), true)->CALL()->setValue(buffer);
 }
 
@@ -50,7 +54,9 @@ object::objectPtr scan (object::objectPtr obj, object::arrayType& args)
     std::string buffer;
     for(auto& arg : args)
     {
+        asyncTasks::unregisterThisThread();
         std::cin >> buffer;
+        asyncTasks::registerThisThread();
         if (arg->hasSignature(name("String")))
             arg->getValue() = buffer;
         else if (arg->hasSignature(name("Int")))
@@ -59,11 +65,11 @@ object::objectPtr scan (object::objectPtr obj, object::arrayType& args)
             {
                 arg->getValue() = std::stoi(buffer);
             }
-            catch (std::invalid_argument& e)
+            catch (std::invalid_argument&)
             {
                 throw(InvalidValue("Invalid input value in ", obj->getFullNameString()));
             }
-            catch (std::out_of_range& e)
+            catch (std::out_of_range&)
             {
                 throw(OutOfRange("Out of range in ", obj->getFullNameString()));
             }
@@ -74,11 +80,11 @@ object::objectPtr scan (object::objectPtr obj, object::arrayType& args)
             {
                 arg->getValue() = (bool) std::stoi(buffer);
             }
-            catch (std::invalid_argument& e)
+            catch (std::invalid_argument&)
             {
                 throw(InvalidValue("Invalid input value in ", obj->getFullNameString()));
             }
-            catch (std::out_of_range& e)
+            catch (std::out_of_range&)
             {
                 throw(OutOfRange("Out of range in ", obj->getFullNameString()));
             }
@@ -89,11 +95,11 @@ object::objectPtr scan (object::objectPtr obj, object::arrayType& args)
             {
                 arg->getValue() = std::stod(buffer);
             }
-            catch (std::invalid_argument& e)
+            catch (std::invalid_argument&)
             {
                 throw(InvalidValue("Invalid input value in ", obj->getFullNameString()));
             }
-            catch (std::out_of_range& e)
+            catch (std::out_of_range&)
             {
                 throw(OutOfRange("Out of range in ", obj->getFullNameString()));
             }
