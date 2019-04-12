@@ -5,7 +5,7 @@
 #include "nobject.h"
 #include "Common.h"
 #include "Core.h"
-#include "nativeLibrary.h" 
+#include "nativeLibrary.h"
 
 extern const char typeNamesByteView[] = "ByteView";
 extern const char typeNamesByteViewIterator[] = "ByteViewIterator";
@@ -82,10 +82,6 @@ public:
     bool operator == (const byteView& another)
     {
         return !std::memcmp(_data, another._data, std::min(_size, another._size));
-    }
-    std::string fromBase64()
-    {
-        
     }
 private:
     size_t _size;
@@ -258,6 +254,6 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType
         makeObject(method<byteWrapper, void (byteWrapper::*)(byteWrapper), &byteWrapper::shr, void, byteWrapper>, name(">>=")),
         makeObject(method<byteWrapper, void (byteWrapper::*)(), &byteWrapper::_not, void>, name("~=")),
     })->setName("ByteWrapper"));
-        
+
     return nullptr;
 }

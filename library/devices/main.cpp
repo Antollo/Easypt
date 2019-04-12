@@ -29,18 +29,18 @@ bool isKeyDown(char key)
     str[0] = key;
     KeySym keysym = XStringToKeysym(str);
 
-    Display* display = OpenDisplay();
+    Display* display = XOpenDisplay(nullptr);
     KeyCode keycode = XKeysymToKeycode(display, keysym);
     if (keycode != 0)
     {
         char keys[32];
         XQueryKeymap(display, keys);
-        CloseDisplay(display);
+        XCloseDisplay(display);
         return (keys[keycode / 8] & (1 << (keycode % 8))) != 0;
     }
     else
     {
-        CloseDisplay(display);
+        XCloseDisplay(display);
         return false;
     }
 }
@@ -56,7 +56,7 @@ bool isKeyDown(char key)
 #endif
 
 #include "nobject.h"
-#include "nativeLibrary.h" 
+#include "nativeLibrary.h"
 #include "Common.h"
 
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
