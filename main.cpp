@@ -21,7 +21,6 @@ int main(int argc, char** argv)
     {
         initialize();
         prepareTree();
-        object::objectPtr basicOutObject = object::getRawRoot()->READ(name("basicOut"));
         try
         {
             std::string entryPoint;
@@ -56,28 +55,26 @@ int main(int argc, char** argv)
             object::objectPtr entryPointBlockCallable = object::getRawRoot()->READ(name("parse"))->CALL(entryPointString);
             entryPointBlockCallable->getName() = "EntryPointBlockCallable";
             entryPointBlockCallable->CALL();
-
 	    	object::release();
         }
         catch (exception& e)
         {
-	    	basicOutObject->CALL(constructObject(object::getRawRoot(), "String", e.getMessage()));
+	    	errorOut(e.getMessage());
         }
         catch (std::exception& e)
         {
-	    	basicOutObject->CALL(constructObject(object::getRawRoot(), "String", "Unknown exception: " + std::string(e.what())));
+	    	errorOut("Unknown exception: " + std::string(e.what()));
         }
         catch (object::objectPtr& e)
         {
-	    	basicOutObject->CALL(e);
+	    	errorOut(e);
         }
-        asyncTasks::unregisterThisThread();
+        //asyncTasks::unregisterThisThread();
 	    object::release();
-        basicOutObject.reset();
     }
     catch(...)
     {
-        IO::basicOut << "Fatal error occurred.";
+        errorOut("Fatal error occurred.");
     }
     return 0;
 }

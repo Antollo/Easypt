@@ -8,58 +8,75 @@ import("console");
 import("devices");
 import("time");
 
-#auto futureA.=(Task(Root, {
+auto taskA.=(Task(Root, {
     for (auto i.=(0).<, 10, i.++, {
-        console.writeLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        console.writeLine("A");
     });
-    return("Future A ended.");
+    return("Task A ended.");
 }));
 
-auto futureB.=(Task(Root, {
-    for (auto i.=(0).<, 10, i.++, {
-        console.writeLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-    });
-    return("Future B ended.");
-}));#
-
-auto str.=("C");
+console.writeLine(taskA.isReady());
+time.sleep(3);
+console.writeLine(taskA.isReady());
+time.sleep(3);
+console.writeLine(taskA.isReady());
+time.sleep(3);
+console.writeLine(taskA.isReady());
+console.writeLine(taskA.get());
+console.writeLine(futureB.get());
 
 var EventListener.=(Class(
     Object,
     var task,
+    var taskMain,
+    var taskLoop,
+    var predicate,
+    var callback,
+    var running,
     {
-        task.=(Task(Root, {
-            auto predicate.=(args[0].get());
-            auto callback.=(args[1].get());
-            while (true, {
-                if (predicate(), {
-                    callback();
-                    auto condition.=(predicate());
-                    while (condition, {
-                        condition.=(predicate());
-                    });
-                });
-            });
-        }, args[0].get(), args[1].get()));
-    }.setName("EventListener")
+        running.=(true);
+        taskLoop.=({
+            if (predicate(), callback);
+        });
+        taskMain.=({
+            predicate.=(args[0].get());
+            callback.=(args[1].get());
+            while (running, taskLoop);
+        });
+        task.=(Task(getThis(), taskMain, args[0].get(), args[1].get()));
+    }.setName("EventListener"),
+    {
+        running.=(false);
+        task.get();
+    }.setName("~~");
 ));
 
-auto ev.=(EventListener({
-    return(devices.keyboard.isKeyDown("c"));
+var arrayLiteral.=({
+    return(args);
+});
+
+
+Root.var pos.=(5);
+auto dListener.=(EventListener({
+    return(devices.keyboard.isKeyDown("d"));
 }, {
-    basicOut("c pressed");
+    pos.--();
+    basicOut("d");
+}));
+auto aListener.=(EventListener({
+    return(devices.keyboard.isKeyDown("a"));
+}, {
+    pos.++();
+    basicOut("a");
 }));
 
+#while (1, {
+    basicOut(pos);
+});#
 
-auto futureC.=(Task(getThis(), {
-    for (auto i.=(0).<, 10, i.++, {
-        console.writeLine("CCCccccc");
-    });
-    return("Future C ended.");
-}));
-#console.writeLine(futureA.get());
-console.writeLine(futureB.get());#
-console.writeLine(futureC.get());
+removeChild("dListener");
+removeChild("aListener");
+
 
 console.writeLine("Is that ok?");
 #auto A.=(Class(

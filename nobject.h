@@ -17,8 +17,7 @@
 #include <cstddef>
 #include <utility>
 
-
-#define makeObject(...) std::make_shared<object>(__VA_ARGS__)
+#define makeObject(...) std::shared_ptr<object>(new object{__VA_ARGS__}, object::deleter())
 #define constructObject(caller, type, value) caller->READ(name(type), true)->CALL()->setValue(value)
 
 class object : public std::enable_shared_from_this<object>
@@ -37,6 +36,23 @@ class object : public std::enable_shared_from_this<object>
         object(object&&) = default;
         object& operator= (object&&) = default;	
         ~object();
+
+        struct deleter
+        { 
+            void operator()(objectRawPtr ptr) const;
+        };
+
+        struct fakeDeleter
+        { 
+            void operator()(objectRawPtr ptr) const {};
+        };
+
+        std::shared_ptr<object> shared_from_this()
+        {
+            if (beingDestructed) return std::shared_ptr<object>(this, fakeDeleter());
+            return std::enable_shared_from_this<object>::shared_from_this();
+        }
+        
         bool operator ==(const object& x) const
         {
             return myName == x.myName && signatures == x.signatures && children == x.children;
@@ -157,7 +173,33 @@ class object : public std::enable_shared_from_this<object>
         name myName;
         signaturesContainer signatures;
 		bool automatic;
+        bool beingDestructed;
 };
 
+template <class T>
+std::enable_if_t<!std::is_same_v<std::decay_t<T>, object::objectPtr>> errorOut (T arg)
+{
+    std::cerr << arg << std::endl;
+}
+
+template <class T>
+std::enable_if_t<std::is_same_v<std::decay_t<T>, object::objectPtr>> errorOut (T arg)
+{
+    if (arg->getValue().type().hash_code() == typeid(std::string).hash_code())
+        std::cerr << *std::any_cast<std::string>(&arg->getValue()) << std::endl;
+    else if (arg->getValue().type().hash_code() == typeid(int).hash_code())
+        std::cerr << *std::any_cast<int>(&arg->getValue()) << std::endl;
+    else if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
+        std::cerr << *std::any_cast<bool>(&arg->getValue()) << std::endl;
+    else if (arg->getValue().type().hash_code() == typeid(double).hash_code())
+        std::cerr << *std::any_cast<double>(&arg->getValue()) << std::endl;
+    else if (arg->getValue().type().hash_code() == typeid(object::arrayType).hash_code())
+    {
+        for(auto& el : *std::any_cast<object::arrayType>(&arg->getValue()))
+        {
+            errorOut(el);
+        }
+    }
+}
 
 #endif

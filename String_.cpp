@@ -40,11 +40,11 @@ object::objectPtr StringToInt (object::objectPtr obj, object::arrayType& args)
     {
         ret->getValue() = std::stoi(std::any_cast<std::string>(obj->getParent()->getValue()));
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument&)
     {
         throw(InvalidValue("Invalid parent value in ", obj->getFullNameString()));
     }
-    catch (std::out_of_range& e)
+    catch (std::out_of_range&)
     {
         throw(OutOfRange("Out of range in ", obj->getFullNameString()));
     }
@@ -57,11 +57,11 @@ object::objectPtr StringToDouble (object::objectPtr obj, object::arrayType& args
     {
         ret->getValue() = std::stod(std::any_cast<std::string>(obj->getParent()->getValue()));
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument& )
     {
         throw(InvalidValue("Invalid parent value in ", obj->getFullNameString()));
     }
-    catch (std::out_of_range& e)
+    catch (std::out_of_range&)
     {
         throw(OutOfRange("Out of range in ", obj->getFullNameString()));
     }
@@ -74,11 +74,11 @@ object::objectPtr StringToBoolean (object::objectPtr obj, object::arrayType& arg
     {
         ret->getValue() = (bool) std::any_cast<std::string>(obj->getParent()->getValue()).size();
     }
-    catch (std::invalid_argument& e)
+    catch (std::invalid_argument&)
     {
         throw(InvalidValue("Invalid parent value in ", obj->getFullNameString()));
     }
-    catch (std::out_of_range& e)
+    catch (std::out_of_range&)
     {
         throw(OutOfRange("Out of range in ", obj->getFullNameString()));
     }

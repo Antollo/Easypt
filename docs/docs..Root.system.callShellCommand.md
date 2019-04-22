@@ -2,9 +2,9 @@
 
 #### `..Root.system.callShellCommand`
 
-Calls the operating system's command processor with the parameter command. 
+Calls the operating system's command processor with concatenation of given parameters. 
 
-* **Parameters:** `String` command
+* **Parameters:** any number of `String`
 
 * **Return value:** reference to this function
 
@@ -21,7 +21,7 @@ Calls the operating system's command processor with the parameter command.
 ```c
 import("system");
 
-basicOut(system.callShellCommand("cd"));
+system.callShellCommand("cd");
 ```
 
 #### Possible output:

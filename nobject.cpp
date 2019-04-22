@@ -8,7 +8,7 @@ object::objectPtr object::dot;
 std::deque<object::objectPtr> object::dynamicLibraries;
 
 object::object(std::any newValue, name newName)
-	:value(newValue), myName(newName), parent(nullptr), automatic(false)
+	:value(newValue), myName(newName), parent(nullptr), automatic(false), beingDestructed(false)
 {
 #if defined(DEBUG)
     std::cout<<"CREATE "<<getFullNameString()<<std::endl;
@@ -46,7 +46,7 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
             if (!hasChild(name("Root")) && Root != nullptr)
                 return Root->READ(objectName, true);
 			else if (Root == nullptr)
-				throw(NotFound("Root is not found in ", getFullNameString()));
+				throw(NotFound("Root was already destroyed in opinion of ", getFullNameString()));
         }
         throw(NotFound("Cannot find ", objectName, " in ", getFullNameString()));
     }
@@ -178,30 +178,30 @@ object::~object()
     parent = nullptr;
     for (auto& child : children)
         child.second->setParent(nullptr);
-    if (hasChild("~~") && Root != nullptr)
+}
+
+void object::deleter::operator()(objectRawPtr ptr) const {
+    if (ptr->hasChild("~~"))
     {
-        object::objectPtr dtor = READ("~~");
-        if (hasChild("getParent"))
-            children.erase(children.find("getParent"));
-        if (dtor->hasChild("getParent"))
-            dtor->children.erase(dtor->children.find("getParent"));
+        ptr->beingDestructed = true;
         try
         {
-            dtor->CALL();
+            ptr->READ("~~")->CALL();
         }
         catch (exception& e)
         {
-            IO::basicOut << e.getMessage();
+            errorOut(e.getMessage());
         }
         catch (std::exception& e)
         {
-            IO::basicOut << "Unknown exception: " + std::string(e.what());
+            errorOut("Unknown exception: " + std::string(e.what()));
         }
         catch (...)
         {
-	    	IO::basicOut << "Fatal error occurred.";
+	    	errorOut("Fatal error occurred.");
         }
     }
+    delete ptr;
 }
 
 object::objectPtr object::getParent(bool throwing)

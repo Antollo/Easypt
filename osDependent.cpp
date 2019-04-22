@@ -129,12 +129,18 @@ void initialize()
     asyncTasks::initialize(std::make_shared<asyncTasks::staticMembers>());
     asyncTasks::registerThisThread();
     #if defined(_WIN32)
+
+    //Handle structured exceptions
     _set_se_translator(translateSEH);
+
+    //Prevent stack overflow
     ULONG_PTR lowLimit;
     ULONG_PTR highLimit;
     GetCurrentThreadStackLimits(&lowLimit, &highLimit);
     static ULONG size = (highLimit - lowLimit)/8*7;
     SetThreadStackGuarantee(&size);
+
+    //Colors in console
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hOut == INVALID_HANDLE_VALUE)
     {

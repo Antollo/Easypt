@@ -1,3 +1,6 @@
+#ifdef _WIN32
+    #define CRT_SECURE_NO_WARNINGS
+#endif
 #include <iostream>
 #include <cstdio>
 #include <string>

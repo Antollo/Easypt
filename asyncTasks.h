@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <memory>
 #include "exception.h"
-
+#include "nobject.h"
 
 class asyncTasks
 {
@@ -43,13 +43,13 @@ public:
 			try
 			{
 				temp = internal.get();
+				asyncTasks::registerThisThread();
 			}
 			catch (...)
 			{
 				asyncTasks::registerThisThread();
 				std::rethrow_exception(std::current_exception());
 			}
-			asyncTasks::registerThisThread();
 			return temp;
 		}
 		bool ready()
@@ -68,9 +68,17 @@ public:
 				if (internal.valid())
 					internal.get();
 			}
+			catch (exception& e)
+			{
+				errorOut(e.getMessage());
+			}
+			catch (std::exception& e)
+			{
+				errorOut("Unknown exception: " + std::string(e.what()));
+			}
 			catch (...)
 			{
-				asyncTasks::registerThisThread();
+				errorOut("Fatal error occurred.");
 			}
 			asyncTasks::registerThisThread();
 		}
@@ -90,13 +98,13 @@ public:
 			try
 			{
 				temp = f();
+				unregisterThisThread();
 			}
 			catch (...)
 			{
 				unregisterThisThread();
 				std::rethrow_exception(std::current_exception());
 			}
-			unregisterThisThread();
 			return temp;
 		});
 		while (members->notReadyFlag)

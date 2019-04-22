@@ -1,22 +1,23 @@
 #include <cstdlib>
 #include "nobject.h"
-#include "nativeLibrary.h" 
+#include "nativeLibrary.h"
 
 object::objectPtr callShellCommand (object::objectPtr obj, object::arrayType& args)
 {
-    if (args.size() == 1)
+    std::string command;
+    for (auto& arg : args)
     {
-        if (args[0]->hasSignature(name("String")))
+        if (arg->hasSignature(name("String")))
         {
-            std::system(std::any_cast<std::string>(args[0]->getValue()).c_str());
-            return obj->getParent();
+            command += std::any_cast<std::string>(args[0]->getValue());
         }
         else
         {
             throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
         }
     }
-    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+    std::system(command.c_str());
+    return obj->getParent();
 }
 
 object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::arrayType& args)

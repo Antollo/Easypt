@@ -44,7 +44,7 @@ Skip this step if you already have VS Code installed.
 
 ## 4. Add Easypt extension to VS Code
 
-You can download it [here]([https://code.visualstudio.com/](https://marketplace.visualstudio.com/items?itemName=Antollo.easypt)).
+You can download it in VS Code extension marketplace.
 
 ## 5. When you create new project add following `tasks.json` to project's `.vscode` directory:
 
