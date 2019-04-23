@@ -47,6 +47,8 @@ auto Bird.=(Class(
 ));
 ```
 
+To learn more read the reference: [`Class`](docs..Root.Class.md)
+
 Usage of `Bird` class:
 
 ```c
@@ -90,7 +92,7 @@ Children:
 
 **Advanced level:**
 
-`proto` is kind of cache for unused children of variable and take significant part in inheritance. It was inspired by JavaScript object prototypes ([_read more on MDN docs_](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes)).
+`proto` is kind of cache for unused children of variable and take significant part in inheritance. It was inspired by JavaScript object prototypes ([_read more about JavaScript object prototypes on MDN docs_](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes)).
 
 
 ---

@@ -41,9 +41,9 @@ Nothing happened. We need to call it (by call operator - `()`).
 }();
 ```
 
-(Code called like this above has no access to current context.)
+(Code called like this above - anonymous function literal - has no access to current context.)
 
-Let's give our function a name;:
+Let's give our function a name:
 
 ```c
 auto fun.=({

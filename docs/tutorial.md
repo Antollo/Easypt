@@ -12,5 +12,5 @@ You’ll learn how to write Easypt scripts!
 8. [More sources](import.md)
 9. [Libraries](library.md)
 10. [More on classes](classes2.md)
-11. Files, exceptions and extras
+11. [Files, exceptions and extras](extras.md)
  

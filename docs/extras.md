@@ -2,7 +2,9 @@
 
 ## 1. Files
 
-> Were you expecting quote from Wikipedia? I'm sure you know what file is.
+> A computer **file** is a computer resource for recording data discretely in a computer storage device. Just as words can be written to paper, so can information be written to a computer file.
+> 
+> [_From Wikipedia_](https://en.wikipedia.org/wiki/Computer_file)
 
 A file must be opened before you can use it. `File` object may be use to read from it or write to it. Example:
 
@@ -59,3 +61,25 @@ basicOut(testFile.read());
 testFile.write("delta");
 basicOut(testFile.read());
 ```
+
+Expected output is:
+
+```
+alpha
+beta
+gamma
+alpha
+```
+
+Why did the last block print "alpha" instead of "delta"? It's time yo answer the question! Dive into language reference:
+
+- [`Root.File`](docs..Root.File.md)
+- [`Root.File.read`](docs..Root.File.read.md)
+- [`Root.File.write`](docs..Root.File.write.md)
+
+Hint: _read position indicator_
+
+
+---
+
+>## TODO: exceptions, tasks and extras

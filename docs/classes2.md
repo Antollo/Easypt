@@ -71,7 +71,7 @@ Why one bird died?! What about temporary object `Bird("black")`? Was it destroye
 >
 > [_From Wikipedia_](https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming))
 
-Base class constructors are available only in constructor of inherited class.
+Base class constructors are available only in constructor of inherited class, they must be called explicitly.
 
 Example:
 
@@ -116,7 +116,31 @@ bird.sing();
 
 In Easypt there are plenty of abstract classes. For example `Container` or `Iterator`. Dive into language reference to search for more!
 
-Example of "abstractness":
+This allows you to e.g. treat both `ArrayIterator` and `StringIterator` as `Iterator` not worrying about exact type. See `algorithm.iterator.forEach` (check in [reference](docs..algorithm.iterator.forEach.md)) from `algorithm.ez`:
+
+```c
+iterator.var forEach.=({
+    auto fun.=(args[2].get());
+    for (auto it.=(args[0].get()).!=, args[1].get(), it.++, {
+        fun(it.get());
+    });
+    return(args[1].get());
+});
+```
+And then you could write:
+
+```c
+import("algorithm");
+
+auto a.=(Array());
+a.pushBack("w", "a", "z", "f", "c", "d");
+algorithm.iterator.forEach(a.begin(), a.end(), basicOut);
+
+auto b.=("014753");
+algorithm.iterator.forEach(b.begin(), b.end(), basicOut);
+```
+
+Example of "abstractness failure":
 
 ```c
 auto it.=(Iterator());
@@ -132,6 +156,9 @@ Exception at: ..Root.my_file.callOperator
 Exception at: ..Root.my_file.it.get
 InvalidValueException: Object ..Root.my_file.it.get is abstract function
 ```
+
+
+---
 
 [Next lesson (Files, exceptions and extras)](extras.md)
 

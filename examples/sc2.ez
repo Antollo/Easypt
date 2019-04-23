@@ -23,7 +23,6 @@ console.writeLine(taskA.isReady());
 time.sleep(3);
 console.writeLine(taskA.isReady());
 console.writeLine(taskA.get());
-console.writeLine(futureB.get());
 
 var EventListener.=(Class(
     Object,
