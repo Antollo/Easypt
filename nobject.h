@@ -177,13 +177,13 @@ class object : public std::enable_shared_from_this<object>
 };
 
 template <class T>
-std::enable_if_t<!std::is_same_v<std::decay_t<T>, object::objectPtr>> errorOut (T arg)
+inline void errorOut (T arg)
 {
     std::cerr << arg << std::endl;
 }
 
-template <class T>
-std::enable_if_t<std::is_same_v<std::decay_t<T>, object::objectPtr>> errorOut (T arg)
+template <>
+inline void errorOut (const object::objectPtr& arg)
 {
     if (arg->getValue().type().hash_code() == typeid(std::string).hash_code())
         std::cerr << *std::any_cast<std::string>(&arg->getValue()) << std::endl;
