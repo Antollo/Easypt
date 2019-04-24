@@ -8,8 +8,8 @@
 #include <atomic>
 #include <algorithm>
 #include <memory>
-#include "exception.h"
 #include "nobject.h"
+#include "exception.h"
 
 class asyncTasks
 {

@@ -7,7 +7,6 @@
 #include "name.h"
 #include "IO.h"
 #include "exception.h"
-#include "asyncTasks.h"
 #include <vector>
 #include <unordered_set>
 #include <iostream>
@@ -201,5 +200,7 @@ inline void errorOut (const object::objectPtr& arg)
         }
     }
 }
+
+#include "asyncTasks.h"
 
 #endif

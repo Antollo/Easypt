@@ -1,9 +1,9 @@
 #ifndef OSDEPENDENT_H
 #define OSDEPENDENT_H
 
+#include "asyncTasks.h"
 #include "nobject.h"
 #include "exception.h"
-#include "asyncTasks.h"
 #include <string>
 #include <algorithm>
 
