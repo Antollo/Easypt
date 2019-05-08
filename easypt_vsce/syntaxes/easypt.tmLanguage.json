@@ -29,18 +29,35 @@
 			}]
 		},
 		"strings": {
+			"name": "string.quoted.double.easypt",
+			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.easypt"
+				}
+			},
+			"end": "\"",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.easypt"
+				}
+			},
 			"patterns": [
 				{
-					"name": "string.quoted.double.easypt",
-					"match": "\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\""
+					"include": "#escape-sequence"
 				}
 			]
+		},
+		"escape-sequence": {
+			"name": "constant.character.escape.easypt",
+			"match": "\\\\(([\"\\\\abfnrtv\\n])|([0-9][0-9][0-9]))",
+			"patterns": []
 		},
 		"comments": {
 			"name": "comment.easypt",
 			"begin": "#",
 			"end": "#",
-			"patterns":[]
+			"patterns": []
 		},
 		"punctuation":
 		{

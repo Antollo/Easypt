@@ -1,0 +1,17 @@
+import("nativeInterface");
+
+var f.=(NativeInterface("a", "
+#include \"stdio.h\" 
+#include \"interface.h\" 
+object* a(object* obj, object** args, int i)
+{ 
+    printf(\"%i\", getInt(args[0]));
+    return args[0];
+}"));
+
+basicOut(f(7));
+
+basicOut("ab bcd efghIjk".searchRegex("[a-z]+"));
+basicOut("aBCd".replaceRegex("[a-z]", "e"));
+basicOut("aaaa".matchRegex("[a-z]+"));
+basicOut("aAaa".matchRegex("[a-z]+"));

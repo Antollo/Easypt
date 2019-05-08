@@ -320,6 +320,8 @@ std::string parser::parseString(const char* source, int length)
             case 'v':
                 ret.push_back('\v');
                 break;
+            case '\n':
+                break;
             case '0':
             case '1':
             case '2':

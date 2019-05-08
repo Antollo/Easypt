@@ -6,7 +6,7 @@
 
 ## Features
 
-Highlight comments, strings and numeric literals in Easypt scripts (`*.ez` files) and basic snippets.
+Highlight keywords, comments, strings and numeric literals in Easypt scripts (`*.ez` files). Provides basic snippets.
 
 ## Requirements
 
@@ -44,7 +44,8 @@ Now you can run your code with `Ctrl+Shift+B`.
 
 ## Last changes
 
-`auto` keyword highlighting and class snippet added.
+- Multi-line `String` literal highlighting.
+- Escape sequences highlighting.
 
 ## For more information
 

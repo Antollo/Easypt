@@ -1,6 +1,9 @@
 #ifndef STRING__H
 #define STRING__H
 
+#include <regex>
+#include <iterator>
+#include <algorithm>
 #include "nobject.h"
 #include "Common.h"
 
@@ -11,7 +14,9 @@ object::objectPtr StringToInt (object::objectPtr obj, object::arrayType& args);
 object::objectPtr StringToDouble (object::objectPtr obj, object::arrayType& args);
 object::objectPtr StringToBoolean (object::objectPtr obj, object::arrayType& args);
 object::objectPtr StringReplace (object::objectPtr obj, object::arrayType& args);
-object::objectPtr StringReplaceAll (object::objectPtr obj, object::arrayType& args);
+object::objectPtr StringReplaceRegex (object::objectPtr obj, object::arrayType& args);
+object::objectPtr StringMatchRegex (object::objectPtr obj, object::arrayType& args);
+object::objectPtr StringSearchRegex (object::objectPtr obj, object::arrayType& args);
 object::objectPtr StringToAsciiCode (object::objectPtr obj, object::arrayType& args);
 object::objectPtr StringReadOperator (object::objectPtr obj, object::arrayType& args);
 

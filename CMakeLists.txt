@@ -33,6 +33,7 @@ add_library(file SHARED library/file/main.cpp exception.cpp name.cpp nobject.cpp
 add_library(memory SHARED library/memory/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp asyncTasks.cpp)
 add_library(math SHARED library/math/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp asyncTasks.cpp)
 add_library(devices SHARED library/devices/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp asyncTasks.cpp)
+add_library(nativeInterface SHARED library/nativeInterface/main.cpp library/nativeInterface/interface.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp osDependent.cpp asyncTasks.cpp)
 
 configure_file(library/network/network.ez ${CMAKE_BINARY_DIR}/network.ez COPYONLY)
 configure_file(library/compression/compression.ez ${CMAKE_BINARY_DIR}/compression.ez COPYONLY)
@@ -44,9 +45,6 @@ if("${CMAKE_SYSTEM}" MATCHES "Linux")
     target_link_libraries(easypt dl)
 endif()
 
-find_package(X11 REQUIRED)
-target_link_libraries(devices ${X11_LIBRARIES})
-
 find_package(Threads REQUIRED)
 target_link_libraries(easypt Threads::Threads)
 target_link_libraries(console Threads::Threads)
@@ -57,3 +55,20 @@ target_link_libraries(file Threads::Threads)
 target_link_libraries(memory Threads::Threads)
 target_link_libraries(math Threads::Threads)
 target_link_libraries(devices Threads::Threads)
+
+find_package(X11 REQUIRED)
+target_link_libraries(devices ${X11_LIBRARIES})
+
+if(MSVC)
+    target_include_directories(nativeInterface PUBLIC tcc)
+    target_link_libraries(nativeInterface tcc/libtcc)
+    file(COPY tcc/libtcc.dll DESTINATION ${CMAKE_BINARY_DIR})
+else()
+    target_link_libraries(nativeInterface libtcc.a)
+    target_link_libraries(nativeInterface dl)
+    target_link_libraries(nativeInterface stdc++fs)
+endif()
+
+file(COPY tcc/include DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY tcc/lib DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY library/nativeInterface/interface.h DESTINATION ${CMAKE_BINARY_DIR}/include)

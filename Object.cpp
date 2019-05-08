@@ -40,9 +40,9 @@ object::objectPtr getChild (object::objectPtr obj, object::arrayType& args)
     {
         if (args[0]->hasSignature(name("String")))
         {
-            if (obj->getParent()->hasChild(std::any_cast<std::string>(args[0]->getValue())))
-                return obj->getParent()->READ(name(std::any_cast<std::string>(args[0]->getValue())));
-            throw(NotFound("Not found ", std::any_cast<std::string>(args[0]->getValue()), " in ", obj->getFullNameString()));
+            if (obj->getParent()->hasChild(*std::any_cast<std::string>(&args[0]->getValue())))
+                return obj->getParent()->READ(name(*std::any_cast<std::string>(&args[0]->getValue())));
+            throw(NotFound("Not found ", *std::any_cast<std::string>(&args[0]->getValue()), " in ", obj->getFullNameString()));
         }
         throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
     }
@@ -63,7 +63,7 @@ object::objectPtr hasChild (object::objectPtr obj, object::arrayType& args)
     {
         if (args[0]->hasSignature(name("String")))
         {
-            return constructObject(obj, "Boolean", (bool) obj->getParent()->hasChild(name(std::any_cast<std::string>(args[0]->getValue()))));
+            return constructObject(obj, "Boolean", (bool) obj->getParent()->hasChild(name(*std::any_cast<std::string>(&args[0]->getValue()))));
         }
         throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
     }
@@ -75,7 +75,7 @@ object::objectPtr removeChild (object::objectPtr obj, object::arrayType& args)
     {
         if (args[0]->hasSignature(name("String")))
         {
-            obj->getParent()->removeChild(name(std::any_cast<std::string>(args[0]->getValue())));
+            obj->getParent()->removeChild(name(*std::any_cast<std::string>(&args[0]->getValue())));
             return  obj->getParent();
         }
         throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
@@ -88,7 +88,7 @@ object::objectPtr addChild2 (object::objectPtr obj, object::arrayType& args)
     {
         if (args[0]->hasSignature(name("String")))
         {
-            obj->getParent()->addChild(std::any_cast<std::string>(args[0]->getValue()), args[1]);
+            obj->getParent()->addChild(*std::any_cast<std::string>(&args[0]->getValue()), args[1]);
             return obj->getParent();
         }
         throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));
@@ -114,7 +114,7 @@ object::objectPtr setName (object::objectPtr obj, object::arrayType& args)
     {
         if (args[0]->hasSignature(name("String")))
         {
-            obj->getParent()->setName(std::any_cast<std::string>(args[0]->getValue()));
+            obj->getParent()->setName(*std::any_cast<std::string>(&args[0]->getValue()));
             return obj->getParent();
         }
         throw(WrongTypeOfArgument("Argument is not String in ", obj->getFullNameString()));

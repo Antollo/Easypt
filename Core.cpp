@@ -82,7 +82,7 @@ object::objectPtr parse (object::objectPtr obj, object::arrayType& args)
     {
         if (args[0]->hasSignature(name("String")))
         {
-            std::string source = std::any_cast<std::string>(args[0]->getValue());
+            const std::string& source = *std::any_cast<std::string>(&args[0]->getValue());
             object::objectPtr ret = obj->READ(name("BlockCallable"), true)->CALL();
             parser par(source.c_str(), source.size() - 1, object::getRawRoot());
             ret->getValue() = par.parse();
@@ -129,7 +129,7 @@ object::objectPtr import (object::objectPtr obj, object::arrayType& args)
     {
         if (args[0]->hasSignature(name("String")))
         {
-            std::string fileName = std::any_cast<std::string>(args[0]->getValue());
+            std::string fileName = *std::any_cast<std::string>(&args[0]->getValue());
             std::string executablePath = getExecutablePath();
             if (fileName.find(".ez") == (fileName.size() - 3)
                 || std::ifstream((fileName + ".ez").c_str()).good()

@@ -13,7 +13,7 @@ object::objectPtr String2 (object::objectPtr obj, object::arrayType& args)
         if (args[0]->hasSignature(name("Int")) && args[1]->hasSignature(name("String")))
         {
             obj->getParent()->getValue() = std::string();
-            char character = typeConverter<char>(std::any_cast<std::string>(args[1]->getValue()));
+            char character = typeConverter<char>(*std::any_cast<std::string>(&args[1]->getValue()));
             (*std::any_cast<std::string>(&obj->getParent()->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
             for(auto& el : (*std::any_cast<std::string>(&obj->getParent()->getValue())))
                 el = character;
@@ -38,7 +38,7 @@ object::objectPtr StringToInt (object::objectPtr obj, object::arrayType& args)
     object::objectPtr ret = obj->READ(name("Int"), true)->CALL();
     try
     {
-        ret->getValue() = std::stoi(std::any_cast<std::string>(obj->getParent()->getValue()));
+        ret->getValue() = std::stoi(*std::any_cast<std::string>(&obj->getParent()->getValue()));
     }
     catch (std::invalid_argument&)
     {
@@ -55,7 +55,7 @@ object::objectPtr StringToDouble (object::objectPtr obj, object::arrayType& args
     object::objectPtr ret = obj->READ(name("Double"), true)->CALL();
     try
     {
-        ret->getValue() = std::stod(std::any_cast<std::string>(obj->getParent()->getValue()));
+        ret->getValue() = std::stod(*std::any_cast<std::string>(&obj->getParent()->getValue()));
     }
     catch (std::invalid_argument& )
     {
@@ -72,7 +72,7 @@ object::objectPtr StringToBoolean (object::objectPtr obj, object::arrayType& arg
     object::objectPtr ret = obj->READ(name("Boolean"), true)->CALL();
     try
     {
-        ret->getValue() = (bool) std::any_cast<std::string>(obj->getParent()->getValue()).size();
+        ret->getValue() = (bool) std::any_cast<std::string>(&obj->getParent()->getValue())->size();
     }
     catch (std::invalid_argument&)
     {
@@ -99,8 +99,8 @@ object::objectPtr StringReplace (object::objectPtr obj, object::arrayType& args)
     {
         if (args[0]->hasSignature(name("String")) && args[1]->hasSignature(name("String")))
         {
-            std::string what = std::any_cast<std::string>(args[0]->getValue());
-            std::string withWhat = std::any_cast<std::string>(args[1]->getValue());
+            const std::string& what = *std::any_cast<std::string>(&args[0]->getValue());
+            const std::string& withWhat = *std::any_cast<std::string>(&args[1]->getValue());
             std::string& internal = *std::any_cast<std::string>(&obj->getParent()->getValue());
             size_t pos = internal.find(what);
             if (pos != std::string::npos)
@@ -111,14 +111,73 @@ object::objectPtr StringReplace (object::objectPtr obj, object::arrayType& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-object::objectPtr StringReplaceAll (object::objectPtr obj, object::arrayType& args)
+object::objectPtr StringReplaceRegex (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 2)
     {
         if (args[0]->hasSignature(name("String")) && args[1]->hasSignature(name("String")))
         {
-            std::string what = std::any_cast<std::string>(args[0]->getValue());
-            std::string withWhat = std::any_cast<std::string>(args[1]->getValue());
+            const std::string& regex = *std::any_cast<std::string>(&args[0]->getValue());
+            const std::string& regexReplacement = *std::any_cast<std::string>(&args[1]->getValue());
+            const std::string& internal = *std::any_cast<std::string>(&obj->getParent()->getValue());
+
+            std::string result = std::regex_replace(internal, std::regex(regex, std::regex::ECMAScript), regexReplacement);
+            return obj->READ("String", true)->CALL()->setValue(result);
+        }
+        throw(WrongTypeOfArgument("Arguments are not Strings in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr StringMatchRegex (object::objectPtr obj, object::arrayType& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("String")))
+        {
+            const std::string& regex = *std::any_cast<std::string>(&args[0]->getValue());
+            const std::string& internal = *std::any_cast<std::string>(&obj->getParent()->getValue());
+
+            std::regex r = std::regex(regex, std::regex::ECMAScript);
+
+            return obj->READ("Boolean", true)->CALL()->setValue(std::regex_match(internal, r));
+        }
+        throw(WrongTypeOfArgument("Arguments are not Strings in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+object::objectPtr StringSearchRegex (object::objectPtr obj, object::arrayType& args)
+{
+    if (args.size() == 1)
+    {
+        if (args[0]->hasSignature(name("String")))
+        {
+            const std::string& regex = *std::any_cast<std::string>(&args[0]->getValue());
+            const std::string& internal = *std::any_cast<std::string>(&obj->getParent()->getValue());
+
+            std::regex r = std::regex(regex, std::regex::ECMAScript);
+
+            std::sregex_iterator resultBegin(internal.begin(), internal.end(), r);
+            std::sregex_iterator resultEnd;
+
+            object::arrayType resultArray(std::distance(resultBegin, resultEnd));
+
+            std::transform(resultBegin, resultEnd, resultArray.begin(), [&obj](const std::smatch& m) -> object::objectPtr {
+                return obj->READ("String", true)->CALL()->setValue((std::string)m.str());
+            });
+            return obj->READ("Array", true)->CALL()->setValue(resultArray);
+        }
+        throw(WrongTypeOfArgument("Arguments are not Strings in ", obj->getFullNameString()));
+    }
+    throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
+}
+/*object::objectPtr StringReplaceAll (object::objectPtr obj, object::arrayType& args)
+{
+    if (args.size() == 2)
+    {
+        if (args[0]->hasSignature(name("String")) && args[1]->hasSignature(name("String")))
+        {
+            std::string what = *std::any_cast<std::string>(&args[0]->getValue());
+            std::string withWhat = *std::any_cast<std::string>(&args[1]->getValue());
             std::string& internal = *std::any_cast<std::string>(&obj->getParent()->getValue());
             size_t pos = internal.find(what);
             while(pos != std::string::npos)
@@ -132,7 +191,7 @@ object::objectPtr StringReplaceAll (object::objectPtr obj, object::arrayType& ar
         throw(WrongTypeOfArgument("Arguments are not Strings in ", obj->getFullNameString()));
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
-}
+}*/
 object::objectPtr StringReadOperator (object::objectPtr obj, object::arrayType& args)
 {
     if (args.size() == 1)
@@ -140,7 +199,7 @@ object::objectPtr StringReadOperator (object::objectPtr obj, object::arrayType& 
         if (args[0]->hasSignature(name("Int")))
         {
             size_t index = std::any_cast<int>(args[0]->getValue());
-            if (index >= 0 && index < std::any_cast<std::string>(obj->getParent()->getValue()).size())
+            if (index >= 0 && index < std::any_cast<std::string>(&obj->getParent()->getValue())->size())
             {
                 object::objectPtr ret = obj->READ(name("StringIterator"), true)->CALL();
                 ret->getValue() = (*std::any_cast<std::string>(&obj->getParent()->getValue())).begin() + index;
@@ -192,7 +251,7 @@ object::objectPtr StringIteratorReferenceAssignOperator (object::objectPtr obj, 
     {
         if (args[0]->hasSignature(name("Basic")))
         {
-            (*(*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()))) = std::any_cast<std::string>(args[0]->READ(name("toString"))->CALL()->getValue()).at(0);
+            (*(*std::any_cast<std::string::iterator>(&obj->getParent()->getValue()))) = std::any_cast<std::string>(&args[0]->READ(name("toString"))->CALL()->getValue())->at(0);
             return obj->getParent();
         }
         else

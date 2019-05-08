@@ -243,7 +243,13 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType
     obj->READ(name("Root"), true)->addChild(makeClass({
         obj->READ("Object", true),
         makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
-            obj->getParent()->getValue() = byteWrapper(nullptr);
+            if (args.size() == 1)
+            {
+                if (args[0]->getValue().type().hash_code() == typeid(int).hash_code())
+                    obj->getParent()->getValue() = byteWrapper((byteWrapper::byte*) std::any_cast<int>(&args[0]->getValue()));
+            }
+            else
+                obj->getParent()->getValue() = byteWrapper(nullptr);
             return obj->getParent();
         }, name("ByteWrapper")),
         makeObject(method<byteWrapper, int (byteWrapper::*)(), &byteWrapper::toInt, int>, name("toInt")),

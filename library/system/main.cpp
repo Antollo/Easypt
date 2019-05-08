@@ -12,7 +12,7 @@ object::objectPtr callShellCommand (object::objectPtr obj, object::arrayType& ar
     {
         if (arg->hasSignature(name("String")))
         {
-            command += std::any_cast<std::string>(args[0]->getValue());
+            command += *std::any_cast<std::string>(&args[0]->getValue());
         }
         else
         {
@@ -29,7 +29,7 @@ object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::arrayTy
     {
         if (args[0]->hasSignature(name("String")))
         {
-            char* res = std::getenv(std::any_cast<std::string>(args[0]->getValue()).c_str());
+            char* res = std::getenv(std::any_cast<std::string>(&args[0]->getValue())->c_str());
             return constructObject(obj, "String", std::string((res == nullptr) ? "" : res));
         }
         else

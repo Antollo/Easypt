@@ -103,6 +103,7 @@ class parser
             case '&':
             case '|':
             case '^':
+            case '_':
                 return true;
                 break;
             default:
