@@ -11,6 +11,7 @@
 #include "Boolean.h"
 #include "Array.h"
 #include "BlockCallable.h"
+#include "jit.h"
 #include <utility>
 
 void prepareTree();
