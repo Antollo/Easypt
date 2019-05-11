@@ -33,7 +33,7 @@ add_library(file SHARED library/file/main.cpp exception.cpp name.cpp nobject.cpp
 add_library(memory SHARED library/memory/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp asyncTasks.cpp)
 add_library(math SHARED library/math/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp asyncTasks.cpp)
 add_library(devices SHARED library/devices/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp asyncTasks.cpp)
-#add_library(nativeInterface SHARED library/nativeInterface/main.cpp library/nativeInterface/interface.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp osDependent.cpp asyncTasks.cpp)
+add_library(nativeInterface SHARED library/nativeInterface/main.cpp library/nativeInterface/interface.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp osDependent.cpp asyncTasks.cpp)
 
 configure_file(library/network/network.ez ${CMAKE_BINARY_DIR}/network.ez COPYONLY)
 configure_file(library/compression/compression.ez ${CMAKE_BINARY_DIR}/compression.ez COPYONLY)
@@ -42,7 +42,6 @@ configure_file(library/algorithm/algorithm.ez ${CMAKE_BINARY_DIR}/algorithm.ez C
 
 if("${CMAKE_SYSTEM}" MATCHES "Linux")
     message("LINUX :3")
-    target_link_libraries(easypt dl)
 endif()
 
 find_package(Threads REQUIRED)
@@ -55,17 +54,22 @@ target_link_libraries(file Threads::Threads)
 target_link_libraries(memory Threads::Threads)
 target_link_libraries(math Threads::Threads)
 target_link_libraries(devices Threads::Threads)
+target_link_libraries(nativeInterface Threads::Threads)
 
 find_package(X11 REQUIRED)
 target_link_libraries(devices ${X11_LIBRARIES})
 
-target_include_directories(easypt PUBLIC thirdparty/tinycc)
+target_include_directories(nativeInterface PUBLIC thirdparty/tinycc)
+
 if(MSVC)
-    target_link_libraries(easypt thirdparty/tinycc/win32/libtcc)
+    target_link_libraries(nativeInterface thirdparty/tinycc/win32/libtcc)
     file(COPY thirdparty/tinycc/libtcc.dll DESTINATION ${CMAKE_BINARY_DIR})
 else()
-    target_link_libraries(easypt thirdparty/tinycc/libtcc.a)
-    target_link_libraries(easypt stdc++fs)
+    target_link_libraries(easypt dl)
+    target_link_libraries(nativeInterface ${CMAKE_SOURCE_DIR}/thirdparty/tinycc/libtcc.so)
+    target_link_libraries(nativeInterface stdc++fs)
+    target_link_libraries(nativeInterface dl)
+    file(COPY thirdparty/tinycc/libtcc.so DESTINATION ${CMAKE_BINARY_DIR})
 endif()
 
 file(COPY thirdparty/tinycc/include DESTINATION ${CMAKE_BINARY_DIR})
@@ -73,4 +77,5 @@ file(GLOB LIBS_A "thirdparty/tinycc/lib/*.a")
 file(GLOB LIBS_DEF "thirdparty/tinycc/lib/*.def")
 file(GLOB LIBS "thirdparty/tinycc/*.a")
 file(COPY ${LIBS} ${LIBS_A} ${LIBS_DEF} DESTINATION ${CMAKE_BINARY_DIR}/lib)
-file(COPY interface.h DESTINATION ${CMAKE_BINARY_DIR}/include)
+file(COPY library/nativeInterface/interface.h DESTINATION ${CMAKE_BINARY_DIR}/include)
+

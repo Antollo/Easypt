@@ -20,13 +20,14 @@ public:
     function(const std::string& name, const std::string& body) : s(nullptr), functionPointer(nullptr)
     {
         s = tcc_new();
+        tcc_set_lib_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
         if (!s)
         {
             std::cerr << "tcc_new failed" << std::endl;
             return;
         }
-        tcc_add_library_path(s, "lib");
-        tcc_add_include_path(s, "include");
+        tcc_add_library_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
+        tcc_add_include_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("include")).string().c_str());
 
         #ifdef _WIN32
         std::string libraryExtension = ".def";

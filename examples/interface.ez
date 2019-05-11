@@ -1,3 +1,4 @@
+import("nativeInterface");
 var f.=(NativeInterface("a", "
 #include \"stdio.h\" 
 #include \"interface.h\" 
