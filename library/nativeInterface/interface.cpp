@@ -67,22 +67,22 @@ void setVoidPtr(object::objectRawPtr a, void* v)
     a->getValue() = v;
 }
 
-object::objectRawPtr read(object::objectRawPtr obj, const char* name)
+object::objectRawPtr ezRead(object::objectRawPtr obj, const char* name)
 {
     return obj->READ(std::string(name)).get();
 }
 
-object::objectRawPtr readRecursive(object::objectRawPtr obj, const char* name)
+object::objectRawPtr ezReadRecursive(object::objectRawPtr obj, const char* name)
 {
     return obj->READ(std::string(name), true).get();
 }
 
-object::objectRawPtr var(object::objectRawPtr obj, const char* name)
+object::objectRawPtr ezVar(object::objectRawPtr obj, const char* name)
 {
     return obj->READ(std::string(name), true, true).get();
 }
 
-object::objectRawPtr call(object::objectRawPtr obj, ...)
+object::objectRawPtr ezCall(object::objectRawPtr obj, ...)
 {
     static object::arrayType orphanage;
     object::arrayType args;

@@ -60,11 +60,11 @@ public:
         tcc_add_symbol(s, "getString", (void*)getString);
         tcc_add_symbol(s, "setString", (void*)setString);
 
-        tcc_add_symbol(s, "read", (void*)read);
-        tcc_add_symbol(s, "readRecursive", (void*)readRecursive);
-        tcc_add_symbol(s, "var", (void*)var);
-        object* (*c)(object*, ...) = call;
-        tcc_add_symbol(s, "call", (void*)c);
+        tcc_add_symbol(s, "ezRead", (void*)ezRead);
+        tcc_add_symbol(s, "ezReadRecursive", (void*)ezReadRecursive);
+        tcc_add_symbol(s, "ezVar", (void*)ezVar);
+        object* (*c)(object*, ...) = ezCall;
+        tcc_add_symbol(s, "ezCall", (void*)c);
 
         //buffer.resize(tcc_relocate(s, nullptr));
         //if (tcc_relocate(s, reinterpret_cast<void*>(&buffer.front())) < 0)

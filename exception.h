@@ -12,7 +12,7 @@ class exception : public std::exception
         exception(std::string newSignature, std::string newMessage) : signature(newSignature), message(newMessage) {}
         //exception(std::string newMessage) : message(newMessage) {}
         //exception(const char* newMessage) : message(newMessage) {}
-        const char* what() const override { return message.c_str(); }
+        const char* what() const noexcept override { return message.c_str(); }
         const std::string& getSignature() const { return signature; };
         const std::string& getMessage() const { return message; };
 

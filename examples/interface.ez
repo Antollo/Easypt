@@ -6,8 +6,8 @@ var i.=(NativeInterface("
 object* a(object* obj, object** args, int i)
 { 
     printf(\"%i\", getInt(args[0]));
-    object* s = readRecursive(obj, \"String\");
-    s = call(s, NULL);
+    object* s = ezReadRecursive(obj, \"String\");
+    s = ezCall(s, NULL);
     setString(s, \"sss\");
     return s;
 }"));

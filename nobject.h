@@ -182,7 +182,7 @@ class objectException : public std::exception, object::objectPtr
 public:
     objectException(const object::objectPtr& obj) : object::objectPtr(obj) {}
     objectException(object::objectPtr&& obj) : object::objectPtr(obj) {}
-    const char* what() const override { return "objectException"; }
+    const char* what() const noexcept override { return "objectException"; }
     object::objectPtr& getPtr()
     {
         return dynamic_cast<object::objectPtr&>(*this);
