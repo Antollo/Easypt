@@ -1,6 +1,6 @@
 #include "osDependent.h"
 
-std::string getExecutablePath()
+std::filesystem::path getExecutablePath()
 {
     static std::string ret;
     if (!ret.empty()) return ret;
@@ -27,26 +27,23 @@ dynamicLibrary::dynamicLibrary()
         throw(NotSupportedOnThisOS("Dynamic libraries are not supported on this OS"))
     #endif
 }
-inline size_t findLastSlash(const std::string& str)
-{
-    return std::min(str.find_last_of('\\'), str.find_last_of('/'));
-}
+
 void dynamicLibrary::loadLibrary(const std::string& fileName)
 {
     #if defined(_WIN32)
         library = LoadLibraryA((fileName + ".dll").c_str());
         if (!library)
         {
-            std::string executablePath = getExecutablePath();
-            library = LoadLibraryA((executablePath.substr(0, findLastSlash(executablePath) + 1) + fileName + ".dll").c_str());
+            std::filesystem::path executablePath = getExecutablePath().parent_path();
+            library = LoadLibraryA((executablePath/std::filesystem::path(fileName + ".dll")).string().c_str());
             if (!library) throw(FileNotFound("Library ", fileName, " not found"));
         }
     #elif defined(__linux__)
         library = dlopen(("./lib" + fileName + ".so").c_str(), RTLD_LAZY);
         if (!library)
         {
-            std::string executablePath = getExecutablePath();
-            library = dlopen((executablePath.substr(0, findLastSlash(executablePath) + 1) + "lib" + fileName + ".so").c_str(), RTLD_LAZY);
+            std::filesystem::path executablePath = getExecutablePath().parent_path();
+            library = dlopen((executablePath/std::filesystem::path("lib" + fileName + ".so")).string().c_str(), RTLD_LAZY);
             if (!library) throw(FileNotFound("Library ", fileName, " not found"));
         }
     #else
@@ -128,18 +125,9 @@ void initialize()
     name::initialize();
     asyncTasks::initialize(std::make_shared<asyncTasks::staticMembers>());
     asyncTasks::registerThisThread();
+    initializeThread();
     #if defined(_WIN32)
-
-    //Handle structured exceptions
-    _set_se_translator(translateSEH);
-
-    //Prevent stack overflow
-    ULONG_PTR lowLimit;
-    ULONG_PTR highLimit;
-    GetCurrentThreadStackLimits(&lowLimit, &highLimit);
-    static ULONG size = (highLimit - lowLimit)/8*7;
-    SetThreadStackGuarantee(&size);
-
+    
     //Colors in console
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hOut == INVALID_HANDLE_VALUE)
@@ -156,5 +144,21 @@ void initialize()
     {
         return;
     }
+    #endif
+}
+
+void initializeThread()
+{
+    #if defined(_WIN32)
+
+    //Handle structured exceptions
+    _set_se_translator(translateSEH);
+
+    //Prevent stack overflow
+    ULONG_PTR lowLimit;
+    ULONG_PTR highLimit;
+    GetCurrentThreadStackLimits(&lowLimit, &highLimit);
+    static ULONG size = (highLimit - lowLimit)/32*29;
+    SetThreadStackGuarantee(&size);
     #endif
 }

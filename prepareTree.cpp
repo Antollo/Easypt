@@ -26,7 +26,9 @@ void prepareTree()
         ->addChild(makeObject(Exception, name("NotSupportedOnThisOSException")))
         ->addChild(makeObject(Exception, name("InvalidValueException")))
         ->addChild(makeObject(Exception, name("ParserException")))
-        ->addChild(makeObject(Exception, name("NotFoundException")));
+        ->addChild(makeObject(Exception, name("NotFoundException")))
+        ->addChild(makeObject(Exception, name("ArithmeticException")))
+        ->addChild(makeObject(Exception, name("ExceptionAt")));
 
     Root->addChild(makeClass({
         makeObject(assignOperator, name("=")),

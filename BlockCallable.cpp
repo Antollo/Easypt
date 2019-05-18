@@ -30,7 +30,7 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
     object::objectPtr temp = parent;
     //To keep orphans alive
     std::forward_list<object::objectPtr> expressionTemp;
-    for(const std::shared_ptr<action>& act : exp)
+    for (const std::shared_ptr<action>& act : exp)
     {
         expressionTemp.push_front(temp);
         switch(act->getType())
@@ -166,7 +166,7 @@ object::objectPtr BlockCallableThrow (object::objectPtr obj, object::arrayType& 
 {
     if (args.size() == 1)
     {
-        throw(args[0]);
+        throw(objectException(args[0]));
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
@@ -179,17 +179,9 @@ object::objectPtr BlockCallableTry (object::objectPtr obj, object::arrayType& ar
             object::objectPtr ret = args[0]->callWithParent(obj);
             return ret;
         }
-        catch (exception& e)
-        {
-            args[1]->CALL(constructObject(obj, "String", e.getMessage()));
-        }
         catch (std::exception& e)
         {
-            args[1]->CALL(constructObject(obj, "String", "Unknown exception: " + std::string(e.what())));
-        }
-        catch (object::objectPtr& e)
-        {
-           args[1]->CALL(e);
+            args[1]->CALL(getExceptionsArray(e));
         }
         return obj->getParent();
     }

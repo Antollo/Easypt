@@ -44,8 +44,7 @@ Now you can run your code with `Ctrl+Shift+B`.
 
 ## Last changes
 
-- Multi-line `String` literal highlighting.
-- Escape sequences highlighting.
+- Try catch snippet added.
 
 ## For more information
 

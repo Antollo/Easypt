@@ -1,12 +1,27 @@
 import("nativeInterface");
-var f.=(NativeInterface("a", "
+var i.=(NativeInterface("
 #include \"stdio.h\" 
-#include \"interface.h\" 
+#include \"interface.h\"
+
 object* a(object* obj, object** args, int i)
 { 
     printf(\"%i\", getInt(args[0]));
-    return args[0];
+    object* s = readRecursive(obj, \"String\");
+    s = call(s, NULL);
+    setString(s, \"sss\");
+    return s;
 }"));
+import("console");
+
+console.writeLine("Normal text");
+console.controlSequence("1m", "4m", "44m", "91m");
+console.writeLine("Bold, underlined text with red font and blue background");
+console.controlSequence("0m");
+console.writeLine("Again normal text");
+
+
+var f.=(i["a"]);
+
 
 basicOut(f(7));
 

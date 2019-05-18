@@ -6,12 +6,13 @@
 #include "exception.h"
 #include <string>
 #include <algorithm>
+#include <filesystem>
 
 #if defined(_WIN32)
     #define NOMINMAX
     #define WIN32_LEAN_AND_MEAN
     #define _CRT_SECURE_NO_WARNINGS
-    #pragma comment(linker, "/STACK:67108864")
+    #pragma comment(linker, "/STACK:134217728")
     #include <Windows.h>
     #include <eh.h>
     using libraryType = HMODULE;
@@ -30,7 +31,7 @@
     using libraryType = bool;
 #endif
 
-std::string getExecutablePath();
+std::filesystem::path getExecutablePath();
 
 class dynamicLibrary
 {
@@ -44,5 +45,6 @@ private:
 };
 
 void initialize();
+void initializeThread();
 
 #endif // OSDEPENDENT_H

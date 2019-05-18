@@ -46,6 +46,17 @@
         ],
         "description": "If else"
     },
+    "Try catch": {
+        "prefix": "try",
+        "body": [
+            "try ({",
+            "\t$0",
+            "}, {",
+            "\t$1",
+            "});"
+        ],
+        "description": "Try catch"
+    },
     "Function": {
         "prefix": "function",
         "body": [

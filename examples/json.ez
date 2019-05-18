@@ -1,0 +1,113 @@
+#
+"[-]?[0-9]+([.][0-9]+)?"
+"\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\""
+#
+
+auto str.=("
+{
+  \"id\": 123,
+  \"value\": \"File\",
+  \"popup\": {
+    \"menuitem\": {
+      \"1\" : {\"value\": \"New\",
+      \"onclick\": \"CreateNewDoc()\"
+      },
+      \"2\" : {\"value\": \"Open\",
+      \"onclick\": \"OpenDoc()\"
+      },
+      \"3\" : {\"value\": \"Close\",
+      \"onclick\": \"CloseDoc()\"
+      }
+    }
+  }
+}
+");
+
+var Json.=(Class(
+    Object,
+    var tokenArray,
+    var result,
+    {
+        auto string.=(args[0].get());
+        tokenArray.=(Array());
+
+        auto arr.=(string.searchRegex("(\\{[^\\{\\}]*\\})"));
+        auto condition.=(arr.size().toBoolean());
+        while (condition, {
+            #basicOut(arr[0].get());#
+            string.replace(arr[0].get(), "token".+(tokenArray.size().toString()));
+            tokenArray.pushBack(arr[0].get());
+            arr.=(string.searchRegex("(\\{[^\\{\\}]*\\})"));
+            condition.=(arr.size().toBoolean());
+        });
+
+        getThis().getParent().=(parseSimple(tokenArray.end().--().get()));
+    }.setName("Json"),
+    {
+        var object;
+        auto string.=(args[0].get());
+        auto arr.=(string.searchRegex("\".*"));
+        auto condition.=(arr.size().toBoolean());
+        while (condition, {
+            auto line.=(arr[0].get());
+
+            string.replace(line, "");
+
+            auto name.=(line.searchRegex("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"")[0].get());
+            line.replace(name, "");
+            line.=(line.replaceRegex("\\s*:\\s*", ""));
+            line.=(line.replaceRegex(",(\\}(,)?)?$", ""));
+
+            auto value;
+
+            if (line.matchRegex("token\\d+"), {
+                value.=(parseSimple(tokenArray[line.searchRegex("\\d+")[0].get().toInt()].get()));
+            }, {
+                value.=(parse("return(".+(line).+(");"))());
+            });
+            name.=(parse("return(".+(name).+(");"))());
+            object.addChild(name, value.setName(name));
+
+            arr.=(string.searchRegex("\".*"));
+            condition.=(arr.size().toBoolean());
+        });
+        return(object);
+
+    }.setName("parseSimple"),
+    {
+        #body of destructor#
+    }.setName("~~")
+));
+
+Json.var stringify.=({
+    var result.=("");
+    auto arg.=(args[0].get()).setName(args[0].get().getName());
+    if (instanceOf(arg, Basic), {
+        result.=(arg.getName().+(" : ").+(arg.toString()).+("\n"));
+    });
+
+    if (instanceOf(arg, Object), {
+        result.=(arg.getName().+(" : {\n"));
+        auto childrenArray.=(arg.getChildrenArray());
+        for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+            if (instanceOf(it.get(), Object), {
+                result.=(result.+(Json.stringify(it.get())));
+            });
+        });
+        result.=(result.+("}\n"));
+    });
+
+    return(result);
+});
+
+auto mother;
+auto father;
+mother.var son;
+father.var daughter;
+#mother.addChild("step-daughter", father.getChild("daughter"));
+mother.addChild(Object());#
+
+basicOut(Json.stringify(mother));
+#Json(str).debugTree();#
+
+#parse("basicOut(7)")();#

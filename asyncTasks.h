@@ -10,6 +10,7 @@
 #include <memory>
 #include "nobject.h"
 #include "exception.h"
+#include "osDependent.h"
 
 class asyncTasks
 {
@@ -67,20 +68,18 @@ public:
 			{
 				if (internal.valid())
 					internal.get();
-			}
-			catch (exception& e)
-			{
-				errorOut(e.getMessage());
+				asyncTasks::registerThisThread();
 			}
 			catch (std::exception& e)
-			{
-				errorOut("Unknown exception: " + std::string(e.what()));
-			}
+        	{
+				asyncTasks::registerThisThread();
+            	errorOut(getExceptionsArray(e));
+        	}
 			catch (...)
 			{
+				asyncTasks::registerThisThread();
 				errorOut("Fatal error occurred.");
 			}
-			asyncTasks::registerThisThread();
 		}
 	private:
 		std::future<T> internal;
@@ -91,6 +90,7 @@ public:
 	{
 		members->notReadyFlag = true;
 		std::future<decltype(f())> internal = std::async(std::launch::async, [f] {
+			initializeThread();
 			registerThisThread();
 			members->notReadyFlag = false;
 			waitForThisThread();

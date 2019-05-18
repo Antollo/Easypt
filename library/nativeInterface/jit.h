@@ -2,7 +2,7 @@
 #define JUSTINTIMEC_H_
 
 #include <string>
-#include <cstddef>
+//#include <cstddef>
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -13,11 +13,11 @@
 
 namespace jit
 {
-class function
+class interface
 {
 public:
     using functionType = object::objectRawPtr(*)(object::objectRawPtr, object::objectRawPtr*, int);
-    function(const std::string& name, const std::string& body) : s(nullptr), functionPointer(nullptr)
+    interface(const std::string& body) : s(nullptr)
     {
         s = tcc_new();
         tcc_set_lib_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
@@ -60,33 +60,45 @@ public:
         tcc_add_symbol(s, "getString", (void*)getString);
         tcc_add_symbol(s, "setString", (void*)setString);
 
-        buffer.resize(tcc_relocate(s, nullptr));
+        tcc_add_symbol(s, "read", (void*)read);
+        tcc_add_symbol(s, "readRecursive", (void*)readRecursive);
+        tcc_add_symbol(s, "var", (void*)var);
+        object* (*c)(object*, ...) = call;
+        tcc_add_symbol(s, "call", (void*)c);
 
-        if (tcc_relocate(s, reinterpret_cast<void*>(&buffer.front())) < 0)
+        //buffer.resize(tcc_relocate(s, nullptr));
+        //if (tcc_relocate(s, reinterpret_cast<void*>(&buffer.front())) < 0)
+        if (tcc_relocate(s, TCC_RELOCATE_AUTO) < 0)
         {
             std::cerr << "tcc_relocate failed" << std::endl;
             return;
         }
-
-        functionPointer = reinterpret_cast<functionType>(tcc_get_symbol(s, name.c_str()));
     }
-    ~function()
+    ~interface()
     {
         if (s) tcc_delete(s);
     }
-
-    object::objectPtr operator()(object::objectPtr obj, object::arrayType& args)
+    functionType get(const std::string& name)
     {
-        if (!functionPointer) return nullptr;
+        functionType res = reinterpret_cast<functionType>(tcc_get_symbol(s, name.c_str()));
+        if (res == nullptr)
+            throw(NotFound("Symbol ", name, " not found"));
+        return res;
+    }
+    static object::objectPtr callFunction(functionType functionPointer, object::objectPtr obj, object::arrayType& args)
+    {
         std::vector<object::objectRawPtr> argsRaw(args.size()); 
         std::transform(args.begin(), args.end(), argsRaw.begin(), [](object::objectPtr& a) -> object::objectRawPtr { return a.get(); });
-        return functionPointer(obj.get(), &argsRaw.front(), argsRaw.size())->shared_from_this();
+        object::objectRawPtr ret = functionPointer(obj.get(), &argsRaw.front(), argsRaw.size());
+        if (ret != nullptr)
+            return ret->shared_from_this();
+        else
+            return obj;
     }
-
 private:
     TCCState *s;
-    functionType functionPointer;
-    std::vector<std::byte> buffer;
+    //std::vector<std::byte> buffer;
+    std::string toThrow;
 };
     
 }

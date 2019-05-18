@@ -53,21 +53,13 @@ int main(int argc, char** argv)
             object::objectPtr entryPointString = object::getRawRoot()->READ(name("String"))->CALL();
             entryPointString->getValue() = entryPoint;
             object::objectPtr entryPointBlockCallable = object::getRawRoot()->READ(name("parse"))->CALL(entryPointString);
-            entryPointBlockCallable->getName() = "EntryPointBlockCallable";
+            entryPointBlockCallable->setName("EntryPointBlockCallable");
             entryPointBlockCallable->CALL();
 	    	object::release();
         }
-        catch (exception& e)
-        {
-	    	errorOut(e.getMessage());
-        }
         catch (std::exception& e)
         {
-	    	errorOut("Unknown exception: " + std::string(e.what()));
-        }
-        catch (object::objectPtr& e)
-        {
-	    	errorOut(e);
+            errorOut(getExceptionsArray(e));
         }
         //asyncTasks::unregisterThisThread();
 	    object::release();

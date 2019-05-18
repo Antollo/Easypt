@@ -144,7 +144,7 @@ std::list<expression> parser::parse()
             {
                 object::objectPtr str = parser::Root->READ(name("String"), true)->CALL();
                 str->getValue() = parseString(source + iterator + 1, temp - iterator - 1);
-                str->getName() = name(std::string(source + iterator, temp - iterator + 1));
+                str->setName(std::string(source + iterator, temp - iterator + 1));
                 Root->addChild(str);
             }
             expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator + 1), searchInParent));
@@ -164,7 +164,7 @@ std::list<expression> parser::parse()
                     object::objectPtr str = parser::Root->READ(name("BlockCallable"), true)->CALL();
                     parser internal(source + iterator + 1, temp - iterator - 1, Root);
                     str->getValue() = internal.parse();
-                    str->getName() = name(std::string(source + iterator, temp - iterator + 1));
+                    str->setName(std::string(source + iterator, temp - iterator + 1));
                     Root->addChild(str);
                 }
                 expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator + 1), searchInParent));
@@ -220,13 +220,13 @@ std::list<expression> parser::parse()
                     {
                         num = parser::Root->READ(name("Int"), true)->CALL();
                         num->getValue() = std::atoi(source + iterator);
-                        num->getName() = name(std::string(source + iterator, temp - iterator));
+                        num->setName(std::string(source + iterator, temp - iterator));
                     }
                     else
                     {
                         num = parser::Root->READ(name("Double"), true)->CALL();
                         num->getValue() = std::atof(source + iterator);
-                        num->getName() = name(std::string(source + iterator, temp - iterator));
+                        num->setName(std::string(source + iterator, temp - iterator));
                     }
                     Root->addChild(num);
                 }

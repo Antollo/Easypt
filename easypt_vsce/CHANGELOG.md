@@ -1,5 +1,9 @@
 # Change Log
 
+### 1.2.1
+
+- Try catch snippet added.
+
 ### 1.2.0
 
 - Multi-line `String` literal highlighting.

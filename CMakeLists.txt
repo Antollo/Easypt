@@ -32,7 +32,7 @@ add_library(docs SHARED library/docs/main.cpp exception.cpp name.cpp nobject.cpp
 add_library(file SHARED library/file/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp asyncTasks.cpp)
 add_library(memory SHARED library/memory/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp asyncTasks.cpp)
 add_library(math SHARED library/math/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp asyncTasks.cpp)
-add_library(devices SHARED library/devices/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp asyncTasks.cpp)
+#add_library(devices SHARED library/devices/main.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp asyncTasks.cpp)
 add_library(nativeInterface SHARED library/nativeInterface/main.cpp library/nativeInterface/interface.cpp exception.cpp name.cpp nobject.cpp IO.cpp Common.cpp osDependent.cpp asyncTasks.cpp)
 
 configure_file(library/network/network.ez ${CMAKE_BINARY_DIR}/network.ez COPYONLY)
@@ -53,11 +53,11 @@ target_link_libraries(docs Threads::Threads)
 target_link_libraries(file Threads::Threads)
 target_link_libraries(memory Threads::Threads)
 target_link_libraries(math Threads::Threads)
-target_link_libraries(devices Threads::Threads)
+#target_link_libraries(devices Threads::Threads)
 target_link_libraries(nativeInterface Threads::Threads)
 
-find_package(X11 REQUIRED)
-target_link_libraries(devices ${X11_LIBRARIES})
+#find_package(X11 REQUIRED)
+#target_link_libraries(devices ${X11_LIBRARIES})
 
 target_include_directories(nativeInterface PUBLIC thirdparty/tinycc)
 

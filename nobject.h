@@ -2,8 +2,8 @@
 #define NOBJECT_H
 
 //use c++17 any if your compiler support it.
-//#include <any>
-#include "anyImplementation/any.hpp"
+#include <any>
+//#include "anyImplementation/any.hpp"
 #include "name.h"
 #include "IO.h"
 #include "exception.h"
@@ -33,7 +33,9 @@ class object : public std::enable_shared_from_this<object>
 
         object(std::any newValue = nullptr, name newName = getAnonymousName());
         object(object&&) = default;
-        object& operator= (object&&) = default;	
+        object& operator = (object&&) = default;	
+        object(const object&) = default;
+        object& operator = (const object&) = default;	
         ~object();
 
         struct deleter
@@ -51,7 +53,7 @@ class object : public std::enable_shared_from_this<object>
             if (beingDestructed) return std::shared_ptr<object>(this, fakeDeleter());
             return std::enable_shared_from_this<object>::shared_from_this();
         }
-        
+
         bool operator ==(const object& x) const
         {
             return myName == x.myName && signatures == x.signatures && children == x.children;
@@ -114,11 +116,11 @@ class object : public std::enable_shared_from_this<object>
         }
         childrenType& getLocalChildren() { return children; }
         objectPtr removeChild(name childName) { if (hasChild(childName)) children.erase(children.find(childName)); return shared_from_this(); }
-        objectPtr getParent(bool throwing = true);
-        objectRawPtr getRawParent(bool throwing = true);
-        void setParent(object* newParent) { parent = newParent; }
+        objectPtr getParent(bool throwing = true) const;
+        objectRawPtr getRawParent(bool throwing = true) const;
+        void setParent(objectRawPtr newParent) { parent = newParent; }
         objectPtr setParent(objectPtr newParent) { setParent(newParent.get()); return shared_from_this(); }
-        name& getName() { return myName; }
+        const name& getName() const { return myName; } 
         objectPtr setName(name newName) { myName = newName; return shared_from_this(); }
         std::string getFullNameString() { if(parent != nullptr) return parent->getFullNameString() + std::string(".") + (std::string)getName(); return (std::string)getName(); }
         std::any& getValue() { return value; }
@@ -168,36 +170,59 @@ class object : public std::enable_shared_from_this<object>
 
         std::any value;
         childrenType children;
-        object* parent;
+        objectRawPtr parent;
         name myName;
         signaturesContainer signatures;
 		bool automatic;
         bool beingDestructed;
 };
 
+class objectException : public std::exception, object::objectPtr
+{
+public:
+    objectException(const object::objectPtr& obj) : object::objectPtr(obj) {}
+    objectException(object::objectPtr&& obj) : object::objectPtr(obj) {}
+    const char* what() const override { return "objectException"; }
+    object::objectPtr& getPtr()
+    {
+        return dynamic_cast<object::objectPtr&>(*this);
+    }
+};
+
+object::arrayType getExceptionsArray(std::exception& e);
+void getExceptionsArray(std::exception& e, object::arrayType& exceptionsArray);
+
 template <class T>
 inline void errorOut (T arg)
 {
-    std::cerr << arg << std::endl;
-}
-
-template <>
-inline void errorOut (const object::objectPtr& arg)
-{
-    if (arg->getValue().type().hash_code() == typeid(std::string).hash_code())
-        std::cerr << *std::any_cast<std::string>(&arg->getValue()) << std::endl;
-    else if (arg->getValue().type().hash_code() == typeid(int).hash_code())
-        std::cerr << *std::any_cast<int>(&arg->getValue()) << std::endl;
-    else if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
-        std::cerr << *std::any_cast<bool>(&arg->getValue()) << std::endl;
-    else if (arg->getValue().type().hash_code() == typeid(double).hash_code())
-        std::cerr << *std::any_cast<double>(&arg->getValue()) << std::endl;
-    else if (arg->getValue().type().hash_code() == typeid(object::arrayType).hash_code())
+    if constexpr (std::is_same_v<std::decay_t<T>, object::objectPtr>)
     {
-        for(auto& el : *std::any_cast<object::arrayType>(&arg->getValue()))
+        if (arg->getValue().type().hash_code() == typeid(std::string).hash_code())
+            std::cerr << "\033[31m" << *std::any_cast<std::string>(&arg->getValue()) << "\033[0m" << std::endl;
+        else if (arg->getValue().type().hash_code() == typeid(int).hash_code())
+            std::cerr << "\033[31m" << *std::any_cast<int>(&arg->getValue()) << "\033[0m" << std::endl;
+        else if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
+            std::cerr << "\033[31m" << *std::any_cast<bool>(&arg->getValue()) << "\033[0m" << std::endl;
+        else if (arg->getValue().type().hash_code() == typeid(double).hash_code())
+            std::cerr << "\033[31m" << *std::any_cast<double>(&arg->getValue()) << "\033[0m" << std::endl;
+        else if (arg->getValue().type().hash_code() == typeid(object::arrayType).hash_code())
+        {
+            for(auto& el : *std::any_cast<object::arrayType>(&arg->getValue()))
+            {
+                errorOut(el);
+            }
+        }
+    }
+    else if constexpr (std::is_same_v<std::decay_t<T>, object::arrayType>)
+    {
+        for(auto& el : arg)
         {
             errorOut(el);
         }
+    }
+    else
+    {
+        std::cerr << "\033[31m" << arg << "\033[0m" << std::endl;
     }
 }
 

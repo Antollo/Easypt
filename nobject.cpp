@@ -30,8 +30,7 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
     {
         if (forceCreate)
         {
-            object::objectPtr newChild = READ(name("Object"), true)->CALL();
-            newChild->getName() = objectName;
+            object::objectPtr newChild = READ(name("Object"), true)->CALL()->setName(objectName);
 			if (automatic) newChild->setAutomatic();
             addChild(newChild);
             return newChild;
@@ -50,19 +49,9 @@ object::objectPtr object::READ(name objectName, bool searchInParent, bool forceC
         }
         throw(NotFound("Cannot find ", objectName, " in ", getFullNameString()));
     }
-    catch(exception& e)
+    catch (std::exception&)
     {
-        throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
-    }
-    catch (std::exception& e)
-    {
-        throw(exception("Exception", "Exception at: ", getFullNameString(), "\n", "Unknown exception: " + std::string(e.what())));
-    }
-    catch (object::objectPtr& e)
-    {
-        if (e->getValue().type().hash_code() == typeid(std::string).hash_code())
-            e->setValue("Exception at: " + getFullNameString() + "\n" + (*std::any_cast<std::string>(&e->getValue())));
-        throw(e);
+        std::throw_with_nested(ExceptionAt(getFullNameString()));
     }
 }
 
@@ -78,19 +67,9 @@ object::objectPtr object::READCALL(object::objectPtr arg)
             return children[name("readOperator")]->CALL(arg);
         throw(NotFound("Object ", getFullNameString(), " has no readOperator"));
     }
-    catch(exception& e)
+    catch (std::exception&)
     {
-        throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
-    }
-    catch (std::exception& e)
-    {
-        throw(exception("Exception", "Exception at: ", getFullNameString(), "\n", "Unknown exception: " + std::string(e.what())));
-    }
-    catch (object::objectPtr& e)
-    {
-        if (e->getValue().type().hash_code() == typeid(std::string).hash_code())
-            e->setValue("Exception at: " + getFullNameString() + "\n" + (*std::any_cast<std::string>(&e->getValue())));
-        throw(e);
+        std::throw_with_nested(ExceptionAt(getFullNameString()));
     }
 }
 
@@ -113,19 +92,9 @@ object::objectPtr object::CALL(object::arrayType& args)
             return children[name("callOperator")]->CALL(args);
         throw(InvalidValue("Object ", getFullNameString(), " is neither BlockCallable nor NativeCallable."));
     }
-    catch(exception& e)
+    catch (std::exception&)
     {
-        throw(exception(e.getSignature(), "Exception at: ", getFullNameString(), "\n", e.getMessage()));
-    }
-    catch (std::exception& e)
-    {
-        throw(exception("Exception", "Exception at: ", getFullNameString(), "\n", "Unknown exception: " + std::string(e.what())));
-    }
-    catch (object::objectPtr& e)
-    {
-        if (e->getValue().type().hash_code() == typeid(std::string).hash_code())
-            e->setValue("Exception at: " + getFullNameString() + "\n" + (*std::any_cast<std::string>(&e->getValue())));
-        throw(e);
+        std::throw_with_nested(ExceptionAt(getFullNameString()));
     }
 }
 
@@ -143,7 +112,7 @@ object::objectPtr object::CALL()
 
 object::objectPtr object::callWithParent(objectPtr tempParent)
 {
-    object* temp = parent;
+    objectRawPtr temp = parent;
     parent = tempParent.get();
     object::objectPtr ret = CALL();
     parent = temp;
@@ -152,7 +121,7 @@ object::objectPtr object::callWithParent(objectPtr tempParent)
 
 object::objectPtr object::callWithParent(objectPtr tempParent, objectPtr& arg)
 {
-    object* temp = parent;
+    objectRawPtr temp = parent;
     parent = tempParent.get();
     object::objectPtr ret = CALL(arg);
     parent = temp;
@@ -161,7 +130,7 @@ object::objectPtr object::callWithParent(objectPtr tempParent, objectPtr& arg)
 
 object::objectPtr object::callWithParent(objectPtr tempParent, object::arrayType& args)
 {
-    object* temp = parent;
+    objectRawPtr temp = parent;
     parent = tempParent.get();
     object::objectPtr ret = CALL(args);
     parent = temp;
@@ -180,7 +149,8 @@ object::~object()
         child.second->setParent(nullptr);
 }
 
-void object::deleter::operator()(objectRawPtr ptr) const {
+void object::deleter::operator()(objectRawPtr ptr) const
+{
     if (ptr->hasChild("~~"))
     {
         ptr->beingDestructed = true;
@@ -188,13 +158,9 @@ void object::deleter::operator()(objectRawPtr ptr) const {
         {
             ptr->READ("~~")->CALL();
         }
-        catch (exception& e)
-        {
-            errorOut(e.getMessage());
-        }
         catch (std::exception& e)
         {
-            errorOut("Unknown exception: " + std::string(e.what()));
+            errorOut(getExceptionsArray(e));
         }
         catch (...)
         {
@@ -204,7 +170,7 @@ void object::deleter::operator()(objectRawPtr ptr) const {
     delete ptr;
 }
 
-object::objectPtr object::getParent(bool throwing)
+object::objectPtr object::getParent(bool throwing) const
 {
     if (throwing && parent == nullptr)
     {
@@ -216,7 +182,7 @@ object::objectPtr object::getParent(bool throwing)
     return parent->shared_from_this();
 }
 
-object* object::getRawParent(bool throwing)
+object::objectRawPtr object::getRawParent(bool throwing) const
 {
     if (throwing && parent == nullptr)
     {
@@ -291,4 +257,43 @@ object::objectPtr object::debugTree(int indentation)
     else
         IO::console<<"\n";
     return shared_from_this();
+}
+
+object::arrayType getExceptionsArray(std::exception& e)
+{
+    try
+    {
+        object::arrayType arr;
+        getExceptionsArray(e, arr);
+        return arr;
+    }
+    catch(...)
+    {
+        errorOut("Fatal error occurred.");
+        return {};
+    }
+}
+
+void getExceptionsArray(std::exception& e, object::arrayType& exceptionsArray)
+{
+    if (dynamic_cast<objectException*>(&e))
+    {
+        exceptionsArray.push_back(dynamic_cast<objectException*>(&e)->getPtr());
+    }
+    else if (dynamic_cast<exception*>(&e))
+    {
+        exceptionsArray.push_back(constructObject(object::getRawRoot(), dynamic_cast<exception*>(&e)->getSignature(), dynamic_cast<exception*>(&e)->getMessage()));
+    }
+    else if (dynamic_cast<std::exception*>(&e))
+    {
+        exceptionsArray.push_back(constructObject(object::getRawRoot(), "Exception", dynamic_cast<std::exception*>(&e)->what()));
+    }
+    try
+    {
+        std::rethrow_if_nested(e);
+    }
+    catch (std::exception& nested)
+    {
+        getExceptionsArray(nested, exceptionsArray);
+    }
 }
