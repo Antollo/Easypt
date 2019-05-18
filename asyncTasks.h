@@ -90,7 +90,7 @@ public:
 	{
 		members->notReadyFlag = true;
 		std::future<decltype(f())> internal = std::async(std::launch::async, [f] {
-			initializeThread();
+			//initializeThread();
 			registerThisThread();
 			members->notReadyFlag = false;
 			waitForThisThread();
