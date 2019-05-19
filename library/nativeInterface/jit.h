@@ -20,27 +20,28 @@ public:
     interface(const std::string& body) : s(nullptr)
     {
         s = tcc_new();
-        tcc_set_lib_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
         if (!s)
         {
-            std::cerr << "tcc_new failed" << std::endl;
+            errorOut("tcc_new failed");
             return;
         }
+        tcc_set_lib_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
         tcc_add_library_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
         tcc_add_include_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("include")).string().c_str());
-
-        #ifdef _WIN32
-        std::string libraryExtension = ".def";
-        #else
-        std::string libraryExtension = ".a";
-        #endif
 
         for (const std::filesystem::directory_entry& p : std::filesystem::directory_iterator(
             std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")
         ))
         {
-            if (p.path().extension() == libraryExtension)
+            #ifdef _WIN32
+            if (p.path().extension().string() == ".def")
                 tcc_add_library(s, p.path().stem().string().c_str());
+            #else
+            if (p.path().extension().string() == ".a")
+                tcc_add_library(s, p.path().stem().string().c_str());
+            if (p.path().extension().string() == ".so")
+                tcc_add_library(s, p.path().stem().string().c_str());
+            #endif
         }
 
         tcc_define_symbol(s, "INTERFACE", nullptr);
@@ -49,7 +50,7 @@ public:
 
         if (tcc_compile_string(s, body.c_str()) == -1)
         {
-            std::cerr << "tcc_compile_string failed" << std::endl;
+            errorOut("tcc_compile_string failed");
             return;
         }
 
@@ -60,17 +61,17 @@ public:
         tcc_add_symbol(s, "getString", (void*)getString);
         tcc_add_symbol(s, "setString", (void*)setString);
 
-        tcc_add_symbol(s, "ezRead", (void*)ezRead);
-        tcc_add_symbol(s, "ezReadRecursive", (void*)ezReadRecursive);
-        tcc_add_symbol(s, "ezVar", (void*)ezVar);
-        object* (*c)(object*, ...) = ezCall;
-        tcc_add_symbol(s, "ezCall", (void*)c);
+        tcc_add_symbol(s, "readNormal", (void*)readNormal);
+        tcc_add_symbol(s, "readRecursive", (void*)readRecursive);
+        tcc_add_symbol(s, "var", (void*)var);
+        object* (*c)(object*, ...) = call;
+        tcc_add_symbol(s, "call", (void*)c);
 
         //buffer.resize(tcc_relocate(s, nullptr));
         //if (tcc_relocate(s, reinterpret_cast<void*>(&buffer.front())) < 0)
         if (tcc_relocate(s, TCC_RELOCATE_AUTO) < 0)
         {
-            std::cerr << "tcc_relocate failed" << std::endl;
+            errorOut("tcc_relocate failed");
             return;
         }
     }

@@ -1,9 +1,9 @@
 #ifndef NOBJECT_H
 #define NOBJECT_H
 
-//use c++17 any if your compiler support it.
-#include <any>
-//#include "anyImplementation/any.hpp"
+//g++'s std::any doesn't work well with shared libs
+//#include <any>
+#include "anyImplementation/any.hpp"
 #include "name.h"
 #include "IO.h"
 #include "exception.h"
@@ -198,13 +198,13 @@ inline void errorOut (T arg)
     if constexpr (std::is_same_v<std::decay_t<T>, object::objectPtr>)
     {
         if (arg->getValue().type().hash_code() == typeid(std::string).hash_code())
-            std::cerr << "\033[31m" << *std::any_cast<std::string>(&arg->getValue()) << "\033[0m" << std::endl;
+            std::cerr << "\033[91m\033[1m" << *std::any_cast<std::string>(&arg->getValue()) << "\033[0m" << std::endl;
         else if (arg->getValue().type().hash_code() == typeid(int).hash_code())
-            std::cerr << "\033[31m" << *std::any_cast<int>(&arg->getValue()) << "\033[0m" << std::endl;
+            std::cerr << "\033[91m\033[1m" << *std::any_cast<int>(&arg->getValue()) << "\033[0m" << std::endl;
         else if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
-            std::cerr << "\033[31m" << *std::any_cast<bool>(&arg->getValue()) << "\033[0m" << std::endl;
+            std::cerr << "\033[91m\033[1m" << *std::any_cast<bool>(&arg->getValue()) << "\033[0m" << std::endl;
         else if (arg->getValue().type().hash_code() == typeid(double).hash_code())
-            std::cerr << "\033[31m" << *std::any_cast<double>(&arg->getValue()) << "\033[0m" << std::endl;
+            std::cerr << "\033[91m\033[1m" << *std::any_cast<double>(&arg->getValue()) << "\033[0m" << std::endl;
         else if (arg->getValue().type().hash_code() == typeid(object::arrayType).hash_code())
         {
             for(auto& el : *std::any_cast<object::arrayType>(&arg->getValue()))
@@ -222,7 +222,7 @@ inline void errorOut (T arg)
     }
     else
     {
-        std::cerr << "\033[31m" << arg << "\033[0m" << std::endl;
+        std::cerr << "\033[91m\033[1m" << arg << "\033[0m" << std::endl;
     }
 }
 

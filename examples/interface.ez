@@ -1,3 +1,4 @@
+
 import("nativeInterface");
 var i.=(NativeInterface("
 #include \"stdio.h\" 
@@ -6,8 +7,8 @@ var i.=(NativeInterface("
 object* a(object* obj, object** args, int i)
 { 
     printf(\"%i\", getInt(args[0]));
-    object* s = ezReadRecursive(obj, \"String\");
-    s = ezCall(s, NULL);
+    object* s = readRecursive(obj, \"String\");
+    s = call(s, NULL);
     setString(s, \"sss\");
     return s;
 }"));
@@ -25,7 +26,12 @@ var f.=(i["a"]);
 
 basicOut(f(7));
 
+
+import("console");
+
 basicOut("ab bcd efghIjk".searchRegex("[a-z]+"));
 basicOut("aBCd".replaceRegex("[a-z]", "e"));
 basicOut("aaaa".matchRegex("[a-z]+"));
 basicOut("aAaa".matchRegex("[a-z]+"));
+
+throw(Exception("a"));
