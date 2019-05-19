@@ -10,7 +10,6 @@
 #include <memory>
 #include "nobject.h"
 #include "exception.h"
-#include "osDependent.h"
 
 class asyncTasks
 {

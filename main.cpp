@@ -59,7 +59,8 @@ int main(int argc, char** argv)
         }
         catch (std::exception& e)
         {
-            errorOut(getExceptionsArray(e));
+            auto arr = getExceptionsArray(e);
+            errorOut(arr);
         }
         //asyncTasks::unregisterThisThread();
 	    object::release();
