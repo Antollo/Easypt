@@ -1,7 +1,8 @@
 import("nativeInterface");
 var i.=(NativeInterface("
-#include \"stdio.h\" 
-#include \"interface.h\"
+#include <stdio.h>
+#include <interface.h>
+#include <SFML/Network/Http.h>
 
 object* a(object* obj, object** args, int i)
 { 
