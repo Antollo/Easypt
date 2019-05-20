@@ -24,9 +24,9 @@ EXTERN void setString(object* obj, const char* s);
 EXTERN void* getVoidPtr(object* obj);
 EXTERN void setVoidPtr(object* obj, void* v);
 
-EXTERN object* ezRead(object* obj, const char* name);
-EXTERN object* ezReadRecursive(object* obj, const char* name);
-EXTERN object* ezVar(object* obj, const char* name);
-EXTERN object* ezCall(object* obj, ...);
+EXTERN object* readNormal(object* obj, const char* name);
+EXTERN object* readRecursive(object* obj, const char* name);
+EXTERN object* var(object* obj, const char* name);
+EXTERN object* call(object* obj, ...);
 
 #endif

@@ -53,7 +53,7 @@ void dynamicLibrary::loadLibrary(const std::string& fileName)
 }
 object::nativeFunctionType dynamicLibrary::getFunction(const std::string& functionName)
 {
-	if (!library) return nullptr;
+	if (!library) throw(FileNotFound("Library not found"));
     #if defined(_WIN32)
         object::nativeFunctionType function = reinterpret_cast<object::nativeFunctionType>(GetProcAddress(library, functionName.c_str()));
         if (!function) throw(NotFound("Function ", functionName, " not found"));

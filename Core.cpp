@@ -170,7 +170,7 @@ object::objectPtr import (object::objectPtr obj, object::arrayType& args)
 
                 object::nativeFunctionType exportFunction = (*std::any_cast<dynamicLibrary>(&nativeCallable->getValue())).getFunction("exportLibrary");
 
-                object::arrayType args{nameInitializationPack, asyncTasksInitializationPack};
+                object::arrayType args = {nameInitializationPack, asyncTasksInitializationPack};
                 exportFunction(nativeCallable, args);
 
 				object::pushDynamicLibrary(nativeCallable);

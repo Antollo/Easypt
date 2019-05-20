@@ -179,7 +179,7 @@ object::objectPtr fScanString256 (object::objectPtr obj, object::arrayType& args
 
 EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
 {
-    std::ios_base::sync_with_stdio(false);
+    //std::ios_base::sync_with_stdio(false);
     std::cout << std::boolalpha;
     nativeLibrary::initialize(obj, args);
 

@@ -181,7 +181,8 @@ object::objectPtr BlockCallableTry (object::objectPtr obj, object::arrayType& ar
         }
         catch (std::exception& e)
         {
-            args[1]->CALL(getExceptionsArray(e));
+            auto arr = getExceptionsArray(e);
+            args[1]->CALL(arr);
         }
         return obj->getParent();
     }
