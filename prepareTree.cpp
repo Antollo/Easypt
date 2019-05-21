@@ -15,21 +15,6 @@ void prepareTree()
         ->addChild(makeObject(instanceOf, name("instanceOf")))
         ->addChild(makeObject(except, name("except")));
 
-    Root->addChild(makeObject(Class, name("Class")))
-        ->addChild(makeObject(constructor, name("constructor")));
-    
-    Root->addChild(makeObject(Exception, name("Exception")))
-        ->addChild(makeObject(Exception, name("WrongTypeOfArgumentException")))
-        ->addChild(makeObject(Exception, name("WrongNumberOfArgumentsException")))
-        ->addChild(makeObject(Exception, name("FileNotFoundException")))
-        ->addChild(makeObject(Exception, name("OutOfRangeException")))
-        ->addChild(makeObject(Exception, name("NotSupportedOnThisOSException")))
-        ->addChild(makeObject(Exception, name("InvalidValueException")))
-        ->addChild(makeObject(Exception, name("ParserException")))
-        ->addChild(makeObject(Exception, name("NotFoundException")))
-        ->addChild(makeObject(Exception, name("ArithmeticException")))
-        ->addChild(makeObject(Exception, name("ExceptionAt")));
-
     Root->addChild(makeClass({
         makeObject(assignOperator, name("=")),
         makeObject(getParent, name("getParent")), 
@@ -44,7 +29,22 @@ void prepareTree()
         makeObject(notEqualOperator, name("!=")), 
         makeObject(equalReferenceOperator, name("===")), 
         makeObject(debugTree, name("debugTree"))
-    })->setName("Object"));
+    })->setName("Object")->objectify());
+
+    Root->addChild(makeObject(Class, name("Class")))
+        ->addChild(makeObject(constructor, name("constructor")));
+    
+    Root->addChild(makeObject(Exception, name("Exception")))
+        ->addChild(makeObject(Exception, name("WrongTypeOfArgumentException")))
+        ->addChild(makeObject(Exception, name("WrongNumberOfArgumentsException")))
+        ->addChild(makeObject(Exception, name("FileNotFoundException")))
+        ->addChild(makeObject(Exception, name("OutOfRangeException")))
+        ->addChild(makeObject(Exception, name("NotSupportedOnThisOSException")))
+        ->addChild(makeObject(Exception, name("InvalidValueException")))
+        ->addChild(makeObject(Exception, name("ParserException")))
+        ->addChild(makeObject(Exception, name("NotFoundException")))
+        ->addChild(makeObject(Exception, name("ArithmeticException")))
+        ->addChild(makeObject(Exception, name("ExceptionAt")));
 
     Root->addChild(makeClass({
         Root->READ("Object"),

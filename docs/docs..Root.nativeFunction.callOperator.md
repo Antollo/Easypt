@@ -1,21 +1,120 @@
 # `callOperator`
 
-#### `..Root.nativeFunction.callOperator`
+#### `..Root.NativeFunction.callOperator`
 
-* **Parameters:**
+Calls C function from memory. For example:
 
-* **Return value:**
+```c
+something.nativeFunction(a, b, c);
+```
+
+is translated to:
+
+```c
+something.nativeFunction.callOperator(a, b, c);
+```
+
+which is internally translated to something similar to:
+
+```c
+internalNativeFunctionPointer(&something, {&a, &b, &c}, 3);
+```
+
+> TODO: More documentation
+
+* **Parameters:** any
+
+* **Return value:** any
 
 ## Child of:
 
-[`nativeFunction`](docs..Root.nativeFunction.md)
+[`NativeFunction`](docs..Root.NativeFunction.md)
 
 ## Signatures:
 
 `NativeCallable`, `Callable`
 
-
 ## Example:
 
+_**Note:** There is no difference between_
 
+```
+auto functionName.=(interface["functionName"]);
+```
 
+_and_
+
+```
+auto functionName.=(NativeFunction(interface, "functionName"));
+```
+
+```c
+import("nativeInterface");
+
+var interface.=(NativeInterface("
+    #include <stdio.h>
+    #include <interface.h>
+
+    object* promptInt(object* obj, object** args, int size)
+    { 
+        printf(\"Old value is: %i \\nType in new value: \", getInt(args[0]));
+        int input;
+        scanf(\"%i\", &input);
+        setInt(args[0], input);
+        printf(\"New value is: %i \\n\", getInt(args[0]));
+        return obj;
+    }
+
+    object* createString(object* obj, object** args, int size)
+    { 
+        object* String = readRecursive(obj, \"String\");
+        object* newString = call(String, NULL);
+        setString(newString, \"new string value\");
+        return newString;
+    }
+
+    object* callbackForEach(object* obj, object** args, int size)
+    {
+        for (int i = 1; i < size; i++)
+        {
+            call(args[0], args[i], NULL);
+        }
+        return obj;
+    }
+
+    object* returnBasicOut(object* obj, object** args, int size)
+    {
+        object* basicOut = readRecursive(obj, \"basicOut\");
+        return basicOut;
+    }
+"));
+
+auto integer.=(7);
+
+auto promptInt.=(interface["promptInt"]);
+basicOut(promptInt(integer));
+
+auto createString.=(NativeFunction(interface, "createString"));
+basicOut(createString());
+
+auto callbackForEach.=(interface["callbackForEach"]);
+callbackForEach(basicOut, 1, 2.3, "abc");
+
+auto returnBasicOut.=(NativeFunction(interface, "returnBasicOut"));
+returnBasicOut()(4, 5.6, "defg");
+```
+
+#### Possible output:
+
+```
+Old value is: 7
+Type in new value: 2
+New value is: 2
+new string value
+1
+2.3
+abc
+4
+5.6
+defg
+```

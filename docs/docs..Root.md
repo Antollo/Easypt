@@ -110,6 +110,13 @@ Provides access to raw memory.
 - [`ByteViewIterator`](docs..Root.ByteViewIterator.md)
 - [`ByteWrapper`](docs..Root.ByteWrapper.md)
 
+## `nativeInterface`
+
+Provides just in time C from string feature.
+
+- [`NativeInterface`](docs..Root.NativeInterface.md)
+- [`NativeFunction`](docs..Root.NativeFunction.md)
+
 ## `network`
 
 Provides basic network features.

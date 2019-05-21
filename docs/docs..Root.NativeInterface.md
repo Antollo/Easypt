@@ -2,15 +2,11 @@
 
 #### `..Root.NativeInterface`
 
-Compile C source code from string to memory.
+Constructs new `NativeInterface` which compiles C source code from string to memory (it uses `libtcc` as code generation backend).
 
-> TODO: More documentation
-
-You might include 
+You should include `interface.h` to access easypt runtime interface.
 
 ```c
-typedef void object;
-
 int getInt(object* obj);
 void setInt(object* obj, int i);
 double getDouble(object* obj);
@@ -20,15 +16,27 @@ void setString(object* obj, const char* s);
 void* getVoidPtr(object* obj);
 void setVoidPtr(object* obj, void* v);
 
-object* ezRead(object* obj, const char* name);
-object* ezReadRecursive(object* obj, const char* name);
-object* ezVar(object* obj, const char* name);
-object* ezCall(object* obj, ...);
+object* readNormal(object* obj, const char* name);
+object* readRecursive(object* obj, const char* name);
+object* var(object* obj, const char* name);
+object* call(object* obj, ...);
 ```
 
-* **Parameters:** 
+Exported functions should be of following type.
 
-* **Return value:**
+```c
+object* functionName(object* obj, object** args, int i)
+```
+
+> TODO: More documentation
+
+* **Parameters:** `String`
+
+* **Return value:** new `NativeInterface`
+
+### `NativeInterface` type signatures:
+
+`NativeInterface`, `Object`
 
 ## Child of:
 
@@ -36,29 +44,93 @@ object* ezCall(object* obj, ...);
 
 ## Signatures:
 
-`NativeInterface`, `Object`
+`NativeCallable`, `Callable`
 
 ## Members:
 
-- [`debugTree`](docs..Root.nativeInterface.debugTree.md)
-- [`=`](docs..Root.nativeInterface.=.md)
-- [`getParent`](docs..Root.nativeInterface.getParent.md)
-- [`getChild`](docs..Root.nativeInterface.getChild.md)
-- [`getChildrenArray`](docs..Root.nativeInterface.getChildrenArray.md)
-- [`hasChild`](docs..Root.nativeInterface.hasChild.md)
-- [`removeChild`](docs..Root.nativeInterface.removeChild.md)
-- [`addChild`](docs..Root.nativeInterface.addChild.md)
-- [`getName`](docs..Root.nativeInterface.getName.md)
-- [`setName`](docs..Root.nativeInterface.setName.md)
-- [`copy`](docs..Root.nativeInterface.copy.md)
-- [`!=`](docs..Root.nativeInterface.!=.md)
-- [`===`](docs..Root.nativeInterface.===.md)
-- [`readOperator`](docs..Root.nativeInterface.readOperator.md)
-
+- [`readOperator`](docs..Root.NativeInterface.readOperator.md)
 
 ## Example:
 
+_**Note:** There is no difference between_
 
+```
+auto functionName.=(interface["functionName"]);
+```
 
+_and_
 
+```
+auto functionName.=(NativeFunction(interface, "functionName"));
+```
 
+```c
+import("nativeInterface");
+
+var interface.=(NativeInterface("
+    #include <stdio.h>
+    #include <interface.h>
+
+    object* promptInt(object* obj, object** args, int size)
+    { 
+        printf(\"Old value is: %i \\nType in new value: \", getInt(args[0]));
+        int input;
+        scanf(\"%i\", &input);
+        setInt(args[0], input);
+        printf(\"New value is: %i \\n\", getInt(args[0]));
+        return obj;
+    }
+
+    object* createString(object* obj, object** args, int size)
+    { 
+        object* String = readRecursive(obj, \"String\");
+        object* newString = call(String, NULL);
+        setString(newString, \"new string value\");
+        return newString;
+    }
+
+    object* callbackForEach(object* obj, object** args, int size)
+    {
+        for (int i = 1; i < size; i++)
+        {
+            call(args[0], args[i], NULL);
+        }
+        return obj;
+    }
+
+    object* returnBasicOut(object* obj, object** args, int size)
+    {
+        object* basicOut = readRecursive(obj, \"basicOut\");
+        return basicOut;
+    }
+"));
+
+auto integer.=(7);
+
+auto promptInt.=(interface["promptInt"]);
+basicOut(promptInt(integer));
+
+auto createString.=(NativeFunction(interface, "createString"));
+basicOut(createString());
+
+auto callbackForEach.=(interface["callbackForEach"]);
+callbackForEach(basicOut, 1, 2.3, "abc");
+
+auto returnBasicOut.=(NativeFunction(interface, "returnBasicOut"));
+returnBasicOut()(4, 5.6, "defg");
+```
+
+#### Possible output:
+
+```
+Old value is: 7
+Type in new value: 2
+New value is: 2
+new string value
+1
+2.3
+abc
+4
+5.6
+defg
+```

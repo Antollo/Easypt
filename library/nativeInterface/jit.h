@@ -7,6 +7,7 @@
 #include <iostream>
 #include <algorithm>
 #include <filesystem>
+#include <stdexcept>
 #include <libtcc.h>
 #include "interface.h"
 #include "osDependent.h"
@@ -22,8 +23,7 @@ public:
         s = tcc_new();
         if (!s)
         {
-            errorOut("tcc_new failed");
-            return;
+            throw(std::runtime_error("tcc_new failed"));
         }
         tcc_set_lib_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
         tcc_add_library_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
@@ -50,8 +50,7 @@ public:
 
         if (tcc_compile_string(s, body.c_str()) == -1)
         {
-            errorOut("tcc_compile_string failed");
-            return;
+            throw(std::runtime_error("tcc_compile_string failed"));
         }
 
         tcc_add_symbol(s, "getInt", (void*)getInt);
@@ -60,6 +59,8 @@ public:
         tcc_add_symbol(s, "setDouble", (void*)setDouble);
         tcc_add_symbol(s, "getString", (void*)getString);
         tcc_add_symbol(s, "setString", (void*)setString);
+        tcc_add_symbol(s, "getVoidPtr", (void*)getVoidPtr);
+        tcc_add_symbol(s, "setVoidPtr", (void*)setVoidPtr);
 
         tcc_add_symbol(s, "readNormal", (void*)readNormal);
         tcc_add_symbol(s, "readRecursive", (void*)readRecursive);
@@ -71,8 +72,7 @@ public:
         //if (tcc_relocate(s, reinterpret_cast<void*>(&buffer.front())) < 0)
         if (tcc_relocate(s, TCC_RELOCATE_AUTO) < 0)
         {
-            errorOut("tcc_relocate failed");
-            return;
+            throw(std::runtime_error("tcc_relocate failed"));
         }
     }
     ~interface()

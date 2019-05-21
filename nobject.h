@@ -145,6 +145,15 @@ class object : public std::enable_shared_from_this<object>
         }
 		objectPtr setAutomatic(bool newAutomatic = true) { automatic = newAutomatic; return shared_from_this(); }
 		bool getAutomatic() const { return automatic; }
+        objectPtr objectify()
+        {
+            if (!Root->hasChild("Object"))
+                return shared_from_this();
+            for (auto& child : (*std::any_cast<object::arrayType>(&Root->READ("Object")->READ("classProto")->getValue())))
+                addPrototypeChild(child);
+            addSignature("Object");
+            return shared_from_this();
+        }
         objectPtr debugTree(int indentation);
         static void initialize(objectPtr newRoot, objectPtr newDot = nullptr)
         {

@@ -50,7 +50,7 @@ object::objectPtr Class (object::objectPtr obj, object::arrayType& args)
         classProto.push_back(*it);
         it++;
     }
-    return ret;
+    return ret->objectify();
 }
 object::objectPtr makeClass (std::initializer_list<object::objectPtr> args)
 {

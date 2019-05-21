@@ -1,10 +1,24 @@
-# `nativeFunction`
+# `NativeFunction`
 
-#### `..Root.nativeFunction`
+#### `..Root.NativeFunction`
 
-* **Parameters:**
+Constructs new `NativeFunction`, extract exported function from given `NativeInterface`.
 
-* **Return value:**
+Exported functions should be of following type.
+
+```c
+object* functionName(object* obj, object** args, int i)
+```
+
+> TODO: More documentation
+
+* **Parameters:** `NativeInterface` interface, `String` function name
+
+* **Return value:** new `NativeFunction`
+
+### `NativeFunction` type signatures:
+
+`NativeFunction`, `Object`
 
 ## Child of:
 
@@ -12,29 +26,93 @@
 
 ## Signatures:
 
-`Object`, `NativeFunction`
+`NativeCallable`, `Callable`
 
 ## Members:
 
-- [`debugTree`](docs..Root.nativeFunction.debugTree.md)
-- [`=`](docs..Root.nativeFunction.=.md)
-- [`getParent`](docs..Root.nativeFunction.getParent.md)
-- [`getChild`](docs..Root.nativeFunction.getChild.md)
-- [`getChildrenArray`](docs..Root.nativeFunction.getChildrenArray.md)
-- [`hasChild`](docs..Root.nativeFunction.hasChild.md)
-- [`removeChild`](docs..Root.nativeFunction.removeChild.md)
-- [`addChild`](docs..Root.nativeFunction.addChild.md)
-- [`getName`](docs..Root.nativeFunction.getName.md)
-- [`setName`](docs..Root.nativeFunction.setName.md)
-- [`copy`](docs..Root.nativeFunction.copy.md)
-- [`!=`](docs..Root.nativeFunction.!=.md)
-- [`===`](docs..Root.nativeFunction.===.md)
-- [`callOperator`](docs..Root.nativeFunction.callOperator.md)
-
+- [`callOperator`](docs..Root.NativeFunction.callOperator.md)
 
 ## Example:
 
+_**Note:** There is no difference between_
 
+```
+auto functionName.=(interface["functionName"]);
+```
 
+_and_
 
+```
+auto functionName.=(NativeFunction(interface, "functionName"));
+```
 
+```c
+import("nativeInterface");
+
+var interface.=(NativeInterface("
+    #include <stdio.h>
+    #include <interface.h>
+
+    object* promptInt(object* obj, object** args, int size)
+    { 
+        printf(\"Old value is: %i \\nType in new value: \", getInt(args[0]));
+        int input;
+        scanf(\"%i\", &input);
+        setInt(args[0], input);
+        printf(\"New value is: %i \\n\", getInt(args[0]));
+        return obj;
+    }
+
+    object* createString(object* obj, object** args, int size)
+    { 
+        object* String = readRecursive(obj, \"String\");
+        object* newString = call(String, NULL);
+        setString(newString, \"new string value\");
+        return newString;
+    }
+
+    object* callbackForEach(object* obj, object** args, int size)
+    {
+        for (int i = 1; i < size; i++)
+        {
+            call(args[0], args[i], NULL);
+        }
+        return obj;
+    }
+
+    object* returnBasicOut(object* obj, object** args, int size)
+    {
+        object* basicOut = readRecursive(obj, \"basicOut\");
+        return basicOut;
+    }
+"));
+
+auto integer.=(7);
+
+auto promptInt.=(interface["promptInt"]);
+basicOut(promptInt(integer));
+
+auto createString.=(NativeFunction(interface, "createString"));
+basicOut(createString());
+
+auto callbackForEach.=(interface["callbackForEach"]);
+callbackForEach(basicOut, 1, 2.3, "abc");
+
+auto returnBasicOut.=(NativeFunction(interface, "returnBasicOut"));
+returnBasicOut()(4, 5.6, "defg");
+```
+
+#### Possible output:
+
+```
+Old value is: 7
+Type in new value: 2
+New value is: 2
+new string value
+1
+2.3
+abc
+4
+5.6
+defg
+```

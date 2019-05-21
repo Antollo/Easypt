@@ -1,0 +1,239 @@
+import("nativeInterface");
+
+auto interface.=(NativeInterface("
+    #include <stdio.h>
+    #include <interface.h>
+    #include <SFML/Network/Http.h>
+
+    object* getParent(object* obj)
+    {
+        object* temp = readRecursive(obj, \"getParent\");
+        return call(temp, obj, NULL);
+    }
+
+    object* addChild(object* obj, const char* name, object* child)
+    {
+        object* AddChild = readNormal(obj, \"addChild\");
+        object* String = readRecursive(obj, \"String\");
+        object* newString = call(String, NULL);
+        setString(newString, name);
+        return call(AddChild, newString, child, NULL);
+    }
+
+    //sfHttpMethod
+
+    object* init(object* obj, object** args, int size)
+    {
+        object* Int = readRecursive(obj, \"Int\");
+        object* i;
+
+        i = call(Int, NULL);
+        setInt(i, sfHttpGet);
+        addChild(args[0], \"Get\", i);
+        
+        i = call(Int, NULL);
+        setInt(i, sfHttpPost);
+        addChild(args[0], \"Post\", i);
+
+        i = call(Int, NULL);
+        setInt(i, sfHttpHead);
+        addChild(args[0], \"Head\", i);
+
+        i = call(Int, NULL);
+        setInt(i, sfHttpPut);
+        addChild(args[0], \"Put\", i);
+
+        i = call(Int, NULL);
+        setInt(i, sfHttpDelete);
+        addChild(args[0], \"Delete\", i);
+
+        return NULL;
+    }
+
+    //sfHttp
+
+    object* SfHttp_create(object* obj, object** args, int size)
+    {
+        setVoidPtr(getParent(obj), sfHttp_create());
+        return NULL;
+    }
+
+    object* SfHttp_setHost(object* obj, object** args, int size)
+    {
+        sfHttp_setHost(getVoidPtr(getParent(obj)), getString(args[0]), getInt(args[1]));
+        return NULL;
+    }
+
+    object* SfHttp_sendRequest(object* obj, object** args, int size)
+    {
+        sfTime t;
+        t.microseconds = getInt(args[1]);
+        sfHttpResponse* res = sfHttp_sendRequest(getVoidPtr(getParent(obj)), getVoidPtr(args[0]), t);
+
+        object* SfHttpResponse = readRecursive(obj, \"SfHttpResponse\");
+        object* newRes= call(SfHttpResponse, NULL);
+        setVoidPtr(newRes, res);
+        return newRes;
+    }
+
+    object* SfHttp_destroy(object* obj, object** args, int size)
+    {
+        sfHttp_destroy(getVoidPtr(getParent(obj)));
+        return NULL;
+    }
+
+    //sfHttpRequest
+
+    object* SfHttpRequest_create(object* obj, object** args, int size)
+    {
+        setVoidPtr(getParent(obj), sfHttpRequest_create());
+        return NULL;
+    }
+
+    object* SfHttpRequest_setField(object* obj, object** args, int size)
+    {
+        sfHttpRequest_setField(getVoidPtr(getParent(obj)), getString(args[0]), getString(args[1]));
+        return NULL;
+    }
+
+    object* SfHttpRequest_setMethod(object* obj, object** args, int size)
+    {
+        sfHttpRequest_setMethod(getVoidPtr(getParent(obj)), getInt(args[0]));
+        return NULL;
+    }
+
+    object* SfHttpRequest_setUri(object* obj, object** args, int size)
+    {
+        sfHttpRequest_setUri(getVoidPtr(getParent(obj)), getString(args[0]));
+        return NULL;
+    }
+    
+    object* SfHttpRequest_setHttpVersion(object* obj, object** args, int size)
+    {
+        sfHttpRequest_setHttpVersion(getVoidPtr(getParent(obj)), getInt(args[0]), getInt(args[1]));
+        return NULL;
+    }
+
+    object* SfHttpRequest_setBody(object* obj, object** args, int size)
+    {
+        sfHttpRequest_setBody(getVoidPtr(getParent(obj)), getString(args[0]));
+        return NULL;
+    }
+
+    object* SfHttpRequest_destroy(object* obj, object** args, int size)
+    {
+        sfHttpRequest_destroy(getVoidPtr(getParent(obj)));
+        return NULL;
+    }
+
+    //sfHttpResponse
+
+    object* SfHttpResponse_create(object* obj, object** args, int size)
+    {
+        setVoidPtr(getParent(obj), NULL);
+        return NULL;
+    }
+
+    object* SfHttpResponse_getBody(object* obj, object** args, int size)
+    {
+        object* String = readRecursive(obj, \"String\");
+        object* newString = call(String, NULL);
+        setString(newString, sfHttpResponse_getBody(getVoidPtr(getParent(obj))));
+        return newString;
+    }
+
+    object* SfHttpResponse_getField(object* obj, object** args, int size)
+    {
+        object* String = readRecursive(obj, \"String\");
+        object* newString = call(String, NULL);
+        setString(newString, sfHttpResponse_getField(getVoidPtr(getParent(obj)), getString(args[0])));
+        return newString;
+    }
+
+    
+    object* SfHttpResponse_getStatus(object* obj, object** args, int size)
+    {
+        //printf(\"%i\", getVoidPtr(getParent(obj)));
+        //sfHttpResponse_getStatus(getVoidPtr(getParent(obj)));
+
+        object* Int = readRecursive(obj, \"Int\");
+        object* newInt = call(Int, NULL);
+        setInt(newInt, sfHttpResponse_getStatus(getVoidPtr(getParent(obj))));
+        return newInt;
+    }
+
+    object* SfHttpResponse_getMajorVersion(object* obj, object** args, int size)
+    {
+        object* Int = readRecursive(obj, \"Int\");
+        object* newInt = call(Int, NULL);
+        setInt(newInt, sfHttpResponse_getMajorVersion(getVoidPtr(getParent(obj))));
+        return newInt;
+    }
+
+    object* SfHttpResponse_getMinorVersion(object* obj, object** args, int size)
+    {
+        object* Int = readRecursive(obj, \"Int\");
+        object* newInt = call(Int, NULL);
+        setInt(newInt, sfHttpResponse_getMinorVersion(getVoidPtr(getParent(obj))));
+        return newInt;
+    }
+    
+
+    object* SfHttpResponse_destroy(object* obj, object** args, int size)
+    {
+        sfHttpResponse_destroy(getVoidPtr(getParent(obj)));
+        return NULL;
+    }
+"));
+
+Root.var SfHttp.=(Class(
+    Object,
+    interface["SfHttp_create"].setName("SfHttp"),
+    interface["SfHttp_setHost"].setName("setHost"),
+    interface["SfHttp_sendRequest"].setName("sendRequest"),
+    interface["SfHttp_destroy"].setName("~~")
+));
+
+Root.var SfHttpMethod;
+interface["init"].(SfHttpMethod);
+
+var SfHttpRequest.=(Class(
+    Object,
+    interface["SfHttpRequest_create"].setName("SfHttpRequest"),
+    interface["SfHttpRequest_setField"].setName("setField"),
+    interface["SfHttpRequest_setMethod"].setName("setMethod"),
+    interface["SfHttpRequest_setUri"].setName("setUri"),
+    interface["SfHttpRequest_setHttpVersion"].setName("setHttpVersion"),
+    interface["SfHttpRequest_setBody"].setName("setBody"),
+    interface["SfHttpRequest_destroy"].setName("~~")
+));
+
+Root.var SfHttpResponse.=(Class(
+    Object,
+    interface["SfHttpResponse_create"].setName("SfHttpResponse"),
+    interface["SfHttpResponse_getBody"].setName("getBody"),
+    interface["SfHttpResponse_getField"].setName("getField"),
+    interface["SfHttpResponse_getStatus"].setName("getStatus"),
+    interface["SfHttpResponse_getMajorVersion"].setName("getMajorVersion"),
+    interface["SfHttpResponse_getMinorVersion"].setName("getMinorVersion"),
+    interface["SfHttpResponse_destroy"].setName("~~")
+));
+
+auto http.=(SfHttp());
+http.setHost("http://dummy.restapiexample.com/", 0);
+
+auto request.=(SfHttpRequest());
+
+request.setMethod(SfHttpMethod.Get);
+request.setUri("/api/v1/employees");
+#request.setHttpVersion(1, 1);
+request.setField("From", "me");
+request.setField("Content-Type", "application/x-www-form-urlencoded");
+request.setBody("para1=value1&param2=value2");#
+
+auto response.=(http.sendRequest(request, 0));
+
+
+basicOut(response.getStatus());
+
+basicOut(response.getBody());
