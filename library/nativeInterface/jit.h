@@ -18,6 +18,26 @@ class interface
 {
 public:
     using functionType = object::objectRawPtr(*)(object::objectRawPtr, object::objectRawPtr*, int);
+    void addLibs(const std::filesystem::path& path)
+    {
+        tcc_add_library_path(s, path.string().c_str());
+        for (const std::filesystem::directory_entry& p : std::filesystem::directory_iterator(path))
+        {
+            #ifdef _WIN32
+            if (p.path().extension().string() == ".def")
+                tcc_add_library(s, p.path().stem().string().c_str());
+            #else
+            if (p.path().extension().string() == ".a")
+                tcc_add_file(s, p.path().string().c_str());
+            if (p.path().extension().string() == ".so")
+                tcc_add_file(s, p.path().string().c_str());
+            if (p.path().extension().string() == ".o")
+                tcc_add_file(s, p.path().c_str());
+            #endif
+            if (std::filesystem::is_directory(p.path()))
+                addLibs(p.path());
+        }
+    }
     interface(const std::string& body) : s(nullptr)
     {
         s = tcc_new();
@@ -25,28 +45,26 @@ public:
         {
             throw(std::runtime_error("tcc_new failed"));
         }
-        tcc_set_lib_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
-        tcc_add_library_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
-        tcc_add_include_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("include")).string().c_str());
-
-        for (const std::filesystem::directory_entry& p : std::filesystem::directory_iterator(
-            std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")
-        ))
-        {
-            #ifdef _WIN32
-            if (p.path().extension().string() == ".def")
-                tcc_add_library(s, p.path().stem().string().c_str());
-            #else
-            if (p.path().extension().string() == ".a")
-                tcc_add_library(s, p.path().stem().string().c_str());
-            if (p.path().extension().string() == ".so")
-                tcc_add_library(s, p.path().stem().string().c_str());
-            #endif
-        }
-
-        tcc_define_symbol(s, "INTERFACE", nullptr);
 
         tcc_set_output_type(s, TCC_OUTPUT_MEMORY);
+
+addLibs(std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib"));
+        tcc_set_options(s, "-print-search-dirs");
+
+
+        tcc_set_lib_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
+        //tcc_add_library_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
+        tcc_add_include_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("include")).string().c_str());
+
+tcc_add_library(s, "sfml-network");
+tcc_add_library(s, "csfml-network");
+tcc_add_library(s, "X11");
+
+        //addLibs(std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib"));
+        //tcc_set_options(s, "-L/usr/lib/x86_64-linux-gnu/ -lcsfml-network -lX11");
+
+
+        tcc_define_symbol(s, "INTERFACE", nullptr);
 
         if (tcc_compile_string(s, body.c_str()) == -1)
         {
