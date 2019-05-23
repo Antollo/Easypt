@@ -48,21 +48,11 @@ public:
 
         tcc_set_output_type(s, TCC_OUTPUT_MEMORY);
 
-addLibs(std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib"));
-        tcc_set_options(s, "-print-search-dirs");
+        addLibs(std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib"));
 
 
         tcc_set_lib_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
-        //tcc_add_library_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib")).string().c_str());
         tcc_add_include_path(s, (std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("include")).string().c_str());
-
-tcc_add_library(s, "sfml-network");
-tcc_add_library(s, "csfml-network");
-tcc_add_library(s, "X11");
-
-        //addLibs(std::filesystem::path(getExecutablePath()).parent_path()/std::filesystem::path("lib"));
-        //tcc_set_options(s, "-L/usr/lib/x86_64-linux-gnu/ -lcsfml-network -lX11");
-
 
         tcc_define_symbol(s, "INTERFACE", nullptr);
 
