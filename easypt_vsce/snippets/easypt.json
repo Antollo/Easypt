@@ -66,10 +66,17 @@
         ],
         "description": "Function"
     },
-    "Variable": {
+    "Automatic variable": {
         "prefix": "auto",
         "body": [
             "auto ${1:name}.=($0);"
+        ],
+        "description": "Variable"
+    },
+    "Variable": {
+        "prefix": "let",
+        "body": [
+            "let ${1:name}.=($0);"
         ],
         "description": "Variable"
     },

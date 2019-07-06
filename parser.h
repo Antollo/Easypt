@@ -16,8 +16,7 @@ public:
 
     virtual std::list<expression>& getExpressionList() = 0;
     virtual name& getName() = 0;
-    virtual bool& getForceCreate() = 0;
-	virtual bool& getAutomatic() = 0;
+    virtual object::forceCreateMode& getForceCreateMode() = 0;
     virtual bool& getSearchInParent() = 0;
     virtual expression& getExpression() = 0;
     virtual type getType() = 0;
@@ -30,8 +29,7 @@ public:
         : expressionList(newExpressionList) {};
     std::list<expression>& getExpressionList() override { return expressionList; }
     name& getName() override { throw(Parser("Error in parser.")); }
-    bool& getForceCreate() override  { throw(Parser("Error in parser.")); }
-	bool& getAutomatic() override  { throw(Parser("Error in parser.")); }
+    object::forceCreateMode& getForceCreateMode() override  { throw(Parser("Error in parser.")); }
     bool& getSearchInParent() override  { throw(Parser("Error in parser.")); }
     expression& getExpression() override  { throw(Parser("Error in parser.")); }
     type getType() override { return type::call; };
@@ -42,18 +40,35 @@ private:
 class read : public action
 {
 public:
-    read(name newName, bool newSearchInParent, bool newForceCreate = false, bool newAutomatic = false)
-        : _name(newName), searchInParent(newSearchInParent), forceCreate(newForceCreate), automatic(newAutomatic) {};
+    read(name newName, bool newSearchInParent, bool forceCreate = false, bool automatic = false, bool stack = false)
+        : _name(newName), searchInParent(newSearchInParent), mode(object::forceCreateMode::none)
+    {
+        if (automatic)
+        {
+            mode = object::forceCreateMode::automatic;
+            return;
+        }
+        if (stack)
+        {
+            mode = object::forceCreateMode::stack;
+            return;
+        }
+        if (forceCreate)
+        {
+            mode = object::forceCreateMode::var;
+            return;
+        }
+    };
     std::list<expression>& getExpressionList() override { throw(Parser("Error in parser.")); }
     name& getName() override  { return _name; }
-    bool& getForceCreate() override  { return forceCreate; }
-	bool& getAutomatic() override  { return automatic; }
+    object::forceCreateMode& getForceCreateMode() override { return mode; }
     bool& getSearchInParent() override { return searchInParent; }
     expression& getExpression() override { throw(Parser("Error in parser.")); }
     type getType() override { return type::read; };
 private:
     name _name;
-    bool searchInParent, forceCreate, automatic;
+    bool searchInParent;
+    object::forceCreateMode mode;
 };
 
 class readcall : public action
@@ -63,8 +78,7 @@ public:
         : _expression(newExpression) {};
     std::list<expression>& getExpressionList() override { throw(Parser("Error in parser.")); }
     name& getName() override  { throw(Parser("Error in parser.")); }
-    bool& getForceCreate() override  { throw(Parser("Error in parser.")); }
-	bool& getAutomatic() override  { throw(Parser("Error in parser.")); }
+    object::forceCreateMode& getForceCreateMode() override  { throw(Parser("Error in parser.")); }
     bool& getSearchInParent() override { throw(Parser("Error in parser.")); }
     expression& getExpression() override { return _expression; }
     type getType() override { return type::readcall; };

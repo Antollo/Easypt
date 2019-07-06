@@ -13,8 +13,9 @@
 ## Members:
 
 - [`osName`](docs..Root.system.osName.md)
-- [`callShellCommand`](docs..Root.system.callShellCommand.md)
+- _deprecated_ [`callShellCommand`](docs..Root.system.callShellCommand.md) 
 - [`getEnvironmentVariable`](docs..Root.system.getEnvironmentVariable.md)
+- [`shellInterface`](docs..Root.system.shellInterface.md)
 
 ## Example:
 

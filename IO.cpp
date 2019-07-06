@@ -12,35 +12,35 @@ IO::_console& IO::_console::operator>> (std::string& text)
     return *this;
 };
 
-IO::_basicOut& IO::_basicOut::operator<< (const std::string& text)
+IO::_log& IO::_log::operator<< (const std::string& text)
 {
     std::cout<<text<<std::endl;
     return *this;
 };
 
-IO::_basicOut& IO::_basicOut::operator<< (const int& number)
+IO::_log& IO::_log::operator<< (const int& number)
 {
     std::cout<<number<<std::endl;
     return *this;
 };
 
-IO::_basicOut& IO::_basicOut::operator<< (const double& number)
+IO::_log& IO::_log::operator<< (const double& number)
 {
     std::cout<<number<<std::endl;
     return *this;
 };
 
-IO::_basicOut& IO::_basicOut::operator<< (const bool& boolean)
+IO::_log& IO::_log::operator<< (const bool& boolean)
 {
     std::cout<<boolean<<std::endl;
     return *this;
 };
 
-IO::_basicOut& IO::_basicOut::operator<< (const char* text)
+IO::_log& IO::_log::operator<< (const char* text)
 {
     std::cout<<text<<std::endl;
     return *this;
 };
 
 IO::_console IO::console;
-IO::_basicOut IO::basicOut;
+IO::_log IO::log;

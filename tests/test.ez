@@ -1,0 +1,172 @@
+var returnCode.=(0);
+var test.=({
+    import("console");
+    auto number.=(args[0].get());
+    auto passed.=(true);
+    for (auto it.=(args.begin()).!=, args.end(), it.++, {
+        if (it.get().toBoolean().!(), {
+            passed.=(false);
+        });
+    });
+    if (passed, {
+        console.controlSequence("m", "92m");
+        console.writeLine(number, " - test passed");
+        console.controlSequence("0m");
+    }, {
+        console.controlSequence("1m", "91m");
+        console.writeLine(number, " - test not passed");
+        console.controlSequence("0m");
+        returnCode.=(2);
+    });
+});
+
+var callOperator.=({
+    try ({
+
+        test(1, true);
+
+        auto arr.=(Array());
+        arr.pushBack(51);
+        arr.pushBack(3.14);
+        arr.pushBack("xyz");
+        test(2, arr[0].get().==(51), arr[1].get().==(3.14), arr[2].get().==("xyz"));
+
+        test(3, instanceOf(5.0, Double), instanceOf("\n\t\r", String), instanceOf(5, Double).!());
+
+        test(4, 5.0.toString().==("5.000000"), "32".toInt().==(32));
+
+        auto exc.=("No errors!");
+        try({
+            throw("Error!");
+        }, {
+            exc.=(args.end().-(1).get());
+        });
+        test(5, exc.==("Error!"));
+
+        auto exc.=("No errors!");
+        try({
+            {
+                throw(Exception("Error!"));
+            }();
+        }, {
+            exc.=(args.end().-(1).get());
+        });
+        test(6, exc.==("Exception: Error!"));
+
+        auto str.=(String());
+        auto mother;
+        auto father;
+        mother.var son;
+        father.var daughter;
+        mother.addChild("step-daughter", father.getChild("daughter"));
+        mother.addChild(Object().setName("Object"));
+        auto childrenArray.=(mother.getChildrenArray());
+        for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+            if (instanceOf(it.get(), Object), {
+                str.=(str.+(it.get().getName()).+("\n"));
+            });
+        });
+        test(7, str.==("Object\nson\ndaughter\n"));
+
+        import("algorithm");
+        auto a.=(Array());
+        auto str.=(String());
+        a.pushBack("w", "a", "z", "f", "c", "d");
+        algorithm.iterator.sort(a.begin(), a.end(), {
+            return(args[0].get().<(args[1].get()));
+        });
+        for (auto it.=(a.begin()).!=, a.end(), it.++, {
+            str.=(str.+(it.get()));
+        });
+        test(8, str.==("acdfwz"));
+
+        import("memory");
+        import("algorithm");
+        auto a.=(ByteView("abcd"));
+        let aStr.=(String());
+        auto b.=(ByteView(1684234849));
+        let bStr.=(String());
+        test(9, a.==(b));
+        algorithm.forEach(a, {
+            aStr.=(aStr.+(args[0].get().toInt().toString()));
+        });
+        algorithm.forEach(b, {
+            bStr.=(bStr.+(args[0].get().toInt().toString()));
+        });
+        test(10, aStr.==("979899100"));
+        test(11, bStr.==("979899100"));
+
+        import("time");
+        import("console");
+        auto clock.=(Clock());
+        time.sleep(128);
+        test("12 (time test)", clock.getElapsedMilliseconds().<(130));
+
+
+        let crowDied.=(false);
+        let birdDied.=(false);
+        auto Bird.=(Class(
+            Object, # inherit from Object #
+            var color, # color member variable #
+            {
+                color.=(args[0].get());
+            }.setName("Bird"), # constructor - name same as class #
+            {
+                return(color);
+            }.setName("getColor"), # getColor method #
+            {
+                birdDied.=(true);
+            }.setName("~~") # destructor #
+        ));
+        auto Crow.=(Class(
+            Bird,
+            var color,
+            {
+                Bird("black");
+            }.setName("Crow"),
+            {
+                crowDied.=(true);
+            }.setName("~~")
+        ));
+        auto bird.=(Crow("white"));
+        test(13, hasChild("bird"), bird.getColor().==("black"), birdDied.!(), crowDied.!());
+        removeChild("bird");
+        test(14, hasChild("bird").!(), birdDied.!(), crowDied);
+        auto bird.=(Bird("white"));
+        test(15, hasChild("bird"), bird.getColor().==("white"), birdDied.!(), crowDied);
+        removeChild("bird");
+        test(16, hasChild("bird").!(), birdDied, crowDied);
+
+        import("system");
+        test(17, system.shellInterface("echo ${1}", "ABC").==("ABC"));
+        test(18, system.shellInterface("echo ${1} ; echo ${2}" , 11, 12).==("11\n12"));
+
+        auto taskA.=(Task(Root, {
+            auto tStr.=(String());
+            for (auto i.=(0).<, 10, i.++, {
+                tStr.pushBack(i.toString());
+            });
+            return(tStr);
+        }));
+        test(19, taskA.get().==("0123456789"));
+
+        auto tStr.=("not throwed");
+        auto taskB.=(Task(Root, {
+            throw("throwed");
+        }));
+        try ({
+            taskB.get();
+        }, {
+            tStr.=(args.end().-(1).get());
+        });
+        test(20, tStr.==("throwed"));
+
+    }, {
+        returnCode.=(2);
+        console.controlSequence("1m", "91m");
+        log(args, "tests not passed");
+        console.controlSequence("0m");
+    });
+
+    return(returnCode);
+}

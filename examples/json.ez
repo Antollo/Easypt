@@ -34,7 +34,7 @@ var Json.=(Class(
         auto arr.=(string.searchRegex("(\\{[^\\{\\}]*\\})"));
         auto condition.=(arr.size().toBoolean());
         while (condition, {
-            #basicOut(arr[0].get());#
+            #log(arr[0].get());#
             string.replace(arr[0].get(), "token".+(tokenArray.size().toString()));
             tokenArray.pushBack(arr[0].get());
             arr.=(string.searchRegex("(\\{[^\\{\\}]*\\})"));
@@ -107,7 +107,7 @@ father.var daughter;
 #mother.addChild("step-daughter", father.getChild("daughter"));
 mother.addChild(Object());#
 
-basicOut(Json.stringify(mother));
+log(Json.stringify(mother));
 #Json(str).debugTree();#
 
-#parse("basicOut(7)")();#
+#parse("log(7)")();#

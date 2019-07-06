@@ -72,9 +72,9 @@ public:
 
         tcc_add_symbol(s, "readNormal", (void*)readNormal);
         tcc_add_symbol(s, "readRecursive", (void*)readRecursive);
-        tcc_add_symbol(s, "var", (void*)var);
-        object* (*c)(object*, ...) = call;
-        tcc_add_symbol(s, "call", (void*)c);
+        //tcc_add_symbol(s, "var", (void*)var);
+        //object* (*c)(object*, ...) = call;
+        //tcc_add_symbol(s, "call", (void*)c);
 
         //buffer.resize(tcc_relocate(s, nullptr));
         //if (tcc_relocate(s, reinterpret_cast<void*>(&buffer.front())) < 0)

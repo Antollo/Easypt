@@ -15,9 +15,14 @@
 #include <deque>
 #include <cstddef>
 #include <utility>
+#include <thread>
+#include <algorithm>
 
 #define makeObject(...) std::shared_ptr<object>(new object{__VA_ARGS__}, object::deleter())
 #define constructObject(caller, type, value) caller->READ(name(type), true)->CALL()->setValue(value)
+
+template <class T>
+void errorOut (T arg);
 
 class object : public std::enable_shared_from_this<object>
 {
@@ -58,7 +63,8 @@ class object : public std::enable_shared_from_this<object>
         {
             return myName == x.myName && signatures == x.signatures && children == x.children;
         }
-        objectPtr READ(name objectName, bool searchInParent = false, bool forceCreate = false, bool automatic = false);
+        enum class forceCreateMode { none, var, automatic, stack };
+        objectPtr READ(name objectName, bool searchInParent = false, forceCreateMode forceCreate = forceCreateMode::none);
         objectPtr READCALL(objectPtr arg);
         objectPtr CALL(arrayType& args);
         objectPtr CALL(objectPtr arg);
@@ -160,7 +166,7 @@ class object : public std::enable_shared_from_this<object>
             Root = newRoot.get();
 			dot = newDot;
         }
-		static void release() { Root = nullptr; dot.reset(); dynamicLibraries.clear(); }
+		static void release() { callStack.clear(); Root = nullptr; dot.reset(); dynamicLibraries.clear(); }
         static objectRawPtr getRawRoot() { return Root; }
         static name getAnonymousName()
         {
@@ -171,6 +177,70 @@ class object : public std::enable_shared_from_this<object>
             dynamicLibraries.push_back(ptr);
         }
         static constexpr nativeFunctionType abstractFunction = nullptr;
+
+        class callStackType {
+        public:
+            class entry
+            {
+            public:
+                enum class type { call, push };
+                object::objectPtr obj;
+                type t;
+            };
+            using keyType = std::deque<entry>::iterator;
+            keyType call(object::objectPtr obj)
+            {
+                stack.try_emplace(std::this_thread::get_id());
+                stack[std::this_thread::get_id()].push_back({obj, entry::type::call});
+                return stack[std::this_thread::get_id()].end() - 1;
+            }
+            void push(object::objectPtr obj)
+            {
+                stack.try_emplace(std::this_thread::get_id());
+                stack[std::this_thread::get_id()].push_back({obj, entry::type::push});
+            }
+            void pop(const keyType& it)
+            {
+                stack[std::this_thread::get_id()].erase(it, stack[std::this_thread::get_id()].end());
+            }
+            object::objectPtr get(const name& objectName)
+            {
+                std::deque<entry>::reverse_iterator it;
+
+                it = std::find_if(stack[std::this_thread::get_id()].rbegin(), stack[std::this_thread::get_id()].rend(), [&objectName](const entry& e) {
+                    return e.t == entry::type::push && e.obj->getName() == objectName;
+                });
+
+                if (it != stack[std::this_thread::get_id()].rend())
+                    return it->obj;
+                
+                return nullptr;
+            }
+            void trace()
+            {
+                errorOut("Trace call stack:");
+                for (const auto& el : stack[std::this_thread::get_id()])
+                {
+                    switch (el.t)
+                    {
+                    case entry::type::call:
+                        errorOut("Call: " + el.obj->getFullNameString());
+                        break;
+                    case entry::type::push:
+                        errorOut("Variable (let): " + el.obj->getFullNameString() + " Value: ");
+                        errorOut(el.obj);
+                        break;
+                    }
+                }
+            }
+            void clear()
+            {
+                stack.clear();
+            }
+        private:
+            std::map<std::thread::id, std::deque<entry>> stack;
+        };
+        static callStackType callStack;
     private:
         static objectRawPtr Root;
         static objectPtr dot;

@@ -44,7 +44,7 @@ Now you can run your code with `Ctrl+Shift+B`.
 
 ## Last changes
 
-- Try catch snippet added.
+- Let keyword added.
 
 ## For more information
 

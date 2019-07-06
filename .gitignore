@@ -1,4 +1,6 @@
 csfml
+*.tlog
+*.zip
 
 # Created by https://www.gitignore.io/api/cmake,codeblocks,visualstudio,visualstudiocode
 

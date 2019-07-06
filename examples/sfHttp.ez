@@ -1,4 +1,5 @@
 import("nativeInterface");
+import("console");
 
 auto interface.=(NativeInterface("
     #include <stdio.h>
@@ -197,7 +198,7 @@ Root.var SfHttp.=(Class(
 Root.var SfHttpMethod;
 interface["init"].(SfHttpMethod);
 
-var SfHttpRequest.=(Class(
+Root.var SfHttpRequest.=(Class(
     Object,
     interface["SfHttpRequest_create"].setName("SfHttpRequest"),
     interface["SfHttpRequest_setField"].setName("setField"),
@@ -219,6 +220,8 @@ Root.var SfHttpResponse.=(Class(
     interface["SfHttpResponse_destroy"].setName("~~")
 ));
 
+
+
 auto http.=(SfHttp());
 http.setHost("http://dummy.restapiexample.com/", 0);
 
@@ -226,14 +229,10 @@ auto request.=(SfHttpRequest());
 
 request.setMethod(SfHttpMethod.Get);
 request.setUri("/api/v1/employees");
-#request.setHttpVersion(1, 1);
-request.setField("From", "me");
-request.setField("Content-Type", "application/x-www-form-urlencoded");
-request.setBody("para1=value1&param2=value2");#
+
 
 auto response.=(http.sendRequest(request, 0));
 
 
-basicOut(response.getStatus());
-
-basicOut(response.getBody());
+console.writeLine(response.getStatus());
+console.writeLine(response.getBody());

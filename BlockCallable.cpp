@@ -36,7 +36,7 @@ object::objectPtr evaluateExpression(const expression& exp, object::objectPtr pa
         switch(act->getType())
         {
         case action::type::read:
-            temp = temp->READ(act->getName(), act->getSearchInParent(), act->getForceCreate(), act->getAutomatic());
+            temp = temp->READ(act->getName(), act->getSearchInParent(), act->getForceCreateMode());
             break;
         case action::type::readcall:
             temp = temp->READCALL(evaluateExpression(act->getExpression(), parent));
@@ -182,7 +182,7 @@ object::objectPtr BlockCallableTry (object::objectPtr obj, object::arrayType& ar
         catch (std::exception& e)
         {
             auto arr = getExceptionsArray(e);
-            args[1]->CALL(arr);
+            args[1]->callWithParent(obj, arr);
         }
         return obj->getParent();
     }

@@ -93,26 +93,26 @@ object::objectPtr parse (object::objectPtr obj, object::arrayType& args)
     }
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
-//basicOut
-object::objectPtr basicOut (object::objectPtr obj, object::arrayType& args)
+//log
+object::objectPtr log (object::objectPtr obj, object::arrayType& args)
 {
     for(auto& arg : args)
     {
         if (arg->getValue().type().hash_code() == typeid(std::string).hash_code())
-            IO::basicOut << *std::any_cast<std::string>(&arg->getValue());
+            IO::log << *std::any_cast<std::string>(&arg->getValue());
         else if (arg->getValue().type().hash_code() == typeid(int).hash_code())
-            IO::basicOut << *std::any_cast<int>(&arg->getValue());
+            IO::log << *std::any_cast<int>(&arg->getValue());
         else if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
-            IO::basicOut << *std::any_cast<bool>(&arg->getValue());
+            IO::log << *std::any_cast<bool>(&arg->getValue());
         else if (arg->getValue().type().hash_code() == typeid(double).hash_code())
-            IO::basicOut << *std::any_cast<double>(&arg->getValue());
+            IO::log << *std::any_cast<double>(&arg->getValue());
         else if (arg->getValue().type().hash_code() == typeid(object::arrayType).hash_code())
         {
             object::arrayType temp(1, nullptr);
             for(auto& el : *std::any_cast<object::arrayType>(&arg->getValue()))
             {
                 temp.front() = el;
-                basicOut(obj, temp);
+                log(obj, temp);
             }
         }
     };
@@ -121,12 +121,18 @@ object::objectPtr basicOut (object::objectPtr obj, object::arrayType& args)
 
 object::objectPtr import (object::objectPtr obj, object::arrayType& args)
 {
+    static std::set<std::string> imported;
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("String")))
         {
             std::filesystem::path fileName = *std::any_cast<std::string>(&args[0]->getValue());
             std::filesystem::path executablePath = getExecutablePath().parent_path();
+            
+            if (imported.count(fileName.stem().string()))
+                return obj->READ(name("Root"), true)->READ(fileName.stem().string());
+            imported.insert(fileName.stem().string());
+
             if (fileName.extension().string() == ".ez"
             || std::filesystem::exists(fileName.string() + ".ez")
             || std::filesystem::exists((executablePath/fileName).string() + ".ez"))

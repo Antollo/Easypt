@@ -6,6 +6,7 @@ int object::objectCounter = 0;
 object::objectRawPtr object::Root = nullptr;
 object::objectPtr object::dot;
 std::deque<object::objectPtr> object::dynamicLibraries;
+object::callStackType object::callStack;
 
 object::object(std::any newValue, name newName)
 	:value(newValue), myName(newName), parent(nullptr), automatic(false), beingDestructed(false)
@@ -21,23 +22,35 @@ object::object(std::any newValue, name newName)
     }
 }
 
-object::objectPtr object::READ(name objectName, bool searchInParent, bool forceCreate, bool automatic)
+object::objectPtr object::READ(name objectName, bool searchInParent, object::forceCreateMode forceCreate)
 {
 #if defined(DEBUG)
     std::cout<<" READ "<<(std::string)objectName + std::string(" in ") + getFullNameString()<<std::endl;
 #endif
     try
     {
-        if (forceCreate)
+        if (forceCreate != forceCreateMode::none)
         {
-            object::objectPtr newChild = READ(name("Object"), true)->CALL()->setName(objectName);
-			if (automatic) newChild->setAutomatic();
-            addChild(newChild);
+            objectPtr newChild = READ(name("Object"), true)->CALL()->setName(objectName);
+			if (forceCreate == forceCreateMode::automatic) newChild->setAutomatic();
+            if (forceCreate == forceCreateMode::stack)
+                callStack.push(newChild);
+            else
+                addChild(newChild);
             return newChild;
         }
+
         //if (children.count(objectName))
         if (hasChild(objectName))
             return children[objectName];
+
+        if (searchInParent)
+        {
+            objectPtr ptr = callStack.get(objectName);
+            if (ptr != nullptr)
+                return ptr;
+        }
+        
         if (searchInParent && parent != nullptr)
             return parent->READ(objectName, true);
         if (searchInParent)
@@ -81,15 +94,19 @@ object::objectPtr object::CALL(object::arrayType& args)
     try
     {
         asyncTasks::switchTask();
+        object::objectPtr ret = nullptr;
+        auto key = callStack.call(shared_from_this());
         if (hasSignature("NativeCallable"))
         {
             nativeFunctionType f = std::any_cast<nativeFunctionType>(value);
             if (!f) throw(InvalidValue("Object ", getFullNameString(), " is abstract function."));
-            return f(shared_from_this(), args);
+            ret = f(shared_from_this(), args);
         }
         if (hasChild("callOperator"))
         //if (children.count(name("callOperator")))
-            return children[name("callOperator")]->CALL(args);
+            ret = children[name("callOperator")]->CALL(args);
+        callStack.pop(key);
+        if (ret) return ret;
         throw(InvalidValue("Object ", getFullNameString(), " is neither BlockCallable nor NativeCallable."));
     }
     catch (std::exception&)
@@ -144,13 +161,26 @@ object::~object()
 #endif
     //~ must not use his parent. Parent is already dead!
     //This object is also dead!
-    parent = nullptr;
-    for (auto& child : children)
-        child.second->setParent(nullptr);
+    try
+    {
+        parent = nullptr;
+        for (auto& child : children)
+            child.second->setParent(nullptr);
+    }
+    catch(std::exception& e)
+    {
+        auto arr = getExceptionsArray(e);
+        errorOut(arr);
+    }
+    catch (...)
+    {
+	    errorOut("Fatal error occurred.");
+    }
 }
 
 void object::deleter::operator()(objectRawPtr ptr) const
 {
+    if (ptr->beingDestructed) return;
     if (ptr->hasChild("~~"))
     {
         ptr->beingDestructed = true;
@@ -209,15 +239,15 @@ object::objectPtr object::debugTree(int indentation)
     }
     IO::console<<spaces<<"Value:      ";
     if (getValue().type().hash_code() == typeid(nativeFunctionType).hash_code())
-        IO::basicOut << (std::string)"native function";
+        IO::log << (std::string)"native function";
     else if (getValue().type().hash_code() == typeid(std::string).hash_code())
-        IO::basicOut << *std::any_cast<std::string>(&getValue());
+        IO::log << *std::any_cast<std::string>(&getValue());
     else if (getValue().type().hash_code() == typeid(int).hash_code())
-        IO::basicOut << *std::any_cast<int>(&getValue());
+        IO::log << *std::any_cast<int>(&getValue());
     else if (getValue().type().hash_code() == typeid(bool).hash_code())
-        IO::basicOut << *std::any_cast<bool>(&getValue());
+        IO::log << *std::any_cast<bool>(&getValue());
     else if (getValue().type().hash_code() == typeid(double).hash_code())
-        IO::basicOut << *std::any_cast<double>(&getValue());
+        IO::log << *std::any_cast<double>(&getValue());
     else if (getValue().type().hash_code() == typeid(arrayType).hash_code())
     {
         for (auto& el : (*std::any_cast<arrayType>(&value)))
@@ -237,9 +267,9 @@ object::objectPtr object::debugTree(int indentation)
         IO::console<<"\n";
     }
     else if (value.type().hash_code() == typeid(std::nullptr_t).hash_code())
-        IO::basicOut << (std::string)"object";
+        IO::log << (std::string)"object";
     else
-        IO::basicOut << (std::string)"unknown";
+        IO::log << (std::string)"unknown";
     
     //Warning - proto
     if (children.size())

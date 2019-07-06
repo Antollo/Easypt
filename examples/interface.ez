@@ -1,6 +1,10 @@
 
 import("nativeInterface");
 
+import("console");
+console.controlSequence("1m", "4m", "44m", "91m");
+console.writeLine("Bold, underlined text with red font and blue background");
+console.controlSequence("0m");
 var interface.=(NativeInterface("
     #include <stdio.h>
     #include <interface.h>
@@ -19,7 +23,7 @@ var interface.=(NativeInterface("
     { 
         object* String = readRecursive(obj, \"String\");
         object* newString = call(String, NULL);
-        setString(newString, \"new string value\");
+        setString(newString, \"new string value from C\");
         return newString;
     }
 
@@ -32,26 +36,38 @@ var interface.=(NativeInterface("
         return obj;
     }
 
-    object* returnBasicOut(object* obj, object** args, int size)
+    object* returnLog(object* obj, object** args, int size)
     {
-        object* basicOut = readRecursive(obj, \"basicOut\");
-        return basicOut;
+        object* log = readRecursive(obj, \"log\");
+        return log;
+    }
+
+    object* createBird(object* obj, object** args, int size)
+    { 
+        object* Bird = readRecursive(obj, \"Bird\");
+        object* newBird = call(Bird, args[0], NULL);
+        return newBird;
     }
 "));
 
 auto integer.=(7);
 
 auto promptInt.=(interface["promptInt"]);
-basicOut(promptInt(integer));
+log(promptInt(integer));
 
 auto createString.=(NativeFunction(interface, "createString"));
-basicOut(createString());
+log(createString());
 
 auto callbackForEach.=(interface["callbackForEach"]);
-callbackForEach(basicOut, 1, 2.3, "Abc");
+callbackForEach(log, 1, 2.3, "Abc");
 
-auto returnBasicOut.=(NativeFunction(interface, "returnBasicOut"));
-returnBasicOut()(4, 5.6, "Defg");
+auto returnLog.=(NativeFunction(interface, "returnLog"));
+returnLog()(4, 5.6, "Defg");
+
+auto returnLog.=(NativeFunction(interface, "returnLog"));
+returnLog()(4, 5.6, "Defg");
+
+auto createBird.=(NativeFunction(interface, "createBird"));
 
 
 import("console");
@@ -65,11 +81,40 @@ console.writeLine("Again normal text");
 
 import("console");
 
-basicOut("ab bcd efghIjk".searchRegex("[a-z]+"));
-basicOut("aBCd".replaceRegex("[a-z]", "e"));
-basicOut("aaaa".matchRegex("[a-z]+"));
-basicOut("aAaa".matchRegex("[a-z]+"));
+log("ab bcd efghIjk".searchRegex("[a-z]+"));
+log("aBCd".replaceRegex("[a-z]", "e"));
+log("aaaa".matchRegex("[a-z]+"));
+log("aAaa".matchRegex("[a-z]+"));
 
-i.debugTree();
+import("system");
+#log(system.shellInterface("echo ${1}", "a"));
+throw(Exception("a"));#
 
-throw(Exception("a"));
+var Bird.=(Class(
+    Object,
+    var color,
+    {
+        color.=(args[0].get());
+        log(color, "bird born");
+    }.setName("Bird"),
+    {
+        log("tweet");
+    }.setName("sing"),
+    {
+        log(color, "bird died");
+    }.setName("~~")
+));
+
+var f.=({
+    auto b.=(Bird("b color"));
+    let bb.=(Bird("bb color"));
+    bb;
+});
+
+f();
+log("birdy should died");
+
+var a.=(createBird("c color"));
+removeChild("a");
+debugTrace();
+createBird.debugTree();

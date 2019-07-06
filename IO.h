@@ -14,16 +14,16 @@ namespace IO
     };
     extern _console console;
 
-    class _basicOut
+    class _log
     {
     public:
-        _basicOut& operator<< (const std::string& text);
-        _basicOut& operator<< (const int& number);
-        _basicOut& operator<< (const double& number);
-        _basicOut& operator<< (const bool& boolean);
-        _basicOut& operator<< (const char* text);
+        _log& operator<< (const std::string& text);
+        _log& operator<< (const int& number);
+        _log& operator<< (const double& number);
+        _log& operator<< (const bool& boolean);
+        _log& operator<< (const char* text);
     };
-    extern _basicOut basicOut;
+    extern _log log;
 };
 
 #endif // IO_H

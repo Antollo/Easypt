@@ -5,8 +5,23 @@ import("memory");
 import("math");#
 
 import("console");
-import("devices");
+import("sfHttp");
 import("time");
+
+auto http.=(SfHttp());
+http.setHost("http://dummy.restapiexample.com/", 0);
+
+auto request.=(SfHttpRequest());
+
+request.setMethod(SfHttpMethod.Get);
+request.setUri("/api/v1/employees");
+
+
+#auto response.=(http.sendRequest(request, 0));
+
+
+console.writeLine(response.getStatus());
+console.writeLine(response.getBody());#
 
 auto taskA.=(Task(Root, {
     for (auto i.=(0).<, 10, i.++, {
@@ -55,22 +70,22 @@ var arrayLiteral.=({
 });
 
 
-Root.var pos.=(5);
+#Root.var pos.=(5);
 auto dListener.=(EventListener({
     return(devices.keyboard.isKeyDown("d"));
 }, {
     pos.--();
-    basicOut("d");
+    log("d");
 }));
 auto aListener.=(EventListener({
     return(devices.keyboard.isKeyDown("a"));
 }, {
     pos.++();
-    basicOut("a");
-}));
+    log("a");
+}));#
 
 #while (1, {
-    basicOut(pos);
+    log(pos);
 });#
 
 removeChild("dListener");
@@ -81,11 +96,11 @@ console.writeLine("Is that ok?");
 #auto A.=(Class(
     Object, 
     {
-        basicOut("helloA");
+        log("helloA");
     }.setName("A"),
     Object, 
     {
-        basicOut("goodbye");
+        log("goodbye");
     }.setName("~~"),
 ));
 auto a.=(A());
@@ -93,7 +108,7 @@ auto B.=(Class(
     A,
     {
         A();
-        basicOut("helloB");
+        log("helloB");
     }.setName("B")
 ));
 B();
@@ -107,4 +122,8 @@ auto b.=(B());#
 #getThis().debugTree();#
 #throw("stop");#
 
+console.writeLine("---");
 
+var res.=({
+    console.write(args.size());
+}(1,2,"sasd",));

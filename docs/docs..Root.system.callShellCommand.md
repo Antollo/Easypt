@@ -2,7 +2,7 @@
 
 #### `..Root.system.callShellCommand`
 
-Calls the operating system's command processor with concatenation of given parameters. 
+_deprecated_ Calls the operating system's command processor with concatenation of given parameters (`cmd.exe`). 
 
 * **Parameters:** any number of `String`
 

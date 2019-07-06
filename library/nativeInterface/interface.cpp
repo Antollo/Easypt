@@ -77,14 +77,19 @@ object::objectRawPtr readRecursive(object::objectRawPtr obj, const char* name)
     return obj->READ(std::string(name), true).get();
 }
 
-object::objectRawPtr var(object::objectRawPtr obj, const char* name)
+//TODO: fix "var" function
+/*object::objectRawPtr var(object::objectRawPtr obj, const char* name)
 {
-    return obj->READ(std::string(name), true, true).get();
-}
+    return obj->READ(std::string(name), true, object::forceCreateMode::var).get();
+}*/
 
-object::objectRawPtr call(object::objectRawPtr obj, ...)
+//TODO: fix "call" function
+/*object::objectRawPtr call(object::objectRawPtr obj, ...)
 {
     static object::arrayType orphanage;
+    //object::objectPtr orphanage = obj->READ(name("Array"), true)->CALL()->setName("orphanage");
+    //caller->addChild(orphanage);
+    //->READ(name("pushBack"))->CALL();
     object::arrayType args;
     object::objectRawPtr next;
 
@@ -101,6 +106,12 @@ object::objectRawPtr call(object::objectRawPtr obj, ...)
     }
     va_end(varags);
 
+    //object::objectPtr res = obj->CALL(args);
+    //object::getRawRoot()->READ(name("orphanage"))->READ(name("pushBack"))->CALL((res = obj->CALL(args).get())->shared_from_this());
+    //orphanage.push_back(res);
+    //object::callStack.private_push(res);
+    //object::callStack.trace();
+    //return res.get();
     orphanage.push_back(obj->CALL(args));
     return orphanage.back().get();
-}
+}*/

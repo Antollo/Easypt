@@ -99,7 +99,7 @@ std::list<expression> parser::parse()
     std::list<expression> expressions;
     int temp;
     //searchInParent means that new expression is starting
-    bool searchInParent = true, forceCreate =  false, automatic = false;
+    bool searchInParent = true, forceCreate =  false, automatic = false, stack = false;
     expressions.emplace_back();
     while(true)
     {
@@ -151,6 +151,7 @@ std::list<expression> parser::parse()
             searchInParent = false;
             forceCreate = false;
 			automatic = false;
+            stack = false;
             #if defined(DEBUG)
             std::cout<<">str <"<<std::string(source + iterator, temp - iterator + 1)<<">\n";
             #endif
@@ -171,6 +172,7 @@ std::list<expression> parser::parse()
                 searchInParent = false;
                 forceCreate = false;
 				automatic = false;
+                stack = false;
                 #if defined(DEBUG)
                 std::cout<<">obj <"<<std::string(source + iterator, temp - iterator + 1)<<">\n";
                 #endif
@@ -234,6 +236,7 @@ std::list<expression> parser::parse()
                 searchInParent = false;
                 forceCreate = false;
 				automatic = false;
+                stack = false;
                 #if defined(DEBUG)
                 std::cout<<">num <"<<std::string(source + iterator, temp - iterator)<<"> "<<std::atoi(source + iterator)<<"\n";
                 #endif
@@ -253,7 +256,7 @@ std::list<expression> parser::parse()
                     iterator = temp + 1;
                     break;
                 }
-				if (std::strncmp(source + iterator, "auto", 4) == 0)
+				else if (std::strncmp(source + iterator, "auto", 4) == 0)
 				{
 					forceCreate = true;
 					automatic = true;
@@ -263,13 +266,24 @@ std::list<expression> parser::parse()
 					iterator = temp + 1;
 					break;
 				}
+                else if (std::strncmp(source + iterator, "let", 3) == 0)
+				{
+					forceCreate = true;
+					stack = true;
+					#if defined(DEBUG)
+					std::cout << ">let \n";
+					#endif
+					iterator = temp + 1;
+					break;
+				}
                 #if defined(DEBUG)
                 std::cout<<">read <"<<std::string(source + iterator, temp - iterator)<<"> "<<forceCreate<<"\n";
                 #endif
-                expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator), searchInParent, forceCreate, automatic));
+                expressions.back().push_back(std::make_shared<read>(std::string(source + iterator, temp - iterator), searchInParent, forceCreate, automatic, stack));
                 searchInParent = false;
                 forceCreate = false;
 				automatic = false;
+                stack = false;
                 iterator = temp;
             }
             else

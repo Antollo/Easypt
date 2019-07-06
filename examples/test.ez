@@ -2,13 +2,13 @@
 auto arr.=(Array());
 arr.pushBack(1);
 arr.pushBack(2);
-apply(Root, basicOut, arr);
+apply(Root, log, arr);
 
 #..Root.call#
-call(Root, basicOut, 1, 2);
+call(Root, log, 1, 2);
 
-#..Root.basicOut#
-basicOut("abc", 123, 0.456);
+#..Root.log#
+log("abc", 123, 0.456);
 
 #..Root.debugTree#
 #Object().setName("name").debugTree();#
@@ -18,15 +18,15 @@ import("console");
 console.writeLine("What's your name?");
 
 #..Root.instanceOf#
-basicOut(instanceOf(5, Int));
-basicOut(instanceOf(5.0, Int));
-basicOut(instanceOf(5.0, Double));
+log(instanceOf(5, Int));
+log(instanceOf(5.0, Int));
+log(instanceOf(5.0, Double));
 
 #..Root.Exception#
 try({
     throw(Exception("Error!"));
 }, {
-    basicOut(args[0].get());
+    log(args[0].get());
 });
 
 #..Root.Object.addChild#
@@ -39,13 +39,13 @@ mother.addChild(Object().setName("Object"));
 auto childrenArray.=(mother.getChildrenArray());
 for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
     if (instanceOf(it.get(), Object), {
-        basicOut(it.get().getName());
+        log(it.get().getName());
     });
 });
 
 #..Root.Object.setName#
 auto something.setName("myNewName");
-basicOut(something.getName());
+log(something.getName());
 
 #..Root.algorithm.iterator.sort#
 import("algorithm");
@@ -54,7 +54,7 @@ a.pushBack("w", "a", "z", "f", "c", "d");
 algorithm.iterator.sort(a.begin(), a.end(), {
     return(args[0].get().<(args[1].get()));
 });
-basicOut(a);
+log(a);
 
 #..Root.ByteView#
 import("memory");
@@ -62,13 +62,13 @@ import("algorithm");
 auto a.=(ByteView("abcd"));
 auto b.=(ByteView(1684234849));
 a.begin();
-basicOut(a.==(b));
+log(a.==(b));
 algorithm.forEach(a, {
-    basicOut(args[0].get().toInt());
+    log(args[0].get().toInt());
 });
-basicOut("");
+log("");
 algorithm.forEach(b, {
-    basicOut(args[0].get().toInt());
+    log(args[0].get().toInt());
 });
 
 
@@ -89,11 +89,11 @@ auto Bird.=(Class(
     Object, # inherit from Object #
     var color, # color member variable #
     {
-        basicOut("bird created");
+        log("bird created");
         color.=(args[0].get());
     }.setName("Bird"), # constructor - name same as class #
     {
-        basicOut("tweet");
+        log("tweet");
     }.setName("sing"), # sing method #
     {
         for (auto i.=(0).<, args[0].get(), i.++, {
@@ -104,7 +104,7 @@ auto Bird.=(Class(
         return(color);
     }.setName("getColor"), # getColor method #
     {
-        basicOut(, "bird died");
+        log(, "bird died");
     }.setName("~~") # destructor #
 ));
 
@@ -118,10 +118,10 @@ auto Crow.=(Class(
         par.=(getParent().getParent);
     }.setName("Crow"),
     {
-        basicOut("caw");
+        log("caw");
     }.setName("sing"),
     {
-        basicOut("crow died");
+        log("crow died");
     }.setName("~~")
 ));
 
@@ -129,19 +129,19 @@ auto bird.=(Crow("black"));
 bird.singNTimes(3);
 #crow.debugTree();#
 #crow.tweetNTimes(4);
-basicOut(crow.getColor());#
+log(crow.getColor());#
 
 
 #..Root.Array#
 auto arr.=(Array());
-basicOut(arr.size());
+log(arr.size());
 arr.resize(5);
-basicOut(arr.size());
+log(arr.size());
 arr[1].<-(7.copy());
-basicOut(arr[1].get());
+log(arr[1].get());
 arr.=(Array(4, "some text"));
-basicOut(arr.size());
-basicOut(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
+log(arr.size());
+log(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
 
 auto makeGreetingsString.=({
     auto str.=("Happy ");
@@ -151,20 +151,20 @@ auto makeGreetingsString.=({
     str.=(str.+("!"));
     return(str);
 });
-basicOut(makeGreetingsString(50, "John"));
+log(makeGreetingsString(50, "John"));
 
 #..Root.BlockCallable.for#
 for (auto i.=(0).<, 10, i.++, {
-    basicOut(i);
+    log(i);
 });
 auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
 for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 auto str.=("Hello world!");
 for (auto it.=(str.begin()).!=, str.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 
 #..Root.File#
@@ -173,12 +173,16 @@ auto testFile.=(File());
 testFile.open("test.txt");
 testFile.clear();
 testFile.write("alpha beta\ngamma");
-basicOut(testFile.read());
-basicOut(testFile.read());
-basicOut(testFile.read());
+log(testFile.read());
+log(testFile.read());
+log(testFile.read());
 testFile.write("delta");
-basicOut(testFile.read());#
+log(testFile.read());#
 
 #..Root.Iterator#
 auto it.=(Iterator());
-it.get();
+#it.get();#
+
+#..Root.system.shellInterface#
+import("system");
+log(system.shellInterface("echo ${1}", "ABC"));

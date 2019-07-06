@@ -5,12 +5,16 @@ void prepareTree()
     object::objectPtr Root = makeObject(nullptr, name("Root"));
     object::objectPtr dot = makeObject(nullptr, name("."))->addChild(Root);
 	object::initialize(Root, dot);
-    Root->addChild(makeObject(basicOut, name("basicOut")));
+    Root->addChild(makeObject(log, name("log")));
         
     Root
         ->addChild(makeObject(apply, name("apply")))
         ->addChild(makeObject(call, name("call")))
         ->addChild(makeObject(debugTree, name("debugTree")))
+        ->addChild(makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+            object::callStack.trace();
+            return obj->getParent();
+        }, name("debugTrace")))
         ->addChild(makeObject(import, name("import")))
         ->addChild(makeObject(instanceOf, name("instanceOf")))
         ->addChild(makeObject(except, name("except")));
@@ -275,5 +279,4 @@ void prepareTree()
     })->setName("Task"));
 
     Root->addChild(makeObject(parse, name("parse")));
-    Root->addChild(Root->READ(name("Array"))->CALL()->setName("launchArgs"));
 }

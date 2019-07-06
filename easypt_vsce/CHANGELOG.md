@@ -1,5 +1,9 @@
 # Change Log
 
+### 1.2.2
+
+- Let keyword added.
+
 ### 1.2.1
 
 - Try catch snippet added.

@@ -17,6 +17,7 @@ inline bool isFlag(const char* input, const char* flag)
 
 int main(int argc, char** argv)
 {
+    int returnCode = 0;
     try
     {
         initialize();
@@ -24,7 +25,8 @@ int main(int argc, char** argv)
         try
         {
             std::string entryPoint;
-            std::list<std::string> fileNames;
+            std::vector<std::string> fileNames;
+            object::arrayType args;
             for (int i = 0; i < argc; i++)
             {
                 if (isFlag(argv[i], "-file") && i != argc-1)
@@ -41,7 +43,8 @@ int main(int argc, char** argv)
                 }
                 else
                 {
-                   object::getRawRoot()->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
+                    args.push_back(object::getRawRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i])));
+                    //object::getRawRoot()->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
                 }
             }
 
@@ -54,8 +57,9 @@ int main(int argc, char** argv)
             entryPointString->getValue() = entryPoint;
             object::objectPtr entryPointBlockCallable = object::getRawRoot()->READ(name("parse"))->CALL(entryPointString);
             entryPointBlockCallable->setName("EntryPointBlockCallable");
-            entryPointBlockCallable->CALL();
-	    	object::release();
+            object::objectPtr returnCodeObject = entryPointBlockCallable->CALL(args);
+            if (returnCodeObject->hasSignature(name("Int")))
+                returnCode = std::any_cast<int>(returnCodeObject->getValue());
         }
         catch (std::exception& e)
         {
@@ -63,11 +67,25 @@ int main(int argc, char** argv)
             errorOut(arr);
         }
         //asyncTasks::unregisterThisThread();
-	    object::release();
+        bool released = false;
+        while (!released)
+        {
+            try
+            {
+                object::release();
+                released = true;
+            }
+            catch(std::exception& e)
+            {
+                auto arr = getExceptionsArray(e);
+                errorOut(arr);
+            }
+            
+        }
     }
     catch(...)
     {
         errorOut("Fatal error occurred.");
     }
-    return 0;
+    return returnCode;
 }
