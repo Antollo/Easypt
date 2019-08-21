@@ -19,7 +19,7 @@ For instance:
 ```c
 auto x.=("abc");
 if (x.==("abc"), {
-    basicOut("x is equal to abc");
+    log("x is equal to abc");
 });
 ```
 
@@ -39,9 +39,9 @@ For example:
 auto a.=(6);
 auto b.=(9);
 if (a.>(b), {
-    basicOut("a is greater than b");
+    log("a is greater than b");
 }, {
-    basicOut("a is less or equal to b");
+    log("a is less or equal to b");
 });
 ```
 
@@ -79,7 +79,7 @@ Example:
 auto condition.=(true);
 auto i.=(0);
 while (condition, {
-    basicOut(i.++());
+    log(i.++());
     if (i.==(10), { condition.=(false); });
 });
 ```
@@ -103,7 +103,7 @@ Example of `Int` based `for`:
 
 ```c
 for (auto i.=(0).<, 10, i.++, {
-    basicOut(i);
+    log(i);
 });
 ```
 
@@ -113,7 +113,7 @@ Example of `ArrayIterator` based `for`:
 auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
 for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```
 
@@ -122,7 +122,7 @@ Example of `StringIterator` based `for`:
 ```c
 auto str.=("Hello world!");
 for (auto it.=(str.begin()).!=, str.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```
 

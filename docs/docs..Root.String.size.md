@@ -18,5 +18,5 @@ Returns length of string.
 
 ```c
 auto str.=("Hello World!");
-basicOut(str.size());
+log(str.size());
 ```

@@ -22,7 +22,7 @@ Inserts a copy of the sequence of characters in the range [first, last) before e
 auto a.=("----");
 auto b.=("||");
 a.insert(a.begin().+(2), b.begin(), b.end());
-basicOut(a);
+log(a);
 ```
 
 #### Expected output:

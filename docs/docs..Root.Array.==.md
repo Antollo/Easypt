@@ -22,12 +22,12 @@ Compares elements of two arrays.
 auto a.=(Array().pushBack(5.+(5), "a"));
 auto b.=(Array().pushBack(10, "a"));
 
-basicOut(a);
-basicOut(b);
-basicOut(a.==(b));
+log(a);
+log(b);
+log(a.==(b));
 
 b.pushBack(3.14);
-basicOut(a.==(b));
+log(a.==(b));
 ```
 
 #### Expected output:

@@ -23,6 +23,6 @@ Returns iterator pointing to i-th character. Read operator (`[]`) is shorthand f
 
 ```c
 auto str.=("Hello World!");
-basicOut(str.readOperator(6).get());
-basicOut(str[6].get());
+log(str.readOperator(6).get());
+log(str[6].get());
 ```

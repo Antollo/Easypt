@@ -37,16 +37,16 @@ import("algorithm");
 auto a.=(ByteView("abcd"));
 auto b.=(ByteView(1684234849));
 
-basicOut(a.==(b), "");
+log(a.==(b), "");
 
 algorithm.forEach(a, {
-    basicOut(args[0].get().toInt());
+    log(args[0].get().toInt());
 });
 
-basicOut("");
+log("");
 
 algorithm.forEach(b, {
-    basicOut(args[0].get().toInt());
+    log(args[0].get().toInt());
 });
 ```
 

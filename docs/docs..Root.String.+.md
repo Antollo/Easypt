@@ -19,5 +19,5 @@ Concatenates two strings.
 ## Example:
 
 ```c
-basicOut("Hello ".+("world!"));
+log("Hello ".+("world!"));
 ```

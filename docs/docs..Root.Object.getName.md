@@ -18,8 +18,8 @@ Returns name of variable.
 
 ```c
 auto something;
-basicOut(something.getName());
-basicOut(Object().getName());
+log(something.getName());
+log(Object().getName());
 ```
 
 #### Possible output:

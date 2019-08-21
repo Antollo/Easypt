@@ -83,7 +83,7 @@ object::objectPtr BlockCallableCallOperator (object::objectPtr obj, object::arra
     //parent->removeChild(name("returnValueTriplet"));
     if (!ret)
         ret = parent;
-        //ret = parent->READ(name("return"))->setName(object::getAnonymousName())->addSignatureR(parent->getName());
+        //ret = parent->READ(name("return"))->setName(object::getAnonymousName())->addSignatures(parent->getName());
     object::childrenType::const_iterator temp;
 	while ((temp = std::find_if(parent->getLocalChildren().cbegin(), parent->getLocalChildren().cend(), [](const auto& it) {
 		return it.second->getAutomatic();

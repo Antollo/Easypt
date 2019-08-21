@@ -19,8 +19,8 @@ Determines if the regular expression matches this string.
 ## Example:
 
 ```c
-basicOut("aaaa".matchRegex("[a-z]+"));
-basicOut("aAaa".matchRegex("[a-z]+"));
+log("aaaa".matchRegex("[a-z]+"));
+log("aAaa".matchRegex("[a-z]+"));
 ```
 
 #### Expected output:

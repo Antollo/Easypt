@@ -3,6 +3,8 @@
 
 //#define DEBUG
 
+#define GIT_HASH
+
 #if defined(DEBUG)
 #pragma message ("Debug mode on")
 #endif
@@ -37,25 +39,29 @@ int main(int argc, char** argv)
                 {
                     entryPoint = argv[++i];
                 }
+                if (isFlag(argv[i], "-repl"))
+                {
+                    fileNames.push_back("repl");
+                }
                 else if (isFlag(argv[i], "-help"))
                 {
                     IO::console << "See project's repository (there are tutorial and language reference): https://github.com/Antollo/Easypt\n";
                 }
                 else
                 {
-                    args.push_back(object::getRawRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i])));
-                    //object::getRawRoot()->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
+                    args.push_back(object::getRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i])));
+                    //object::getRoot()->READ(name("launchArgs"))->READ(name("pushBack"))->CALL(object::getRoot()->READ(name("String"))->CALL()->setValue(std::string(argv[i]))->setName("arg"));
                 }
             }
 
             for(auto& fileName : fileNames)
             {
-                object::objectPtr sourceBlockCallable = object::getRawRoot()->READ(name("import"))->CALL(object::getRawRoot()->READ(name("String"))->CALL()->setValue(fileName));
+                object::objectPtr sourceBlockCallable = object::getRoot()->READ(name("import"))->CALL(object::getRoot()->READ(name("String"))->CALL()->setValue(fileName));
             }
 
-            object::objectPtr entryPointString = object::getRawRoot()->READ(name("String"))->CALL();
+            object::objectPtr entryPointString = object::getRoot()->READ(name("String"))->CALL();
             entryPointString->getValue() = entryPoint;
-            object::objectPtr entryPointBlockCallable = object::getRawRoot()->READ(name("parse"))->CALL(entryPointString);
+            object::objectPtr entryPointBlockCallable = object::getRoot()->READ(name("parse"))->CALL(entryPointString);
             entryPointBlockCallable->setName("EntryPointBlockCallable");
             object::objectPtr returnCodeObject = entryPointBlockCallable->CALL(args);
             if (returnCodeObject->hasSignature(name("Int")))

@@ -29,7 +29,7 @@ Let's begin with function literal (unnamed function):
 
 ```c
 {
-    basicOut("I am BlockCallable literal!");
+    log("I am BlockCallable literal!");
 };
 ```
 
@@ -37,7 +37,7 @@ Nothing happened. We need to call it (by call operator - `()`).
 
 ```c
 {
-    basicOut("I am BlockCallable literal!");
+    log("I am BlockCallable literal!");
 }();
 ```
 
@@ -47,7 +47,7 @@ Let's give our function a name:
 
 ```c
 auto fun.=({
-    basicOut("I am fun!");
+    log("I am fun!");
 });
 fun();
 ```
@@ -62,7 +62,7 @@ In Easypt arguments are provided as `Array` of [references](https://en.wikipedia
 
 ```c
 auto print.=({
-    basicOut(args[0].get(), args[1].get());
+    log(args[0].get(), args[1].get());
 });
 print(7, 3.14);
 ```
@@ -78,7 +78,7 @@ Try to run:
 
 ```c
 auto print.=({
-    basicOut(args[0].get(), args[1].get());
+    log(args[0].get(), args[1].get());
 });
 print(7);
 ```
@@ -112,7 +112,7 @@ auto myIncrement.=({
 });
 auto myInt.=(5)
 myIncrement(myInt);
-basicOut(myInt);
+log(myInt);
 ```
 
 Output is `6`. If you don't want to pass a reference, you will have to use `Object`'s `copy` method:
@@ -123,7 +123,7 @@ auto myIncrement.=({
 });
 auto myInt.=(5)
 myIncrement(myInt.copy());
-basicOut(myInt);
+log(myInt);
 ```
 
 Now output is `5`.
@@ -142,7 +142,7 @@ In Easypt `return` is `BlockCallable`'s method. Calling return makes execution t
 auto fun.=({
     return(5);
 });
-basicOut(fun());
+log(fun());
 ```
 
 #### Expected output:
@@ -164,7 +164,7 @@ auto makeGreetingsString.=({
     str.=(str.+("!"));
     return(str);
 });
-basicOut(makeGreetingsString(50, "John"));
+log(makeGreetingsString(50, "John"));
 ```
 
 Output:

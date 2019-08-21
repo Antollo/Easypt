@@ -20,9 +20,9 @@ Blocks the execution of the current thread for given number of milliseconds.
 
 ```c
 import("time");
-basicOut(time.secondsSinceEpoch());
+log(time.secondsSinceEpoch());
 time.sleep(2000);
-basicOut(time.secondsSinceEpoch());
+log(time.secondsSinceEpoch());
 ```
 
 

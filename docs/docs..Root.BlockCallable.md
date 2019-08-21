@@ -33,11 +33,11 @@ Constructs empty `BlockCallable`. To create non empty `BlockCallable` use curly 
 
 ```c
 auto fun.=({
-    basicOut("a");
-    basicOut("b");
+    log("a");
+    log("b");
     return("c");
-    basicOut("d");
+    log("d");
 });
 
-basicOut(fun());
+log(fun());
 ```

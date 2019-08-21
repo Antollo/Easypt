@@ -26,7 +26,7 @@ auto myFunction.=({
     if(instanceOf(args[0].get(), String).!(), {
         throw(WrongTypeOfArgumentException("This is not String!"));
     });
-    basicOut("This is one String: ", args[0].get());
+    log("This is one String: ", args[0].get());
 });
 myFunction("my argument");
 ```

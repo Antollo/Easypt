@@ -20,7 +20,7 @@ Checks if string is empty (true if empty, false otherwise).
 
 
 ```c
-basicOut("Hello World!".empty());
-basicOut("".empty());
+log("Hello World!".empty());
+log("".empty());
 ```
 

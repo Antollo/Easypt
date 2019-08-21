@@ -19,5 +19,5 @@ Converts string to integer.
 
 ```c
 auto str.=("1024");
-basicOut(str.toInt()./(2));
+log(str.toInt()./(2));
 ```

@@ -56,13 +56,10 @@ bool isKeyDown(char key)
 #endif
 
 #include "nobject.h"
-#include "nativeLibrary.h"
 #include "Common.h"
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
+object::objectPtr initDevices (object::objectPtr obj, object::arrayType& args)
 {
-    nativeLibrary::initialize(obj, args);
-
     obj->addChild(constructObject(obj, "Object", nullptr)->setName("keyboard")
         ->addChild(makeObject(function<bool (*)(char), isKeyDown, bool, std::string>, name("isKeyDown")))
         );

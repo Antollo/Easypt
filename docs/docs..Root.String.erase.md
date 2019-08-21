@@ -26,7 +26,7 @@ auto str.=("Hello World!");
 auto begin.=(str.begin().+(str.find(" ", 0)));
 auto end.=(str.begin().+(str.find("!", 0)));
 str.erase(begin, end);
-basicOut(str);
+log(str);
 ```
 
 #### Expected output:

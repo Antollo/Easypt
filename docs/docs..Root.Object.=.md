@@ -22,5 +22,5 @@ Assign copy of another object to this object (parent and name of this object do 
 auto a.=(5);
 auto b.=("abc");
 a.=(b);
-basicOut(a, b);
+log(a, b);
 ```

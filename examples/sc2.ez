@@ -4,6 +4,12 @@ import("console");
 import("memory");
 import("math");#
 
+for (auto i.=(0).<, 107, i.++, {
+    console.controlSequence(i.toString().+("m"));
+    console.writeLine("Big brown cat.");
+    console.controlSequence("0m");
+});
+
 import("console");
 import("sfHttp");
 import("time");

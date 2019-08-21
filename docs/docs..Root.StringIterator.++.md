@@ -19,6 +19,6 @@ Increments `StringIterator` instance (equivalent of `it.=(it.+(1))`).
 ```c
 auto str.=("Hello world!");
 for (auto it.=(str.begin()).!=, str.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```

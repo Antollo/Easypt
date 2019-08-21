@@ -22,6 +22,6 @@ Throws an exception. _[Longer description will come.]_
 try({
     throw(Exception("Error!"));
 }, {
-    basicOut(args[0].get());
+    log(args[0].get());
 });
 ```

@@ -19,5 +19,5 @@ Checks if two strings are equal.
 ## Example:
 
 ```c
-basicOut("a".==("a"));
+log("a".==("a"));
 ```

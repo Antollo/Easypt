@@ -19,7 +19,7 @@ Checks if first argument has signatures identical to names of following variable
 ## Example:
 
 ```c
-basicOut(instanceOf(5, Int));
-basicOut(instanceOf(5.0, Int));
-basicOut(instanceOf(5.0, Double));
+log(instanceOf(5, Int));
+log(instanceOf(5.0, Int));
+log(instanceOf(5.0, Double));
 ```

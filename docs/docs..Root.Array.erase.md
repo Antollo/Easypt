@@ -23,5 +23,5 @@ auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
 
 arr.erase(arr.begin(), arr.begin().+(2));
-basicOut(arr);
+log(arr);
 ```

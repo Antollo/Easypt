@@ -1,3 +1,3 @@
 #include "asyncTasks.h"
 
-asyncTasks::sharedStaticMembers asyncTasks::members;
+asyncTasks::staticMembers asyncTasks::members;

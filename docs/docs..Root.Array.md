@@ -49,7 +49,7 @@ Constructs new `Array`. `Array` is a sequence container that encapsulates dynami
 auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
 for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```
 

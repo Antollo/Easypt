@@ -22,5 +22,5 @@ Returns new `ArrayIterator` moved backward by arguments value;
 auto arr.=(Array());
 arr.pushBack("abc", "def");
 for (auto it.=(arr.end()).!=, arr.begin(), it.--, {
-    basicOut(it.-(1).get());
+    log(it.-(1).get());
 });

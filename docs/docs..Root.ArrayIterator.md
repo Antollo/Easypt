@@ -38,6 +38,6 @@ Constructs a new `ArrayIterator`, this constructor exists only for internal `Arr
 auto arr.=(Array());
 arr.pushBack("abc", "def");
 for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```

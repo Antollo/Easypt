@@ -22,6 +22,6 @@ import("memory");
 auto i.=(1234);
 auto a.=(ByteView(i));
 
-basicOut(a.size());
+log(a.size());
 ```
 

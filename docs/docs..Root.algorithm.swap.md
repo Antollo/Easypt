@@ -25,5 +25,5 @@ auto a.=(1);
 auto b.=(2);
 
 algorithm.swap(a, b);
-basicOut(a, b);
+log(a, b);
 ```

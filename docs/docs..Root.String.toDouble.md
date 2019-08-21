@@ -19,5 +19,5 @@ Converts string to floating point number.
 
 ```c
 auto str.=("1024");
-basicOut(str.toDouble()./(3.0));
+log(str.toDouble()./(3.0));
 ```

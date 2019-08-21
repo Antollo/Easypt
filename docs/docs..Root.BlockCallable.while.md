@@ -22,7 +22,7 @@ While condition is true call block.
 auto condition.=(true);
 auto i.=(0);
 while(condition, {
-    basicOut(i.++());
+    log(i.++());
     if(i.==(10), { condition.=(false); });
 });
 ```
@@ -33,7 +33,7 @@ while(condition, {
 auto a.=(6);
 auto b.=(9);
 auto condition.=(a.!=(b));
-basicOut(while (condition, {
+log(while (condition, {
     if (a.>(b), { a.=(a.-(b)); });
     if (b.>(a), { b.=(b.-(a)); });
     condition.=(a.!=(b));

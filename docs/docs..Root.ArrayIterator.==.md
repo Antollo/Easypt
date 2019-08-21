@@ -21,7 +21,7 @@ Checks if two instances of `ArrayIterator` are pointing to same element.
 ```c
 auto arr.=(Array());
 arr.pushBack("x");
-basicOut(arr.begin().==(arr.[0]));
+log(arr.begin().==(arr.[0]));
 ```
 
 

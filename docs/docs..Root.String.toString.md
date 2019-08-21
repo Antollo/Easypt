@@ -19,5 +19,5 @@ Returns copy of `String` instance.
 
 ```c
 auto str.=("Hello world!".toString());
-basicOut(str);
+log(str);
 ```

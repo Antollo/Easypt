@@ -46,7 +46,7 @@ public:
     name(const char* textName);
     operator std::string() const
     {
-        return (*codeToNameMap)[code];
+        return codeToNameMap[code];
     }
     operator int() const
     {
@@ -56,17 +56,11 @@ public:
     {
         return code == x;
     }
-    //Why?
-    //This class in dll will have own static members
-    using initializationPack = std::pair<std::shared_ptr<std::map<int, std::string>>, std::shared_ptr<std::map<std::string, int>>>;
-    static void initialize();
-    static initializationPack getInitializationPack() { return std::make_pair(codeToNameMap, nameToCodeMap); }
-    static void initialize(initializationPack pack);
 
 private:
     int code;
-    static std::shared_ptr<std::map<int, std::string>> codeToNameMap;
-    static std::shared_ptr<std::map<std::string, int>> nameToCodeMap;
+    static std::map<int, std::string> codeToNameMap;
+    static std::map<std::string, int> nameToCodeMap;
 };
 
 namespace std

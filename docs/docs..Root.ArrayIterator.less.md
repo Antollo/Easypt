@@ -22,5 +22,5 @@ Checks if this `ArrayIterator` is pointing before another `ArrayIterator`. This 
 ```c
 auto arr.=(Array());
 arr.pushBack("abc", "def");
-basicOut(arr.begin().<(arr.end()));
+log(arr.begin().<(arr.end()));
 ```

@@ -33,7 +33,7 @@ Unpack `artifacts.zip` and place easypt interpreter in a worthy place.
 
 - For all:
   
-  Run command `easypt -entryPoint basicOut(1234);` to verify Easypt interpreter is correctly installed. 
+  Run command `easypt -entryPoint log(1234);` to verify Easypt interpreter is correctly installed. 
 
 
 ## 3. Download Visual Studio Code

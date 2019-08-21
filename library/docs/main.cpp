@@ -3,7 +3,6 @@
 #include <map>
 #include <cctype>
 #include "nobject.h"
-#include "nativeLibrary.h" 
 
 std::map<object::nativeFunctionType, std::string> locationToFilename;
 inline size_t findNth(const std::string& str, const std::string& what, size_t n, size_t pos = 0)
@@ -116,12 +115,35 @@ object::objectPtr generateDocs (object::objectPtr obj, object::arrayType& args)
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
+void _generateDocsImpl (object::objectPtr arg)
 {
-    std::ios_base::sync_with_stdio(false);
-    nativeLibrary::initialize(obj, args);
+    if (arg->getValue().type().hash_code() == typeid(std::string).hash_code())
+        std::cerr << "\033[91m\033[1m" << *std::any_cast<std::string>(&arg->getValue()) << "\033[0m" << std::endl;
+    else if (arg->getValue().type().hash_code() == typeid(int).hash_code())
+        std::cerr << "\033[91m\033[1m" << *std::any_cast<int>(&arg->getValue()) << "\033[0m" << std::endl;
+    else if (arg->getValue().type().hash_code() == typeid(bool).hash_code())
+        std::cerr << "\033[91m\033[1m" << *std::any_cast<bool>(&arg->getValue()) << "\033[0m" << std::endl;
+    else if (arg->getValue().type().hash_code() == typeid(double).hash_code())
+        std::cerr << "\033[91m\033[1m" << *std::any_cast<double>(&arg->getValue()) << "\033[0m" << std::endl;
+    else if (arg->getValue().type().hash_code() == typeid(object::arrayType).hash_code())
+    {
+        for(auto& el : *std::any_cast<object::arrayType>(&arg->getValue()))
+        {
+            _generateDocsImpl(el);
+        }
+    }
+}
 
-    obj->addChild(makeObject(generateDocs, name("generateDocs")));
+object::objectPtr _generateDocs (object::objectPtr obj, object::arrayType& args)
+{
+    for(auto& arg : args)
+        _generateDocsImpl(arg);
+    return obj;
+}
+
+object::objectPtr initDocs (object::objectPtr obj, object::arrayType& args)
+{
+    obj->addChild(makeObject(_generateDocs, name("callOperator")));
     return nullptr;
 }
 

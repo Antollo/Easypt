@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <ctime>
 #include "nobject.h"
-#include "nativeLibrary.h" 
 
 template<class S, S f>
 object::objectPtr MFunction0 (object::objectPtr obj, object::arrayType& args)
@@ -48,11 +47,9 @@ object::objectPtr MFunction2 (object::objectPtr obj, object::arrayType& args)
     return constructObject(obj, "Double", (double) f(a1, a2));
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
+object::objectPtr initMath (object::objectPtr obj, object::arrayType& args)
 {
     std::srand(std::time(0));
-
-    nativeLibrary::initialize(obj, args);
 
     obj->addChild(constructObject(obj, "Double", M_E)->setName(name("e")))
         ->addChild(constructObject(obj, "Double", M_PI)->setName(name("pi")))

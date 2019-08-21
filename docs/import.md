@@ -15,7 +15,7 @@
        return(args[0].get().+(args[1].get()));
    });
 
-   basicOut(add(5 ,7));
+   log(add(5 ,7));
    ```
    
    Run it with `easypt -file a.ez`
@@ -33,7 +33,7 @@
    `b.ez`:
    
    ```c
-   basicOut(a.add(5 ,7));
+   log(a.add(5 ,7));
    ```
 
    _(Now it's `a.add`, huh? That's because all local variables in `some_file.ez` are added as children to `Root.some_file` node.)_
@@ -54,9 +54,9 @@
 
 3. `-entryPoint`
    
-   Try running command `easypt -entryPoint "basicOut(\"Hello there!\");"`
+   Try running command `easypt -entryPoint "log(\"Hello there!\");"`
 
-   (`\"` quote escaping works at least in Windows cmd, if you don't see `Hello there!` output try something shell independent e.g. `easypt -entryPoint basicOut(1234);`)
+   (`\"` quote escaping works at least in Windows cmd, if you don't see `Hello there!` output try something shell independent e.g. `easypt -entryPoint log(1234);`)
 
    As you can see `-entryPoint` argument is executed (in `EntryPointBlockCallable` node that is not attached as child to `Root` for your curiosity) as normal code (called after last file from `-file`).
 
@@ -74,7 +74,7 @@
    
    ```c
    var main.=({
-       basicOut(a.add(5 ,7));
+       log(a.add(5 ,7));
    });
    ```
 
@@ -113,7 +113,7 @@ var add.=({
 ```c
 import("lib.ez");
 var main.=({
-    basicOut(lib.add(5 ,7));
+    log(lib.add(5 ,7));
 });
 ```
 

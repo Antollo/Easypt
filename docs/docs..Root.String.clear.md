@@ -21,6 +21,6 @@ Erases the contents of the string.
 
 ```c
 auto str.=("Hello World!");
-basicOut(str);
-basicOut(str.empty());
+log(str);
+log(str.empty());
 ```

@@ -1,0 +1,50 @@
+import("console");
+import("math");
+
+Root.var replInput;
+Root.replInput.var callOperator;
+
+var input.=(String());
+var code.=(String());
+var counter.=(Int());
+
+var prompt.=({
+    console.controlSequence("36m");
+    console.write(args[0].get());
+    console.controlSequence("0m");
+});
+
+var condition.=(true);
+prompt("Easypt REPL mode.\nLeave an empty line to run your input.\n");
+while (condition, {
+    if (code.empty(),
+    {
+        counter.++();
+        prompt(counter.toString().+(" > "));
+    }, {
+        prompt("... ".+(String(math.log10(counter).toInt(), " ")));
+    });
+    input.=(console.readLine());
+    if (input.empty(), {
+        try ({
+            replInput.callOperator.=(parse(code));
+            replInput.callOperator.addChild("return", {
+                repl.condition.=(false);
+            });
+            replInput();
+            var childrenArray.=(replInput.callOperator.getChildrenArray());
+            for (var it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
+                if (instanceOf(it.get(), Object), {
+                    replInput.callOperator.removeChild(it.get().getName());
+                    replInput.addChild(it.get());
+                });
+            });
+        }.setName("tryBody"), {
+            err(args);
+        });
+        code.clear();
+    }.setName("ifBody"), {
+        code.=(code.+(input));
+    });
+}.setName("whileBody"));
+

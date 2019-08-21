@@ -23,5 +23,5 @@ import("algorithm");
 
 auto a.=(Array());
 a.pushBack("w", "a", "z", "f", "c", "d");
-algorithm.forEach(a, basicOut);
+algorithm.forEach(a, log);
 ```

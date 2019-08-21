@@ -25,7 +25,7 @@ arr.pushBack("1");
 arr.pushBack("2");
 arr.pushBack("3");
 arr.pushBack("4");
-basicOut(arr.subarray(arr.begin().+(1), arr.end().-(1)));
+log(arr.subarray(arr.begin().+(1), arr.end().-(1)));
 ```
 
 #### Expected output:

@@ -5,12 +5,42 @@ void prepareTree()
     object::objectPtr Root = makeObject(nullptr, name("Root"));
     object::objectPtr dot = makeObject(nullptr, name("."))->addChild(Root);
 	object::initialize(Root, dot);
+    
+    std::array<object::objectPtr, 16> obo; //Objects before Object type is ready
+
+    Root->addChild(obo[0] = makeClass({
+        obo[1] = makeObject(assignOperator, name("=")),
+        obo[2] = makeObject(getParent, name("getParent")), 
+        obo[3] = makeObject(getChild, name("getChild")), 
+        obo[4] = makeObject(getChildrenArray, name("getChildrenArray")), 
+        obo[5] = makeObject(hasChild, name("hasChild")), 
+        obo[6] = makeObject(removeChild, name("removeChild")), 
+        obo[7] = makeObject(functionChooser<wrongNumberOfArguments, addChild1, addChild2>, name("addChild")), 
+        obo[8] = makeObject(getName, name("getName")), 
+        obo[9] = makeObject(setName, name("setName")), 
+        obo[10] = makeObject(ObjectCopy, name("copy")), 
+        obo[11] = makeObject(notEqualOperator, name("!=")), 
+        obo[12] = makeObject(equalReferenceOperator, name("===")), 
+        obo[13] = makeObject(debugTree, name("debugTree"))
+    })->setName("Object"));
+
+    obo[14] = obo[0]->READ("classProto");
+    obo[15] = obo[0]->READ("classSignatures");
+
+    for (auto& el : obo)
+        el->objectify();
+
+    Root->objectify();
+
     Root->addChild(makeObject(log, name("log")));
-        
+    Root->addChild(makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
+        errorOut(args);
+        return obj->getParent();
+    }, name("err")));
+
     Root
         ->addChild(makeObject(apply, name("apply")))
         ->addChild(makeObject(call, name("call")))
-        ->addChild(makeObject(debugTree, name("debugTree")))
         ->addChild(makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
             object::callStack.trace();
             return obj->getParent();
@@ -18,22 +48,6 @@ void prepareTree()
         ->addChild(makeObject(import, name("import")))
         ->addChild(makeObject(instanceOf, name("instanceOf")))
         ->addChild(makeObject(except, name("except")));
-
-    Root->addChild(makeClass({
-        makeObject(assignOperator, name("=")),
-        makeObject(getParent, name("getParent")), 
-        makeObject(getChild, name("getChild")), 
-        makeObject(getChildrenArray, name("getChildrenArray")), 
-        makeObject(hasChild, name("hasChild")), 
-        makeObject(removeChild, name("removeChild")), 
-        makeObject(functionChooser<wrongNumberOfArguments, addChild1, addChild2>, name("addChild")), 
-        makeObject(getName, name("getName")), 
-        makeObject(setName, name("setName")), 
-        makeObject(ObjectCopy, name("copy")), 
-        makeObject(notEqualOperator, name("!=")), 
-        makeObject(equalReferenceOperator, name("===")), 
-        makeObject(debugTree, name("debugTree"))
-    })->setName("Object")->objectify());
 
     Root->addChild(makeObject(Class, name("Class")))
         ->addChild(makeObject(constructor, name("constructor")));
@@ -207,10 +221,17 @@ void prepareTree()
     })->setName("StringIterator"));
 
     Root->addChild(makeClass({
-        Root->READ("Object"),
+        Root->READ("Object")
+    })->setName("Callable"));
+
+    Root->addChild(makeClass({
+        Root->READ("Callable")
+    })->setName("NativeCallable"));
+
+    Root->addChild(makeClass({
+        Root->READ("Callable"),
         makeObject((object::nativeFunctionType)[](object::objectPtr obj, object::arrayType& args) -> object::objectPtr {
             obj->getParent()->getValue() = std::list<expression>();
-            obj->getParent()->addSignature(name("Callable"));
             return obj->getParent();
         }, name("BlockCallable")),
         makeObject(BlockCallableIf, name("if")),
@@ -279,4 +300,17 @@ void prepareTree()
     })->setName("Task"));
 
     Root->addChild(makeObject(parse, name("parse")));
+
+    object::arrayType dummy;
+
+    initConsole(Root->addChild(makeObject(nullptr, name("console")))->READ("console"), dummy);
+    initSystem(Root->addChild(makeObject(nullptr, name("system")))->READ("system"), dummy);
+    initTime(Root->addChild(makeObject(nullptr, name("time")))->READ("time"), dummy);
+    initDocs(Root->addChild(makeObject(nullptr, name("docs")))->READ("docs"), dummy);
+    initFile(Root->addChild(makeObject(nullptr, name("file")))->READ("file"), dummy);
+    initMemory(Root->addChild(makeObject(nullptr, name("memory")))->READ("memory"), dummy);
+    initMath(Root->addChild(makeObject(nullptr, name("math")))->READ("math"), dummy);
+    //initDevices(Root, dummy);
+    initNativeInterface(Root->addChild(makeObject(nullptr, name("nativeInterface")))->READ("nativeInterface"), dummy);
+    initVersion(Root->addChild(makeObject(nullptr, name("version")))->READ("version"), dummy);
 }

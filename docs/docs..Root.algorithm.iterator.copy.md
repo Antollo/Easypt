@@ -27,5 +27,5 @@ a.pushBack("a", "b", "c");
 auto b.=(Array(3));
 
 algorithm.iterator.copy(a.begin(), a.end(), b.begin());
-basicOut(b);
+log(b);
 ```

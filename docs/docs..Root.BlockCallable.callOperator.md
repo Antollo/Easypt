@@ -19,6 +19,6 @@ Calls `BlockCallable`, equivalent of call operator `()`.
 ## Example:
 
 ```c
-auto fun.=({ basicOut("called"); });
+auto fun.=({ log("called"); });
 fun.callOperator();
 ```

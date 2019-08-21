@@ -17,73 +17,6 @@ std::filesystem::path getExecutablePath()
     return ret;
 }
 
-dynamicLibrary::dynamicLibrary()
-{
-    #if defined(_WIN32)
-        library = 0;
-    #elif defined(__linux__)
-        library = 0;
-    #else
-        throw(NotSupportedOnThisOS("Dynamic libraries are not supported on this OS"))
-    #endif
-}
-
-void dynamicLibrary::loadLibrary(const std::string& fileName)
-{
-    #if defined(_WIN32)
-        library = LoadLibraryA((fileName + ".dll").c_str());
-        if (!library)
-        {
-            std::filesystem::path executablePath = getExecutablePath().parent_path();
-            library = LoadLibraryA((executablePath/std::filesystem::path(fileName + ".dll")).string().c_str());
-            if (!library) throw(FileNotFound("Library ", fileName, " not found"));
-        }
-    #elif defined(__linux__)
-        library = dlopen(("./lib" + fileName + ".so").c_str(), RTLD_LAZY);
-        if (!library)
-        {
-            std::filesystem::path executablePath = getExecutablePath().parent_path();
-            library = dlopen((executablePath/std::filesystem::path("lib" + fileName + ".so")).string().c_str(), RTLD_LAZY);
-            if (!library) throw(FileNotFound("Library ", fileName, " not found"));
-        }
-    #else
-        library = false;
-        throw(NotSupportedOnThisOS("Dynamic libraries are not supported on this OS"))
-    #endif
-}
-object::nativeFunctionType dynamicLibrary::getFunction(const std::string& functionName)
-{
-	if (!library) throw(FileNotFound("Library not found"));
-    #if defined(_WIN32)
-        object::nativeFunctionType function = reinterpret_cast<object::nativeFunctionType>(GetProcAddress(library, functionName.c_str()));
-        if (!function) throw(NotFound("Function ", functionName, " not found"));
-        return function;
-    #elif defined(__linux__)
-        object::nativeFunctionType function = reinterpret_cast<object::nativeFunctionType>(dlsym(library, functionName.c_str()));
-        if (!function) throw(NotFound("Function ", functionName, " not found"));
-        return function;
-    #else
-        throw(NotSupportedOnThisOS("Dynamic libraries are not supported on this OS"))
-    #endif
-}
-dynamicLibrary::~dynamicLibrary()
-{
-    #if defined(_WIN32)
-    if (library)
-    {
-        FreeLibrary(library);
-		library = nullptr;
-    }
-    #elif defined(__linux__)
-    if (library)
-    {
-        dlclose(library);
-		library = nullptr;
-    }
-    #else
-        throw(NotSupportedOnThisOS("Dynamic libraries are not supported on this OS"))
-    #endif
-}
 
 #if defined(_WIN32)
 void translateSEH(unsigned int u, EXCEPTION_POINTERS* exceptionPtr)
@@ -122,8 +55,6 @@ void initialize()
 {
     //std::ios_base::sync_with_stdio(false);
     std::cout << std::boolalpha;
-    name::initialize();
-    asyncTasks::initialize(std::make_shared<asyncTasks::staticMembers>());
     asyncTasks::registerThisThread();
     initializeThread();
     #if defined(_WIN32)

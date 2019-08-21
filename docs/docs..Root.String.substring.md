@@ -23,5 +23,5 @@ Returns new substring that starts at character position pos and spans len charac
 
 ```c
 auto str.=("Hello World!");
-basicOut(str.substring(6, 5));
+log(str.substring(6, 5));
 ```

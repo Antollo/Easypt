@@ -20,6 +20,6 @@ Decrements `ArrayIterator` instance (equivalent of `it.=(it.-(1))`).
 auto arr.=(Array());
 arr.pushBack("abc", "def");
 for (auto it.=(arr.end()).!=, arr.begin(), it.--, {
-    basicOut(it.-(1).get());
+    log(it.-(1).get());
 });
 ```

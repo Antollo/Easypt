@@ -24,20 +24,20 @@ See in reference: [`Array`](docs..Root.Array.md).
 
 ```c
 auto arr.=(Array());
-basicOut(arr.size());
+log(arr.size());
 arr.resize(5);
-basicOut(arr.size());
+log(arr.size());
 ```
 
 `Array` has also `pushBack` method that appends array with passed arguments. Example:
 
 ```c
 auto arr.=(Array());
-basicOut(arr.size());
+log(arr.size());
 arr.pushBack(3.14);
-basicOut(arr.size());
+log(arr.size());
 arr.pushBack(7, "x", 0.01);
-basicOut(arr.size());
+log(arr.size());
 ```
 
 ## 3. Array iterators and accessing stored references
@@ -56,7 +56,7 @@ basicOut(arr.size());
 auto arr.=(Array());
 arr.pushBack(7, "x", 0.01);
 
-basicOut(arr[0].get(), arr[1].get(), arr[2].get());
+log(arr[0].get(), arr[1].get(), arr[2].get());
 ```
 
 Now understand what reference is:
@@ -68,11 +68,11 @@ arr.resize(1);
 
 # Assign reference to text to arr[0], it is ArrayIterator.<- #
 arr[0].<-(text);
-basicOut(arr[0].get());
+log(arr[0].get());
 
 # Modify text using reference stored in arr[0], it is Object.= #
 arr[0].get().=("Good morning");
-basicOut(arr[0].get(), text);
+log(arr[0].get(), text);
 ```
 
 There are also `Array.begin` method equivalent to `Array[0]` and `Array.end` method equivalent to `Array[Array.size()]`. Let's try running following code:
@@ -81,7 +81,7 @@ There are also `Array.begin` method equivalent to `Array[0]` and `Array.end` met
 auto arr.=(Array());
 arr.pushBack(7, "x", 0.01);
 
-basicOut(arr[10000].get());
+log(arr[10000].get());
 ```
 
 Output should look like this:
@@ -102,13 +102,13 @@ You will learn what constructor is in following lessons, now you need to know th
 
 ```c
 auto arr.=(Array(20));
-basicOut(arr.size());
+log(arr.size());
 ```
 
 ```c
 auto arr.=(Array(4, "some text"));
-basicOut(arr.size());
-basicOut(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
+log(arr.size());
+log(arr[0].get(), arr[1].get(), arr[2].get(), arr[3].get());
 ```
 
 ---

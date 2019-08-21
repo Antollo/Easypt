@@ -17,3 +17,178 @@ var commandUtility.=({
         });
     });
 });
+
+
+Root.var parseArgs.=({
+    auto template.=(args.subarray(args.begin(), args.end().-(1)));
+    auto variables.=(args.end().-(1).get());
+    auto parseArgsReturn.=(return);
+    if (template.size().!=(variables.size().*(2)), {
+        parseArgsReturn(false);
+    });
+    try ({
+        for (auto i.=(0).<, template.size(), { i.=(i.+(2)) }, {
+            if (instanceOf(variables[i./(2)].get(), template[i.+(1)].get()), {
+                template[i].get().=(variables[i./(2)].get());
+            },
+            {
+                auto name.=(template[i.+(1)].get().copy().getName());
+                template[i].get().=( variables[i./(2)].get().getChild("to".+(name))());
+            });
+        });
+        parseArgsReturn(true);
+    }, {
+        #err(args);#
+        parseArgsReturn(false);
+    });
+});
+
+Root.var switch.=({
+    auto options.=(args.subarray(args.begin().+(2), args.end()));
+    auto variable.=(args.begin().+(1).get());
+    auto context.=(args.begin());
+    auto done.=(false);
+    for (auto i.=(0).<, options.size(), { i.=(i.+(2)) }, {
+        # "==" may throw #
+        auto comparison.=(false);
+        try ({
+            comparison.=(variable.==(options[i].get()));
+        }, { });
+        if (comparison, {
+            done.=(true);
+            call(context.get(), options[i.+(1)].get());
+        });
+    });
+    if (done.!(), {
+        if (options[options.size().-(2)].get().===(default), {
+            call(context.get(), options[options.size().-(1)].get());
+        })
+    });
+});
+
+switch.var default;
+
+#auto test.=({
+    log(parseArgs(var a, String, var b, String, var c, String, args));
+    log(a,b,c);
+});
+
+test(1,2.1,"3");#
+
+#switch(Root,
+    "2", 
+    "2", { log("2"); },
+    1, { log(1); },
+    3, { log(3); }
+);
+
+switch(Root
+    5, 
+    "2", { log("2"); },
+    1, { log(1); },
+    3, { log(3); },
+    switch.default, { log("default") }
+);#
+
+
+var FormattedString.=(Class(
+    String,
+    var formatting,
+    {
+        String();
+        if (parseArgs(auto string, String, formatting, String, args), {
+            insert(begin(), string.begin(), string.end());
+        }, {
+            throw(WrongTypeOfArgumentException("String and String expected."));
+        });
+        #log(getThis().getParent());#
+    }.setName("FormattedString"),
+    {
+        auto writer.=(args[0]);
+
+        switch(getThis(),
+            true,
+            writer.get().===(console), {
+                switch(getThis(),
+                    formatting,
+                    "h1", {
+                        console.controlSequence("44m");
+                        console.writeLine(toString());
+                        console.controlSequence("0m");
+                    },
+                    "h2", {
+                        console.controlSequence("44m");
+                        console.writeLine(toString());
+                        console.controlSequence("0m");
+                    },
+                    "h3", {
+                        console.controlSequence("34m");
+                        console.writeLine(toString());
+                        console.controlSequence("0m");
+                    },
+                    "h4", {
+                        console.controlSequence("34m");
+                        console.writeLine(toString());
+                        console.controlSequence("0m");
+                    },
+                    "h5", {
+                        console.controlSequence("34m");
+                        console.writeLine(toString());
+                        console.controlSequence("0m");
+                    },
+                    "h6", {
+                        console.controlSequence("90m");
+                        console.writeLine(toString());
+                        console.controlSequence("0m");
+                    },
+                    "paragraph", {
+                        console.writeLine(toString());
+                    },
+                    "list", {
+                        console.writeLine("- ", toString());
+                    },
+                    "line", {
+                        console.writeLine(String(64, "-"));
+                    },
+                    "link", {
+                        console.controlSequence("4m");
+                        console.writeLine(toString());
+                        console.controlSequence("0m");
+                    },
+
+                    switch.default, {
+                        console.write(toString());
+                    }
+                );
+            },
+            instanceOf(writer.get(), File), {
+                writer.get().write(toString());
+            },
+            switch.default, {
+                if (writer.get().hasChild("write"), {
+                    writer.get().write(toString());
+                }, {
+                    throw(WrongTypeOfArgumentException("Object with \"write\" child expected."));
+                });
+            }
+        );
+    }.setName("callOperator")
+));
+
+FormattedString("a", "h1")(console);
+FormattedString(1, "h2")(console);
+FormattedString(1, "link")(console);
+
+var FormattedStringArray.=(Class(
+    Array,
+    {
+        Array(args);
+    }.setName("FormattedString"),
+    {
+        if (parseArgs(auto string, String, auto format, String), {
+            
+        }, {
+            
+        });
+    }.setName("+="),
+));

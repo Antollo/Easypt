@@ -22,7 +22,7 @@ Currently possible values are:
 ```c
 import("system");
 
-basicOut(system.osName);
+log(system.osName);
 ```
 
 #### Possible output:

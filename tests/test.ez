@@ -62,7 +62,7 @@ var callOperator.=({
         mother.addChild(Object().setName("Object"));
         auto childrenArray.=(mother.getChildrenArray());
         for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
-            if (instanceOf(it.get(), Object), {
+            if (instanceOf(it.get(), NativeCallable).!(), {
                 str.=(str.+(it.get().getName()).+("\n"));
             });
         });

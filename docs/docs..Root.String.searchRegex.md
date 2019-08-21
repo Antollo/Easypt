@@ -19,7 +19,7 @@ Search for all substrings matching regular expression and returns an array of th
 ## Example:
 
 ```c
-basicOut("ab bcd efghIjk".searchRegex("[a-z]+"));
+log("ab bcd efghIjk".searchRegex("[a-z]+"));
 ```
 
 #### Expected output:

@@ -28,5 +28,5 @@ a.pushBack("w", "a", "z", "f", "c", "d");
 algorithm.iterator.sort(a.begin(), a.end(), {
     return(args[0].get().<(args[1].get()));
 });
-basicOut(a);
+log(a);
 ```

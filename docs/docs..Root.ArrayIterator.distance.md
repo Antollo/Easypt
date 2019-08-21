@@ -21,5 +21,5 @@ Gets distance from another iterator as new `Int`.
 ```c
 auto arr.=(Array());
 arr.pushBack("abc", "def");
-basicOut(arr.begin().distance(arr.end()));
+log(arr.begin().distance(arr.end()));
 ```

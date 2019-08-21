@@ -32,14 +32,14 @@ auto Bird.=(Class(
     Object,
     var color,
     {
-        basicOut("bird created");
+        log("bird created");
         color.=(args[0].get());
     }.setName("Bird"),
     {
-        basicOut("tweet");
+        log("tweet");
     }.setName("sing"),
     {
-        basicOut("bird died");
+        log("bird died");
     }.setName("~~")
 ));
 
@@ -50,10 +50,10 @@ auto Crow.=(Class(
         Bird(args[0].get());
     }.setName("Crow"),
     {
-        basicOut("caw");
+        log("caw");
     }.setName("sing"),
     {
-        basicOut("crow died");
+        log("crow died");
     }.setName("~~")
 ));
 

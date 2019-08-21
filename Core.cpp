@@ -84,7 +84,7 @@ object::objectPtr parse (object::objectPtr obj, object::arrayType& args)
         {
             const std::string& source = *std::any_cast<std::string>(&args[0]->getValue());
             object::objectPtr ret = obj->READ(name("BlockCallable"), true)->CALL();
-            parser par(source.c_str(), source.size() - 1, object::getRawRoot());
+            parser par(source.c_str(), source.size() - 1, object::getRoot().get());
             ret->getValue() = par.parse();
             return ret;
 
@@ -121,7 +121,7 @@ object::objectPtr log (object::objectPtr obj, object::arrayType& args)
 
 object::objectPtr import (object::objectPtr obj, object::arrayType& args)
 {
-    static std::set<std::string> imported;
+    static std::set<std::string> imported {"console", "system", "time", "docs", "file", "memory", "math", "devices", "nativeInterface", "version" };
     if (args.size() == 1)
     {
         if (args[0]->hasSignature(name("String")))
@@ -130,7 +130,8 @@ object::objectPtr import (object::objectPtr obj, object::arrayType& args)
             std::filesystem::path executablePath = getExecutablePath().parent_path();
             
             if (imported.count(fileName.stem().string()))
-                return obj->READ(name("Root"), true)->READ(fileName.stem().string());
+                return obj;
+                //return obj->READ(name("Root"), true)->READ(fileName.stem().string());
             imported.insert(fileName.stem().string());
 
             if (fileName.extension().string() == ".ez"
@@ -158,31 +159,10 @@ object::objectPtr import (object::objectPtr obj, object::arrayType& args)
                 sourceBlockCallable->setName(fileName.stem().string());
                 obj->READ(name("Root"), true)->addChild(sourceBlockCallable);
                 sourceBlockCallable->CALL();
-                return sourceBlockCallable;
+                return obj;
             }
             else
-            {
-                object::objectPtr nameInitializationPack = obj->READ(name("Object"), true)->CALL()->setName(name("nameInitializationPack"));
-                nameInitializationPack->getValue() = name::getInitializationPack();
-
-                object::objectPtr asyncTasksInitializationPack = obj->READ(name("Object"), true)->CALL()->setName(name("asyncTasksInitializationPack"));
-                asyncTasksInitializationPack->getValue() = asyncTasks::members;
-
-                object::objectPtr nativeCallable = obj->READ(name("Object"), true)->CALL();
-                nativeCallable->getValue() = dynamicLibrary();
-                std::any_cast<dynamicLibrary>(&nativeCallable->getValue())->loadLibrary(fileName.string());
-                nativeCallable->setName(fileName.stem().string());
-                obj->READ(name("Root"), true)->addChild(nativeCallable);
-
-                object::nativeFunctionType exportFunction = (*std::any_cast<dynamicLibrary>(&nativeCallable->getValue())).getFunction("exportLibrary");
-
-                object::arrayType args = {nameInitializationPack, asyncTasksInitializationPack};
-                exportFunction(nativeCallable, args);
-
-				object::pushDynamicLibrary(nativeCallable);
-
-                return nativeCallable;
-            }
+                throw(FileNotFound("Library ", fileName.string(), " not found"));
         }
         throw(WrongTypeOfArgument("Wrong type of argument while calling ", obj->getFullNameString()));
     }

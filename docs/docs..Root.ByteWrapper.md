@@ -50,7 +50,7 @@ a[5].get().~=();
 
 
 algorithm.forEach(a, {
-    basicOut(args[0].get().toInt());
+    log(args[0].get().toInt());
 });
 ```
 

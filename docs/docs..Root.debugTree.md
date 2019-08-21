@@ -2,7 +2,7 @@
 
 #### `..Root.debugTree`
 
-Prints variables tree.
+Prints objects tree.
 
 * **Return value:** reference to this `Object`
 

@@ -269,6 +269,24 @@ inline char typeConverter(const std::string& str)
     return str[0];
 };
 
+template<>
+inline int typeConverter(const std::string& str)
+{
+    if (str.empty())
+        throw(OutOfRange("Out of range"));
+    return str[0];
+};
+
+inline bool isConvertible(std::size_t a, std::size_t b)
+{
+    if (a == b)
+        return true;
+    return 
+    (a == typeid(int).hash_code() || a == typeid(std::string).hash_code() || a == typeid(double).hash_code() || a == typeid(bool).hash_code())
+    &&
+    (b == typeid(int).hash_code() || b == typeid(std::string).hash_code() || b == typeid(double).hash_code() || b == typeid(bool).hash_code());
+}
+
 template<class O, class R, class... Args, std::size_t... Is>
 R callMethod(O* obj, R (O::*f)(Args...), object::arrayType& args, std::index_sequence<Is...>)
 {

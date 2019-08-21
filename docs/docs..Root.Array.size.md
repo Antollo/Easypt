@@ -19,5 +19,5 @@ Returns the number of elements in the array.
 ```c
 auto arr.=(Array());
 arr.pushBack("abc", "def");
-basicOut(arr.size());
+log(arr.size());
 ```

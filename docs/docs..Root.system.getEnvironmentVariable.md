@@ -22,9 +22,9 @@ Returns value of environment variable which name is equal to key.
 import("system");
 
 if (system.osName.==("windows"), {
-    basicOut(system.getEnvironmentVariable("TEMP"));
+    log(system.getEnvironmentVariable("TEMP"));
 }, {
-    basicOut(system.getEnvironmentVariable("TMPDIR"));
+    log(system.getEnvironmentVariable("TMPDIR"));
 });
 ```
 

@@ -26,13 +26,13 @@ f.open("a.txt");
 f.clear();
 f.write("alpha beta\ngamma");
 
-basicOut(f.read());
-basicOut(f.read());
-basicOut(f.read());
+log(f.read());
+log(f.read());
+log(f.read());
 
 f.write("delta");
 
-basicOut(f.read());
+log(f.read());
 ```
 
 #### Possible output:

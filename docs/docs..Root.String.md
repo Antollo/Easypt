@@ -60,6 +60,6 @@
 
 
 ```c
-basicOut(String().size());
-basicOut(String(3, "a"));
+log(String().size());
+log(String(3, "a"));
 ```

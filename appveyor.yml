@@ -14,7 +14,7 @@ before_build:
 build_script:
     - cmake --build . --config Release
 test_script:
-    - ps: ./bin/easypt --entryPoint 'return(import(\"./tests/test\"")());' ; if($LASTEXITCODE) { throw "tests not passed" }
+    - ps: ./bin/easypt --entryPoint 'import(\"./tests/test\"); return(test());' ; if($LASTEXITCODE) { throw "tests not passed" }
 artifacts:
     - path: bin
       name: artifacts

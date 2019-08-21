@@ -1,13 +1,11 @@
 #include "nobject.h"
 #include "Common.h"
 #include "Core.h"
-#include "nativeLibrary.h" 
 #include "jit.h"
 
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
+object::objectPtr initNativeInterface (object::objectPtr obj, object::arrayType& args)
 {
-    nativeLibrary::initialize(obj, args);
 
     obj->READ(name("Root"), true)->addChild(makeClass({
         obj->READ("Object", true),

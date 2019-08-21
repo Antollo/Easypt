@@ -19,5 +19,5 @@ Returns negated result of `==`.
 ## Example:
 
 ```c
-basicOut(5.!=(5), 5.!=(-5));
+log(5.!=(5), 5.!=(-5));
 ```

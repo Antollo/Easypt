@@ -23,7 +23,7 @@ auto str.=("\122\123\124");
 auto a.=(ByteView(str));
 
 for (auto it.=(a.begin()).!=, a.end(), it.++, {
-    basicOut(it.get().toInt());
+    log(it.get().toInt());
 });
 ```
 

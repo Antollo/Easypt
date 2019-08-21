@@ -19,7 +19,7 @@ Copies this string and replaces all substrings matching regular expression repla
 ## Example:
 
 ```c
-basicOut("aBCd".replaceRegex("[a-z]", "e"));
+log("aBCd".replaceRegex("[a-z]", "e"));
 ```
 
 #### Expected output:

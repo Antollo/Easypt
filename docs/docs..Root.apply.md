@@ -22,7 +22,7 @@ Invoke the callable object f with elements of arr as arguments and p as its pare
 auto arr.=(Array());
 arr.pushBack(1);
 arr.pushBack(2);
-apply(Root, basicOut, arr);
+apply(Root, log, arr);
 ```
 
-_Equivalent of `Root.basicOut(1, 2);`._
+_Equivalent of `Root.log(1, 2);`._

@@ -19,6 +19,6 @@ Returns an iterator pointing after the last character of this `String`.
 ```c
 auto str.=("Hello world!");
 for (auto it.=(str.begin()).!=, str.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```

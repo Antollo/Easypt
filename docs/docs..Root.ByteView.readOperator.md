@@ -24,5 +24,5 @@ import("memory");
 auto str.=("abc");
 auto a.=(ByteView(str));
 
-basicOut(a.[1].get().toInt());
+log(a.[1].get().toInt());
 ```

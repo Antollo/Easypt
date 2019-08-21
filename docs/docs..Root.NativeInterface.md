@@ -98,26 +98,26 @@ var interface.=(NativeInterface("
         return obj;
     }
 
-    object* returnBasicOut(object* obj, object** args, int size)
+    object* returnlog(object* obj, object** args, int size)
     {
-        object* basicOut = readRecursive(obj, \"basicOut\");
-        return basicOut;
+        object* log = readRecursive(obj, \"log\");
+        return log;
     }
 "));
 
 auto integer.=(7);
 
 auto promptInt.=(interface["promptInt"]);
-basicOut(promptInt(integer));
+log(promptInt(integer));
 
 auto createString.=(NativeFunction(interface, "createString"));
-basicOut(createString());
+log(createString());
 
 auto callbackForEach.=(interface["callbackForEach"]);
-callbackForEach(basicOut, 1, 2.3, "abc");
+callbackForEach(log, 1, 2.3, "abc");
 
-auto returnBasicOut.=(NativeFunction(interface, "returnBasicOut"));
-returnBasicOut()(4, 5.6, "defg");
+auto returnlog.=(NativeFunction(interface, "returnlog"));
+returnlog()(4, 5.6, "defg");
 ```
 
 #### Possible output:

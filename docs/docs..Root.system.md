@@ -23,9 +23,9 @@
 import("system");
 
 if (system.osName.==("windows"), {
-    basicOut(system.getEnvironmentVariable("TEMP"));
+    log(system.getEnvironmentVariable("TEMP"));
 }, {
-    basicOut(system.getEnvironmentVariable("TMPDIR"));
+    log(system.getEnvironmentVariable("TMPDIR"));
 });
 ```
 

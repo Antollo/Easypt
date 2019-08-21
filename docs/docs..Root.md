@@ -14,8 +14,9 @@ _none_
 
 - [`apply`](docs..Root.apply.md)
 - [`call`](docs..Root.call.md)
-- [`basicOut`](docs..Root.basicOut.md)
+- [`log`](docs..Root.log.md)
 - [`debugTree`](docs..Root.debugTree.md)
+- [`debugTrace`](docs..Root.debugTrace.md)
 - [`import`](docs..Root.import.md)
 - [`instanceOf`](docs..Root.instanceOf.md)
 - [`Exception`](docs..Root.Exception.md)
@@ -52,8 +53,8 @@ _none_
 ```c
 {
     auto Int.=({ return(5); });
-    basicOut(Int());
-    basicOut(Root.Int());
+    log(Int());
+    log(Root.Int());
 }();
 ```
 

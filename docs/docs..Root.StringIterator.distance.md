@@ -20,5 +20,5 @@ Gets distance from another iterator as new `Int`.
 
 ```c
 auto str.=("Hello world!");
-basicOut(str.begin().distance(str.end()));
+log(str.begin().distance(str.end()));
 ```

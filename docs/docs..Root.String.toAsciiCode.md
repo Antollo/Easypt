@@ -19,7 +19,7 @@ Converts first character of string to integer (following ASCII code).
 
 ```c
 auto str.=("abc");
-basicOut(str[0].get().toAsciiCode());
+log(str[0].get().toAsciiCode());
 ```
 
 #### Expected output:

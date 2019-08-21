@@ -247,7 +247,7 @@ std::list<expression> parser::parse()
                 //Expecting read
                 temp = iterator;
                 while (temp <= last && (isAlnum(source[temp]) || isOperator(source[temp]))) temp++;
-                if (std::strncmp(source + iterator, "var", 3) == 0)
+                if (std::strncmp(source + iterator, "var", 3) == 0 && std::isspace(*(source + iterator + 3)))
                 {
                     forceCreate = true;
                     #if defined(DEBUG)
@@ -256,7 +256,7 @@ std::list<expression> parser::parse()
                     iterator = temp + 1;
                     break;
                 }
-				else if (std::strncmp(source + iterator, "auto", 4) == 0)
+				else if (std::strncmp(source + iterator, "auto", 4) == 0 && std::isspace(*(source + iterator + 4)))
 				{
 					forceCreate = true;
 					automatic = true;
@@ -266,7 +266,7 @@ std::list<expression> parser::parse()
 					iterator = temp + 1;
 					break;
 				}
-                else if (std::strncmp(source + iterator, "let", 3) == 0)
+                else if (std::strncmp(source + iterator, "let", 3) == 0 && std::isspace(*(source + iterator + 3)))
 				{
 					forceCreate = true;
 					stack = true;

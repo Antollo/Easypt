@@ -30,5 +30,5 @@ str.pushBack("");
 
 ```c
 auto bigNumber.=("99999999999999999999999999");
-basicOut(bigNumber.toInt());
+log(bigNumber.toInt());
 ```

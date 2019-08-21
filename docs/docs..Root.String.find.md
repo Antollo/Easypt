@@ -19,13 +19,13 @@ Searches the string for the first occurrence of str, the search only includes ch
 ## Example:
 
 ```c
-basicOut("Hello World".find("lo", 0));
+log("Hello World".find("lo", 0));
 
 auto str.=("Hello World!");
 auto begin.=(str.begin().+(str.find(" ", 0)));
 auto end.=(str.begin().+(str.find("!", 0)));
 str.erase(begin, end);
-basicOut(str);
+log(str);
 ```
 
 #### Expected output:

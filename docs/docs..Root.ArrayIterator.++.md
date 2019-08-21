@@ -20,6 +20,6 @@ Increments `ArrayIterator` instance (equivalent of `it.=(it.+(1))`).
 auto arr.=(Array());
 arr.pushBack("abc", "def");
 for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```

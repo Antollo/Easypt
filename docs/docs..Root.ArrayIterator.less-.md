@@ -21,11 +21,11 @@ auto a.=("a");
 auto b.=("b");
 auto arr.=(Array());
 arr.pushBack(a, b);
-basicOut(a, b, arr, "\n");
+log(a, b, arr, "\n");
 
 arr.[0].<-("c");
 arr.[1].get().=("d");
-basicOut(a, b, arr);
+log(a, b, arr);
 ```
 
 #### Expected output:

@@ -33,16 +33,6 @@
 
 std::filesystem::path getExecutablePath();
 
-class dynamicLibrary
-{
-public:
-    dynamicLibrary();
-    void loadLibrary(const std::string& fileName);
-    object::nativeFunctionType getFunction(const std::string& functionName);
-    ~dynamicLibrary();
-private:
-    libraryType library;
-};
 
 void initialize();
 void initializeThread();

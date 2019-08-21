@@ -18,8 +18,8 @@ Makes copy of this object (signatures, children, internal value).
 
 ```c
 auto a.=(5);
-basicOut(a.copy().++());
-basicOut(a)
+log(a.copy().++());
+log(a)
 ```
 
 #### Expected output:

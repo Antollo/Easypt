@@ -20,7 +20,7 @@ Sets name of variable.
 
 ```c
 auto something.setName("myNewName");
-basicOut(something.getName());
+log(something.getName());
 ```
 
 #### Expected output:

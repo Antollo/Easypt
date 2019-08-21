@@ -51,5 +51,5 @@ while(conditon, {
     str.pushBack("a");
     conditon.=(n.--().toBoolean());
 });
-basicOut(str);
+log(str);
 ```

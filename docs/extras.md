@@ -38,9 +38,9 @@ testFile.clear();
 
 testFile.write("alpha beta\ngamma");
 
-basicOut(testFile.read());
-basicOut(testFile.read());
-basicOut(testFile.read());
+log(testFile.read());
+log(testFile.read());
+log(testFile.read());
 ```
 
 And write and read again:
@@ -54,12 +54,12 @@ testFile.clear();
 
 testFile.write("alpha beta\ngamma");
 
-basicOut(testFile.read());
-basicOut(testFile.read());
-basicOut(testFile.read());
+log(testFile.read());
+log(testFile.read());
+log(testFile.read());
 
 testFile.write("delta");
-basicOut(testFile.read());
+log(testFile.read());
 ```
 
 Expected output is:

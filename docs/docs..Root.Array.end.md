@@ -20,6 +20,6 @@ Returns an iterator pointing after the last element of this `Array`.
 auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
 for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```

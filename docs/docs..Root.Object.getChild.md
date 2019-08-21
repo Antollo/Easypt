@@ -21,5 +21,5 @@ Returns child (member, note: variables are treated as tree nodes) of this object
 ```c
 auto father;
 father.auto son.=("I'm son");
-basicOut(father.getChild("son"));
+log(father.getChild("son"));
 ```

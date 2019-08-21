@@ -5,7 +5,6 @@
 #include <cstdio>
 #include <string>
 #include "nobject.h"
-#include "nativeLibrary.h"
 
 object::objectPtr write (object::objectPtr obj, object::arrayType& args)
 {
@@ -177,12 +176,8 @@ object::objectPtr fScanString256 (object::objectPtr obj, object::arrayType& args
     return obj->getParent();
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
+object::objectPtr initConsole (object::objectPtr obj, object::arrayType& args)
 {
-    //std::ios_base::sync_with_stdio(false);
-    std::cout << std::boolalpha;
-    nativeLibrary::initialize(obj, args);
-
     obj->addChild(makeObject(write, name("write")))
         ->addChild(makeObject(writeLine, name("writeLine")))
         ->addChild(makeObject(read, name("read")))
@@ -190,7 +185,7 @@ EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType
         ->addChild(makeObject(scan, name("scan")))
         ->addChild(makeObject(beep, name("beep")))
         ->addChild(makeObject(controlSequence, name("controlSequence")))
-        ->addChild(constructObject(obj, "Object", nullptr)->setName("fast")
+        ->addChild(constructObject(obj, "Object", nullptr)->setName("f")
             ->addChild(makeObject(fWriteInt, name("writeInt")))
             ->addChild(makeObject(fWriteDouble, name("writeDouble")))
             ->addChild(makeObject(fWriteString, name("writeString")))

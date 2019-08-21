@@ -19,6 +19,6 @@ Checks if string is not empty (true if not empty, false otherwise).
 
 
 ```c
-basicOut("Hello World!".toBoolean());
-basicOut("".toBoolean());
+log("Hello World!".toBoolean());
+log("".toBoolean());
 ```

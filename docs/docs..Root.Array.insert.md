@@ -25,5 +25,5 @@ arr.pushBack("abc", "def");
 auto numbers.=(Array().pushBack(1, 2, 3, 4, 5, 6, 7));
 
 arr.insert(arr.begin(), numbers.begin(), numbers.end());
-basicOut(arr);
+log(arr);
 ```

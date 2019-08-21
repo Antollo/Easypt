@@ -50,11 +50,11 @@ Functions taking two `Double`s or `Int`s and returning `Double`:
 ```c
 import("math");
 
-basicOut(math.log(math.pow(math.e, 2)));
-basicOut(math.cos(math.pi));
-basicOut(math.asin(1));
-basicOut(math.atan2(1, 1));
-basicOut(math.random());
+log(math.log(math.pow(math.e, 2)));
+log(math.cos(math.pi));
+log(math.asin(1));
+log(math.atan2(1, 1));
+log(math.random());
 ```
 
 #### Possible output:

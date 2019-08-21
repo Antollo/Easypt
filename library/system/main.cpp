@@ -5,7 +5,6 @@
 #include <sstream>
 #include <cctype>
 #include "nobject.h"
-#include "nativeLibrary.h"
 
 #ifdef _WIN32
     #include "windows.h"
@@ -198,10 +197,8 @@ object::objectPtr getEnvironmentVariable (object::objectPtr obj, object::arrayTy
     throw(WrongNumberOfArguments("Wrong number (", std::to_string(args.size()),") of arguments while calling ", obj->getFullNameString()));
 }
 
-EXPORT object::objectPtr exportLibrary (object::objectPtr obj, object::arrayType& args)
+object::objectPtr initSystem (object::objectPtr obj, object::arrayType& args)
 {
-    nativeLibrary::initialize(obj, args);
-
     std::string osName = "";
     #if defined(_WIN32)
         osName = "windows";

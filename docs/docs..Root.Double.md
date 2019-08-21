@@ -39,5 +39,5 @@ Constructs new `Double`.
 ## Example:
 
 ```c
-basicOut(13.0./(7.0));
+log(13.0./(7.0));
 ```

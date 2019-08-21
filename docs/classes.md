@@ -34,7 +34,7 @@ auto Bird.=(Class(
         color.=(args[0].get());
     }.setName("Bird"), # constructor - name same as class #
     {
-        basicOut("tweet");
+        log("tweet");
     }.setName("tweet"), # tweet method #
     {
         for (auto i.=(0).<, args[0].get(), i.++, {
@@ -55,7 +55,7 @@ Usage of `Bird` class:
 auto crow.=(Bird("black"));
 crow.debugTree();
 crow.tweetNTimes(4);
-basicOut(crow.getColor());
+log(crow.getColor());
 ```
 
 Output from `crow.debugTree()`:

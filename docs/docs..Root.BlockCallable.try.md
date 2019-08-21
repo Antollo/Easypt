@@ -22,12 +22,12 @@ Calls first, if exception is thrown, calls second with thrown exception as its a
 try({
     throw(Exception("Error!"));
 }, {
-    basicOut(args[0].get());
+    log(args[0].get());
 });
 ```
 
 ```c
 try( {abababa;}, {
-    basicOut(args[0].get());
+    log(args[0].get());
 });
 ```

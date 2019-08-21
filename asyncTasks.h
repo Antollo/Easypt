@@ -14,7 +14,6 @@
 class asyncTasks
 {
 public:
-	//To pass static member to dynamic library
 	class staticMembers
 	{
 	public:
@@ -87,11 +86,11 @@ public:
 	template<class F>
 	static auto makeAsyncTask(F f)
 	{
-		members->notReadyFlag = true;
+		members.notReadyFlag = true;
 		std::future<decltype(f())> internal = std::async(std::launch::async, [f] {
 			//initializeThread();
 			registerThisThread();
-			members->notReadyFlag = false;
+			members.notReadyFlag = false;
 			waitForThisThread();
 			decltype(f()) temp;
 			try
@@ -106,39 +105,32 @@ public:
 			}
 			return temp;
 		});
-		while (members->notReadyFlag)
+		while (members.notReadyFlag)
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		waitForThisThread();
 		return future<decltype(f())>(std::move(internal));
 	}
 
-    using sharedStaticMembers = std::shared_ptr<staticMembers>;
-	static sharedStaticMembers members;
-
-	static void initialize(const sharedStaticMembers& newMembers)
-	{
-		members = newMembers;
-	}
 	static void registerThisThread()
 	{
-		std::lock_guard<std::mutex> guard(members->mutex);
-		members->threads.push_back(std::this_thread::get_id());
-		members->current = members->threads.begin();
+		std::lock_guard<std::mutex> guard(members.mutex);
+		members.threads.push_back(std::this_thread::get_id());
+		members.current = members.threads.begin();
 		#ifdef DEBUG
 		std::cout<<"Thread "<<std::this_thread::get_id()<<" registered"<<std::endl;
 		#endif
 	}
 	static int unregisterThisThread()
 	{
-		std::lock_guard<std::mutex> guard(members->mutex);
+		std::lock_guard<std::mutex> guard(members.mutex);
 		std::list<std::thread::id>::iterator it;
 		int ret = 0;
-		while ((it = std::find(members->threads.begin(), members->threads.end(), std::this_thread::get_id())) != members->threads.end())
+		while ((it = std::find(members.threads.begin(), members.threads.end(), std::this_thread::get_id())) != members.threads.end())
 		{
-			members->threads.erase(it);
+			members.threads.erase(it);
 			ret++;
 		}
-		members->current = members->threads.begin();
+		members.current = members.threads.begin();
 		#ifdef DEBUG
 		std::cout<<"Thread "<<std::this_thread::get_id()<<" unregistered "<<ret<<" times"<<std::endl;
 		#endif
@@ -146,15 +138,15 @@ public:
 	}
 	static void nextThread()
 	{
-		std::lock_guard<std::mutex> guard(members->mutex);
+		std::lock_guard<std::mutex> guard(members.mutex);
 		#ifdef DEBUG
 		std::cout<<"Thread "<<std::this_thread::get_id()<<" switching"<<std::endl;
 		#endif
-		members->current = std::next(members->current, 1);
-		if (members->current == members->threads.end())
-			members->current = members->threads.begin();
+		members.current = std::next(members.current, 1);
+		if (members.current == members.threads.end())
+			members.current = members.threads.begin();
 		#ifdef DEBUG
-		std::cout<<"Thread "<<*members->current<<" is next"<<std::endl;
+		std::cout<<"Thread "<<*members.current<<" is next"<<std::endl;
 		#endif
 	}
 	static void waitForThisThread()
@@ -164,13 +156,13 @@ public:
 		#endif
 		while (true)
 		{
-			members->mutex.lock();
-			if (*members->current == std::this_thread::get_id())
+			members.mutex.lock();
+			if (*members.current == std::this_thread::get_id())
 			{
-				members->mutex.unlock();
+				members.mutex.unlock();
 				break;
 			}
-			members->mutex.unlock();
+			members.mutex.unlock();
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 		#ifdef DEBUG
@@ -182,6 +174,8 @@ public:
         nextThread();
 	    waitForThisThread();
     }
+	private:
+	static staticMembers members;
 };
 
 #endif

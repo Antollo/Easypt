@@ -80,7 +80,7 @@ mother.addChild(Object());
 auto childrenArray.=(mother.getChildrenArray());
 for (auto it.=(childrenArray.begin()).!=, childrenArray.end(), it.++, {
     if (instanceOf(it.get(), Object), {
-        basicOut(it.get().getName());
+        log(it.get().getName());
     });
 });
 

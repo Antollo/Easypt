@@ -12,7 +12,7 @@ auto Bird.=(Class(
         color.=(args[0].get());
     }.setName("Bird"),
     {
-        basicOut("tweet");
+        log("tweet");
     }.setName("sing")
 ));
 ```
@@ -41,10 +41,10 @@ auto Bird.=(Class(
         color.=(args[0].get());
     }.setName("Bird"),
     {
-        basicOut("tweet");
+        log("tweet");
     }.setName("sing"),
     {
-        basicOut("bird died");
+        log("bird died");
     }.setName("~~")
 ));
 ```
@@ -83,10 +83,10 @@ auto Bird.=(Class(
         color.=(args[0].get());
     }.setName("Bird"),
     {
-        basicOut("tweet");
+        log("tweet");
     }.setName("sing"),
     {
-        basicOut("bird died");
+        log("bird died");
     }.setName("~~")
 ));
 
@@ -97,10 +97,10 @@ auto Crow.=(Class(
         Bird(args[0].get());
     }.setName("Crow"),
     {
-        basicOut("caw");
+        log("caw");
     }.setName("sing"),
     {
-        basicOut("crow died");
+        log("crow died");
     }.setName("~~")
 ));
 
@@ -134,10 +134,10 @@ import("algorithm");
 
 auto a.=(Array());
 a.pushBack("w", "a", "z", "f", "c", "d");
-algorithm.iterator.forEach(a.begin(), a.end(), basicOut);
+algorithm.iterator.forEach(a.begin(), a.end(), log);
 
 auto b.=("014753");
-algorithm.iterator.forEach(b.begin(), b.end(), basicOut);
+algorithm.iterator.forEach(b.begin(), b.end(), log);
 ```
 
 Example of "abstractness failure":

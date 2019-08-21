@@ -21,5 +21,5 @@ Returns the greater of the given variables (or first if they are equal)
 ```c
 import("algorithm");
 
-basicOut(algorithm.max(1, 2));
+log(algorithm.max(1, 2));
 ```

@@ -19,6 +19,6 @@ Gets value of an element (new `String` consisting of one character) pointed by i
 ```c
 auto str.=("Hello world!");
 for (auto it.=(str.begin()).!=, str.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```

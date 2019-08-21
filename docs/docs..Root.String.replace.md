@@ -22,5 +22,5 @@ Replaces the first occurrence of a with b.
 ```c
 auto str.=("Hello World!");
 str.replace("World", "there");
-basicOut(str);
+log(str);
 ```

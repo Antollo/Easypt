@@ -32,5 +32,5 @@ Constructs new `Boolean`.
 ## Example:
 
 ```c
-basicOut(true, false, "a".==("a"));
+log(true, false, "a".==("a"));
 ```

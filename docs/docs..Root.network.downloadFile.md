@@ -33,5 +33,5 @@ import("file");
 network.downloadFile("https://raw.githubusercontent.com/Antollo/Easypt/master/README.md", "readme.txt");
 auto file.=(File());
 file.open("readme.txt");
-basicOut(file.readAll());
+log(file.readAll());
 ```

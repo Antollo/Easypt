@@ -15,7 +15,7 @@ object::objectPtr Array1 (object::objectPtr obj, object::arrayType& args)
             obj->getParent()->getValue() = object::arrayType();
             (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())).resize(std::any_cast<int>(args[0]->getValue()));
             for(object::objectPtr& el : (*std::any_cast<object::arrayType>(&obj->getParent()->getValue())))
-                el = object::getRawRoot()->READ(name("Object"), true)->CALL();
+                el = object::getRoot()->READ(name("Object"), true)->CALL();
             return obj->getParent();
         }
         else

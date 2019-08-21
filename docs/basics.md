@@ -5,7 +5,7 @@
 Create new `*.ez` source file (e.g. `source.ez`). Open it with VS Code. Paste following code to that file:
 
 ```c
-basicOut("Hello world!");
+log("Hello world!");
 ```
 
  Create `tasks.json` as described in [prepare environment](environment.md). Run file with `Ctrl+Shift+B`. You wil see output in VS Code integrated terminal, something like this:
@@ -26,7 +26,7 @@ easypt -file source.ez
 
 Understand the code:
 
-- `basicOut` is function which print `String`, `Int`, `Double`, `Boolean` or `Array` (you will learn about it later) arguments to console, each argument in new line.
+- `log` is function which print `String`, `Int`, `Double`, `Boolean` or `Array` (you will learn about it later) arguments to console, each argument in new line.
 - `"Hello world!"` is `String` literal.
 - In Easypt each statement must end with semicolon (`;`).
 
@@ -51,7 +51,7 @@ Example:
 Comment in three lines.
 #
 
-basicOut("Hello", # Comment inside statement! # "world!");
+log("Hello", # Comment inside statement! # "world!");
 
 ```
 
@@ -116,25 +116,25 @@ Example:
 
 ```c
 auto a.=(2.+(5));
-basicOut(a);
+log(a);
 
 a.=(a.-(1));
-basicOut(a);
+log(a);
 
 a.=(a.*(2));
-basicOut(a);
+log(a);
 
 a.=(a./(3));
-basicOut(a);
+log(a);
 
 a.=(a.%(3));
-basicOut(a);
+log(a);
 
 auto b.=(-70.0);
-basicOut(b);
+log(b);
 
 b.=(b./(3.0));
-basicOut(b);
+log(b);
 ```
 
 ## 5. Increment and decrement
@@ -148,8 +148,8 @@ Basically (for `Int` and `Double` numbers) `x.++()` is equivalent of `x.=(x.+(1)
 ```c
 auto a.=(6);
 a.++();
-basicOut(a);
-basicOut(a.--());
+log(a);
+log(a.--());
 ```
 
 Understand the code:
@@ -166,7 +166,7 @@ The `+` method adds them together to make a new `String`.
 
 ```c
 auto text.=("Hello");
-basicOut(text.+(" world!"));
+log(text.+(" world!"));
 ```
 
 See in reference: [`String.+`](docs..Root.String.+.md)

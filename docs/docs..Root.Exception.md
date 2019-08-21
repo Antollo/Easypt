@@ -22,7 +22,7 @@ Constructs new `Exception` which is thrown when unrecognized error was encounter
 try({
     throw(Exception("Error!"));
 }, {
-    basicOut(args[0].get());
+    log(args[0].get());
 });
 ```
 
@@ -32,6 +32,6 @@ auto block.=({
 });
 
 try(block, {
-    basicOut(args[0].get());
+    log(args[0].get());
 });
 ```

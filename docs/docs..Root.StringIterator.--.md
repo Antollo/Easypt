@@ -20,6 +20,6 @@ Decrements `StringIterator` instance (equivalent of `it.=(it.-(1))`).
 ```c
 auto str.=("Hello world!");
 for (auto it.=(str.end()).!=, str.begin(), it.--, {
-    basicOut(it.-(1).get());
+    log(it.-(1).get());
 });
 ```

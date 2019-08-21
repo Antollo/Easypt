@@ -31,7 +31,7 @@ auto add.=({
 ```c
 import("lib.ez");
 auto main.=({
-    basicOut(lib.add(5 ,7));
+    log(lib.add(5 ,7));
 });
 ```
 

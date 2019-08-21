@@ -20,6 +20,6 @@ Gets reference to element pointed by iterator.
 auto arr.=(Array());
 arr.pushBack("abc", "def");
 for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```

@@ -21,5 +21,5 @@ Checks if this and another `Object` are references to the same object;
 ```c
 auto father;
 father.auto son.=("I'm son");
-basicOut(father.getChild("son").===(father.son));
+log(father.getChild("son").===(father.son));
 ```

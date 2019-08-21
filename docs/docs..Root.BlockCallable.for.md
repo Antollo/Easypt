@@ -24,7 +24,7 @@ for (compare, someValue, change, block);
 
 ```c
 for (auto i.=(0).<, 10, i.++, {
-    basicOut(i);
+    log(i);
 });
 ```
 
@@ -32,13 +32,13 @@ for (auto i.=(0).<, 10, i.++, {
 auto arr.=(Array());
 arr.pushBack(1, 7, 3.14, "abc", "def");
 for (auto it.=(arr.begin()).!=, arr.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```
 
 ```c
 auto str.=("Hello world!");
 for (auto it.=(str.begin()).!=, str.end(), it.++, {
-    basicOut(it.get());
+    log(it.get());
 });
 ```

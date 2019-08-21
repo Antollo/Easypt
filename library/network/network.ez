@@ -1,23 +1,55 @@
-import("utility.ez");
+import("system");
 
 var downloadFile.=({
+    auto uri.=(args[0].get());
+    auto fileName.=(args[1].get());
+    auto result.=(String());
 
-    auto windows.=(Array());
-    windows.pushBack("windows");
-    windows.pushBack("powershell -command \"Invoke-WebRequest -Uri \\\"");
-    windows.pushBack(0);
-    windows.pushBack("\\\" -OutFile \\\"");
-    windows.pushBack(1);
-    windows.pushBack("\\\"\"");
+    if (system.osName.==("windows"), {
+        result.=(system.shellInterface("Invoke-WebRequest -Uri '${1}' -OutFile'${2}'", uri, fileName));
+    });
 
-    auto linux.=(Array());
-    linux.pushBack("linux");
-    linux.pushBack("wget -O \"");
-    linux.pushBack(1);
-    linux.pushBack("\" \"");
-    linux.pushBack(0);
-    linux.pushBack("\"");
+    if (system.osName.==("linux"), {
+        result.=(system.shellInterface("wget -O '${2}' '${1}'", uri, fileName));
+    });
 
-    utility.commandUtility(args, windows, linux);
-    return(args[1].get());
+    return(result);
+});
+
+var request.=({
+    auto uri.=(args[0].get());
+    auto method.=(args[1].get());
+    auto _args.=(args);
+    auto result.=(String());
+
+    if (args.size().==(3), {
+        auto body.=(_args[2].get());
+        if (system.osName.==("windows"), {
+            result.=(system.shellInterface("
+                [Net.ServicePointManager]::SecurityProtocol = 'tls12, tls11, tls'
+                Invoke-RestMethod '${1}' -Method '${2}' -Body '${3}'
+            ", uri, method, body));
+        });
+
+        if (system.osName.==("linux"), {
+            result.=(system.shellInterface("
+                curl --location --request '${2}' '${1}' --data '${3}'
+            ", uri, method, body));
+        });
+    }, {
+        if (system.osName.==("windows"), {
+            result.=(system.shellInterface("
+                [Net.ServicePointManager]::SecurityProtocol = 'tls12, tls11, tls'
+                Invoke-RestMethod '${1}' -Method '${2}'
+            ", uri, method));
+        });
+
+        if (system.osName.==("linux"), {
+            result.=(system.shellInterface("
+                curl --location --request '${2}' '${1}'
+            ", uri, method));
+        });
+    });
+    
+    return(result);
 });

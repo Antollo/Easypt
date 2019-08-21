@@ -38,8 +38,8 @@ f.clear();
 f.write("Mad scientist.");
 
 if (f.read().==("Mad").&&(f.readAll().==("Mad scientist.")), {
-    basicOut("Ok");
+    log("Ok");
 }, {
-    basicOut("Error");
+    log("Error");
 })
 ```

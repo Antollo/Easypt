@@ -5,7 +5,6 @@
 int object::objectCounter = 0;
 object::objectRawPtr object::Root = nullptr;
 object::objectPtr object::dot;
-std::deque<object::objectPtr> object::dynamicLibraries;
 object::callStackType object::callStack;
 
 object::object(std::any newValue, name newName)
@@ -20,6 +19,7 @@ object::object(std::any newValue, name newName)
         addSignature("NativeCallable");
         addSignature("Callable");
     }
+    objectifyNoReturn();
 }
 
 object::objectPtr object::READ(name objectName, bool searchInParent, object::forceCreateMode forceCreate)
@@ -212,18 +212,6 @@ object::objectPtr object::getParent(bool throwing) const
     return parent->shared_from_this();
 }
 
-object::objectRawPtr object::getRawParent(bool throwing) const
-{
-    if (throwing && parent == nullptr)
-    {
-        throw(NotFound("Object ", getName(), " has no parent, how sad"));
-        return nullptr;
-    }
-    if (parent == nullptr)
-        return nullptr;
-    return parent;
-}
-
 object::objectPtr object::debugTree(int indentation)
 {
     std::string spaces(indentation * 4, ' ');
@@ -312,11 +300,11 @@ void getExceptionsArray(std::exception& e, object::arrayType& exceptionsArray)
     }
     else if (dynamic_cast<exception*>(&e))
     {
-        exceptionsArray.push_back(constructObject(object::getRawRoot(), dynamic_cast<exception*>(&e)->getSignature(), dynamic_cast<exception*>(&e)->getMessage()));
+        exceptionsArray.push_back(constructObject(object::getRoot(), dynamic_cast<exception*>(&e)->getSignature(), dynamic_cast<exception*>(&e)->getMessage()));
     }
     else if (dynamic_cast<std::exception*>(&e))
     {
-        exceptionsArray.push_back(constructObject(object::getRawRoot(), "Exception", dynamic_cast<std::exception*>(&e)->what()));
+        exceptionsArray.push_back(constructObject(object::getRoot(), "Exception", dynamic_cast<std::exception*>(&e)->what()));
     }
     try
     {

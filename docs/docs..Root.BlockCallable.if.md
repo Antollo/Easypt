@@ -27,9 +27,9 @@
 auto a.=(6);
 auto b.=(9);
 if (a.>(b), {
-    basicOut("a is greater than b");
+    log("a is greater than b");
 }, {
-    basicOut("a is less or equal than b");
+    log("a is less or equal than b");
 });
 ```
 
@@ -38,7 +38,7 @@ if (a.>(b), {
 ```c
 auto a.=(6);
 auto b.=(9);
-basicOut(if (a.>(b), {
+log(if (a.>(b), {
     return("a is greater than b");
 }, {
     return("a is less or equal than b");

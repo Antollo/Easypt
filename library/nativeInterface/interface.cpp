@@ -107,7 +107,7 @@ object::objectRawPtr readRecursive(object::objectRawPtr obj, const char* name)
     va_end(varags);
 
     //object::objectPtr res = obj->CALL(args);
-    //object::getRawRoot()->READ(name("orphanage"))->READ(name("pushBack"))->CALL((res = obj->CALL(args).get())->shared_from_this());
+    //object::getRoot()->READ(name("orphanage"))->READ(name("pushBack"))->CALL((res = obj->CALL(args).get())->shared_from_this());
     //orphanage.push_back(res);
     //object::callStack.private_push(res);
     //object::callStack.trace();

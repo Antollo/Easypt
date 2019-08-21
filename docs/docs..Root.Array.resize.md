@@ -25,5 +25,5 @@ arr.pushBack("abc", "def");
 arr.resize(4);
 arr[2].<-("ghi");
 arr[3].<-("jkl");
-basicOut(arr);
+log(arr);
 ```

@@ -25,6 +25,6 @@ Returns new `StringIterator` moved forward by arguments value;
 auto str.=("Hello world!");
 auto x.=(str.begin().+(4));
 for (auto it.=(str.begin()).!=, str.end(), it.++, {
-    if (it.==(x), { basicOut(it.get()) });
+    if (it.==(x), { log(it.get()) });
 });
 ```

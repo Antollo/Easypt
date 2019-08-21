@@ -33,7 +33,7 @@ NotFoundException: Cannot find sth in .
 ---
 
 ```c
-basicOut(Object().getName());
+log(Object().getName());
 ```
 
 #### Expected output:

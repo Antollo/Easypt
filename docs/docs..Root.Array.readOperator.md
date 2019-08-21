@@ -21,5 +21,5 @@ Returns iterator pointing to i-th element. Read operator (`[]`) is shorthand for
 ```c
 auto arr.=(Array());
 arr.pushBack("abc", "def");
-basicOut(arr[1].get());
+log(arr[1].get());
 ```

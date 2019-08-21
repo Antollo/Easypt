@@ -15,7 +15,7 @@ auto test4;
 
 auto clock.=(Clock());
 for (auto i.=(0).<, 10000, i.++, {
-    basicOut(i);
+    log(i);
 });
 test1.=(clock.getElapsedMilliseconds());
 
@@ -37,7 +37,7 @@ for (auto i.=(0).<, 10000, i.++, {
 });
 test4.=(clock.getElapsedMilliseconds());
 
-console.write("\nbasicOut: ", test1, " ms\n");
+console.write("\nlog: ", test1, " ms\n");
 console.write("console.writeLine: ", test2, " ms\n");
 console.write("console.write: ", test3, " ms\n");
 console.write("console.fast.writeInt: ", test4, " ms\n");
